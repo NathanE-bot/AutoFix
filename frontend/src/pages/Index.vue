@@ -2,6 +2,7 @@
   <q-page class="flex flex-center">
     <q-btn>Darryl</q-btn>
     <q-table></q-table>
+    <div>qwdqwd</div>
   </q-page>
 </template>
 
