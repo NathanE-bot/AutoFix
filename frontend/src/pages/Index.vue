@@ -1,5 +1,6 @@
 <template>
   <q-page class="flex flex-center">
+    <q-btn>Darryl</q-btn>
     <q-table></q-table>
   </q-page>
 </template>
