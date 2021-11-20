@@ -1,34 +1,53 @@
 <template>
   <q-page class="flex flex-center">
-    <q-btn>Darryl</q-btn>
-    <q-table></q-table>
-    <div>qwdqwd</div>
+    <div>
+      <span>Hello World</span>
+      <!-- <div v-for="item in workShop" :key="item.id">
+        {{item.id}}
+        {{item.description}}
+      </div> -->
+    </div>
   </q-page>
 </template>
 
 <script>
-import axios from 'axios'
-import { defineComponent } from 'vue'
+import { getAllWorkshop } from '../api/workshopService'
 import Cookie from 'js-cookie'
 
-export default defineComponent({
+export default ({
   name: 'PageIndex',
   data () {
     return {
-      token: ''
+      token: '',
+      workShop: []
     }
   },
   mounted () {
-    this.fetchData()
+    this.fetchDataV2()
+    // console.log(this.workShop)
   },
   methods: {
-    fetchData () {
-      /* eslint-disable */
+    /* eslint-disable */
+    // fetchData () {
+    //   /* eslint-disable */
+    //   // let _this = this
+    //   this.token = Cookie.get('Token')
+    //   axios.get('http://127.0.0.1:8000/api/workshop', { headers: {
+    //     'Authorization': `Bearer ${this.token}`
+    //   }}).then(response => {
+    //     _this.workShop = response
+    //     console.log(_this.workShop)
+    //     // console.log(response)
+    //   })
+    // },
+    fetchDataV2(){
+      let _this = this
       this.token = Cookie.get('Token')
-      axios.get('http://127.0.0.1:8000/api/workshop', { headers: {
-        'Authorization': `Bearer ${this.token}`
-      }}).then(response => {
-        console.log(response)
+      getAllWorkshop(this.token)
+      .then(response => {
+        _this.workShop = response.data.objectReturn
+        console.log('response', response.data)
+        console.log('workshop', _this.workShop)
       })
     }
   }
