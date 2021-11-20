@@ -4,6 +4,8 @@ import MainLayout from "layouts/MainLayout";
 const index = () => import("pages/Index");
 const register = () => import("pages/Register");
 const login = () => import("pages/Login");
+const createWorkshop = () => import("pages/CreateWorkshop");
+const editPage = () => import("pages/EditPage");
 const error404 = () => import("pages/Error404");
 
 const routes = [
@@ -22,6 +24,14 @@ const routes = [
       {
         path: "/register",
         component: register
+      },
+      {
+        path: "/create",
+        component: createWorkshop
+      },
+      {
+        path: "/edit",
+        component: editPage
       },
       // Always leave this as last one
       {

@@ -9,5 +9,5 @@ export default
 
 export function getAllWorkshop(userToken, id) {
   const authorization = { headers: { 'Authorization': 'Bearer ' + userToken } }
-  return axios.get(localURL + '/api/workshop/id=', id, authorization)
+  return axios.get(localURL + '/api/workshop', authorization)
 }
