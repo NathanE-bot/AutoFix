@@ -1,0 +1,10 @@
+// All Mixins
+@mixin important_mix($var, $content) {
+    #{$var}: $content !important;
+}
+
+// Grid Mixins
+@mixin flex_grid ($var, $content) {
+    display: flex;
+    #{$var}: $content;
+}
