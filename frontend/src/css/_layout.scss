@@ -1,0 +1,32 @@
+// looping
+// Margin (em)
+@for $i from 0 to 10 {
+    .mr_#{$i}em{
+        margin-right: #{$i}em;
+    }
+}
+
+// Margin (px)
+@for $i from 0 to 25 {
+    .mr-#{$i}{
+        margin-right: #{$i}px;
+    }
+}
+
+// Margin
+.m-auto{
+    margin: auto;
+}
+.m-0{
+    margin: 0;
+}
+
+// position
+.relative-box{
+    position: relative;
+    > .logo-img {
+        position: fixed;
+        top: 0px;
+        left: 10px;
+    }
+}

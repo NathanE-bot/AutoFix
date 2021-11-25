@@ -1,0 +1,43 @@
+.logo-img{
+    height: 100%;
+    max-height: 70px;
+    width: 100%;
+    max-width: 100px;
+}
+
+.autorepair-header{
+    background: $dark-theme-header-bg;
+
+    .q-toolbar{
+        padding-top: 12px;
+        .q-tabs{
+            background: inherit !important;
+
+            .q-tab{
+                .q-tab__content{
+                    .q-tab__label{
+                        font-size: 16px;
+                        text-transform: capitalize;
+                        font-weight: 400;
+                    }
+                }
+                .q-tab__indicator{
+                    height: 3px;
+                    border-radius: 10px;
+                    width: 70%;
+                    margin: auto;
+                }
+                // ngilangin ripple
+                .q-ripple{
+                    display: none !important;
+                }
+            }
+            .q-hoverable:hover{
+                > .q-focus-helper{
+                    background: unset;
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

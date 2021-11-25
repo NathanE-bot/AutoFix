@@ -12,13 +12,23 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #1976D2;
-$secondary : #26A69A;
-$accent    : #9C27B0;
+$primary   : #21a17b;
+$secondary : #3d3d3d;
+$accent    : #373c68;
 
-$dark      : #1D1D1D;
+$dark      : #212121;
 
 $positive  : #21BA45;
-$negative  : #C10015;
+$negative  : #d32f2f;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+// colors
+$white     : #ffffff; 
+
+// Background
+$dark-theme-header-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 66.09%, #000000 125.08%);
+$dark-theme-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 62.09%, #000000 125.08%);
+
+// font-family
+$font-family-default: "Nunito", "Helvetica Neue", "Helvetica" ,"sans-serif";

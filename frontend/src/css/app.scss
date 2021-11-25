@@ -1,3 +1,14 @@
 // app global css in SCSS form
+@import 'quasar.variables.scss';
+// MIXIN ALWAYS TOP
 @import '_mixins.scss';
+
+// default-scss
+@import '_base.scss';
 @import '_grid.scss';
+@import '_layout.scss';
+@import '_default.style.scss';
+@import '_typography.scss';
+
+// component-scss
+@import 'component_styles/_components.scss';
