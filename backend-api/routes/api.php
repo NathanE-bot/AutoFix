@@ -31,3 +31,6 @@ Route::post('workshop/create', 'Api\WorkshopController@create');
 Route::get('workshop/getData/{id}', 'Api\WorkshopController@showById');
 Route::put('workshop/update/{id}', 'Api\WorkshopController@update');
 Route::delete('workshop/delete/{id}', 'Api\WorkshopController@destroy');
+
+Route::get('workshopdetail','Api\WorkshopController@allWorkshopfix');
+

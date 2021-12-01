@@ -100,4 +100,16 @@ class WorkshopController extends Controller
             return response()->json($error, 500);
         }
     }
+
+
+    public function allWorkshopfix()
+    {
+        try{
+            $data = DB::table('workshops')->get();
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
 }
