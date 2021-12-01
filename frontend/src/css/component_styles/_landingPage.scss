@@ -1,13 +1,21 @@
 .landing-page{
+    background: $dark-theme-bg;
     .initial-bg{
         background: $dark-theme-bg;
+        background-size: 115%;
+        background-repeat: no-repeat;
     }
     .lp-height{
         height: 100%;
-        min-height: 413px;
+        min-height: 600px;
     }
     .lp-title{
         padding-top: 40px;
         font-size: 40px;
+    }
+    .parallax-lp{
+        .q-parallax__content{
+            justify-content: flex-start;
+        }
     }
 }

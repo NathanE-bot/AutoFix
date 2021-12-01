@@ -1,27 +1,55 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header class="autorepair-header">
       <q-toolbar>
         <q-btn
-          flat
-          dense
-          round
+          v-if="isDisabled"
+          @click="toggleLeftDrawer"
+          flat dense round
           icon="menu"
           aria-label="Menu"
-          @click="toggleLeftDrawer"
         />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <div class="relative-box">
+          <img class="logo-img" src="../assets/images/logo.png" alt="">
+        </div>
+        <q-tabs
+          v-model="initialTab"
+          dense
+          class="m-auto"
+          active-color="primary"
+          indicator-color="primary"
+          align="justify"
+        >
+          <q-tab name="home" label="Home" />
+          <q-tab name="workshop" label="Workshop" />
+          <q-tab name="insurance" label="Insurance" />
+          <q-tab name="aboutus" label="About Us" />
+        </q-tabs>
+        <div class="relative-position">
+          <div class="d-flex a-center">
+            <q-btn
+              outline
+              rounded
+              color="primary"
+              class="tf-capitalize mr-10 fw lg-rg-btn"
+            >
+              Login
+            </q-btn>
+            <q-btn
+              unelevated
+              rounded
+              color="primary"
+              class="tf-capitalize fw lg-rg-btn"
+            >
+              Register
+            </q-btn>
+          </div>
+        </div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
     >
       <q-list>
@@ -46,6 +74,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
@@ -93,25 +122,29 @@ const linksList = [
   }
 ]
 
-import { defineComponent, ref } from 'vue'
-
-export default defineComponent({
-  name: 'MainLayout',
+export default {
+  // name: 'MainLayout',
 
   components: {
     EssentialLink
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  mounted () {
+    console.log(this.leftDrawerOpen)
+  },
 
+  data() {
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      initialTab: 'home',
+      leftDrawerOpen: false,
+      isDisabled: false,
+      essentialLinks: linksList
+    }
+  },
+  methods: {
+    toggleLeftDrawer () {
+      this.leftDrawerOpen = !this.leftDrawerOpen
     }
   }
-})
+}
 </script>

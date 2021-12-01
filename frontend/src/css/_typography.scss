@@ -1,4 +1,22 @@
-// font-size (em)
+// font-size (px)
+@for $i from 0 to 50 {
+    .fs-#{$i}{
+        font-size: #{$i}px;
+    }
+}
+// font weight
+.fw-semibold{
+    font-weight: 600;
+}
+.fw-bold{
+    font-weight: 700;
+}
+.fw-extrabold{
+    font-weight: 800;
+}
+.fw-blackbold{
+    font-weight: 900;
+}
 
 // text-colors
 .txt-primary{
@@ -6,4 +24,9 @@
 }
 .txt-white{
     color: $white;
+}
+
+// text transformation
+.tf-capitalize{
+    text-transform: capitalize;
 }

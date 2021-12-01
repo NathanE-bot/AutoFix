@@ -116,3 +116,11 @@
 .d-flex.a-baseline{
     @include flex_grid(align-items, baseline);
 }
+
+// width
+.fw{
+    width: 100%;
+}
+.hw{
+    width: 50%;
+}

@@ -3,10 +3,11 @@
     max-height: 70px;
     width: 100%;
     max-width: 100px;
+    min-width: 100px;
 }
 
 .autorepair-header{
-    background: $dark-theme-header-bg;
+    background: #212121;
 
     .q-toolbar{
         padding-top: 12px;
@@ -15,6 +16,7 @@
 
             .q-tab{
                 .q-tab__content{
+                    min-width: 42px;
                     .q-tab__label{
                         font-size: 16px;
                         text-transform: capitalize;
@@ -38,6 +40,15 @@
                     opacity: 0;
                 }
             }
+        }
+
+        .float-button{
+            position: absolute;
+            display: flex;
+            align-items: center;
+            right: 0px;
+            top: -25px;
+            width: 250px;
         }
     }
 }
