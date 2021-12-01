@@ -7,10 +7,13 @@
 }
 
 .autorepair-header{
-    background: #212121;
+    background: rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
+    transform: perspective(500px);
 
     .q-toolbar{
-        padding-top: 12px;
+        min-height: 70px;
         .q-tabs{
             background: inherit !important;
 
@@ -47,7 +50,7 @@
             display: flex;
             align-items: center;
             right: 0px;
-            top: -25px;
+            top: -20px;
             width: 250px;
         }
     }

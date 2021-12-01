@@ -22,6 +22,9 @@
 @for $i from 0 to 25 {
     .mt-#{$i}{
         margin-top: #{$i}px;
+        &-i{
+            margin-top: #{$i}px !important;
+        }
     }
 }
 
@@ -42,9 +45,16 @@
 // position
 .relative-box{
     position: relative;
-    // > .logo-img {
-    //     position: fixed;
-    //     top: 0px;
-    //     left: 10px;
-    // }
+    > .logo-img {
+        position: fixed;
+        top: 0px;
+        left: 10px;
+    }
+}
+
+// width & height
+@for $i from 0 to 100 {
+    .w-#{$i}{
+        width: #{$i} + '%';
+    }
 }

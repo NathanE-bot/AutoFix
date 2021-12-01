@@ -1,3 +1,27 @@
+%default_btn_cred{
+    .q-btn__content{
+        span{
+            text-transform: capitalize;
+        }
+    }
+}
+
+.default-btn{
+    @extend %default_btn_cred;
+}
+
+.lp-search-btn{
+    @extend %default_btn_cred;
+
+    padding: 10px 24px;
+
+    .q-btn__content{
+        span{
+            font-size: 16px;
+        }
+    }
+}
+
 .lg-rg-btn{
     min-width: 120px;    
 }

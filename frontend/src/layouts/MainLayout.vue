@@ -26,7 +26,7 @@
           <q-tab name="aboutus" label="About Us" />
         </q-tabs>
         <div class="relative-position">
-          <div class="d-flex a-center">
+          <div class="float-button">
             <q-btn
               outline
               rounded
@@ -67,7 +67,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="p-bg">
       <router-view />
     </q-page-container>
   </q-layout>

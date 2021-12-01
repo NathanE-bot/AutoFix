@@ -17,6 +17,22 @@
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
           </p>
         </div>
+        <div class="m-auto w-40 mt-20-i">
+          <q-input
+            v-model="search"
+            rounded outlined
+            placeholder="Find the nearest workshop to you here..."
+            class="lp-search-input"
+          >
+            <template v-slot:append>
+              <q-btn
+                class="lp-search-btn"
+                color="primary"
+                label="Search"
+                rounded outlined />
+            </template>
+          </q-input>
+        </div>
       </div>
     </q-parallax>
     <div style="height:1000px">
@@ -42,7 +58,8 @@ export default ({
       windowAlter: {
         width: 0,
         height: 0
-      }
+      },
+      search: ''
     }
   },
   mounted () {

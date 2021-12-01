@@ -5,6 +5,7 @@
 
 // default-scss
 @import '_base.scss';
+@import '_color.scss';
 @import '_grid.scss';
 @import '_layout.scss';
 @import '_default.style.scss';
@@ -12,3 +13,7 @@
 
 // component-scss
 @import 'component_styles/_components.scss';
+
+// pages-scss
+@import 'pages_styles/_pages.scss';
+
