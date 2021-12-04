@@ -1,7 +1,7 @@
 /* eslint-disable */
 import MainLayout from "layouts/MainLayout";
 
-const index = () => import("pages/Index");
+const index = () => import("pages/LandingPage");
 const register = () => import("pages/Register");
 const login = () => import("pages/Login");
 const createWorkshop = () => import("pages/CreateWorkshop");

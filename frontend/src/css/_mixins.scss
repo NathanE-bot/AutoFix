@@ -8,3 +8,14 @@
     display: flex;
     #{$var}: $content;
 }
+
+// Width Mixins
+@mixin max_width_height ($max_w, $max_h) {
+    max-width: $max_w;
+    max-height: $max_h;
+}
+
+@mixin min_width_height ($min_w, $min_h) {
+    min-width: $min_w;
+    min-height: $min_h;
+}

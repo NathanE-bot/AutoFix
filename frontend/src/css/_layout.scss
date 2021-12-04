@@ -1,40 +1,103 @@
 // looping
 // Margin (em)
-@for $i from 0 to 10 {
+@for $i from 0 to 11 {
     .mr_#{$i}em{
         margin-right: #{$i}em;
+
+        &-i{
+            margin-right: #{$i}em !important;
+        }
     }
 }
 
 // Margin (px)
-@for $i from 0 to 25 {
+@for $i from 0 to 101 {
+    .m-#{$i}{
+        margin: #{$i}px;
+
+        &-i{
+            margin: #{$i}px !important;
+        }
+    }
+
+    .my-#{$i}{
+        margin: #{$i}px 0;
+
+        &-i{
+            margin: #{$i}px 0 !important;
+        }
+    }
+    .mx-#{$i}{
+        margin: 0 #{$i}px;
+
+        &-i{
+            margin: 0 #{$i}px !important;
+        }
+    }
+}
+
+@for $i from 0 to 101 {
     .mr-#{$i}{
         margin-right: #{$i}px;
+
+        &-i{
+            margin-right: #{$i}px !important;
+        }
     }
 }
 
-@for $i from 0 to 25 {
+@for $i from 0 to 101 {
     .ml-#{$i}{
         margin-left: #{$i}px;
+
+        &-i{
+            margin-left: #{$i}px !important;
+        }
     }
 }
 
-@for $i from 0 to 25 {
+@for $i from 0 to 101 {
     .mt-#{$i}{
         margin-top: #{$i}px;
+
         &-i{
             margin-top: #{$i}px !important;
         }
     }
 }
 
-@for $i from 0 to 25 {
+@for $i from 0 to 101 {
     .mb-#{$i}{
         margin-bottom: #{$i}px;
+
+        &-i{
+            margin-bottom: #{$i}px !important;
+        }
     }
 }
 
-// Margin
+// Padding (px)
+@for $i from 0 to 101 {
+    .p-#{$i}{
+        padding: #{$i}px;
+
+        &-i{
+            padding: #{$i}px !important;
+        }
+    }
+}
+
+@for $i from 0 to 101 {
+    .py-#{$i}{
+        padding: #{$i}px 0;
+
+        &-i{
+            padding: #{$i}px 0 !important;
+        }
+    }
+}
+
+// Margin Misc
 .m-auto{
     margin: auto;
 }
@@ -53,8 +116,14 @@
 }
 
 // width & height
-@for $i from 0 to 100 {
+@for $i from 0 to 101 {
     .w-#{$i}{
         width: #{$i} + '%';
+    }
+}
+
+@for $i from 0 to 101 {
+    .h-#{$i}{
+        height: #{$i} + '%';
     }
 }

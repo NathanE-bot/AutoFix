@@ -2,9 +2,13 @@
   <router-view />
 </template>
 <script>
-import { defineComponent } from 'vue'
+/* eslint-disable */
 
-export default defineComponent({
-  name: 'App'
-})
+export default {
+  data() {
+    return {
+      name: "App"
+    };
+  },
+}
 </script>
