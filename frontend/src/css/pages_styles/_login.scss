@@ -1,0 +1,32 @@
+.login_section{
+    background-image: url($background_img_url+'login_register_bg.jpg');
+    background-size: 100%;
+
+    .center_page{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-card{
+        box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+
+        .workshop-bg{
+            margin-top: 80px;
+            width: 100%;
+            height: 280px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            border-radius: 150px;
+            background-image: url($background_img_url+'car_bg_1.jpg');
+        }
+
+        .forgot_pass_pos{
+            position: absolute;
+            right: 2px;
+            bottom: -8px;
+        }
+    }
+}

@@ -190,7 +190,6 @@ import Cookie from 'js-cookie'
 SwiperCore.use([Pagination, Navigation]);
 
 export default ({
-  name: 'PageIndex',
   components: {
     Swiper,
     SwiperSlide

@@ -4,3 +4,10 @@
     background-position-x: 85%;
     background-position-y: 85%;
 }
+
+.link_txt{
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}

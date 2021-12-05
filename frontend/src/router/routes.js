@@ -15,23 +15,43 @@ const routes = [
     children: [
       {
         path: "/",
-        component: index
+        component: index,
+        meta: {
+          title: 'Landing Page',
+          breadcrumb: 'Landing Page'
+        }
       },
       {
         path: "/login",
-        component: login
+        component: login,
+        meta: {
+          title: 'Login',
+          breadcrumb: 'Login'
+        }
       },
       {
         path: "/register",
-        component: register
+        component: register,
+        meta: {
+          title: 'Register',
+          breadcrumb: 'Register'
+        }
       },
       {
         path: "/create",
-        component: createWorkshop
+        component: createWorkshop,
+        meta: {
+          title: '',
+          breadcrumb: ''
+        }
       },
       {
         path: "/edit",
-        component: editPage
+        component: editPage,
+        meta: {
+          title: '',
+          breadcrumb: ''
+        }
       },
       // Always leave this as last one
       {

@@ -104,11 +104,32 @@
 }
 
 @for $i from 0 to 101 {
+    .pt-#{$i}{
+        padding-top: #{$i}px;
+
+        &-i{
+            padding-top: #{$i}px !important;
+        }
+    }
     .pr-#{$i}{
         padding-right: #{$i}px;
 
         &-i{
             padding-right: #{$i}px !important;
+        }
+    }
+    .pb-#{$i}{
+        padding-bottom: #{$i}px;
+
+        &-i{
+            padding-bottom: #{$i}px !important;
+        }
+    }
+    .pl-#{$i}{
+        padding-left: #{$i}px;
+
+        &-i{
+            padding-left: #{$i}px !important;
         }
     }
 }

@@ -36,6 +36,7 @@
               Login
             </q-btn>
             <q-btn
+              @click="changePage('/register')"
               unelevated
               rounded
               color="primary"
@@ -62,14 +63,23 @@ export default {
         initialTab: 'home'
       }
     },
+    created() {
+      this.tabActiveHeader()
+    },
     methods: {
-      changePage (url) {
-        this.$router.push(url)
-        if(url === '/'){
+      tabActiveHeader(tempUrl){
+        let defaultUrl = 'http://localhost:8080/'
+        let url = window.location.href
+        console.log(url)
+        if(tempUrl === defaultUrl + '#/'){
           this.initialTab = 'home'
         } else {
           this.initialTab = ''
         }
+      },
+      changePage (url) {
+        this.$router.push(url)
+        this.tabActiveHeader(url)
       }
       // toggleLeftDrawer () {
       //   this.propLeftDrawerBtn = !this.propLeftDrawerBtn
