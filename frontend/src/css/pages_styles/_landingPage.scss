@@ -20,5 +20,25 @@
     }
     .bottom-section{
         padding: 40px 70px 70px 70px;
+        background-image: url('~assets/images/background_img/cogs_black_2.png'), url('~assets/images/background_img/cogs_black_2_inverted.png');
+        background-repeat: no-repeat;
+        background-position-y: 98%, 98%;
+        background-position-x: 0%, 100%;
+        background-size: 25%, 25%;
+    }
+    .btm-lp{
+        .sosmed_section{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .sosmed-box-lp{
+        @include sosmed_box ($primary, $white);
+    }
+    .footer-lp{
+        padding: 16px;
+        background-color: $white;
+        border-top: 1px solid #555555;
     }
 }

@@ -85,14 +85,30 @@
             padding: #{$i}px !important;
         }
     }
-}
 
-@for $i from 0 to 101 {
     .py-#{$i}{
         padding: #{$i}px 0;
 
         &-i{
             padding: #{$i}px 0 !important;
+        }
+    }
+
+    .px-#{$i}{
+        padding: 0 #{$i}px;
+
+        &-i{
+            padding: 0 #{$i}px !important;
+        }
+    }
+}
+
+@for $i from 0 to 101 {
+    .pr-#{$i}{
+        padding-right: #{$i}px;
+
+        &-i{
+            padding-right: #{$i}px !important;
         }
     }
 }
@@ -125,5 +141,20 @@
 @for $i from 0 to 101 {
     .h-#{$i}{
         height: #{$i} + '%';
+    }
+}
+
+// border-radius
+@for $i from 0 to 21 {
+    .br-#{$i}px{
+        border-radius: #{$i}px;
+    }
+}
+
+// box-shadow
+.no-shadow{
+    box-shadow: none;
+    &-i{
+        box-shadow: none !important;
     }
 }

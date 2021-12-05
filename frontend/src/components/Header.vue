@@ -19,7 +19,7 @@
           indicator-color="primary"
           align="justify"
         >
-          <q-tab name="home" label="Home" />
+          <q-tab @click="changePage('/')" name="home" label="Home" />
           <q-tab name="workshop" label="Workshop" />
           <q-tab name="insurance" label="Insurance" />
           <q-tab name="aboutus" label="About Us" />
@@ -27,6 +27,7 @@
         <div class="relative-position">
           <div class="float-button">
             <q-btn
+              @click="changePage('/login')"
               outline
               rounded
               color="primary"
@@ -52,19 +53,27 @@
 /* eslint-disable */
 export default {
     props: {
-        propLeftDrawerBtn: false,
-        propIsDisabled: false
+      propLeftDrawerBtn: false,
+      propIsDisabled: false
     },
     data () {
-        return {
-            leftDrawerOpen: false,
-            initialTab: 'home'
-        }
+      return {
+        leftDrawerOpen: false,
+        initialTab: 'home'
+      }
     },
     methods: {
-        toggleLeftDrawer () {
-            this.propLeftDrawerBtn = !this.propLeftDrawerBtn
+      changePage (url) {
+        this.$router.push(url)
+        if(url === '/'){
+          this.initialTab = 'home'
+        } else {
+          this.initialTab = ''
         }
+      }
+      // toggleLeftDrawer () {
+      //   this.propLeftDrawerBtn = !this.propLeftDrawerBtn
+      // }
     }
 }
 </script>

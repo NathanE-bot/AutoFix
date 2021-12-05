@@ -19,3 +19,20 @@
     min-width: $min_w;
     min-height: $min_h;
 }
+
+// sosmed_box
+@mixin sosmed_box ($bg_c, $c) {
+    background-color: $bg_c;
+    color: $c;
+    border-radius: 10px;
+    padding: 7px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    i{
+        font-size: 20px;
+    }
+}

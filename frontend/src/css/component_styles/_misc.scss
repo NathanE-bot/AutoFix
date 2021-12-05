@@ -1,0 +1,4 @@
+.sosmed-box{
+    @include sosmed_box ($white, $primary);
+    cursor: pointer;
+}

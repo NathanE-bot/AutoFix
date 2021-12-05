@@ -86,6 +86,10 @@
 .d-flex.j-sp-around{
     @include flex_grid(justify-content, space-around);
 }
+.j-sp-evenly,
+.d-flex.j-sp-around{
+    @include flex_grid(justify-content, space-evenly);
+}
 .j-sp-between,
 .d-flex.j-sp-between{
     @include flex_grid(justify-content, space-between);

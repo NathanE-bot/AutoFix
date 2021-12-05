@@ -62,7 +62,7 @@
         </div>
       </div>
     </q-parallax>
-    <div class="white-bg bottom-section black-1" style="height:1000px">
+    <div class="white-bg bottom-section black-1">
       <div class="text-center">
         <h4 class="m-0 primary_color">Recommendation For You</h4>
         <span class="fs-16">Get the best service experience from us</span>
@@ -75,14 +75,14 @@
           :pagination='{
             "clickable": true
           }'
-          class="mySwiper"
+          class="mySwiper lp-swiper"
         >
-          <swiper-slide>
-            <q-card class="m-5">
+          <swiper-slide v-for="n in 9" :key="n">
+            <q-card class="my-card">
               <img src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
-                <div class="text-h6 primary_color">Bengkel ABC</div>
-                <div class="text-subtitle2">
+                <div class="text-h6 primary_color mb-8">Bengkel ABC</div>
+                <div class="text-subtitle2 w-85">
                   Business Park Kebon Jeruk Blok G5, Jl. Meruya Ilir Raya No. 88, RT.1/RW.5, Meruya Utara, Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11510
                 </div>
                 <div class="text-subtitle2 my-16">
@@ -102,15 +102,79 @@
               </q-card-section>
             </q-card>
           </swiper-slide>
-          <swiper-slide>Slide 2</swiper-slide>
-          <swiper-slide>Slide 3</swiper-slide>
-          <swiper-slide>Slide 4</swiper-slide>
-          <swiper-slide>Slide 5</swiper-slide>
-          <swiper-slide>Slide 6</swiper-slide>
-          <swiper-slide>Slide 7</swiper-slide>
-          <swiper-slide>Slide 8</swiper-slide>
-          <swiper-slide>Slide 9</swiper-slide>
         </swiper>
+      </div>
+      <div class="mt-50">
+        <div class="text-center">
+          <h4 class="m-0 primary_color">How to Use Our Website</h4>
+          <span class="fs-16">Get convenience with our website</span>
+        </div>
+        <q-video class="mt-40-i w-80 m-auto br-10px"
+            :ratio="16/6"
+            src="https://www.youtube.com/embed/veKsxin7iRg"
+          />
+      </div>
+      <div class="mt-80">
+        <div class="text-center">
+          <h4 class="m-0 primary_color">Builder Of Our Company</h4>
+          <span class="fs-16">Get to know more of the developers</span>
+        </div>
+        <div class="mt-40 d-flex a-center j-sp-evenly">
+          <q-card class="my-card br-10px no-shadow" v-for="n in 3" :key="n">
+            <q-card-section horizontal>
+              <img class="responsive-img dev_pic"
+                src="~assets/images/preset/person_1.png"
+              />
+              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">
+                <span class="fs-20">Kenny Ongko</span>
+                <span class="primary_color mb-14">Founder Auto Repair</span>
+                <span class="fs-12">Social Media</span>
+                <div class="mt-10 d-flex a-center">
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <div class="sosmed-box">
+                    <i class="fab fa-twitter"></i>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+      <div class="mt-80 btm-lp">
+        <div class="text-center">
+          <h4 class="m-0 primary_color">For More Information</h4>
+          <span class="fs-16">Reach out to us.</span>
+        </div>
+        <div class="sosmed_section mt-30">
+          <div class="d-flex a-center mr-32">
+            <div class="sosmed-box-lp mr-14">
+              <i class="fab fa-instagram"></i>
+            </div>
+            <span>@auto_repair</span>
+          </div>
+          <div class="d-flex a-center mr-32">
+            <div class="sosmed-box-lp mr-14">
+              <i class="fab fa-facebook-f"></i>
+            </div>
+            <span>Auto Repair</span>
+          </div>
+          <div class="d-flex a-center">
+            <div class="sosmed-box-lp mr-14">
+              <i class="fab fa-twitter"></i>
+            </div>
+            <span>@auto_repair</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-lp">
+      <div class="text-center">
+        <span>Copyright 2021 - Auto Repair</span>
       </div>
     </div>
   </q-page>
@@ -119,13 +183,11 @@
 <script>
 /* eslint-disable */
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import SwiperCore, {
-  Navigation
-} from 'swiper';
+import SwiperCore, { Pagination, Navigation } from 'swiper'
 import { getAllWorkshop } from '../api/workshopService'
 import Cookie from 'js-cookie'
 
-SwiperCore.use([Navigation]);
+SwiperCore.use([Pagination, Navigation]);
 
 export default ({
   name: 'PageIndex',
@@ -149,7 +211,6 @@ export default ({
     return {
       token: '',
       workShop: [],
-      test: 'quasar-logo-vertical.svg',
       window: {
         width: 0,
         height: 0
@@ -174,6 +235,9 @@ export default ({
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
       this.windowAlter.width = this.window.width + 400
+    },
+    changePage (url) {
+      this.$router.push(url)
     },
     fetchDataV2(){
       let _this = this

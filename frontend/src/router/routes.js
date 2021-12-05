@@ -2,8 +2,8 @@
 import MainLayout from "layouts/MainLayout";
 
 const index = () => import("pages/LandingPage");
-const register = () => import("pages/Register");
-const login = () => import("pages/Login");
+const register = () => import("pages/LoginRegister/Register");
+const login = () => import("pages/LoginRegister/Login");
 const createWorkshop = () => import("pages/CreateWorkshop");
 const editPage = () => import("pages/EditPage");
 const error404 = () => import("pages/Error404");

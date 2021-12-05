@@ -22,11 +22,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-export default defineComponent({
+export default {
   name: 'Create',
   data () {
     return {
@@ -65,5 +64,5 @@ export default defineComponent({
       })
     }
   }
-})
+}
 </script>

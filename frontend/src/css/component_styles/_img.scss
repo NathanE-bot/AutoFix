@@ -4,6 +4,10 @@
     position: relative;
 }
 
+.dev_pic{
+    @include max_width_height (190px, 190px);
+}
+
 .iconify{
     @include max_width_height (30px, 30px);
 }
