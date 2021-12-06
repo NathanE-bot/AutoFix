@@ -66,16 +66,13 @@
                       padding="6px 32px"
                       flat rounded unelevated
                       type="reset"
-                      label="Reset"
+                      label="Clear"
                       color="primary"
                       />
-                    <q-btn
-                      @click="changePage('/register')"
-                      class="tf-capitalize q-ml-sm"
-                      rounded outline unelevated
-                      label="Create Account"
-                      color="primary"
-                    />
+                  </div>
+                  <div class="d-flex a-center q-ml-lg q-mt-lg">
+                    <span>Don't have an account?&nbsp;</span>
+                    <span @click="changePage('/register')" class="link_txt primary_color">Create account</span>
                   </div>
                 </q-form>
               </div>
@@ -116,7 +113,6 @@ export default {
     },
     changePage (url) {
       this.$router.push(url)
-      console.log(this.$router)
     },
     clearForm () {
       this.form.email = ''

@@ -16,11 +16,16 @@
         .workshop-bg{
             margin-top: 80px;
             width: 100%;
-            height: 280px;
+            height: 270px;
             background-size: 100%;
             background-repeat: no-repeat;
             border-radius: 150px;
             background-image: url($background_img_url+'car_bg_1.jpg');
+        }
+
+        .workshop-bg-register{
+            @extend .workshop-bg;
+            background-image: url($background_img_url+'workshop_bg_2.jpg');
         }
 
         .forgot_pass_pos{
