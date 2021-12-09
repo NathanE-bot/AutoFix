@@ -110,17 +110,20 @@
 </template>
 
 <script>
+/* eslint-disable-no-undef */
+/* eslint-disable */
 import axios from 'axios'
+import { ref } from 'vue'
 
 export default ({
   data () {
     return {
-      // ref: {
-      //   nameRef: ref(null),
-      //   emailRef: ref(null),
-      //   passRef: ref(null),
-      //   passConfRef: ref(null)
-      // },
+      ref: {
+        nameRef: ref(null),
+        emailRef: ref(null),
+        passRef: ref(null),
+        passConfRef: ref(null)
+      },
       form: {
         name: '',
         email: '',
@@ -151,14 +154,14 @@ export default ({
     changePage (url) {
       this.$router.push(url)
     },
-    validateForm () {
-      this.nameRef.v.validate()
-      this.emailRef.v.validate()
-      this.passRef.v.validate()
-      this.passConfRef.v.validate()
-    },
+    // validateForm () {
+    //   this.nameRef.value.validate()
+    //   this.emailRef.value.validate()
+    //   this.passRef.value.validate()
+    //   this.passConfRef.value.validate()
+    // },
     Register () {
-      this.validateForm()
+      // this.validateForm()
       axios.post('http://127.0.0.1:8000/api/register', this.form).then(response => {
         console.log(response)
         // this.$router.push({ path: '/' })

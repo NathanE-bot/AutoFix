@@ -63,23 +63,24 @@ export default {
         initialTab: 'home'
       }
     },
-    created() {
-      this.tabActiveHeader()
+    computed () {
+      // this.tabActiveHeader()
+      console.log(this.$router)
     },
     methods: {
-      tabActiveHeader(tempUrl){
+      tabActiveHeader(){
         let defaultUrl = 'http://localhost:8080/'
         let url = window.location.href
         console.log(url)
-        if(tempUrl === defaultUrl + '#/'){
-          this.initialTab = 'home'
-        } else {
-          this.initialTab = ''
-        }
+        // if(tempUrl === defaultUrl + '#/'){
+        //   this.initialTab = 'home'
+        // } else {
+        //   this.initialTab = ''
+        // }
       },
       changePage (url) {
         this.$router.push(url)
-        this.tabActiveHeader(url)
+        // this.tabActiveHeader(url)
       }
       // toggleLeftDrawer () {
       //   this.propLeftDrawerBtn = !this.propLeftDrawerBtn

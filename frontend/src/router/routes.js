@@ -8,6 +8,9 @@ const createWorkshop = () => import("pages/CreateWorkshop");
 const editPage = () => import("pages/EditPage");
 const error404 = () => import("pages/Error404");
 
+// Testing
+const testing = () => import("pages/Testing");
+
 const routes = [
   {
     path: "/",
@@ -48,6 +51,14 @@ const routes = [
       {
         path: "/edit",
         component: editPage,
+        meta: {
+          title: '',
+          breadcrumb: ''
+        }
+      },
+      {
+        path: "/testing",
+        component: testing,
         meta: {
           title: '',
           breadcrumb: ''

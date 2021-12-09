@@ -1,8 +1,8 @@
 {
-  "name": "frontend",
+  "name": "quasarautorepair",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "Final Project Thesis",
+  "productName": "Auto Repair",
   "author": "",
   "private": true,
   "scripts": {
