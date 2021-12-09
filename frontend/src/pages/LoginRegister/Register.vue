@@ -5,22 +5,14 @@
           <q-card-section class="p-35">
             <div class="row">
               <div class="col-md-6 pr-12 l_side">
-                <div class="d-flex a-center fs-40">
-                  <span class="black_2 mr-5">AUTO</span>
-                  <span class="txt-primary">REPAIR</span>
-                </div>
-                <div class="workshop-bg workshop-bg-register"></div>
-              </div>
-              <div class="col-md-6 pl-12 r_side">
                 <h5 class="m-0 fw-semibold">Create Account AutoRepair.</h5>
                 <q-form
-                  @submit.prevent="Login"
+                  @submit.prevent="Register"
                   @reset="clearForm"
                   class="q-gutter-md mt-10"
                 >
                   <div class="row q-gutter-y-sm">
                     <q-input
-                      ref="nameRef"
                       v-model="form.name"
                       :rules="rules.name_r" lazy-rules
                       type="text"
@@ -33,7 +25,6 @@
                       </template>
                     </q-input>
                     <q-input
-                      ref="emailRef"
                       v-model="form.email"
                       :rules="rules.email_r" lazy-rules
                       type="email"
@@ -46,7 +37,6 @@
                       </template>
                     </q-input>
                     <q-input
-                      ref="passRef"
                       v-model="form.password"
                       :rules="rules.password_r" lazy-rules
                       :type="isPwd ? 'password' : 'text'"
@@ -59,7 +49,6 @@
                       </template>
                     </q-input>
                     <q-input
-                      ref="passConfRef"
                       v-model="form.password_confirmation"
                       :rules="rules.password_confirmation_r" lazy-rules
                       :type="isPwd ? 'password' : 'text'"
@@ -102,6 +91,10 @@
                   </div>
                 </q-form>
               </div>
+              <div class="col-md-6 pl-12 r_side">
+                <q-btn @click="testNotif()">tes</q-btn>
+                <div class="workshop-bg workshop-bg-register"></div>
+              </div>
             </div>
           </q-card-section>
         </q-card>
@@ -110,20 +103,13 @@
 </template>
 
 <script>
-/* eslint-disable-no-undef */
 /* eslint-disable */
 import axios from 'axios'
-import { ref } from 'vue'
+import { useQuasar } from 'quasar'
 
 export default ({
   data () {
     return {
-      ref: {
-        nameRef: ref(null),
-        emailRef: ref(null),
-        passRef: ref(null),
-        passConfRef: ref(null)
-      },
       form: {
         name: '',
         email: '',
@@ -154,18 +140,13 @@ export default ({
     changePage (url) {
       this.$router.push(url)
     },
-    // validateForm () {
-    //   this.nameRef.value.validate()
-    //   this.emailRef.value.validate()
-    //   this.passRef.value.validate()
-    //   this.passConfRef.value.validate()
-    // },
     Register () {
-      // this.validateForm()
       axios.post('http://127.0.0.1:8000/api/register', this.form).then(response => {
         console.log(response)
         // this.$router.push({ path: '/' })
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 })

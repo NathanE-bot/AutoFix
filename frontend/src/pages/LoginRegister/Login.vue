@@ -5,10 +5,7 @@
           <q-card-section class="p-35">
             <div class="row">
               <div class="col-md-6 pr-12 l_side">
-                <div class="d-flex a-center fs-40">
-                  <span class="black_2 mr-5">AUTO</span>
-                  <span class="txt-primary">REPAIR</span>
-                </div>
+                <TextLogo></TextLogo>
                 <div class="workshop-bg"></div>
               </div>
               <div class="col-md-6 pl-12 r_side">
@@ -86,8 +83,12 @@
 <script>
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import TextLogo from '../../components/TextLogo'
 
 export default {
+  components: {
+    TextLogo
+  },
   data () {
     return {
       form: {
