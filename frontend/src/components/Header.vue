@@ -1,15 +1,15 @@
 <template>
     <q-header class="autorepair-header">
       <q-toolbar>
-        <q-btn
+        <!-- <q-btn
           v-if="propIsDisabled"
           @click="toggleLeftDrawer"
           flat dense round
           icon="menu"
           aria-label="Menu"
-        />
+        /> -->
         <div class="relative-box">
-          <img class="logo-img" src="../assets/images/logo.png" alt="">
+          <img class="logo-img fixed-top-left" src="../assets/images/logo.png" alt="">
         </div>
         <q-tabs
           v-model="initialTab"

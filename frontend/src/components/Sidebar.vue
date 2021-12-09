@@ -74,7 +74,8 @@ export default {
     },
     data() {
         return {
-            essentialLinks: linksList
+            essentialLinks: linksList,
+            leftDrawerOpen: true
         }
     }
 }

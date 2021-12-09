@@ -1,11 +1,12 @@
 <template>
   <q-page class="flex flex-center login_section">
       <div class="center_page w-70">
-        <q-card class="my-card login-card fw">
+        <q-card class="my-card login-card fw position-relative">
           <q-card-section class="p-35">
             <div class="row">
               <div class="col-md-6 pr-12 l_side">
-                <TextLogo></TextLogo>
+                <img @click="changePage('/')" class="logo-img" src="~assets/images/logo.png" alt="">
+                <!-- <TextLogo /> -->
                 <div class="workshop-bg"></div>
               </div>
               <div class="col-md-6 pl-12 r_side">
@@ -83,11 +84,11 @@
 <script>
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import TextLogo from '../../components/TextLogo'
+// import TextLogo from '../../components/TextLogo'
 
 export default {
   components: {
-    TextLogo
+    // TextLogo
   },
   data () {
     return {

@@ -6,7 +6,7 @@ const register = () => import("pages/LoginRegister/Register");
 const login = () => import("pages/LoginRegister/Login");
 const createWorkshop = () => import("pages/CreateWorkshop");
 const editPage = () => import("pages/EditPage");
-const error404 = () => import("pages/Error404");
+// const error404 = () => import("pages/Error404");
 
 // Testing
 const testing = () => import("pages/Testing");
@@ -60,14 +60,9 @@ const routes = [
         path: "/testing",
         component: testing,
         meta: {
-          title: '',
-          breadcrumb: ''
+          title: 'Testing',
+          breadcrumb: 'Testing'
         }
-      },
-      // Always leave this as last one
-      {
-        path: "/:catchAll(.*)*",
-        component: error404
       }
     ]
   }
@@ -76,12 +71,12 @@ const routes = [
 export default routes;
 
 // Always leave this as last one
-// if (process.env.MODE !== "ssr") {
-//   routes.push({
-//     path: "/:catchAll(.*)*",
-//     component: () => import("pages/Error404.vue")
-//   });
-// }
+if (process.env.MODE !== "ssr") {
+  routes.push({
+    path: "/:catchAll(.*)*",
+    component: () => import("pages/Error404.vue")
+  });
+}
 
 // const routes = [
 //   {
