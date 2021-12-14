@@ -1,18 +1,17 @@
 <template>
   <q-page class="flex flex-center login_section">
       <div class="center_page w-70">
-        <q-card class="my-card login-card fw position-relative">
+        <q-card class="my-card login-card fw position-relative m-auto" :style="{height: windowAlter.height + 'px'}">
           <q-card-section class="p-35">
             <div class="row">
-              <div class="col-md-6 pr-12 l_side">
-                <img @click="changePage('/')" class="logo-img" src="~assets/images/logo.png" alt="">
-                <!-- <TextLogo /> -->
-                <div class="workshop-bg"></div>
+              <div class="col-md-7 pr-12 l_side">
+                <img @click="changePage('/')" class="logo-logReg cursor-pointer" src="~assets/images/logo.png" alt="">
+                <img class="car-img" src="~assets/images/background_img/car_bg_1.jpg" alt="">
               </div>
-              <div class="col-md-6 pl-12 r_side">
+              <div class="col-md-5 pl-12 r_side">
                 <h5 class="m-0 fw-semibold">Log In to AutoRepair.</h5>
                 <q-form
-                  @submit.prevent="Login"
+                  @submit.prevent.stop="doLogin"
                   @reset="clearForm"
                   class="q-gutter-md mt-10"
                 >
@@ -21,8 +20,9 @@
                       v-model="form.email"
                       :rules="rules.email_r" lazy-rules
                       type="email"
-                      filled
                       label="Email"
+                      borderless
+                      class="default-input-1"
                     >
                       <template v-slot:prepend>
                         <q-icon name="email" />
@@ -33,8 +33,10 @@
                         v-model="form.password"
                         :rules="rules.password_r" lazy-rules
                         :type="isPwd ? 'password' : 'text'"
-                        filled
-                        label="Password">
+                        label="Password"
+                        borderless
+                        class="default-input-1"
+                      >
                         <template v-slot:prepend>
                           <q-icon name="lock" />
                         </template>
@@ -82,13 +84,15 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Cookies from 'js-cookie'
-// import TextLogo from '../../components/TextLogo'
+/* eslint-disable */
+import { loginToWebsite } from '../../api/loginRegisterServices'
+import { LocalStorage } from 'quasar'
+import Swal from 'sweetalert2'
 
 export default {
   components: {
-    // TextLogo
+    Swal,
+    LocalStorage
   },
   data () {
     return {
@@ -106,10 +110,30 @@ export default {
           v => !!v || 'Password Harus Diisi',
           v => v.length >= 8 || 'Password minimal 8 karakter'
         ]
+      },
+      window: {
+        width: 0,
+        height: 0
+      },
+      windowAlter: {
+        width: 0,
+        height: 0
       }
     }
   },
+  mounted () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  unmounted () {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
+    handleResize () {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+      this.windowAlter.height = this.window.height - (this.window.height * 0.2)
+    },
     doConsole (a) {
       console.log(a)
     },
@@ -120,17 +144,25 @@ export default {
       this.form.email = ''
       this.form.password = ''
     },
-    Login () {
-      axios.post('http://127.0.0.1:8000/api/login', this.form).then(response => {
+    doLogin () {
+      loginToWebsite(this.form).then(response => {
         console.log(response)
         if (response.status === 200) {
-          Cookies.set('name', response.data.name)
-          Cookies.set('userId', response.data.id)
-          Cookies.set('userEmail', response.data.email)
-          Cookies.set('Token', response.data.token)
+          LocalStorage.set('autoRepairUser', response)
+          // Cookies.set('name', response.data.name)
+          // Cookies.set('userId', response.data.id)
+          // Cookies.set('userEmail', response.data.email)
+          // Cookies.set('Token', response.data.token)
         }
-        this.$router.push({ path: '/' })
-      }).catch(err => console.log(err))
+        this.changePage('/')
+      }) .catch(function (error) {
+          if(error.response.data.error === 'Unauthorised') {
+            Swal.fire({
+              title: 'Email is not registered',
+              text: 'Please try again.',
+            })
+          }
+        })
     }
   }
 }

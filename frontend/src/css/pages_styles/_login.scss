@@ -9,25 +9,41 @@
         align-items: center;
     }
 
-    .login-card{
+    %default_log_reg{
         box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
         border-radius: 15px;
 
-        .workshop-bg{
-            margin-top: 80px;
-            width: 100%;
-            height: 270px;
-            background-size: 100%;
-            background-repeat: no-repeat;
-            border-radius: 150px;
-            background-image: url($background_img_url+'car_bg_1.jpg');
+        .q-card__section{
+            height: 100%;
+            .row{
+                height: 100%;
+            }
         }
+        .car-img{
+            max-width: 100%;
+            border-radius: 150px;
+        }
+    }
 
+    .register-card{
+        @extend %default_log_reg;
         .workshop-bg-register{
-            @extend .workshop-bg;
             background-image: url($background_img_url+'workshop_bg_2.jpg');
         }
+        .r_side{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+    }
 
+    .login-card{
+        @extend %default_log_reg;
+        .l_side{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
         .forgot_pass_pos{
             position: absolute;
             right: 2px;

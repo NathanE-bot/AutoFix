@@ -45,6 +45,16 @@
               Register
             </q-btn>
           </div>
+          <!-- <q-btn
+            round unelevated
+            color="primary"
+            size="lg"
+            @click="changePage('/youraccount')"
+          >
+            <q-avatar size="60px">
+              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+            </q-avatar>
+          </q-btn> -->
         </div>
       </q-toolbar>
     </q-header>
@@ -64,27 +74,12 @@ export default {
       }
     },
     computed () {
-      // this.tabActiveHeader()
       console.log(this.$router)
     },
     methods: {
-      tabActiveHeader(){
-        let defaultUrl = 'http://localhost:8080/'
-        let url = window.location.href
-        console.log(url)
-        // if(tempUrl === defaultUrl + '#/'){
-        //   this.initialTab = 'home'
-        // } else {
-        //   this.initialTab = ''
-        // }
-      },
       changePage (url) {
         this.$router.push(url)
-        // this.tabActiveHeader(url)
       }
-      // toggleLeftDrawer () {
-      //   this.propLeftDrawerBtn = !this.propLeftDrawerBtn
-      // }
     }
 }
 </script>

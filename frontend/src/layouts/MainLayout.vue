@@ -35,13 +35,6 @@ export default {
 
   },
   methods: {
-    // doCheckUrl () {
-    //   let search = $route.meta.title
-    //   if(search === 'Login' || search === 'Register' || search === 'Landing Page') this.forHeaderSession = true
-    //   else if (search === 'Login' || search === 'Register') this.forSidebarSession = true
-    //   else this.forSidebarSession = true, this.forHeaderSession = true
-    //   console.log('hed', this.forHeaderSession, this.forSidebarSession)
-    // },
     doConsole (a) {
       console.log(a)
     }
@@ -49,12 +42,12 @@ export default {
   watch: {
   '$route.meta.title': {
       handler: function(search) {
-        console.log(search)
+        // console.log(search)
         if(search === 'Login' || search === 'Register') this.forHeaderSession = false
         else this.forHeaderSession = true
         if(search === 'Login' || search === 'Register' || search === 'Landing Page')  this.forSidebarSession = false
         else this.forSidebarSession = false
-        console.log('hed', this.forHeaderSession, this.forSidebarSession)
+        // console.log('hed', this.forHeaderSession, this.forSidebarSession)
       },
       deep: true,
       immediate: true

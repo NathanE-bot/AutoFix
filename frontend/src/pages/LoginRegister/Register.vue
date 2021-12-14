@@ -1,13 +1,13 @@
 <template>
   <q-page class="flex flex-center login_section">
       <div class="center_page w-70">
-        <q-card class="my-card login-card fw">
+        <q-card class="my-card register-card fw" :style="{height: windowAlter.height + 'px'}">
           <q-card-section class="p-35">
             <div class="row">
               <div class="col-md-6 pr-12 l_side">
                 <h5 class="m-0 fw-semibold">Create Account AutoRepair.</h5>
                 <q-form
-                  @submit.prevent="Register"
+                  @submit.prevent="doRegister"
                   @reset="clearForm"
                   class="q-gutter-md mt-10"
                 >
@@ -17,8 +17,8 @@
                       :rules="rules.name_r" lazy-rules
                       type="text"
                       label="Nama"
-                      filled
-                      class="col-md-6 pr-6"
+                      borderless
+                      class="col-md-6 pr-6 default-input-1"
                     >
                       <template v-slot:prepend>
                         <q-icon name="person" />
@@ -28,9 +28,9 @@
                       v-model="form.email"
                       :rules="rules.email_r" lazy-rules
                       type="email"
-                      filled
                       label="Email"
-                      class="col-md-6 pl-6"
+                      borderless
+                      class="col-md-6 pl-6 default-input-1"
                     >
                       <template v-slot:prepend>
                         <q-icon name="email" />
@@ -40,9 +40,9 @@
                       v-model="form.password"
                       :rules="rules.password_r" lazy-rules
                       :type="isPwd ? 'password' : 'text'"
-                      filled
                       label="Password"
-                      class="col-md-12"
+                      borderless
+                      class="col-md-12 default-input-1"
                     >
                       <template v-slot:prepend>
                         <q-icon name="lock" />
@@ -52,9 +52,9 @@
                       v-model="form.password_confirmation"
                       :rules="rules.password_confirmation_r" lazy-rules
                       :type="isPwd ? 'password' : 'text'"
-                      filled
                       label="Konfirmasi Password"
-                      class="col-md-12"
+                      borderless
+                      class="col-md-12 default-input-1"
                     >
                       <template v-slot:prepend>
                         <q-icon name="lock" />
@@ -92,8 +92,8 @@
                 </q-form>
               </div>
               <div class="col-md-6 pl-12 r_side">
-                <q-btn @click="testNotif()">tes</q-btn>
-                <div class="workshop-bg workshop-bg-register"></div>
+                <img @click="changePage('/')" class="logo-logReg cursor-pointer" src="~assets/images/logo.png" alt="">
+                <img class="car-img" src="~assets/images/background_img/car_bg_1.jpg" alt="">
               </div>
             </div>
           </q-card-section>
@@ -104,8 +104,6 @@
 
 <script>
 /* eslint-disable */
-import axios from 'axios'
-import { useQuasar } from 'quasar'
 
 export default ({
   data () {
@@ -131,18 +129,47 @@ export default ({
         ],
         password_confirmation_r: [
           v => !!v || 'Password Harus Diisi',
-          v => !!v === this.form.password || 'Password belum sama'
+          v => !!v != this.form.password || 'Password belum sama'
         ]
+      },
+      window: {
+        width: 0,
+        height: 0
+      },
+      windowAlter: {
+        width: 0,
+        height: 0
       }
     }
   },
+  mounted () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  unmounted () {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
+    clearForm () {
+      this.form.name = ''
+      this.form.email = ''
+      this.form.password = ''
+      this.form.password_confirmation = ''
+    },
+    handleResize () {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+      this.windowAlter.height = this.window.height - (this.window.height * 0.2)
+    },
     changePage (url) {
       this.$router.push(url)
     },
-    Register () {
+    doRegister () {
       axios.post('http://127.0.0.1:8000/api/register', this.form).then(response => {
         console.log(response)
+        if(response.status == 200) {
+          
+        }
         // this.$router.push({ path: '/' })
       }).catch(err => {
         console.log(err)

@@ -185,15 +185,13 @@
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import SwiperCore, { Pagination, Navigation } from 'swiper'
 import { getAllWorkshop } from '../api/workshopService'
+import { LocalStorage, SessionStorage } from 'quasar'
+import { AuthValidation } from '../js/AuthValidation'
 import Cookie from 'js-cookie'
 
 SwiperCore.use([Pagination, Navigation]);
 
 export default ({
-  components: {
-    Swiper,
-    SwiperSlide
-  },
   setup() {
     const onSwiper = (swiper) => {
       console.log(swiper);
@@ -205,6 +203,10 @@ export default ({
       onSwiper,
       onSlideChange,
     };
+  },
+  components: {
+    Swiper,
+    SwiperSlide
   },
   data () {
     return {
@@ -218,8 +220,15 @@ export default ({
         width: 0,
         height: 0
       },
-      search: ''
+      search: '',
+      test: false
     }
+  },
+  created () {
+    let item = {}
+    item = LocalStorage.getItem('autoRepairUser')
+    
+    // console.log(item.data.token)
   },
   mounted () {
     this.fetchDataV2()
@@ -241,11 +250,12 @@ export default ({
     fetchDataV2(){
       let _this = this
       this.token = Cookie.get('Token')
-      getAllWorkshop(this.token)
-      .then(response => {
+      getAllWorkshop(this.token).then(response => {
         _this.workShop = response.data.objectReturn
         console.log('response', response.data)
         console.log('workshop', _this.workShop)
+      }) .catch((err) =>{
+        console.log(err)
       })
     }
   }

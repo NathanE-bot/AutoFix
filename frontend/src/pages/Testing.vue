@@ -22,7 +22,7 @@
 /* eslint-disable */
 import { onUnmounted, onMounted, ref } from 'vue'
 import { computed, watch } from 'vue'
-import { useGeolocation } from '../script/useGeolocation'
+import { useGeolocation } from '../gMapsScript/useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyC5atMPJ2MGC-CxvCtMv7pSwCsOMPFX_kg'

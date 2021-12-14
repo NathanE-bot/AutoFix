@@ -1,3 +1,14 @@
+%default_input_1{
+    .q-field__control{
+        box-shadow: 3px 3px 4px rgb(0 0 0 / 25%);
+        padding: 0 10px;
+    }
+}
+
+.default-input-1{
+    @extend %default_input_1;
+}
+
 .lp-search-input{
     .q-field__control{
         background-color: #fff;

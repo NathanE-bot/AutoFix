@@ -1,15 +1,23 @@
 /* eslint-disable */
 import MainLayout from "layouts/MainLayout";
 
-const index = () => import("pages/LandingPage");
-const register = () => import("pages/LoginRegister/Register");
+// LandingPage
+const landingPage = () => import("pages/LandingPage");
+
+// LoginRegister
 const login = () => import("pages/LoginRegister/Login");
+const register = () => import("pages/LoginRegister/Register");
+
+// Nico
 const createWorkshop = () => import("pages/CreateWorkshop");
 const editPage = () => import("pages/EditPage");
 // const error404 = () => import("pages/Error404");
 
 // Testing
 const testing = () => import("pages/Testing");
+
+// Profile
+const yourAccount = () => import("pages/Profile/YourAccount");
 
 const routes = [
   {
@@ -18,12 +26,13 @@ const routes = [
     children: [
       {
         path: "/",
-        component: index,
+        component: landingPage,
         meta: {
           title: 'Landing Page',
           breadcrumb: 'Landing Page'
         }
       },
+      // Login Register
       {
         path: "/login",
         component: login,
@@ -62,6 +71,15 @@ const routes = [
         meta: {
           title: 'Testing',
           breadcrumb: 'Testing'
+        }
+      },
+      // Profile
+      {
+        path: "/youraccount",
+        component: yourAccount,
+        meta: {
+          title: 'Your Account',
+          breadcrumb: 'Your Account'
         }
       }
     ]
