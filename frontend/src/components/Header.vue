@@ -26,35 +26,53 @@
         </q-tabs>
         <div class="relative-position">
           <div class="float-button">
-            <q-btn
-              @click="changePage('/session/login')"
-              outline
-              rounded
-              color="primary"
-              class="tf-capitalize mr-10 fw lg-rg-btn"
-            >
-              Login
-            </q-btn>
-            <q-btn
-              @click="changePage('/session/register')"
-              unelevated
-              rounded
-              color="primary"
-              class="tf-capitalize fw lg-rg-btn"
-            >
-              Register
-            </q-btn>
+            <div class="buttons" v-if="isLogin">
+              <q-btn
+                @click="changePage('/session/login')"
+                outline
+                rounded
+                color="primary"
+                class="tf-capitalize mr-10 fw lg-rg-btn"
+              >
+                Login
+              </q-btn>
+              <q-btn
+                @click="changePage('/session/register')"
+                unelevated
+                rounded
+                color="primary"
+                class="tf-capitalize fw lg-rg-btn"
+              >
+                Register
+              </q-btn>
+            </div>
+            <div class="login-avatar" v-else>
+              <q-btn
+                round unelevated
+                color="primary"
+                size="lg"
+              >
+                <q-avatar size="60px">
+                  <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+                </q-avatar>
+                <q-menu>
+                  <q-list style="min-width: 100px">
+                    <q-item
+                      @click="changePage('/youraccount')"
+                      clickable v-close-popup
+                    >
+                      Profile
+                    </q-item>
+                    <q-item
+                      @click="doLogout()"
+                      clickable v-close-popup>
+                      Logout
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </div>
           </div>
-          <!-- <q-btn
-            round unelevated
-            color="primary"
-            size="lg"
-            @click="changePage('/youraccount')"
-          >
-            <q-avatar size="60px">
-              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-            </q-avatar>
-          </q-btn> -->
         </div>
       </q-toolbar>
     </q-header>
@@ -62,16 +80,36 @@
 
 <script>
 /* eslint-disable */
+import Auth from '../js/AuthValidation'
+import Swal from 'sweetalert2'
+
 export default {
     data () {
       return {
-        initialTab: 'home'
+        initialTab: 'home',
+        isLogin: false
       }
     },
-    computed () {
-      console.log(this.$router)
+    created () {
+      if(!Auth.isUserLogin){
+        this.isLogin = true
+      } else {
+        this.isLogin = false
+      }
     },
     methods: {
+      doLogout () {
+        let temp = Auth.doUserLogout()
+        if(temp){
+          this.isLogin = false
+          this.changePage('/session/login')
+        } else {
+          Swal.fire({
+            title: 'Apani error',
+            text: 'Kok kamu ngoding bodoh.',
+          })
+        }
+      },
       changePage (url) {
         this.$router.push(url)
       }

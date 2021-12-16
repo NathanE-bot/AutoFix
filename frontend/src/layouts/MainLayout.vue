@@ -27,8 +27,6 @@ export default {
   },
   data () {
     return {
-      forHeaderSession: false,
-      forSidebarSession: false,
     }
   },
   computed: {

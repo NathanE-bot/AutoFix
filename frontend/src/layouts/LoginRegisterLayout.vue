@@ -8,10 +8,23 @@
 
 <script>
 /* eslint-disable */
+import Auth from '../js/AuthValidation'
 export default {
     name: 'LoginRegisterLayout',
-    setup() {
-        
+    data () {
+        return {
+        }
+    },
+    mounted () {
+        if(!Auth.isUserLogin){
+            this.changePage('/')
+        }
+    },
+    methods: {
+        changePage (url) {
+            console.log('here')
+            this.$router.push(url)
+        }
     }
 }
 </script>

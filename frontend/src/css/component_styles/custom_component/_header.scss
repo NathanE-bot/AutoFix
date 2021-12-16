@@ -46,12 +46,29 @@
         }
 
         .float-button{
-            position: absolute;
-            display: flex;
-            align-items: center;
-            right: 0px;
-            top: -20px;
-            width: 250px;
+            // position: absolute;
+            // display: flex;
+            // align-items: center;
+            // right: 0px;
+            // top: -20px;
+            // width: 250px;
+            .buttons {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                right: 0px;
+                top: -20px;
+                width: 250px;
+            }
+            .login-avatar{
+                position: absolute;
+                flex-direction: column;
+                display: flex;
+                align-items: flex-end;
+                right: 0px;
+                top: -30px;
+                width: 250px;
+            }
         }
     }
 }
