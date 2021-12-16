@@ -1,5 +1,6 @@
 /* eslint-disable */
 import MainLayout from "layouts/MainLayout";
+import LoginRegisterLayout from "layouts/LoginRegisterLayout";
 
 // LandingPage
 const landingPage = () => import("pages/LandingPage");
@@ -20,6 +21,27 @@ const testing = () => import("pages/Testing");
 const yourAccount = () => import("pages/Profile/YourAccount");
 
 const routes = [
+  // forLoginRegis
+  {
+    path: '/session/',
+    component: LoginRegisterLayout,
+    children: [
+      {
+        path: "login",
+        component: login,
+        meta: {
+          title: 'Login'
+        }
+      },
+      {
+        path: "register",
+        component: register,
+        meta: {
+          title: 'Register'
+        }
+      }
+    ]
+  },
   {
     path: "/",
     component: MainLayout,
@@ -30,23 +52,6 @@ const routes = [
         meta: {
           title: 'Landing Page',
           breadcrumb: 'Landing Page'
-        }
-      },
-      // Login Register
-      {
-        path: "/login",
-        component: login,
-        meta: {
-          title: 'Login',
-          breadcrumb: 'Login'
-        }
-      },
-      {
-        path: "/register",
-        component: register,
-        meta: {
-          title: 'Register',
-          breadcrumb: 'Register'
         }
       },
       {

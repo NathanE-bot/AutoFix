@@ -1,4 +1,4 @@
-.login_section{
+.log-reg-s{
     background-image: url($background_img_url+'login_register_bg.jpg');
     background-size: 100%;
 
@@ -24,7 +24,7 @@
             border-radius: 150px;
         }
     }
-
+    // register
     .register-card{
         @extend %default_log_reg;
         .workshop-bg-register{
@@ -36,7 +36,7 @@
             justify-content: space-around;
         }
     }
-
+    // Login
     .login-card{
         @extend %default_log_reg;
         .l_side{

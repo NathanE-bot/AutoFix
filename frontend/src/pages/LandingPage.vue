@@ -175,6 +175,7 @@
     <div class="footer-lp">
       <div class="text-center">
         <span>Copyright 2021 - Auto Repair</span>
+        <span></span>
       </div>
     </div>
   </q-page>
@@ -186,7 +187,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import SwiperCore, { Pagination, Navigation } from 'swiper'
 import { getAllWorkshop } from '../api/workshopService'
 import { LocalStorage, SessionStorage } from 'quasar'
-import { AuthValidation } from '../js/AuthValidation'
+import help from '../js/help'
 import Cookie from 'js-cookie'
 
 SwiperCore.use([Pagination, Navigation]);
@@ -206,12 +207,14 @@ export default ({
   },
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
+    help
   },
   data () {
     return {
+      help,
       token: '',
-      workShop: [],
+      workShop: null,
       window: {
         width: 0,
         height: 0
@@ -223,12 +226,6 @@ export default ({
       search: '',
       test: false
     }
-  },
-  created () {
-    let item = {}
-    item = LocalStorage.getItem('autoRepairUser')
-    
-    // console.log(item.data.token)
   },
   mounted () {
     this.fetchDataV2()
@@ -249,11 +246,13 @@ export default ({
     },
     fetchDataV2(){
       let _this = this
-      this.token = Cookie.get('Token')
-      getAllWorkshop(this.token).then(response => {
-        _this.workShop = response.data.objectReturn
-        console.log('response', response.data)
-        console.log('workshop', _this.workShop)
+      if(!help.isObjectEmpty(LocalStorage.getItem('autoRepairUser'))){
+        _this.token = LocalStorage.getItem('autoRepairUser').data.token
+      } 
+      getAllWorkshop(_this.token).then(response => {
+        let arrayTemp = []
+        arrayTemp = response.data.objectReturn
+        console.log('workshop', arrayTemp)
       }) .catch((err) =>{
         console.log(err)
       })

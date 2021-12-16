@@ -27,7 +27,7 @@
         <div class="relative-position">
           <div class="float-button">
             <q-btn
-              @click="changePage('/login')"
+              @click="changePage('/session/login')"
               outline
               rounded
               color="primary"
@@ -36,7 +36,7 @@
               Login
             </q-btn>
             <q-btn
-              @click="changePage('/register')"
+              @click="changePage('/session/register')"
               unelevated
               rounded
               color="primary"
@@ -63,13 +63,8 @@
 <script>
 /* eslint-disable */
 export default {
-    props: {
-      propLeftDrawerBtn: false,
-      propIsDisabled: false
-    },
     data () {
       return {
-        leftDrawerOpen: false,
         initialTab: 'home'
       }
     },

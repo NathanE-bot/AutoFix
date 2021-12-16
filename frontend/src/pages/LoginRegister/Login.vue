@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center login_section">
+  <q-page class="flex flex-center">
       <div class="center_page w-70">
         <q-card class="my-card login-card fw position-relative m-auto" :style="{height: windowAlter.height + 'px'}">
           <q-card-section class="p-35">
@@ -72,7 +72,7 @@
                   </div>
                   <div class="d-flex a-center q-ml-lg q-mt-lg">
                     <span>Don't have an account?&nbsp;</span>
-                    <span @click="changePage('/register')" class="link_txt primary_color">Create account</span>
+                    <span @click="changePage('/session/register')" class="link_txt primary_color">Create account</span>
                   </div>
                 </q-form>
               </div>

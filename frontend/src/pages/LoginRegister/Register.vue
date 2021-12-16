@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center login_section">
+  <q-page class="flex flex-center">
       <div class="center_page w-70">
         <q-card class="my-card register-card fw" :style="{height: windowAlter.height + 'px'}">
           <q-card-section class="p-35">
@@ -87,7 +87,7 @@
                   </div>
                   <div class="d-flex a-center q-ml-lg q-mt-lg">
                     <span>Already have an account?&nbsp;</span>
-                    <span @click="changePage('/login')" class="link_txt primary_color">Log in</span>
+                    <span @click="changePage('/session/login')" class="link_txt primary_color">Log in</span>
                   </div>
                 </q-form>
               </div>
@@ -104,6 +104,7 @@
 
 <script>
 /* eslint-disable */
+import { registerToWebsite } from '../../api/loginRegisterServices'
 
 export default ({
   data () {
@@ -165,14 +166,19 @@ export default ({
       this.$router.push(url)
     },
     doRegister () {
-      axios.post('http://127.0.0.1:8000/api/register', this.form).then(response => {
-        console.log(response)
-        if(response.status == 200) {
-          
+      registerToWebsite(this.form).then(response => {
+        if (response.status === 200) {
+          let temp = []
+          temp = response.data
+          console.log(temp)
         }
-        // this.$router.push({ path: '/' })
-      }).catch(err => {
-        console.log(err)
+        // this.changePage('/')
+      }) .catch(function (error) {
+        if(error.response.data.error === 'Unauthorised') {
+          Swal.fire({
+            title: 'Testing'
+          })
+        }
       })
     }
   }

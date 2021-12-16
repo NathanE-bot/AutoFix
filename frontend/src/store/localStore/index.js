@@ -1,3 +1,5 @@
+/* eslint-disable */
+import { LocalStorage } from 'quasar'
 import state from './state'
 import * as getters from './getters'
 import * as mutations from './mutations'

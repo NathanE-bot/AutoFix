@@ -1,10 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <!-- Header -->
-    <app-header v-if="forHeaderSession" />
+    <app-header />
 
     <!-- Sidebar -->
-    <app-sidebar v-if="forSidebarSession" />
+    <!-- <app-sidebar /> -->
 
     <q-page-container class="p-bg">
       <router-view />
@@ -38,20 +38,20 @@ export default {
     doConsole (a) {
       console.log(a)
     }
-  },
-  watch: {
-  '$route.meta.title': {
-      handler: function(search) {
-        // console.log(search)
-        if(search === 'Login' || search === 'Register') this.forHeaderSession = false
-        else this.forHeaderSession = true
-        if(search === 'Login' || search === 'Register' || search === 'Landing Page')  this.forSidebarSession = false
-        else this.forSidebarSession = false
-        // console.log('hed', this.forHeaderSession, this.forSidebarSession)
-      },
-      deep: true,
-      immediate: true
-    }
   }
+  // watch: {
+  // '$route.meta.title': {
+  //     handler: function(search) {
+  //       // console.log(search)
+  //       if(search === 'Login' || search === 'Register') this.forHeaderSession = false
+  //       else this.forHeaderSession = true
+  //       if(search === 'Login' || search === 'Register' || search === 'Landing Page')  this.forSidebarSession = false
+  //       else this.forSidebarSession = false
+  //       // console.log('hed', this.forHeaderSession, this.forSidebarSession)
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   }
+  // }
 }
 </script>
