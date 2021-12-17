@@ -91,7 +91,7 @@ export default {
       }
     },
     created () {
-      if(!Auth.isUserLogin){
+      if(!Auth.isUserLogin()){
         this.isLogin = true
       } else {
         this.isLogin = false
@@ -99,8 +99,7 @@ export default {
     },
     methods: {
       doLogout () {
-        let temp = Auth.doUserLogout()
-        if(temp){
+        if(Auth.doUserLogout()){
           this.isLogin = false
           this.changePage('/session/login')
         } else {

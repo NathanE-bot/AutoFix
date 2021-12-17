@@ -4,7 +4,7 @@ import help from '../js/help'
 
 export default {
     isUserLogin () {
-        console.log('lmao')
+        console.log('checkUserLogin')
         if(LocalStorage.isEmpty('autoRepairUser')){
             return false
         } else {

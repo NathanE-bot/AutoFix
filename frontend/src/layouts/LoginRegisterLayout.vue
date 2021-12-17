@@ -9,6 +9,7 @@
 <script>
 /* eslint-disable */
 import Auth from '../js/AuthValidation'
+
 export default {
     name: 'LoginRegisterLayout',
     data () {
@@ -16,7 +17,7 @@ export default {
         }
     },
     mounted () {
-        if(!Auth.isUserLogin){
+        if(Auth.isUserLogin()){
             this.changePage('/')
         }
     },

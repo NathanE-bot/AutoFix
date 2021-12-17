@@ -1,20 +1,26 @@
 <template>
     <q-drawer
       v-model="leftDrawerOpen"
-      bordered
+      :width="350"
+      :breakpoint="400"
     >
       <q-list>
         <q-item-label
           header
         >
-          Essential Links
+          <q-avatar class="mr-30" size="50px">
+            <img src="~assets/images/preset/dog.png" alt="">
+          </q-avatar>
+          <span>Kenny Ongko</span>
         </q-item-label>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-card class="item-wrapper">
+          <EssentialLink
+            v-for="link in essentialLinks"
+            :key="link.title"
+            v-bind="link"
+          />
+        </q-card>
       </q-list>
     </q-drawer>
 </template>

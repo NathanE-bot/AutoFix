@@ -1,6 +1,7 @@
 /* eslint-disable */
 import MainLayout from "layouts/MainLayout";
 import LoginRegisterLayout from "layouts/LoginRegisterLayout";
+import MemberLayout from "layouts/MemberLayout";
 
 // LandingPage
 const landingPage = () => import("pages/LandingPage");
@@ -42,18 +43,11 @@ const routes = [
       }
     ]
   },
+  // ForUsers
   {
-    path: "/",
-    component: MainLayout,
+    path: '/member/',
+    component: MemberLayout,
     children: [
-      {
-        path: "/",
-        component: landingPage,
-        meta: {
-          title: 'Landing Page',
-          breadcrumb: 'Landing Page'
-        }
-      },
       {
         path: "/create",
         component: createWorkshop,
@@ -71,20 +65,33 @@ const routes = [
         }
       },
       {
-        path: "/testing",
-        component: testing,
-        meta: {
-          title: 'Testing',
-          breadcrumb: 'Testing'
-        }
-      },
-      // Profile
-      {
         path: "/youraccount",
         component: yourAccount,
         meta: {
           title: 'Your Account',
           breadcrumb: 'Your Account'
+        }
+      }
+    ]
+  },
+  {
+    path: "/",
+    component: MainLayout,
+    children: [
+      {
+        path: "/",
+        component: landingPage,
+        meta: {
+          title: 'Landing Page',
+          breadcrumb: 'Landing Page'
+        }
+      },
+      {
+        path: "/testing",
+        component: testing,
+        meta: {
+          title: 'Testing',
+          breadcrumb: 'Testing'
         }
       }
     ]

@@ -1,6 +1,6 @@
 <template>
     <q-page>
-        Hi
+        Tes
     </q-page>
 </template>
 

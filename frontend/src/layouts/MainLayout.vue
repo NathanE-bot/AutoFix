@@ -16,14 +16,14 @@
 /* eslint-disable */
 
 import Header from 'components/Header'
-import Sidebar from 'components/Sidebar'
+// import Sidebar from 'components/Sidebar'
 
 export default {
   // name: 'MainLayout',
 
   components: {
     appHeader: Header,
-    appSidebar: Sidebar
+    // appSidebar: Sidebar
   },
   data () {
     return {
