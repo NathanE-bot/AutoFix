@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHistoryDetailsTable extends Migration
+class CreateReviewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateHistoryDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('history_details', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('HistoryID');
-            $table->foreign('HistoryID')->references('id')->on('historys');
-            $table->string('JenisSevis');
-            $table->string('SevisDetail');
+            $table->unsignedBigInteger('scheduleID');
+            $table->foreign('scheduleID')->references('id')->on('schedules');
+            $table->string('userName');
+            $table->string('reviewDate');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateHistoryDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('history_details');
+        Schema::dropIfExists('reviews');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJadwalDetailsTable extends Migration
+class CreateScheduleDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateJadwalDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('jadwal_details', function (Blueprint $table) {
+        Schema::create('schedule_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('JadwalID');
-            $table->foreign('JadwalID')->references('id')->on('jadwals');
-            $table->string('JenisSevis');
-            $table->string('SevisDetail');
+            $table->unsignedBigInteger('scheduleID');
+            $table->foreign('scheduleID')->references('id')->on('schedules');
+            $table->string('servicType');
+            $table->string('servicDetail');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateJadwalDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jadwal_details');
+        Schema::dropIfExists('schedule_details');
     }
 }

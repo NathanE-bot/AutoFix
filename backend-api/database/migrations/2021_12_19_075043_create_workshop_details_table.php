@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLampiranAsuransisTable extends Migration
+class CreateWorkshopDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateLampiranAsuransisTable extends Migration
      */
     public function up()
     {
-        Schema::create('lampiran_asuransis', function (Blueprint $table) {
+        Schema::create('workshop_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('AsuransiID');
-            $table->foreign('AsuransiID')->references('id')->on('asuransis');
+            $table->unsignedBigInteger('workshopID');
+            $table->foreign('workshopID')->references('id')->on('workshops');
+            $table->string('carModel');
+            $table->string('carType');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateLampiranAsuransisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lampiran_asuransis');
+        Schema::dropIfExists('workshop_details');
     }
 }

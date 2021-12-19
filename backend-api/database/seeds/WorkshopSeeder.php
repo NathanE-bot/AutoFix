@@ -13,15 +13,21 @@ class WorkshopSeeder extends Seeder
     public function run()
     {
         Workshop::create([
-            'name' => 'My Workshop',
-            'address' => 'Jl. Sukamaju blok C no. 12',
-            'description' => 'Maju jaya jaya jaya ......',
+            'userID'=>'1',
+            'workshopName' => 'My Workshop',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '024928492',
+            'workshopEmail'=>'sukamaju@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik'
         ]);
 
         Workshop::create([
-            'name' => 'My Workshop 2',
-            'address' => 'Jl. Sukamaju blok C no. 12',
-            'description' => 'Maju jaya jaya jaya jaya ......',
+            'userID'=>'2',
+            'workshopName' => 'you Workshop',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik'
         ]);
     }
 }

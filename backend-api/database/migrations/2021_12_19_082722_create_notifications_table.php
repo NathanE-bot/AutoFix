@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUlasansTable extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateUlasansTable extends Migration
      */
     public function up()
     {
-        Schema::create('ulasans', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('HistoryID');
-            $table->foreign('HistoryID')->references('id')->on('historys');
-            $table->string('NamaUser');
-            $table->date('TanggalUlasan');
-            $table->string('Deskripsi');
+            $table->unsignedBigInteger('userID');
+            $table->foreign('userID')->references('id')->on('users');
+            $table->string('senderName');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateUlasansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ulasans');
+        Schema::dropIfExists('notifications');
     }
 }

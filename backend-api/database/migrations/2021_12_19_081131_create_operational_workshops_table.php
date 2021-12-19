@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFavoritesTable extends Migration
+class CreateOperationalWorkshopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateFavoritesTable extends Migration
      */
     public function up()
     {
-        Schema::create('favorites', function (Blueprint $table) {
+        Schema::create('operational_workshops', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('UserID');
-            $table->foreign('UserID')->references('id')->on('users');
-            $table->unsignedBigInteger('BengkelID');
-            $table->foreign('BengkelID')->references('id')->on('bengkels');
+            $table->unsignedBigInteger('workshopID');
+            $table->foreign('workshopID')->references('id')->on('workshops');
+            $table->time('operationalOpenHour');
+            $table->time('operationalCloaseHour');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateFavoritesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('favorites');
+        Schema::dropIfExists('operational_workshops');
     }
 }
