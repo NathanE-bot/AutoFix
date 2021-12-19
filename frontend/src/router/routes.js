@@ -21,6 +21,9 @@ const testing = () => import("pages/Testing");
 // Profile
 const yourAccount = () => import("pages/Profile/YourAccount");
 
+// WorkshopDetail
+const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
+
 const routes = [
   // forLoginRegis
   {
@@ -84,6 +87,14 @@ const routes = [
         meta: {
           title: 'Landing Page',
           breadcrumb: 'Landing Page'
+        }
+      },
+      {
+        path: "/workshop/detail",
+        component: WorkshopDetail,
+        meta: {
+          title: 'Workshop Detail Page',
+          breadcrumb: 'Workshop Detail Page'
         }
       },
       {

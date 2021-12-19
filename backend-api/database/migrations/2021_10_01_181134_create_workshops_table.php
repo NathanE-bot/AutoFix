@@ -22,6 +22,11 @@ class CreateWorkshopsTable extends Migration
             $table->string('workshopPhoneNumber');
             $table->string('workshopEmail');
             $table->string('workshopDescription');
+            $table->float('rating',2,1);
+            $table->string('workshopLogo')->nullable;
+            $table->string('city');
+            $table->string('district');
+            $table->string('province');
             $table->boolean("isActive")->default(1);
             $table->timestamps();
         });

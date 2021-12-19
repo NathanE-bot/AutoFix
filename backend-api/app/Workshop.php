@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,9 +13,15 @@ class Workshop extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 
-        'address', 
-        'description',
+        'userID',
+        'workshopName',
+        'workshopAddress',
+        'workshopPhoneNumber',
+        'workshopEmail',
+        'workshopDescription',
         'isActive'
     ];
+    public function User(){
+        return $this->belongsTo(User::class);
+    }
 }

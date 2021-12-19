@@ -34,3 +34,6 @@ Route::delete('workshop/delete/{id}', 'Api\WorkshopController@destroy');
 
 Route::get('workshopdetail','Api\WorkshopController@allWorkshopfix');
 
+
+
+

@@ -20,6 +20,7 @@ class CreateReviewsTable extends Migration
             $table->string('userName');
             $table->string('reviewDate');
             $table->string('description');
+            $table->float('rating',2,1);
             $table->timestamps();
         });
     }
