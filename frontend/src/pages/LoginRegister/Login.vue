@@ -156,10 +156,10 @@ export default {
         }
         this.changePage('/')
       }) .catch(function (error) {
-          if(error.response.data.error === 'Unauthorised') {
+          if(error.response.status === 401) {
             Swal.fire({
-              title: 'Email is not registered',
-              text: 'Please try again.',
+              title: 'Error',
+              text: error.response.data.error,
             })
           }
         })

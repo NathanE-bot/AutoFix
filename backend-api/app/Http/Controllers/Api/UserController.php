@@ -22,7 +22,7 @@ class UserController extends Controller
             return response()->json($user, 200);
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Email atau password masih salah. Coba ulang kembali'], 401);
         }
     }
 

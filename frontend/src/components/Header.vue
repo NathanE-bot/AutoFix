@@ -99,7 +99,8 @@ export default {
     },
     methods: {
       doLogout () {
-        if(Auth.doUserLogout()){
+        console.log('logout', Auth.doUserLogout())
+        if(!Auth.doUserLogout()){
           this.isLogin = false
           this.changePage('/session/login')
         } else {
