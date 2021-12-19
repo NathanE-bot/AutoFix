@@ -91,7 +91,7 @@ export default {
       }
     },
     created () {
-      if(!Auth.isUserLogin()){
+      if(Auth.isUserLogin()){
         this.isLogin = true
       } else {
         this.isLogin = false
