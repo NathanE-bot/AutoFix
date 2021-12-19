@@ -1,15 +1,28 @@
 <template>
   <q-page class="flex flex-center">
       <div class="center_page w-70">
-        <q-card class="my-card login-card fw position-relative m-auto" :style="{height: windowAlter.height + 'px'}">
+        <q-card class="my-card login-card fw position-relative m-auto">
           <q-card-section class="p-35">
-            <div class="row">
+            <div class="row d-flex a-center">
               <div class="col-md-7 pr-12 l_side">
-                <img @click="changePage('/')" class="logo-logReg cursor-pointer" src="~assets/images/logo.png" alt="">
+                <img @click="changePage('/')" class="logo-logReg pos-logReg-left cursor-pointer" src="~assets/images/logo.png" alt="">
                 <img class="car-img" src="~assets/images/background_img/car_bg_1.jpg" alt="">
               </div>
               <div class="col-md-5 pl-12 r_side">
-                <h5 class="m-0 fw-semibold">Log In to AutoRepair.</h5>
+                <div class="d-flex a-center j-sp-between">
+                  <h3 class="m-0 fw-blackbold fs-45">Welcome!</h3>
+                  <div class="d-flex flex-dir-col a-center pos-back-btn-right">
+                    <q-btn
+                      @click="changePage()"
+                      unelevated
+                      round
+                      size="md"
+                    >
+                      <i class="fas fa-chevron-left fs-20"></i>
+                    </q-btn>
+                    <span>Back</span>
+                  </div>
+                </div>
                 <q-form
                   @submit.prevent.stop="doLogin"
                   @reset="clearForm"
@@ -138,7 +151,11 @@ export default {
       console.log(a)
     },
     changePage (url) {
-      this.$router.push(url)
+      if(url === undefined) {
+        this.$router.go(-1)
+      } else {
+        this.$router.push(url)
+      }
     },
     clearForm () {
       this.form.email = ''
@@ -159,7 +176,7 @@ export default {
           if(error.response.status === 401) {
             Swal.fire({
               title: 'Error',
-              text: error.response.data.error,
+              text: error.response.data.error
             })
           }
         })

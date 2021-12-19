@@ -15,9 +15,9 @@
 
         .q-card__section{
             height: 100%;
-            .row{
-                height: 100%;
-            }
+            // .row{
+            //     height: 100%;
+            // }
         }
         .car-img{
             max-width: 100%;
@@ -31,9 +31,10 @@
             background-image: url($background_img_url+'workshop_bg_2.jpg');
         }
         .r_side{
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
+            margin-top: 40px;
+            // display: flex;
+            // flex-direction: column;
+            // justify-content: space-around;
         }
     }
     // Login
@@ -49,5 +50,30 @@
             right: 2px;
             bottom: -8px;
         }
+    }
+
+    .logo-logReg{
+        width: 100%;
+        max-width: 115px;
+    }
+    
+    // posisi Logo
+    .pos-logReg-left{
+        position: relative;
+        top: -25px;
+        left: -15px;
+    }
+    
+    .pos-logReg-right{
+        position: relative;
+        top: -25px;
+        right: -15px;
+    }
+
+    // posisi back button
+    .pos-back-btn-right{
+        position: relative;
+        top: -40px;
+        left: 5px;
     }
 }

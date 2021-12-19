@@ -1,6 +1,8 @@
 <template>
     <q-page>
-        Tes
+        <div>
+            Halo
+        </div>
     </q-page>
 </template>
 

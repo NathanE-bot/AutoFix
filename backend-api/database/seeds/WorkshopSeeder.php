@@ -25,7 +25,7 @@ class WorkshopSeeder extends Seeder
             'district'=>'Jakarta Barat',
             'province'=>'DKI Jakarta'
         ]);
-
+        
         Workshop::create([
             'userID'=>'2',
             'workshopName' => 'you Workshop',

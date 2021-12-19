@@ -2,15 +2,22 @@
     .q-drawer{
         background: inherit;
         .q-list{
-            margin: 30px 0 0 30px;
+            margin: 20px 0 0 20px;
             .q-item__label--header{
                 background-color: $primary;
                 border-radius: 25px;
                 color: white;
                 padding: 35px;
+
+                .user-img-sidebar{
+                    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.59));
+                }
             }
             .item-wrapper{
-                background-color: $primary;
+                margin-top: 20px;
+                border-radius: 25px;
+                color: #fff;
+                background-color: $primary !important;
             }
         }
     }

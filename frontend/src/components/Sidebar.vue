@@ -8,18 +8,23 @@
         <q-item-label
           header
         >
-          <q-avatar class="mr-30" size="50px">
+          <q-avatar class="mr-30 user-img-sidebar" size="50px">
             <img src="~assets/images/preset/dog.png" alt="">
           </q-avatar>
           <span>Kenny Ongko</span>
         </q-item-label>
 
         <q-card class="item-wrapper">
-          <EssentialLink
-            v-for="link in essentialLinks"
-            :key="link.title"
-            v-bind="link"
-          />
+          <q-card-section>
+            Menu
+          </q-card-section>
+          <q-card-section class="p-0">
+              <EssentialLink
+              v-for="link in essentialLinks"
+              :key="link.title"
+              v-bind="link"
+            />
+          </q-card-section>
         </q-card>
       </q-list>
     </q-drawer>

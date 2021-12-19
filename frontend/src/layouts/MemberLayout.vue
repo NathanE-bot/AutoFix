@@ -48,7 +48,9 @@ export default {
                     this.forLoad = true
                 } else {
                     this.changePage('/')
-                    this.forLoad = true
+                    setTimeout(() => {
+                        this.forLoad = true
+                    }, 100)
                 }
             })
         }

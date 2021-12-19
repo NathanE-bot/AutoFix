@@ -9,6 +9,13 @@
     @extend %default_input_1;
 }
 
+.fix-txt-field{
+    .q-field__control{
+        padding-right: 5px;
+        padding-bottom: 5px;
+    }
+}
+
 .lp-search-input{
     .q-field__control{
         background-color: #fff;
