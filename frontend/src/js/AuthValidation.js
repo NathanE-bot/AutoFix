@@ -4,15 +4,12 @@ import help from '../js/help'
 
 export default {
     isUserLogin () {
-        console.log('checkUserLogin')
-        if(LocalStorage.isEmpty('autoRepairUser')){
-            return false
-        } else {
-            return true
-        }
+        console.log('cek', LocalStorage.has('autoRepairUser'))
+        if(LocalStorage.has('autoRepairUser')) return true 
+        else return false
     },
     doUserLogout () {
         LocalStorage.remove('autoRepairUser')
-        return LocalStorage.isEmpty('autoRepairUser')
+        return LocalStorage.has('autoRepairUser')
     }
 }

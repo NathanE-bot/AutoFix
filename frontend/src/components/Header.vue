@@ -26,7 +26,7 @@
         </q-tabs>
         <div class="relative-position">
           <div class="float-button">
-            <div class="buttons" v-if="isLogin">
+            <div class="buttons" v-if="!isLogin">
               <q-btn
                 @click="changePage('/session/login')"
                 outline
