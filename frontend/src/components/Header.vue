@@ -20,7 +20,7 @@
           align="justify"
         >
           <q-tab @click="changePage('/')" name="home" label="Home" />
-          <q-tab name="workshop" label="Workshop" />
+          <q-tab @click="changePage('/workshop')" name="workshop" label="Workshop" />
           <q-tab name="insurance" label="Insurance" />
           <q-tab name="aboutus" label="About Us" />
         </q-tabs>

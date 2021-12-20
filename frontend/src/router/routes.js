@@ -21,7 +21,9 @@ const testing = () => import("pages/Testing");
 // Profile
 const yourAccount = () => import("pages/Profile/YourAccount");
 
-// WorkshopDetail
+// Workshop
+const workshop = () => import("pages/Workshop/WorkshopPage");
+const workshopMakeSchedule = () => import("pages/Workshop/WorkshopMakeSchedule");
 // const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 
 const routes = [
@@ -103,6 +105,22 @@ const routes = [
         meta: {
           title: 'Testing',
           breadcrumb: 'Testing'
+        }
+      },
+      {
+        path: "/workshop",
+        component: workshop,
+        meta: {
+          title: 'Workshop Page',
+          breadcrumb: 'Workshop Page'
+        }
+      },
+      {
+        path: "/workshop/make-schedule",
+        component: workshopMakeSchedule,
+        meta: {
+          title: 'Workshop Page',
+          breadcrumb: 'Workshop Page'
         }
       }
     ]
