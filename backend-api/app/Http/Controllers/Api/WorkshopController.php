@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Workshop;
+use App\OperationalWorkshop;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use DateTime;
+use Illuminate\Support\ServceProvider;
+
+
 
 class WorkshopController extends Controller
 {
@@ -35,19 +41,58 @@ class WorkshopController extends Controller
         }
     }
 
-    public function filterworkshop(Request $req)
+    public function statusBuka()
     {
+        date_default_timezone_set('Asia/Jakarta');
+        $mytime = new DateTime('now');
+        $date = $mytime->format("Y-m-d");
+        $time = $mytime->format("H:i:s");
+        $dataproses=DB::table('workshops')
+        ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
+        ->select('operational_workshops.operationalCloseHour',
+        'operational_workshops.operationalOpenHour',
+        'operational_workshops.operationlaDate')
+        ->get();
+        foreach ($dataproses as $value) {
+            if ($time >= $value->operationalCloseHour && $time < $value->operationalOpenHour) {
+                DB::table('workshops')->select('statusBuka')->update([
+                    'statusBuka' => 'tutup'
+                ]);
+            }
+            elseif($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour){
+                DB::table('workshops')->select('statusBuka')->update([
+                    'statusBuka' => 'buka'
+                ]);
+            }
+        }
         try{
             $data = [
                 'objectReturn' => DB::table('workshops')
-                ->where('')
+                ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
                 ->get()
             ];
-            return response()->json($data, 200);
+            return response()->json($data , 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
     }
+
+    // public function filterworkshop(Request $req)
+    // {
+    //     $workshopName= $req->workshopName;
+    //     $location = $req->location;
+    //     $statusOpen = $req->statusOpen;
+    //     try{
+    //         $data = [
+    //             'objectReturn' => DB::table('workshops')
+    //             ->where('')
+    //             ->get()
+    //         ];
+    //         return response()->json($data, 200);
+    //     } catch (Exception $err){
+    //         return response()->json($err, 500);
+    //     }
+    // }
 
 
     public function create(Request $request)

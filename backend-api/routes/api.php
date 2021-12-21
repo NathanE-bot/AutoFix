@@ -36,3 +36,6 @@ Route::get('workshopdetail','Api\WorkshopController@allWorkshopfix');
 
 Route::get('home','Api\HomeController@workshoprating')->name('homeWorkshopRecomendation');
 Route::post('home/search', 'Api\HomeController@searchdata');
+Route::post('workshop/search', 'Api\WorkshopController@filterworkshop');
+
+Route::get('workshop/status', 'Api\WorkshopController@statusBuka');
