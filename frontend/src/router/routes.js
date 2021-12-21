@@ -24,7 +24,7 @@ const yourAccount = () => import("pages/Profile/YourAccount");
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
 const workshopMakeSchedule = () => import("pages/Workshop/WorkshopMakeSchedule");
-// const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
+const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 
 const routes = [
   // forLoginRegis
@@ -91,14 +91,6 @@ const routes = [
           breadcrumb: 'Landing Page'
         }
       },
-      // {
-      //   path: "/workshop/detail",
-      //   component: WorkshopDetail,
-      //   meta: {
-      //     title: 'Workshop Detail Page',
-      //     breadcrumb: 'Workshop Detail Page'
-      //   }
-      // },
       {
         path: "/testing",
         component: testing,
@@ -113,6 +105,14 @@ const routes = [
         meta: {
           title: 'Workshop Page',
           breadcrumb: 'Workshop Page'
+        }
+      },
+      {
+        path: "/workshop/detail",
+        component: WorkshopDetail,
+        meta: {
+          title: 'Workshop Detail Page',
+          breadcrumb: 'Workshop Detail Page'
         }
       },
       {
