@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
     <q-page class="pageContainer lightGrey-bg">
         <q-card class="filterContainer">
@@ -6,6 +5,7 @@
             <div>
                 <q-card-section class="slotInput">
                     <q-select
+                        dense
                         filled
                         v-model="model"
                         use-input
@@ -26,6 +26,7 @@
                         </template>
                     </q-select>
                     <q-select
+                        dense
                         filled
                         v-model="model"
                         use-input
@@ -45,9 +46,9 @@
                         </q-item>
                         </template>
                     </q-select>
-                    <q-select square style="width: 250px" filled v-model="model" :options="statusBuka" options-label="label" options-value="value" label="Status Buka" />
-                <q-btn unelevated color="primary">
-                    search button
+                    <q-select dense square style="width: 250px" filled v-model="model" :options="statusBuka" label="Status Buka" />
+                <q-btn unelevated color="primary" dense>
+                    Search
                 </q-btn>
                 </q-card-section>
             </div>
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 export default {
   data () {
     return {
@@ -78,7 +80,16 @@ export default {
         { label: 'Buka', value: 'buka' },
         { label: 'Tutup', value: 'tutup' },
         { label: '24Jam', value: '24jam' }
-      ]
+      ],
+      model: '',
+      options: {
+        
+      }
+    }
+  },
+  methods: {
+    doConsole(a){
+      console.log(a);
     }
   }
 }

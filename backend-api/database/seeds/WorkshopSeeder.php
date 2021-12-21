@@ -26,18 +26,18 @@ class WorkshopSeeder extends Seeder
             'province'=>'DKI Jakarta'
         ]);
         
-        Workshop::create([
-            'userID'=>'2',
-            'workshopName' => 'you Workshop',
-            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
-            'workshopPhoneNumber' => '23214928492',
-            'workshopEmail'=>'sukamaju232@gmail.com',
-            'workshopDescription'=>'pilihan bengkel terbaik',
-            'rating'=>'7.5',
-            'workshopLogo'=>'',
-            'city'=>'Banten',
-            'district'=>'Tangerang',
-            'province'=>'DKI Jakarta'
-        ]);
+        // Workshop::create([
+        //     'userID'=>'2',
+        //     'workshopName' => 'you Workshop',
+        //     'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+        //     'workshopPhoneNumber' => '23214928492',
+        //     'workshopEmail'=>'sukamaju232@gmail.com',
+        //     'workshopDescription'=>'pilihan bengkel terbaik',
+        //     'rating'=>'7.5',
+        //     'workshopLogo'=>'',
+        //     'city'=>'Banten',
+        //     'district'=>'Tangerang',
+        //     'province'=>'DKI Jakarta'
+        // ]);
     }
 }
