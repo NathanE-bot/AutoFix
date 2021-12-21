@@ -13,10 +13,10 @@ class WorkshopController extends Controller
     /**
      * for authentication
      */
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api');
+    // }
 
     /**
      * list all workshop
@@ -34,6 +34,21 @@ class WorkshopController extends Controller
             return response()->json($err, 500);
         }
     }
+
+    public function filterworkshop(Request $req)
+    {
+        try{
+            $data = [
+                'objectReturn' => DB::table('workshops')
+                ->where('')
+                ->get()
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
 
     public function create(Request $request)
     {

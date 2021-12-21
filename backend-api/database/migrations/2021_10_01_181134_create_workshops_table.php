@@ -27,6 +27,8 @@ class CreateWorkshopsTable extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('province');
+            $table->float( 'latitude',10, 6);
+            $table->float( 'longitude',10, 6);
             $table->boolean("isActive")->default(1);
             $table->timestamps();
         });

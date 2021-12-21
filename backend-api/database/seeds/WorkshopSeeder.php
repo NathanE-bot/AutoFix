@@ -23,9 +23,11 @@ class WorkshopSeeder extends Seeder
             'workshopLogo'=>'',
             'city'=>'Jakarta',
             'district'=>'Jakarta Barat',
-            'province'=>'DKI Jakarta'
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.091547',
+            'longitude'=>'106.744798'
         ]);
-        
+
         Workshop::create([
             'userID'=>'2',
             'workshopName' => 'you Workshop',
@@ -37,7 +39,9 @@ class WorkshopSeeder extends Seeder
             'workshopLogo'=>'',
             'city'=>'Banten',
             'district'=>'Tangerang',
-            'province'=>'DKI Jakarta'
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535'
         ]);
     }
 }

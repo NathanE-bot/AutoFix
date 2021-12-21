@@ -26,5 +26,18 @@ class UserSeeder extends Seeder
                 'profilePicture'=>''
             ]
         );
+        User::Create(
+            [
+                'fullName' => "kenny",
+                'displayName'=>'kennyganteng',
+                'email' => 'kenny@gmail.com',
+                'password' => bcrypt('kennyganteng'),
+                'DoB' => Carbon::parse('2000-10-11'),
+                'phoneNumber' => '086237237',
+                'address'=> 'jl kedoya indah no 50',
+                'role' => '1',
+                'profilePicture'=>''
+            ]
+        );
     }
 }

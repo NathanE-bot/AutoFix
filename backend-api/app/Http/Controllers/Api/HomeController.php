@@ -24,4 +24,18 @@ class HomeController extends Controller
             return response()->json($err, 500);
         }
     }
+    public function searchdata(Request $req)
+    {
+        try{
+            $key = $req->search;
+            $data = [
+                'objectReturn' => DB::table('workshops')
+                ->where('workshopName','like','%'.$key.'%')
+                ->get()
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
 }

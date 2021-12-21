@@ -24,7 +24,7 @@ Route::post('register', 'Api\UserController@register');
 
 // ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop
 Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
-Route::middleware('auth:api')->get('auth/workshop', 'Api\WorkshopController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu
+// Route::middleware('auth:api')->get('auth/workshop', 'Api\WorkshopController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu
 
 //routes for CRUD
 Route::post('workshop/create', 'Api\WorkshopController@create');
@@ -35,5 +35,4 @@ Route::delete('workshop/delete/{id}', 'Api\WorkshopController@destroy');
 Route::get('workshopdetail','Api\WorkshopController@allWorkshopfix');
 
 Route::get('home','Api\HomeController@workshoprating')->name('homeWorkshopRecomendation');
-
-
+Route::post('home/search', 'Api\HomeController@searchdata');
