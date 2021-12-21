@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-    public function workshoprating()
+    public function getRecommendationWorkshop()
     {
         try{
             $data = [
-                DB::table('workshops')
+                'objectReturn' => DB::table('workshops')
                 ->where('rating','>',5)
                 ->get()
             ];

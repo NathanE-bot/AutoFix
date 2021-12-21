@@ -185,7 +185,7 @@
 /* eslint-disable */
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import SwiperCore, { Pagination, Navigation } from 'swiper'
-import { getAllWorkshop } from '../api/workshopService'
+import { getRecommendWorkshop } from '../api/workshopService'
 import { LocalStorage, SessionStorage } from 'quasar'
 import help from '../js/help'
 import Cookie from 'js-cookie'
@@ -224,11 +224,11 @@ export default ({
         height: 0
       },
       search: '',
-      test: false
+      workshopRecommendation: []
     }
   },
   mounted () {
-    this.fetchDataV2()
+    this.doGetRecommendationWorkshop()
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   },
@@ -241,18 +241,19 @@ export default ({
       this.window.height = window.innerHeight
       this.windowAlter.width = this.window.width + 400
     },
+    doConsole (a) {
+      console.log(a)
+    },
     changePage (url) {
       this.$router.push(url)
     },
-    fetchDataV2(){
+    doGetRecommendationWorkshop(){
       let _this = this
-      if(!help.isObjectEmpty(LocalStorage.getItem('autoRepairUser'))){
-        _this.token = LocalStorage.getItem('autoRepairUser').data.token
-      } 
-      getAllWorkshop(_this.token).then(response => {
-        let arrayTemp = []
-        arrayTemp = response.data.objectReturn
-        console.log('workshop', arrayTemp)
+      // if(!help.isObjectEmpty(LocalStorage.getItem('autoRepairUser'))){
+      //   _this.token = LocalStorage.getItem('autoRepairUser').data.token
+      // } 
+      getRecommendWorkshop().then(response => {
+        this.workshopRecommendation = response.data.objectReturn
       }) .catch((err) =>{
         console.log(err)
       })

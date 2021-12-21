@@ -34,6 +34,7 @@ Route::delete('workshop/delete/{id}', 'Api\WorkshopController@destroy');
 
 Route::get('workshopdetail','Api\WorkshopController@allWorkshopfix');
 
-Route::get('home','Api\HomeController@workshoprating')->name('homeWorkshopRecomendation');
+// Home Workshop
+Route::get('getRecommendationWorkshop','Api\HomeController@getRecommendationWorkshop');
 
 
