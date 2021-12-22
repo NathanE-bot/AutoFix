@@ -24,4 +24,13 @@ class Workshop extends Model
     public function User(){
         return $this->belongsTo(User::class);
     }
+    public function OperationalWorkshop(){
+        return $this->hasMany(OperationalWorkshop::class);
+    }
+    public function WorkshopDetail(){
+        return $this->hasMany(WorkshopDetail::class);
+    }
+    public function WorkshopServis(){
+        return $this->hasMany(WorkshopServis::class);
+    }
 }

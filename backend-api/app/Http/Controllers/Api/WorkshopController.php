@@ -28,20 +28,20 @@ class WorkshopController extends Controller
      * list all workshop
      */
 
-    public function allWorkshop()
-    {
-        try{
-            $data = [
-                'objectReturn' => Workshop::all()
-                // 'objectReturn' => DB::table('users')->get()
-            ];
-            return response()->json($data, 200);
-        } catch (Exception $err){
-            return response()->json($err, 500);
-        }
-    }
+    // public function allWorkshop()
+    // {
+    //     try{
+    //         $data = [
+    //             'objectReturn' => Workshop::all()
+    //             // 'objectReturn' => DB::table('users')->get()
+    //         ];
+    //         return response()->json($data, 200);
+    //     } catch (Exception $err){
+    //         return response()->json($err, 500);
+    //     }
+    // }
 
-    public function statusBuka()
+    public function viewWorkshop()
     {
         date_default_timezone_set('Asia/Jakarta');
         $datestring = Carbon::now();
@@ -82,22 +82,42 @@ class WorkshopController extends Controller
         }
     }
 
-    // public function filterworkshop(Request $req)
-    // {
-    //     $workshopName= $req->workshopName;
-    //     $location = $req->location;
-    //     $statusOpen = $req->statusOpen;
-    //     try{
-    //         $data = [
-    //             'objectReturn' => DB::table('workshops')
-    //             ->where('')
-    //             ->get()
-    //         ];
-    //         return response()->json($data, 200);
-    //     } catch (Exception $err){
-    //         return response()->json($err, 500);
-    //     }
-    // }
+    public function filterworkshop(Request $req)
+    {
+        $workshopName= $req->workshopName;
+        $location = $req->location;
+        $statusOpen = $req->statusOpen;
+        try{
+            $data = [
+                'objectReturn' => DB::table('workshops')
+                ->where('workshopName','like','%'.$workshopName.'%')
+                ->orWhere('workshopAddress','like','%'.$location.'%')
+                ->orWhere('statusBuka','=',$statusOpen)
+                ->get()
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function workshopDetailView(Request $req)
+    {
+        try{
+            $data = [
+                'objectReturn' => DB::table('workshops')
+                ->where('id','=',$req->id)
+                ->get()
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+
+
+
 
 
     public function create(Request $request)
@@ -167,14 +187,5 @@ class WorkshopController extends Controller
     }
 
 
-    public function allWorkshopfix()
-    {
-        try{
-            $data = DB::table('workshops')->get();
-            return response()->json($data, 200);
-        } catch (Exception $err){
-            return response()->json($err, 500);
-        }
-    }
 
 }

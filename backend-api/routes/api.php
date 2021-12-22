@@ -23,7 +23,7 @@ Route::post('login', 'Api\UserController@login')->name('login');
 Route::post('register', 'Api\UserController@register');
 
 // ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop
-Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
+// Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
 // Route::middleware('auth:api')->get('auth/workshop', 'Api\WorkshopController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu
 
 //routes for CRUD
@@ -32,10 +32,14 @@ Route::get('workshop/getData/{id}', 'Api\WorkshopController@showById');
 Route::put('workshop/update/{id}', 'Api\WorkshopController@update');
 Route::delete('workshop/delete/{id}', 'Api\WorkshopController@destroy');
 
-Route::get('workshopdetail','Api\WorkshopController@allWorkshopfix');
 
-Route::get('home','Api\HomeController@workshoprating')->name('homeWorkshopRecomendation');
+
+Route::get('home','Api\HomeController@getRecommendationWorkshop')->name('homeWorkshopRecomendation');
 Route::post('home/search', 'Api\HomeController@searchdata');
-Route::post('workshop/search', 'Api\WorkshopController@filterworkshop');
 
-Route::get('workshop/status', 'Api\WorkshopController@statusBuka');
+
+Route::get('workshop', 'Api\WorkshopController@viewWorkshop')->name('ViewWorkshopByStatusUpdate');
+Route::post('workshop/filter', 'Api\WorkshopController@filterworkshop')->name('filterWorkshop');
+Route::post('workshop/{id}', 'Api\WorkshopController@workshopDetailView')->name('getIDWorkshop');
+Route::get('workshopdetail','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
+
