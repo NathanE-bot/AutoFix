@@ -44,6 +44,8 @@ class WorkshopController extends Controller
     public function statusBuka()
     {
         date_default_timezone_set('Asia/Jakarta');
+        $datestring = Carbon::now();
+        $dateweek = $datestring->dayOfWeek;
         $mytime = new DateTime('now');
         $date = $mytime->format("Y-m-d");
         $time = $mytime->format("H:i:s");
@@ -51,16 +53,19 @@ class WorkshopController extends Controller
         ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
         ->select('operational_workshops.operationalCloseHour',
         'operational_workshops.operationalOpenHour',
-        'operational_workshops.operationlaDate')
+        'operational_workshops.operationlaDate','workshops.id')
+        ->where('operational_workshops.operationlaDate','=',$dateweek)
         ->get();
+        $array = array();
         foreach ($dataproses as $value) {
-            if ($time >= $value->operationalCloseHour && $time < $value->operationalOpenHour) {
-                DB::table('workshops')->select('statusBuka')->update([
+            if ($time >= $value->operationalCloseHour || $time < $value->operationalOpenHour && $dateweek == $value->operationlaDate) {
+                array_push($array,'tutup');
+                DB::table('workshops')->where('id','=',$value->id)->update([
                     'statusBuka' => 'tutup'
                 ]);
-            }
-            elseif($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour){
-                DB::table('workshops')->select('statusBuka')->update([
+            }else if($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour && $dateweek == $value->operationlaDate){
+                array_push($array,'buka');
+                DB::table('workshops')->where('id','=',$value->id)->update([
                     'statusBuka' => 'buka'
                 ]);
             }

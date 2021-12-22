@@ -14,30 +14,30 @@ class WorkshopSeeder extends Seeder
     {
         Workshop::create([
             'userID'=>'1',
-            'workshopName' => 'My Workshop',
+            'workshopName' => 'Daihatsu',
             'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
             'workshopPhoneNumber' => '024928492',
             'workshopEmail'=>'sukamaju@gmail.com',
             'workshopDescription'=>'pilihan bengkel terbaik',
-            'rating'=>'8.5',
+            'rating'=>'5',
             'workshopLogo'=>'',
             'city'=>'Jakarta',
             'district'=>'Jakarta Barat',
             'province'=>'DKI Jakarta',
             'latitude'=>'-6.091547',
             'longitude'=>'106.744798',
-            'statusBuka'=>'tutup',
+            'statusBuka'=>'buka',
             'status24jam'=>''
         ]);
 
         Workshop::create([
             'userID'=>'2',
-            'workshopName' => 'you Workshop',
+            'workshopName' => 'Honda',
             'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
             'workshopPhoneNumber' => '23214928492',
             'workshopEmail'=>'sukamaju232@gmail.com',
             'workshopDescription'=>'pilihan bengkel terbaik',
-            'rating'=>'7.5',
+            'rating'=>'4',
             'workshopLogo'=>'',
             'city'=>'Banten',
             'district'=>'Tangerang',
@@ -48,18 +48,23 @@ class WorkshopSeeder extends Seeder
             'status24jam'=>''
         ]);
 
-        // Workshop::create([
-        //     'userID'=>'2',
-        //     'workshopName' => 'you Workshop',
-        //     'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
-        //     'workshopPhoneNumber' => '23214928492',
-        //     'workshopEmail'=>'sukamaju232@gmail.com',
-        //     'workshopDescription'=>'pilihan bengkel terbaik',
-        //     'rating'=>'7.5',
-        //     'workshopLogo'=>'',
-        //     'city'=>'Banten',
-        //     'district'=>'Tangerang',
-        //     'province'=>'DKI Jakarta'
-        // ]);
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
     }
 }

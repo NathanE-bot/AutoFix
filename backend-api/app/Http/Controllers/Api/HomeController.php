@@ -16,7 +16,7 @@ class HomeController extends Controller
         try{
             $data = [
                 'objectReturn' => DB::table('workshops')
-                ->where('rating','>',5)
+                ->where('rating','>',3)
                 ->get()
             ];
             return response()->json($data, 200);
