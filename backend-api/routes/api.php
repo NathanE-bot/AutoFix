@@ -39,10 +39,13 @@ Route::post('home/search', 'Api\HomeController@searchdata');
 
 
 Route::get('workshop', 'Api\WorkshopController@viewWorkshop')->name('ViewWorkshopByStatusUpdate');
-Route::post('workshop/filter', 'Api\WorkshopController@filterworkshop')->name('filterWorkshop');
+Route::post('workshop/{workshopName}/{workshopAddress}/{statusBuka}', 'Api\WorkshopController@filterworkshop')->name('filterWorkshop');
+Route::get('workshop/filter', 'Api\WorkshopController@filterworkshop')->name('filterWorkshops');
 Route::post('workshop/{id}', 'Api\WorkshopController@workshopDetailView')->name('getIDWorkshop');
 Route::get('workshopdetail','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
 
 
 Route::get('workshop/count','Api\WorkshopController@countDistance')->name('distance');
 
+Route::post('makeSchedule/{id}', 'Api\ScheduleController@dataMakeSchedule')->name('getIDSchedule');
+Route::get('makeSchedule','Api\ScheduleController@dataMakeSchedule')->name('dataSchedule');

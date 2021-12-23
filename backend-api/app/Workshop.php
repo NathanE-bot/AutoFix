@@ -33,4 +33,7 @@ class Workshop extends Model
     public function WorkshopServis(){
         return $this->hasMany(WorkshopServis::class);
     }
+    public function Schedule(){
+        return $this->hasMany(Schedule::class);
+    }
 }
