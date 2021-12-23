@@ -5,7 +5,7 @@
           <q-card-section class="p-35">
             <div class="row d-flex a-center">
               <div class="col-md-7 pr-12 l_side">
-                <img @click="changePage('/')" class="logo-logReg pos-logReg-left cursor-pointer" src="~assets/images/logo.png" alt="">
+                <img class="logo-logReg pos-logReg-left" src="~assets/images/logo.png" alt="">
                 <img class="car-img" src="~assets/images/background_img/car_bg_1.jpg" alt="">
               </div>
               <div class="col-md-5 pl-12 r_side">
@@ -13,10 +13,11 @@
                   <h3 class="m-0 fw-blackbold fs-45">Welcome!</h3>
                   <div class="d-flex flex-dir-col a-center pos-back-btn-right">
                     <q-btn
-                      @click="changePage()"
+                      @click="backToLandingPage()"
                       unelevated
                       round
                       size="md"
+                      style=""
                     >
                       <i class="fas fa-chevron-left fs-20"></i>
                     </q-btn>
@@ -149,6 +150,9 @@ export default {
     },
     doConsole (a) {
       console.log(a)
+    },
+    backToLandingPage () {
+      this.$router.push('/')
     },
     changePage (url) {
       if(url === undefined) {

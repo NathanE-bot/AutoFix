@@ -7,11 +7,15 @@ export default
   return true
 }
 
-export function getAllWorkshop(userToken) {
-  const authorization = { headers: { 'Authorization': 'Bearer ' + userToken } }
-  return axios.get(localURL + '/api/workshop', authorization)
-}
+// export function getAllWorkshop(userToken) {
+//   const authorization = { headers: { 'Authorization': 'Bearer ' + userToken } }
+//   return axios.get(localURL + '/api/workshop', authorization)
+// }
 
 export function getRecommendWorkshop() {
   return axios.get(localURL + '/api/getRecommendationWorkshop')
+}
+
+export function getListWorkshop() {
+  return axios.get(localURL + '/api/workshop');
 }

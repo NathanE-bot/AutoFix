@@ -5,7 +5,7 @@
           <q-card-section class="p-35">
             <div class="d-flex a-center j-sp-between">
               <h5 class="m-0 fw-blackbold fs-35">Welcome, Create your account here.</h5>
-              <img @click="changePage('/')" class="logo-logReg pos-logReg-right cursor-pointer" src="~assets/images/logo.png" alt="">
+              <img class="logo-logReg pos-logReg-right" src="~assets/images/logo.png" alt="">
             </div>
             <div class="row">
               <div class="col-md-6 pr-12 l_side">

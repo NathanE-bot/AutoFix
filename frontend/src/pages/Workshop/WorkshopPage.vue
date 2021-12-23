@@ -71,6 +71,7 @@
 
 <script>
 /* eslint-disable */
+import { getListWorkshop } from '../../api/workshopService'
 export default {
   data () {
     return {
@@ -82,14 +83,25 @@ export default {
         { label: '24Jam', value: '24jam' }
       ],
       model: '',
-      options: {
-        
-      }
+      workshops: [],
+      tempWorkshops: []
     }
+  },
+  created () {
+    this.doGetListWorkshop()
   },
   methods: {
     doConsole(a){
       console.log(a);
+    },
+    doGetListWorkshop(){
+      let _this = this
+      getListWorkshop().then(response => {
+        _this.tempWorkshops = response.data.objectReturn
+        console.log(_this.tempWorkshops)
+      }) .catch((err) =>{
+        console.log(err)
+      })
     }
   }
 }

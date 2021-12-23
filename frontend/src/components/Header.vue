@@ -87,7 +87,8 @@ export default {
     data () {
       return {
         initialTab: 'home',
-        isLogin: false
+        isLogin: false,
+        currentRouteName: this.$router.currentRoute._value.fullPath
       }
     },
     created () {
@@ -95,6 +96,18 @@ export default {
         this.isLogin = true
       } else {
         this.isLogin = false
+      }
+    },
+    mounted () {
+      console.log(this.currentRouteName)
+      if(this.currentRouteName == '/'){
+        this.initialTab = 'home'
+      }
+      else if(this.currentRouteName == '/workshop'){
+        this.initialTab = 'workshop'
+      }
+      else {
+        this.initialTab = ''
       }
     },
     methods: {
@@ -105,8 +118,8 @@ export default {
           this.changePage('/session/login')
         } else {
           Swal.fire({
-            title: 'Apani error',
-            text: 'Kok kamu ngoding bodoh.',
+            title: 'Error',
+            text: 'Test',
           })
         }
       },

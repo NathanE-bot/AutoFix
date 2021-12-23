@@ -7,10 +7,15 @@ export default {
             dmy_1: 'DD-MMM-YYYY', // 01-Mar-2018
             dmy_2: 'DD-MM-YYYY', // 01-03-2018
             dmy_3: 'YYYY/MM/DD', // 2019/02/01
+            // Hour
+            time_1: 'HH A' // 21 PM
         }
     },
-    formatToday (format) {
-        return moment().format(format)
+    defaultFormat (dateTime, format) {
+        return moment(dateTime).format(format)
+    },
+    formatTime(time, format){
+        return moment(time, "HH:mm:ss").format(format)
     },
     isObjectEmpty (jsonObject) {
         if (jsonObject === null || jsonObject === undefined) return true

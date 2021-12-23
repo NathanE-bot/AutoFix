@@ -77,26 +77,28 @@
           }'
           class="mySwiper lp-swiper"
         >
-          <swiper-slide v-for="n in 9" :key="n">
+          <swiper-slide v-for="(item) in workshopRecommendation" :key="item.id">
             <q-card class="my-card">
               <img src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
-                <div class="text-h6 primary_color mb-8">Bengkel ABC</div>
+                <div class="text-h6 primary_color mb-8">{{ item.workshopName }}</div>
                 <div class="text-subtitle2 w-85">
-                  Business Park Kebon Jeruk Blok G5, Jl. Meruya Ilir Raya No. 88, RT.1/RW.5, Meruya Utara, Kec. Kembangan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11510
+                  {{ item.workshopAddress }}
                 </div>
                 <div class="text-subtitle2 my-16">
                   <span>Operasional :&nbsp;</span>
-                  <span class="primary_color">9 AM - 18 PM</span>
+                  <span class="primary_color">
+                    {{help.formatTime(item.operationalOpenHour, help.data().time_1)}} - {{help.formatTime(item.operationalCloseHour, help.data().time_1)}}
+                  </span>
                 </div>
                 <div class="d-flex a-center j-sp-between">
                   <div class="d-flex a-center">
                     <i class="fas fa-star rating_yellow mr-5 mb-2"></i>
-                    <span>4.8</span>
+                    <span>{{ item.rating }}</span>
                   </div>
                   <div class="d-flex a-center">
                     <i class="fas fa-mobile-alt mr-8"></i>
-                    <span>081923568765</span>
+                    <span>{{ item.workshopPhoneNumber }}</span>
                   </div>
                 </div>
               </q-card-section>
