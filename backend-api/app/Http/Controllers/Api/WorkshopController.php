@@ -73,8 +73,9 @@ class WorkshopController extends Controller
         try{
             $data = [
                 'objectReturn' => DB::table('workshops')
-                ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
-                ->get()
+                ->get(),
+                'objectReturn1' => DB::table('operational_workshops')
+                ->get(),
             ];
             return response()->json($data , 200);
         } catch (Exception $err){
