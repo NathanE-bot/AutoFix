@@ -1,10 +1,10 @@
 <?php
 
 namespace App;
-
+use db;
 use Illuminate\Database\Eloquent\Model;
-use DB;
-class WorkshopServis extends Model
+
+class WorkshopService extends Model
 {
     protected $fillable = [
         'workshopDetailID',
@@ -13,7 +13,9 @@ class WorkshopServis extends Model
         'price',
         'time',
     ];
-    public function Workshop(){
-        return $this->belongsTo(Workshop::class);
+
+    public function WorkshopDetail(){
+        return $this->belongsTo(WorkshopDetail::class);
     }
 }
+
