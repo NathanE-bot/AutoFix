@@ -115,6 +115,48 @@ class WorkshopController extends Controller
         }
     }
 
+    public function countDistance()
+    {
+        try{
+            $workshopLokasi = DB::table('workshops')
+            ->select('workshops.latitude','workshops.longitude','id')
+            ->get();
+            $array = array();
+            foreach ($workshopLokasi as $value) {
+                $earthRadius = 6371000;
+                $latitudeFrom = -6.144551;
+                $longitudeFrom = 106.857952;
+                $latitudeTo  = $value->latitude;
+                $longitudeTo  = $value->longitude;
+                // convert from degrees to radians
+                $latFrom = deg2rad($latitudeFrom);
+                $lonFrom = deg2rad($longitudeFrom);
+                $latTo = deg2rad($latitudeTo);
+                $lonTo = deg2rad($longitudeTo);
+
+                $lonDelta = $lonTo - $lonFrom;
+                $a = pow(cos($latTo) * sin($lonDelta), 2) +
+                    pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+                $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+
+                $angle = atan2(sqrt($a), $b);
+                $hasil = $angle * $earthRadius;
+                array_push($array,[
+                    $value->id,
+                    $hasil
+                ]);
+            }
+
+            $data = [
+                'objectReturn' => DB::table('workshops')
+                ->get()
+            ];
+            return response()->json($array, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
 
 
 

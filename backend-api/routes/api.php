@@ -43,3 +43,6 @@ Route::post('workshop/filter', 'Api\WorkshopController@filterworkshop')->name('f
 Route::post('workshop/{id}', 'Api\WorkshopController@workshopDetailView')->name('getIDWorkshop');
 Route::get('workshopdetail','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
 
+
+Route::get('workshop/count','Api\WorkshopController@countDistance')->name('distance');
+
