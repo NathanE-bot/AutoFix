@@ -16,7 +16,7 @@
             <q-btn
                 @click="changePage('/member/insurance/form')"
                 color="primary"
-                size="xl"
+                size="xl" unelevated
                 icon="fas fa-check"
                 class="br-10px mt-20 q-px-lg q-py-xs" />
         </div>

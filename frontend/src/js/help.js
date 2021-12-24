@@ -8,7 +8,22 @@ export default {
             dmy_2: 'DD-MM-YYYY', // 01-03-2018
             dmy_3: 'YYYY/MM/DD', // 2019/02/01
             // Hour
-            time_1: 'HH A' // 21 PM
+            time_1: 'HH A', // 21 PM
+            // Scrollbar Style
+            thumbStyle: {
+                right: '4px',
+                borderRadius: '10px',
+                backgroundColor: '#21a17b',
+                width: '10px',
+                opacity: 0.75
+            },
+            barStyle: {
+                right: '2px',
+                borderRadius: '10px',
+                backgroundColor: '#21a17b',
+                width: '10px',
+                opacity: 0.2
+            }
         }
     },
     defaultFormat (dateTime, format) {

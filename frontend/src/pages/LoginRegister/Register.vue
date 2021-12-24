@@ -15,8 +15,8 @@
                   class="q-gutter-md mt-10"
                 >
                   <q-scroll-area
-                    :thumb-style="thumbStyle"
-                    :bar-style="barStyle"
+                    :thumb-style="help.data().thumbStyle"
+                    :bar-style="help.data().barStyle"
                     class="default-left-scrollbar"
                     style="height: 335px"
                   >
@@ -151,25 +151,13 @@
 <script>
 /* eslint-disable */
 import { registerToWebsite } from '../../api/loginRegisterServices'
+import help from '../../js/help'
 
 export default ({
   data () {
     return {
       // scrollbar styles
-      thumbStyle: {
-        right: '4px',
-        borderRadius: '10px',
-        backgroundColor: '#21a17b',
-        width: '10px',
-        opacity: 0.75
-      },
-      barStyle: {
-        right: '2px',
-        borderRadius: '10px',
-        backgroundColor: '#21a17b',
-        width: '10px',
-        opacity: 0.2
-      },
+      help,
       form: {
         fullName: '',
         email: '',

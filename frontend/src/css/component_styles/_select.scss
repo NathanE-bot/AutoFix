@@ -1,3 +1,13 @@
+%default_select_layout{
+    .q-field__control{
+        border-radius: 10px;
+    }
+}
+
+.default-select{
+    @extend %default_select_layout;
+}
+
 .insurance_select{
     &.q-field--focused{
        .q-field__control{
