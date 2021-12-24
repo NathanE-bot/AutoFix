@@ -2,12 +2,12 @@
     background-image: url($background_img_url+'login_register_bg.jpg');
     background-size: 100%;
 
-    .center_page{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+    // .center_page{
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: center;
+    //     align-items: center;
+    // }
 
     %default_log_reg{
         box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);

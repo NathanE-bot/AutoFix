@@ -26,21 +26,24 @@ const workshop = () => import("pages/Workshop/WorkshopPage");
 const workshopMakeSchedule = () => import("pages/Workshop/WorkshopMakeSchedule");
 const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 
+// Insurance
+const homeInsurance = () => import("pages/Insurance/HomeInsurance")
+
 const routes = [
   // forLoginRegis
   {
-    path: '/session/',
+    path: '/session',
     component: LoginRegisterLayout,
     children: [
       {
-        path: "login",
+        path: "/session/login",
         component: login,
         meta: {
           title: 'Login'
         }
       },
       {
-        path: "register",
+        path: "/session/register",
         component: register,
         meta: {
           title: 'Register'
@@ -50,11 +53,20 @@ const routes = [
   },
   // ForUsers
   {
-    path: '/member/',
+    path: '/member',
     component: MemberLayout,
     children: [
+      // Insurance
       {
-        path: "/create",
+        path: "/member/insurance",
+        component: homeInsurance,
+        meta: {
+          title: 'Home Insurance',
+          breadcrumb: 'Home Insurance'
+        }
+      },
+      {
+        path: "/member/create",
         component: createWorkshop,
         meta: {
           title: '',
@@ -62,7 +74,7 @@ const routes = [
         }
       },
       {
-        path: "/edit",
+        path: "/member/edit",
         component: editPage,
         meta: {
           title: '',
@@ -70,7 +82,7 @@ const routes = [
         }
       },
       {
-        path: "/youraccount",
+        path: "/member/youraccount",
         component: yourAccount,
         meta: {
           title: 'Your Account',

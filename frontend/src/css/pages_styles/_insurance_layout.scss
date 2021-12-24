@@ -1,0 +1,20 @@
+%default_bg_preset{
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+}
+
+.insurance_layout{
+    &_1{
+        @extend %default_bg_preset;
+        background-image: url($background_img_url+'insurance_bg.png');
+    }
+
+    &_2{
+        @extend %default_bg_preset;
+        background-image: url($background_img_url+'insurance2_bg.png');
+    }
+    
+    
+}

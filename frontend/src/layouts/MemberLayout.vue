@@ -4,7 +4,7 @@
         <app-header />
 
         <!-- Sidebar -->
-        <div class="autorepair-sidebar">
+        <div class="autorepair-sidebar" v-if="!forInsurance">
             <app-sidebar />
         </div>
         <q-page-container>
@@ -19,12 +19,15 @@ import Auth from '../js/AuthValidation'
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
 import Swal from 'sweetalert2'
+import { LocalStorage } from 'quasar'
 
 export default {
     name: 'MemberLayout',
     data () {
         return {
-            forLoad: true
+            forLoad: true,
+            forInsurance: false,
+            currentRouteName: this.$router.currentRoute._value.fullPath
         }
     },
     components: {
@@ -50,9 +53,12 @@ export default {
                     this.changePage('/')
                     setTimeout(() => {
                         this.forLoad = true
-                    }, 100)
+                    }, 500)
                 }
             })
+        }
+        if(this.currentRouteName.includes('/member/insurance')){
+            this.forInsurance = true
         }
     },
     methods: {

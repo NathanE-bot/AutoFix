@@ -21,7 +21,7 @@
         >
           <q-tab @click="changePage('/')" name="home" label="Home" />
           <q-tab @click="changePage('/workshop')" name="workshop" label="Workshop" />
-          <q-tab name="insurance" label="Insurance" />
+          <q-tab @click="changePage('/member/insurance')" name="insurance" label="Insurance" />
           <q-tab name="aboutus" label="About Us" />
         </q-tabs>
         <div class="relative-position">
@@ -58,7 +58,7 @@
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item
-                      @click="changePage('/youraccount')"
+                      @click="changePage('/member/youraccount')"
                       clickable v-close-popup
                     >
                       Profile
@@ -86,7 +86,7 @@ import Swal from 'sweetalert2'
 export default {
     data () {
       return {
-        initialTab: 'home',
+        initialTab: null,
         isLogin: false,
         currentRouteName: this.$router.currentRoute._value.fullPath
       }
@@ -105,6 +105,9 @@ export default {
       }
       else if(this.currentRouteName == '/workshop'){
         this.initialTab = 'workshop'
+      }
+      else if(this.currentRouteName.includes('/insurance')){
+        this.initialTab = 'insurance'
       }
       else {
         this.initialTab = ''

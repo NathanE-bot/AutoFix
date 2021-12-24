@@ -1,0 +1,13 @@
+.insurance_select{
+    &.q-field--focused{
+       .q-field__control{
+            @include transition_mixin (border-radius);
+            border-radius: 10px 10px 0 0; 
+       }
+    }
+    .q-field__control{
+        @include transition_mixin (border-radius);
+        border-radius: 10px;
+        background-color: #DFDFDF;
+    }
+}

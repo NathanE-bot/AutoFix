@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-      <div class="center_page w-70">
+      <div class="w-70">
         <q-card class="my-card login-card fw position-relative m-auto">
           <q-card-section class="p-35">
             <div class="row d-flex a-center">
@@ -170,10 +170,6 @@ export default {
         console.log(response)
         if (response.status === 200) {
           LocalStorage.set('autoRepairUser', response)
-          // Cookies.set('name', response.data.name)
-          // Cookies.set('userId', response.data.id)
-          // Cookies.set('userEmail', response.data.email)
-          // Cookies.set('Token', response.data.token)
         }
         this.changePage('/')
       }) .catch(function (error) {
