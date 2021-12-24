@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         changePage (url) {
-            console.log('here')
             this.$router.push(url)
         }
     }

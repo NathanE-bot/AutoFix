@@ -14,6 +14,7 @@
                 transition-show="jump-down"
                 transition-hide="jump-up" />
             <q-btn
+                @click="changePage('/member/insurance/form')"
                 color="primary"
                 size="xl"
                 icon="fas fa-check"
@@ -27,13 +28,20 @@
 
 <script>
 /* eslint-disable */
+import help from '../../js/help'
 export default {
     data () {
         return {
+            help,
             model: null,
             options: [
                 'Testing1', 'Testing2', 'Testing3'
             ]
+        }
+    },
+    methods: {
+        changePage (url) {
+            this.$router.push(url)
         }
     }
 }

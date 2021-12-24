@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-      <div class="center_page w-70">
+      <div class="w-70">
         <q-card class="my-card register-card">
           <q-card-section class="p-35">
             <div class="d-flex a-center j-sp-between">
