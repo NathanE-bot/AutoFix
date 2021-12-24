@@ -32,7 +32,7 @@
                   <div class="q-gutter-sm">
                     <q-input
                       v-model="form.email"
-                      :rules="rules.email_r" lazy-rules
+                      :rules="rules.email_r" lazy-rules="ondemand"
                       type="email"
                       label="Email"
                       borderless
@@ -45,7 +45,7 @@
                     <div class="relative-position">
                       <q-input
                         v-model="form.password"
-                        :rules="rules.password_r" lazy-rules
+                        :rules="rules.password_r" lazy-rules="ondemand"
                         :type="isPwd ? 'password' : 'text'"
                         label="Password"
                         borderless

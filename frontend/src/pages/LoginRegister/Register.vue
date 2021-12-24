@@ -23,7 +23,7 @@
                     <div class="row q-gutter-y-sm" style="direction: ltr">
                       <q-input
                         v-model="form.fullName"
-                        :rules="rules.fullName_r" lazy-rules
+                        :rules="rules.fullName_r" lazy-rules="ondemand"
                         type="text"
                         label="Nama Lengkap"
                         borderless
@@ -35,7 +35,7 @@
                       </q-input>
                       <q-input
                         v-model="form.email"
-                        :rules="rules.email_r" lazy-rules
+                        :rules="rules.email_r" lazy-rules="ondemand"
                         type="email"
                         label="Email"
                         borderless
@@ -47,7 +47,7 @@
                       </q-input>
                       <q-input
                         v-model="form.password"
-                        :rules="rules.password_r" lazy-rules
+                        :rules="rules.password_r" lazy-rules="ondemand"
                         :type="isPwd ? 'password' : 'text'"
                         label="Password"
                         borderless
@@ -59,7 +59,7 @@
                       </q-input>
                       <q-input
                         v-model="form.password_confirmation"
-                        :rules="rules.password_confirmation_r" lazy-rules
+                        :rules="rules.password_confirmation_r" lazy-rules="ondemand"
                         :type="isPwd ? 'password' : 'text'"
                         label="Konfirmasi Password"
                         borderless
@@ -78,7 +78,7 @@
                       </q-input>
                       <q-input
                         v-model="form.DoB"
-                        :rules="rules.DoB_r" lazy-rules
+                        :rules="rules.DoB_r" lazy-rules="ondemand"
                         type="text"
                         label="Tanggal Lahir"
                         borderless
@@ -98,7 +98,7 @@
                       </q-input>
                       <q-input
                         v-model="form.phoneNumber"
-                        :rules="rules.phoneNumber_r" lazy-rules
+                        :rules="rules.phoneNumber_r" lazy-rules="ondemand"
                         label="Nomor Telepon"
                         borderless
                         class="col-md-6 pl-6 default-input-1">
@@ -108,7 +108,7 @@
                       </q-input>
                       <q-input
                         v-model="form.address"
-                        :rules="rules.address_r" lazy-rules
+                        :rules="rules.address_r" lazy-rules="ondemand"
                         borderless label="Alamat"
                         type="textarea"
                         class="col-md-12 default-input-1 fix-txt-field"

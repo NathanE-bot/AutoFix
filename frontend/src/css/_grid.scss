@@ -22,7 +22,7 @@
     }
 }
 
-.d-flex {
+.d-grid {
     display: grid;
     &-i{
         @include important_mix(display, grid);
