@@ -49,3 +49,5 @@ Route::get('workshop/count','Api\WorkshopController@countDistance')->name('dista
 
 Route::post('makeSchedule/{id}', 'Api\ScheduleController@dataMakeSchedule')->name('getIDSchedule');
 Route::get('makeSchedule','Api\ScheduleController@dataMakeSchedule')->name('dataSchedule');
+
+Route::get('email','mailController@index')->name('email');

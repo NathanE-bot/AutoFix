@@ -72,7 +72,7 @@ class WorkshopController extends Controller
         }
         try{
             $workshops = DB::table('workshops')
-            ->get()->toArray();
+            ->paginate(2)->toArray();
             $operational_workshops =  DB::table('operational_workshops')
             ->get()->toArray();
             $workshop_details =  DB::table('workshop_details')
@@ -80,7 +80,7 @@ class WorkshopController extends Controller
             $workshop_services =  DB::table('workshop_services')
             ->get()->toArray();
 
-            foreach($workshops as &$value)
+            foreach($workshops['data'] as &$value)
             {
                 $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
                     return $operational_workshops->workshopID === $value->id;

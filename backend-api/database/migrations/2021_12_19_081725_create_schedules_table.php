@@ -21,6 +21,8 @@ class CreateSchedulesTable extends Migration
             $table->foreign('workshopID')->references('id')->on('workshops');
             $table->string('workshopName');
             $table->string('workshopAddress');
+            $table->string('workshopPhoneNumber');
+            $table->string('workshopEmail');
             $table->date('scheduleDate');
             $table->time('scheduleTime');
             $table->string('carModel');
@@ -28,6 +30,7 @@ class CreateSchedulesTable extends Migration
             $table->integer('timeEstimation');
             $table->integer('priceEstimation');
             $table->string('schedulleStatus');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
