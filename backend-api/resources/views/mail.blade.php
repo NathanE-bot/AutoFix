@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>websitepercobaan.com</title>
@@ -9,4 +9,4 @@
     
     <p>Thank you</p>
 </body>
-</html>
+</html> -->

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Auth;
 use Validator;
 use App\User;
@@ -35,21 +36,25 @@ class UserController extends Controller
             'fullName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'DoB'=>['required','date'],
+            'DoB'=>['required','date_format:Y-m-d'],
             'phoneNumber'=>['required','string','max:12'],
             'address'=>['required','string','max:255']
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
+            return response()->json([
+                'error'=>$validator->errors()
+            ], 401);
         }
 
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $user['token'] = $user->createToken('App')->accessToken;
-        // $user['name'] = $user->name;
+        $formRegister = $request->all();
+        $formRegister['password'] = bcrypt($formRegister['password']);
+        $user = User::create($formRegister);
+        $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response()->json([$user], 200);
+        return response()->json([
+            'user' => $user, 
+            'access_token' => $accessToken
+        ], 200);
     }
 }

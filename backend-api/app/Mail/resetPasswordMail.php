@@ -7,18 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class otpMail extends Mailable
+class resetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $details;
+    public $tokenForURL;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($details)
+    public function __construct($tokenForURL)
     {
-        $this->details = $details;
+        $this->tokenForURL = $tokenForURL;
     }
 
     /**
@@ -28,10 +28,6 @@ class otpMail extends Mailable
      */
     public function build()
     {
-        
-        return $this->subject('Mail from websitepercobaan.com')
-                    ->view('forgot');
+        return $this->subject('Reset Password AutoRepair Account')->view('forgot');
     }
 }
-
-

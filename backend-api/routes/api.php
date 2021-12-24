@@ -22,6 +22,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'Api\UserController@login')->name('login');
 Route::post('register', 'Api\UserController@register');
 
+// forgot password
+Route::post('doSendLinkForgotPassword', 'Api\ForgotPasswordController@forgot');
+Route::post('doResetUserPassword', 'Api\ForgotPasswordController@reset');
+
 // ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop
 // Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
 // Route::middleware('auth:api')->get('auth/workshop', 'Api\WorkshopController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu
