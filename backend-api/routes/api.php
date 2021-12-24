@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+// ->middleware('auth:api');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //AUTHENTICATION
 Route::post('login', 'Api\UserController@login')->name('login');
 Route::post('register', 'Api\UserController@register');
+// forgot password
+Route::post('sendForgotPasswordEmail', 'Api\ForgotPasswordController@forgot');
 
 // ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop
 Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
