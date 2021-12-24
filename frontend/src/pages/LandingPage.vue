@@ -30,6 +30,7 @@
               <q-btn
                 class="lp-search-btn"
                 color="primary"
+                type="search"
                 label="Search"
                 rounded outlined unelevated />
             </template>
