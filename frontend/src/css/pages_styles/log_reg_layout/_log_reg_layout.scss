@@ -52,6 +52,10 @@
         }
     }
 
+    .forgotpass-card{
+        @extend %default_log_reg;
+    }
+
     .logo-logReg{
         width: 100%;
         max-width: 115px;

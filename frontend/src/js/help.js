@@ -1,5 +1,6 @@
 /* eslint-disable */
 import moment from 'moment'
+import router from '../router'
 
 export default {
     data () {

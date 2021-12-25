@@ -10,6 +10,11 @@ export default
 export function loginToWebsite(userCredentials) {
   return axios.post(localURL + '/api/login', userCredentials)
 }
+
 export function registerToWebsite(userCredentials) {
   return axios.post(localURL + '/api/register', userCredentials)
+}
+
+export function requestForgotPasswordEmail(email) {
+  return axios.post(localURL + '/api/doSendLinkForgotPassword', email)
 }

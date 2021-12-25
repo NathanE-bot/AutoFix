@@ -9,6 +9,8 @@ const landingPage = () => import("pages/LandingPage");
 // LoginRegister
 const login = () => import("pages/LoginRegister/Login");
 const register = () => import("pages/LoginRegister/Register");
+const forgotPassword = () => import("pages/LoginRegister/ForgotPassword");
+const resetPassword = () => import("pages/LoginRegister/ResetPassword");
 
 // Nico
 const createWorkshop = () => import("pages/CreateWorkshop");
@@ -37,6 +39,13 @@ const routes = [
     component: LoginRegisterLayout,
     children: [
       {
+        path: "/session/register",
+        component: register,
+        meta: {
+          title: 'Register'
+        }
+      },
+      {
         path: "/session/login",
         component: login,
         meta: {
@@ -44,10 +53,17 @@ const routes = [
         }
       },
       {
-        path: "/session/register",
-        component: register,
+        path: "/session/forgotpassword",
+        component: forgotPassword,
         meta: {
-          title: 'Register'
+          title: 'Forgot Password'
+        }
+      },
+      {
+        path: "/session/resetpassword/:id",
+        component: resetPassword,
+        meta: {
+          title: 'Reset Password'
         }
       }
     ]
@@ -100,6 +116,7 @@ const routes = [
       }
     ]
   },
+  // For not authenticated
   {
     path: "/",
     component: MainLayout,

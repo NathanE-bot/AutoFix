@@ -41,21 +41,23 @@ class ForgotPasswordController extends Controller
                 'token' => $token
             ]);
     
-            $tokenForURL = DB::table('password_resets')->where('token', '=', $token)->pluck('token');
-            \Mail::to($emailInput)->send(new \App\Mail\resetPasswordMail($tokenForURL));
-    
-            dd($tokenForURL);
+            // $tokenForURL = DB::table('password_resets')->where('token', '=', $token)->pluck('token');
+            $userDetail = DB::table('password_resets')
+                        ->join('users','users.email','=','password_resets.email')
+                        ->where('token', '=', $token)
+                        ->get();
+            // $tes = $userDetail[0]->email;
+            \Mail::to($emailInput)->send(new \App\Mail\resetPasswordMail($userDetail));
+
+            // dd($tes);
 
             return response()->json([
                 'message' => 'Reset password link sucessfully sent to your email. Please check your email.'
             ], 200);
+
         } catch (Exception $err){
             return response()->json($err, 500);
         }
-
-        return response()->json([
-            'message' => 'We have send an email to change your password, please check your email.'
-        ], 200);
     }
 
     public function reset(Request $request){

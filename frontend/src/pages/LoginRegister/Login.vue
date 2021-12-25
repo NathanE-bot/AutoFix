@@ -62,7 +62,7 @@
                           />
                         </template>
                       </q-input>
-                      <div class="forgot_pass_pos">
+                      <div class="forgot_pass_pos" @click="changePage('/session/forgotpassword')">
                         <span class="link_txt slate_grey">Forgot password?</span>
                       </div>
                     </div>

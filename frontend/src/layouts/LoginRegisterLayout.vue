@@ -9,15 +9,17 @@
 <script>
 /* eslint-disable */
 import Auth from '../js/AuthValidation'
+import help from '../js/help'
 
 export default {
     name: 'LoginRegisterLayout',
     data () {
         return {
+            currentRouteName: this.$router.currentRoute._value.fullPath
         }
     },
     mounted () {
-        if(Auth.isUserLogin()){
+        if(Auth.isUserLogin() && !this.currentRouteName.includes('/forgotpassword') && !this.currentRouteName.includes('/resetpassword')){
             this.changePage('/')
         }
     },
