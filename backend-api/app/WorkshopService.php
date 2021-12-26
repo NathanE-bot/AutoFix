@@ -8,8 +8,8 @@ class WorkshopService extends Model
 {
     protected $fillable = [
         'workshopDetailID',
-        'servicType',
-        'servisDetail',
+        'serviceType',
+        'serviceDetail',
         'price',
         'time',
     ];

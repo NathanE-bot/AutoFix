@@ -17,7 +17,7 @@ class Schedule extends Model
         'carType',
         'timeEstimation',
         'priceEstimation',
-        'schedulleStatus'
+        'scheduleStatus'
     ];
 
     public function Workshop(){

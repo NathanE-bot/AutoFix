@@ -9,7 +9,7 @@ class OperationalWorkshop extends Model
 {
     protected $fillable = [
         'workshopID',
-        'operationlaDate',
+        'operationalDate',
         'operationalOpenHour',
         'operationalCloseHour',
     ];
