@@ -47,13 +47,13 @@ class ForgotPasswordController extends Controller
                         ->get();
             \Mail::to($emailInput)->send(new \App\Mail\resetPasswordMail($userDetail));
 
-            return response()->json([
-                'message' => 'Reset password link sucessfully sent to your email. Please check your email.'
-            ], 200);
-
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+
+        return response()->json([
+            'message' => 'Reset password link sucessfully sent to your email. Please check your email.'
+        ], 200);
     }
 
     public function reset(Request $request){
@@ -92,15 +92,17 @@ class ForgotPasswordController extends Controller
         $user->save();
 
         try{
+            
             $data = DB::table('password_resets')->where('token', $token)->delete();
 
-            return response()->json([
-                'id' => 5,
-                'message' => 'Successfully reset password.'
-            ], 200);
         }catch (Exception $error) {
             return response()->json($error, 500);
         }
+
+        return response()->json([
+            'id' => 5,
+            'message' => 'Successfully reset password.'
+        ], 200);
     }
 
     public function checkTokenResetPassword (Request $request) {

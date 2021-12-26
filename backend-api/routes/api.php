@@ -51,7 +51,7 @@ Route::get('getWorkshopByStatusUpdate', 'Api\WorkshopController@viewWorkshop')->
 Route::post('workshop/{workshopName}/{workshopAddress}/{statusBuka}', 'Api\WorkshopController@filterworkshop')->name('filterWorkshop');
 Route::get('workshop/filter', 'Api\WorkshopController@filterworkshop')->name('filterWorkshops');
 Route::post('workshop/{id}', 'Api\WorkshopController@workshopDetailView')->name('getIDWorkshop');
-Route::get('workshopdetail','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
+Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
 
 
 Route::get('workshop/count','Api\WorkshopController@countDistance')->name('distance');
