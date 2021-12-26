@@ -26,6 +26,11 @@ Route::post('register', 'Api\UserController@register');
 Route::post('doSendLinkForgotPassword', 'Api\ForgotPasswordController@forgot');
 Route::post('doResetUserPassword', 'Api\ForgotPasswordController@reset');
 
+//OTP email Auth
+Route::get('tempUserID', 'Api\UserController@idTemp');
+Route::post('otp', 'Api\UserController@otp');
+
+
 // ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop
 // Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
 // Route::middleware('auth:api')->get('auth/workshop', 'Api\WorkshopController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu

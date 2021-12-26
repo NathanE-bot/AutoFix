@@ -28,9 +28,9 @@ class otpMail extends Mailable
      */
     public function build()
     {
-        
-        return $this->subject('Mail from websitepercobaan.com')
-                    ->view('forgot');
+
+        return $this->subject('Mail from KONTOLODON')
+                    ->view('otp');
     }
 }
 
