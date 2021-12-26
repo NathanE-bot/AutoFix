@@ -27,10 +27,10 @@ class CreateWorkshopsTable extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('province');
-            $table->decimal( 'latitude',10, 6);
-            $table->decimal( 'longitude',10, 6);
-            $table->string('statusBuka')->nullable();
-            $table->string('status24jam')->nullable();
+            $table->decimal('latitude',10, 6);
+            $table->decimal('longitude',10, 6);
+            $table->string('statusHr')->nullable();
+            $table->string('status24hr')->nullable();
             $table->boolean("isActive")->default(1);
             $table->timestamps();
         });

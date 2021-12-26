@@ -22,7 +22,7 @@ class CreateInsurancesTable extends Migration
             $table->string('phoneNumberClaimer');
             $table->string('emailClaimer');
             $table->string('addressClaimer');
-            $table->string('carTypeAndMerk');
+            $table->string('carTypeAndBrand');
             $table->string('chassisNumber');
             $table->string('polisNumber');
             $table->string('licensePlateNumber');

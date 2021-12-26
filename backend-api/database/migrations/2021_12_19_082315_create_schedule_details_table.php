@@ -17,8 +17,8 @@ class CreateScheduleDetailsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('scheduleID');
             $table->foreign('scheduleID')->references('id')->on('schedules');
-            $table->string('servicType');
-            $table->string('servicDetail');
+            $table->string('serviceType');
+            $table->string('serviceDetail');
             $table->timestamps();
         });
     }

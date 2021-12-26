@@ -17,7 +17,7 @@ class CreateOperationalWorkshopsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('workshopID');
             $table->foreign('workshopID')->references('id')->on('workshops');
-            $table->string('operationlaDate');
+            $table->string('operationalDate');
             $table->time('operationalOpenHour');
             $table->time('operationalCloseHour');
             $table->timestamps();

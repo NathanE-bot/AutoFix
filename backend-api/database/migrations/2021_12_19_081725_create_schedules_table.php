@@ -29,7 +29,7 @@ class CreateSchedulesTable extends Migration
             $table->string('carType');
             $table->integer('timeEstimation');
             $table->integer('priceEstimation');
-            $table->string('schedulleStatus');
+            $table->string('scheduleStatus');
             $table->string('description')->nullable();
             $table->timestamps();
         });

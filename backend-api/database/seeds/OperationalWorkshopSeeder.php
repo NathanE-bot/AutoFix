@@ -13,131 +13,132 @@ class OperationalWorkshopSeeder extends Seeder
     {
         Operationalworkshop::create([
             'workshopID'=>'1',
-            'operationlaDate'=>'0',
+            'operationalDate'=>'0',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '15:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
-            'operationlaDate'=>'1',
+            'operationalDate'=>'1',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '15:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
-            'operationlaDate'=>'2',
+            'operationalDate'=>'2',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '15:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
-            'operationlaDate'=>'3',
+            'operationalDate'=>'3',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '13:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
-            'operationlaDate'=>'4',
+            'operationalDate'=>'4',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '15:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
-            'operationlaDate'=>'5',
+            'operationalDate'=>'5',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '15:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
-            'operationlaDate'=>'6',
+            'operationalDate'=>'6',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '15:40:20',
         ]);
         //2
         Operationalworkshop::create([
             'workshopID'=>'2',
-            'operationlaDate'=>'0',
+            'operationalDate'=>'0',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'2',
-            'operationlaDate'=>'1',
+            'operationalDate'=>'1',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'2',
-            'operationlaDate'=>'2',
+            'operationalDate'=>'2',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'2',
-            'operationlaDate'=>'3',
+            'operationalDate'=>'3',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '24:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'2',
-            'operationlaDate'=>'4',
+            'operationalDate'=>'4',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'2',
-            'operationlaDate'=>'5',
+            'operationalDate'=>'5',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'2',
-            'operationlaDate'=>'6',
+            'operationalDate'=>'6',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         //3
         Operationalworkshop::create([
             'workshopID'=>'3',
-            'operationlaDate'=>'0',
+            'operationalDate'=>'0',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'3',
-            'operationlaDate'=>'1',
+            'operationalDate'=>'1',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'3',
-            'operationlaDate'=>'2',
+            'operationalDate'=>'2',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'3',
-            'operationlaDate'=>'3',
+            'operationalDate'=>'3',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '12:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'3',
-            'operationlaDate'=>'4',
+            'operationalDate'=>'4',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'3',
-            'operationlaDate'=>'5',
+            'operationalDate'=>'5',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'3',
-            'operationlaDate'=>'6',
+            'operationalDate'=>'6',
             'operationalOpenHour' => '08:40:20',
             'operationalCloseHour' => '23:58:20',
         ]);
+        //4
     }
 }

@@ -13,184 +13,184 @@ class WorkshopServiceSeeder extends Seeder
     {
         WorkshopService::create([
             'workshopDetailID'=>'1',
-            'servisType'=>'Servis Berkala',
-            'servisDetail'=>'1.000 KM',
+            'serviceType'=>'Servis Berkala',
+            'serviceDetail'=>'1.000 KM',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'2',
-            'servisType'=>'Servis Berkala',
-            'servisDetail'=>'1.000 KM',
+            'serviceType'=>'Servis Berkala',
+            'serviceDetail'=>'1.000 KM',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'3',
-            'servisType'=>'Servis Berkala',
-            'servisDetail'=>'1.000 KM',
+            'serviceType'=>'Servis Berkala',
+            'serviceDetail'=>'1.000 KM',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'4',
-            'servisType'=>'Servis Berkala',
-            'servisDetail'=>'1.000 KM',
+            'serviceType'=>'Servis Berkala',
+            'serviceDetail'=>'1.000 KM',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'5',
-            'servisType'=>'Servis Berkala',
-            'servisDetail'=>'1.000 KM',
+            'serviceType'=>'Servis Berkala',
+            'serviceDetail'=>'1.000 KM',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'6',
-            'servisType'=>'Servis Berkala',
-            'servisDetail'=>'1.000 KM',
+            'serviceType'=>'Servis Berkala',
+            'serviceDetail'=>'1.000 KM',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'7',
-            'servisType'=>'Servis Berkala',
-            'servisDetail'=>'1.000 KM',
+            'serviceType'=>'Servis Berkala',
+            'serviceDetail'=>'1.000 KM',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'1',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'2',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'3',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'4',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'5',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'6',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'7',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         //Detail4
         WorkshopService::create([
             'workshopDetailID'=>'8',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Kanvas Rem',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Kanvas Rem',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'8',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Aki',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Aki',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'9',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'10',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Kanvas Rem',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Kanvas Rem',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'11',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Aki',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Aki',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'11',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'11',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Kanvas Rem',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Kanvas Rem',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'12',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Aki',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Aki',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'12',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'13',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Kanvas Rem',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Kanvas Rem',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'13',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Aki',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Aki',
             'price'=>'2000000',
             'time'=>'2'
         ]);
         WorkshopService::create([
             'workshopDetailID'=>'13',
-            'servisType'=>'Servis umum',
-            'servisDetail'=>'ganti Oli',
+            'serviceType'=>'Servis umum',
+            'serviceDetail'=>'ganti Oli',
             'price'=>'2000000',
             'time'=>'2'
         ]);

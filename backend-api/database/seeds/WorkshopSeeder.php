@@ -26,8 +26,8 @@ class WorkshopSeeder extends Seeder
             'province'=>'DKI Jakarta',
             'latitude'=>'-6.091547',
             'longitude'=>'106.744798',
-            'statusBuka'=>'buka',
-            'status24jam'=>''
+            'statusHr'=>'buka',
+            'status24hr'=>''
         ]);
 
         Workshop::create([
@@ -44,8 +44,8 @@ class WorkshopSeeder extends Seeder
             'province'=>'DKI Jakarta',
             'latitude'=>'-6.080771',
             'longitude'=>'106.695535',
-            'statusBuka'=>'tutup',
-            'status24jam'=>''
+            'statusHr'=>'tutup',
+            'status24hr'=>''
         ]);
 
         Workshop::create([
@@ -62,8 +62,8 @@ class WorkshopSeeder extends Seeder
             'province'=>'DKI Jakarta',
             'latitude'=>'-6.080771',
             'longitude'=>'106.695535',
-            'statusBuka'=>'buka',
-            'status24jam'=>''
+            'statusHr'=>'buka',
+            'status24hr'=>''
         ]);
 
         Workshop::create([
@@ -80,8 +80,8 @@ class WorkshopSeeder extends Seeder
             'province'=>'Banten',
             'latitude'=>'-6.080771',
             'longitude'=>'106.695535',
-            'statusBuka'=>'Buka',
-            'status24jam'=>''
+            'statusHr'=>'Buka',
+            'status24hr'=>''
         ]);
     }
 }
