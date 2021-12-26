@@ -38,6 +38,10 @@ export default {
         else if(jsonObject > 0) return false
         return Object.keys(jsonObject).length === 0
     },
+    isDataEmpty (data) {
+        if(data === undefined || data === null || data === '') return true
+        return false
+    },
     redirectNewTab (url) {
         window.open(url, '_blank')
     }

@@ -88,7 +88,7 @@ export default {
       return {
         initialTab: null,
         isLogin: false,
-        currentRouteName: this.$router.currentRoute._value.fullPath
+        currentRouteName: null
       }
     },
     created () {
@@ -99,6 +99,7 @@ export default {
       }
     },
     mounted () {
+      this.currentRouteName = this.$router.currentRoute._value.fullPath
       console.log(this.currentRouteName)
       if(this.currentRouteName == '/'){
         this.initialTab = 'home'

@@ -71,7 +71,7 @@
             class="list-workshop-scrollbar"
             :style="{height: window.heightAltered + 'px'}"
           >
-            <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px p-20">
+            <q-card v-for="item in workshops.data" :key="item.id" class="my-card mb-20 br-20px p-20">
               <q-card-section class="d-flex a-start">
                 <div>
                   <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
@@ -102,72 +102,6 @@
           </q-card>
         </div>
       </div>
-      <!-- <q-card class="filterContainer">
-        <span class="titlePage">Workshop</span>
-        <div>
-            <q-card-section class="slotInput">
-                <q-select
-                    dense
-                    filled
-                    v-model="model"
-                    use-input
-                    hide-selected
-                    fill-input
-                    input-debounce="0"
-                    :options="options"
-                    @filter="filterFn"
-                    placeholder="Cari Workshop..."
-                    style="width: 250px"
-                >
-                    <template v-slot:no-option>
-                    <q-item>
-                        <q-item-section class="text-grey">
-                          No results
-                        </q-item-section>
-                    </q-item>
-                    </template>
-                </q-select>
-                <q-select
-                    dense
-                    filled
-                    v-model="model"
-                    use-input
-                    hide-selected
-                    fill-input
-                    input-debounce="0"
-                    :options="options"
-                    @filter="filterFn"
-                    placeholder="Cari Location..."
-                    style="width: 250px"
-                >
-                    <template v-slot:no-option>
-                    <q-item>
-                        <q-item-section class="text-grey">
-                          No results
-                        </q-item-section>
-                    </q-item>
-                    </template>
-                </q-select>
-                <q-select dense square style="width: 250px" filled v-model="model" :options="statusBuka" label="Status Buka" />
-            <q-btn unelevated color="primary" dense>
-                Search
-            </q-btn>
-            </q-card-section>
-        </div>
-      </q-card>
-      <div class="totalWorkshop">
-        <span>Total Workshop: {{ totalWorkshop }}</span>
-      </div>
-      <div class="listDetailContainer">
-        <div class="q-gutter-md loopList">
-          <q-card class="list" v-for="a in 10" :key="a.id">looping data disini</q-card>
-        </div>
-        <div class="detailList">
-          <q-card class="detail">
-            Disini Tampilan
-          </q-card>
-        </div>
-      </div> -->
     </q-page>
 </template>
 

@@ -41,15 +41,11 @@ class ForgotPasswordController extends Controller
                 'token' => $token
             ]);
     
-            // $tokenForURL = DB::table('password_resets')->where('token', '=', $token)->pluck('token');
             $userDetail = DB::table('password_resets')
                         ->join('users','users.email','=','password_resets.email')
                         ->where('token', '=', $token)
                         ->get();
-            // $tes = $userDetail[0]->email;
             \Mail::to($emailInput)->send(new \App\Mail\resetPasswordMail($userDetail));
-
-            // dd($tes);
 
             return response()->json([
                 'message' => 'Reset password link sucessfully sent to your email. Please check your email.'
@@ -69,7 +65,7 @@ class ForgotPasswordController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'error'=>$validator->errors()
+                'message'=>$validator->errors()
             ], 401);
         }
 
@@ -78,7 +74,7 @@ class ForgotPasswordController extends Controller
         if(!$passwordResets = DB::table('password_resets')->where('token', $token)->first()){
             
             return response()->json([
-                'message' => 'Invalid Token. Please try to resend email for reset password.'
+                'message' => 'Invalid Token. Try to resend email to get new link.'
             ], 401);
         }
 
@@ -92,8 +88,40 @@ class ForgotPasswordController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->save();
 
+        try{
+            $data = DB::table('password_resets')->where('token', $token)->delete();
+        }catch (Exception $error) {
+            return response()->json($error, 500);
+        }
+
         return response()->json([
             'message' => 'Successfully reset password.'
         ]);
+    }
+
+    public function checkTokenResetPassword (Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'token' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message'=>$validator->errors()
+            ], 401);
+        }
+
+        $token = $request->input('token');
+
+        if(!$passwordResets = DB::table('password_resets')->where('token', $token)->first()){
+            
+            return response()->json([
+                'message' => 'token invalid'
+            ], 401);
+        }
+
+        return response()->json([
+            'message' => 'token valid'
+        ], 200);
     }
 }

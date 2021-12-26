@@ -18,3 +18,7 @@ export function registerToWebsite(userCredentials) {
 export function requestForgotPasswordEmail(email) {
   return axios.post(localURL + '/api/doSendLinkForgotPassword', email)
 }
+
+export function resetUserPassword(formResetPassword) {
+  return axios.post(localURL + '/api/doResetUserPassword', formResetPassword)
+}

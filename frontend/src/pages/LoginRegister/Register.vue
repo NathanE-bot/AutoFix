@@ -179,11 +179,11 @@ export default ({
         ],
         password_r: [
           v => !!v || 'Password harus diisi',
-          v => v.length >= 8 || 'Password minimal 8 karakter'
+          // v => v.length >= 8 || 'Password minimal 8 karakter'
         ],
         password_confirmation_r: [
           v => !!v || 'Password harus diisi',
-          v => !!v != this.form.password || 'Password belum sama'
+          v => v === this.form.password || 'Password belum sama'
         ],
         DoB_r: [
           v => !!v || 'Tanggal lahir harus diisi'
@@ -242,7 +242,7 @@ export default ({
       }) .catch(function (error) {
         if(error.response.data.error === 'Unauthorised') {
           Swal.fire({
-            title: 'Testing'
+            title: 'Error'
           })
         }
       })
