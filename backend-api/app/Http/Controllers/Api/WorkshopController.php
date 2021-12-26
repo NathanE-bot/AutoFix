@@ -53,20 +53,20 @@ class WorkshopController extends Controller
         ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
         ->select('operational_workshops.operationalCloseHour',
         'operational_workshops.operationalOpenHour',
-        'operational_workshops.operationlaDate','workshops.id')
-        ->where('operational_workshops.operationlaDate','=',$dateweek)
+        'operational_workshops.operationalDate','workshops.id')
+        ->where('operational_workshops.operationalDate','=',$dateweek)
         ->get();
         $array = array();
         foreach ($dataproses as $value) {
-            if ($time >= $value->operationalCloseHour || $time < $value->operationalOpenHour && $dateweek == $value->operationlaDate) {
+            if ($time >= $value->operationalCloseHour || $time < $value->operationalOpenHour && $dateweek == $value->operationalDate) {
                 array_push($array,'tutup');
                 DB::table('workshops')->where('id','=',$value->id)->update([
-                    'statusBuka' => 'tutup'
+                    'statusHr' => 'tutup'
                 ]);
-            }else if($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour && $dateweek == $value->operationlaDate){
+            }else if($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour && $dateweek == $value->operationalDate){
                 array_push($array,'buka');
                 DB::table('workshops')->where('id','=',$value->id)->update([
-                    'statusBuka' => 'buka'
+                    'statusHr' => 'buka'
                 ]);
             }
         }
@@ -113,7 +113,7 @@ class WorkshopController extends Controller
             $workshops = DB::table('workshops')
             ->where('workshopName','like','%'.$workshopName.'%')
             ->orWhere('workshopAddress','like','%'.$location.'%')
-            ->orWhere('statusBuka','=',$statusOpen)
+            ->orWhere('statusHr','=',$statusOpen)
             ->get()->toArray();
             $operational_workshops =  DB::table('operational_workshops')
             ->get()->toArray();

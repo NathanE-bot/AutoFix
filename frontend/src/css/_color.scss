@@ -41,3 +41,16 @@
 .grey-txt{
     color: #595959;
 }
+
+// Class
+.accepted-color{
+    color: $primary;
+}
+
+.rejected-color{
+    color: $red;
+}
+
+.waiting-color{
+    color: $yellow;
+}

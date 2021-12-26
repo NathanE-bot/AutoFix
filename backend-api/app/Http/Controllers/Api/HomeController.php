@@ -23,7 +23,7 @@ class HomeController extends Controller
                 'objectReturn' => DB::table('workshops')
                 ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
                 ->where('rating','>',3)
-                ->where('operationlaDate','=',$dateweek)
+                ->where('operationalDate','=',$dateweek)
                 ->get()
             ];
             return response()->json($data, 200);

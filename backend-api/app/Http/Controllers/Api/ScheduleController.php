@@ -98,20 +98,20 @@ class ScheduleController extends Controller
             $newSchedules->save();
             $idSchedule = $newSchedules->id;
             $array = array();
-            foreach($req->servicTypeUmum as $key => $value){
+            foreach($req->serviceTypeUmum as $key => $value){
                 $newscheduledetail = new schedule_details;
                 $newscheduledetail -> scheduleID = $idSchedule;
-                $newscheduledetail ->servicType = $req->servicTypeUmum[$key];
-                $newscheduledetail ->servicDetail = $req->servicDetailBerkala[$key];
+                $newscheduledetail ->serviceType = $req->serviceTypeUmum[$key];
+                $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
                 $newscheduledetail->save();
                 array_push($newscheduledetail,$array);
 
             }
-            foreach($req->servicTypeBerkala as $key => $value){
+            foreach($req->serviceTypeBerkala as $key => $value){
                 $newscheduledetail = new schedule_details;
                 $newscheduledetail -> scheduleID = $idSchedule;
-                $newscheduledetail ->servicType = $req->servicTypeBerkala[$key];
-                $newscheduledetail ->servicDetail = $req->servicDetailBerkala[$key];
+                $newscheduledetail ->serviceType = $req->serviceTypeBerkala[$key];
+                $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
                 $newscheduledetail->save();
                 array_push($newscheduledetail,$array);
             }
