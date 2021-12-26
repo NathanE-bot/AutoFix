@@ -29,8 +29,9 @@ const workshopMakeSchedule = () => import("pages/Workshop/WorkshopMakeSchedule")
 const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 
 // Insurance
-const homeInsurance = () => import("pages/Insurance/HomeInsurance");
+const claimInsurance = () => import("pages/Insurance/ClaimInsurance");
 const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
+const statusInsurance = () => import("pages/Insurance/StatusInsurance");
 
 const routes = [
   // forLoginRegis
@@ -75,11 +76,19 @@ const routes = [
     children: [
       // Insurance
       {
-        path: "/member/insurance",
-        component: homeInsurance,
+        path: "/member/insurance/claim-insurance",
+        component: claimInsurance,
         meta: {
-          title: 'Home Insurance',
-          breadcrumb: 'Home Insurance'
+          title: 'Claim Insurance',
+          breadcrumb: 'Claim Insurance'
+        }
+      },
+      {
+        path: "/member/insurance/status-insurance",
+        component: statusInsurance,
+        meta: {
+          title: 'Status Insurance',
+          breadcrumb: 'Status Insurance'
         }
       },
       {

@@ -5,6 +5,13 @@
     background-color: white;
 }
 
+%default_bg_preset1{
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-color: white;
+}
+
 .insurance_layout{
     &_1{
         @extend %default_bg_preset;
@@ -16,5 +23,8 @@
         background-image: url($background_img_url+'insurance2_bg.png');
     }
     
-    
+    &_3{
+        @extend %default_bg_preset1;
+        background-image: url($background_img_url+'insurance3_bg.png');
+    }
 }
