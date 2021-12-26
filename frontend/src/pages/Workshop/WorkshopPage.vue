@@ -5,7 +5,7 @@
           <span class="fw-bold fs-20">Workshop</span>
         </q-card-section>
         <q-card-section class="p-35 pt-0 d-flex row">
-          <q-select
+          <!-- <q-select
             @filter="doFilterOption"
             v-model="searchKeywordTemp"
             :options="tempItems"
@@ -48,7 +48,7 @@
             outlined
             class="col-md-3 mx-auto default-select"
           >
-          </q-select>
+          </q-select> -->
           <q-btn
             color="primary"
             size="md" unelevated
@@ -56,12 +56,15 @@
             padding="16px 24px"
             class="fw-semibold ml-auto br-10px"
           >
-
+          </q-btn>
+          <q-btn
+            @click="jsonDataParam.iPage += 1; doGetWorkshopByStatusUpdate()">
+            LEGO
           </q-btn>
         </q-card-section>
       </q-card>
-      <div class="my-20" v-if="!loader">
-        <span class="fw-bold fs-20">Total Workshop : {{ workshops.length }}</span>
+      <div class="my-20">
+        <span class="fw-bold fs-20">Total Workshop : {{ totalWorkshop }}</span>
       </div>
       <div class="row">
         <div class="col-md-6">
@@ -71,7 +74,7 @@
             class="list-workshop-scrollbar"
             :style="{height: window.heightAltered + 'px'}"
           >
-            <q-card v-for="item in workshops.data" :key="item.id" class="my-card mb-20 br-20px p-20">
+            <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px p-20">
               <q-card-section class="d-flex a-start">
                 <div>
                   <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
@@ -128,6 +131,11 @@ export default {
         width: '10px',
         opacity: 0.2
       },
+       window: {
+        width: 0,
+        height: 0,
+        heightAltered: 0
+      },
       loader: false,
       searchKeyword: null,
       searchKeywordTemp: null,
@@ -137,20 +145,25 @@ export default {
       filterType: ['Semua', 'Buka', 'Tutup', '24 Jam'],
       searchLocation: null,
       locationOptions: [],
+      tempWorkshops: [],
       workshops: [],
-      window: {
-        width: 0,
-        height: 0,
-        heightAltered: 0
-      }
+      totalWorkshop: 0,
+      jsonDataParam: {
+        iPage: 1
+      },
+      fullData: false
     }
   },
+  created () {
+    this.doGetWorkshopByStatusUpdate()
+  },
   mounted () {
+    document.querySelector('.q-scrollarea__container').addEventListener('scroll', () => {
+      // this.loadNextPage()
+      console.log('scrolling')
+    })
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
-    console.log(this.window)
-    this.doGetWorkshopByStatusUpdate()
-    this.tempItems = this.items
   },
   unmounted () {
     window.removeEventListener('resize', this.handleResize)
@@ -161,43 +174,70 @@ export default {
       this.window.height = window.innerHeight
       this.window.heightAltered = window.innerHeight - (window.innerHeight * (22/100))
     },
-    doFilterOption (val, update) {
-      if (val === '') {
-        update(() => {
-          this.tempItems = this.items
-        })
-        return
-      }
-      update(() => {
-        let needle = val.toLowerCase()
-        this.tempItems = this.items.filter(v => v.toLowerCase().indexOf(needle) > -1)
-        this.searchKeyword = needle
-      })
-      console.log(this.items, this.tempItems, this.searchKeyword, this.searchKeywordTemp)
-    },
-    doLoopForFilter (array) {
-      array.forEach(item => {
-        // let tempObj = {
-        //   label: item.workshopName,
-        //   id: item.id
-        // }
-        let tempString = item.workshopName
-        this.items.push(tempString)
-      })
-    },
+    // doFilterOption (val, update) {
+    //   if (val === '') {
+    //     update(() => {
+    //       this.tempItems = this.items
+    //     })
+    //     return
+    //   }
+    //   update(() => {
+    //     let needle = val.toLowerCase()
+    //     this.tempItems = this.items.filter(v => v.toLowerCase().indexOf(needle) > -1)
+    //     this.searchKeyword = needle
+    //   })
+    //   console.log(this.items, this.tempItems, this.searchKeyword, this.searchKeywordTemp)
+    // },
+    // doLoopForFilter (array) {
+    //   array.forEach(item => {
+    //     // let tempObj = {
+    //     //   label: item.workshopName,
+    //     //   id: item.id
+    //     // }
+    //     let tempString = item.workshopName
+    //     this.items.push(tempString)
+    //   })
+    // },
     doGetWorkshopByStatusUpdate () {
       let _this = this
       _this.loader = true
-      getWorkshopByStatusUpdate().then(response => {
-        _this.workshops = response.data.objectReturn
-        _this.doLoopForFilter(_this.workshops)
-        console.log('tes', _this.workshops)
-        _this.loader = false
-      }) .catch((err) =>{
-        console.log(err)
-        _this.loader = false
-      })
+        getWorkshopByStatusUpdate(this.jsonDataParam.iPage).then(response => {
+          _this.tempWorkshops = response.data.objectReturn
+          _this.totalWorkshop = _this.tempWorkshops.total
+          if(!_this.fullData){
+            _this.tempWorkshops.data.forEach(item => {
+              _this.workshops.push(item)
+            });
+            if(_this.jsonDataParam.iPage === _this.tempWorkshops.last_page){
+              _this.fullData = true
+            }
+          } else {
+            this.jsonDataParam.iPage = this.jsonDataParam.iPage - 1
+            console.log(this.jsonDataParam.iPage)
+          }
+          // _this.doLoopForFilter(_this.workshops.data)
+          _this.loader = false
+        }) .catch((err) =>{
+          console.log(err)
+          _this.loader = false
+        })
     },
+    // loadNextPage () {
+    //   let custList = document.getElementsByClassName("q-scrollarea__container")[0]
+    //     let custListScrollTillBottom = custList.scrollHeight - custList.clientHeight 
+    //     if (custListScrollTillBottom <= custList.scrollTop) {
+    //       if (this.jsonDataParamCustomer.iPage < this.jsonDataParamCustomer.maxPage && !this.loaderCustomer) {
+    //         this.loaderCustomer = true
+    //         this.jsonDataParamCustomer.iPage++
+    //         this.jsonDataParamCustomer.keyword = ''
+    //         this.doGetMerchantCustomerV2(false)
+    //         setTimeout(() => {
+    //             custList.scrollTop = custList.scrollTop - 5
+    //         }, 500)
+    //       }
+    //     }
+    //   }
+    // },
     doConsole(a){
       console.log(a);
     }

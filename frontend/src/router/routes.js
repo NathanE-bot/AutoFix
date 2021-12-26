@@ -76,7 +76,7 @@ const routes = [
     children: [
       // Insurance
       {
-        path: "/member/insurance/claim-insurance",
+        path: "/member/insurance",
         component: claimInsurance,
         meta: {
           title: 'Claim Insurance',

@@ -66,5 +66,419 @@ class WorkshopSeeder extends Seeder
             'status24jam'=>''
         ]);
 
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
+        Workshop::create([
+            'userID'=>'3',
+            'workshopName' => 'Toyota',
+            'workshopAddress' => 'Jl. Sukamaju blok C no. 12',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamaju232@gmail.com',
+            'workshopDescription'=>'pilihan bengkel terbaik',
+            'rating'=>'2',
+            'workshopLogo'=>'',
+            'city'=>'Banten',
+            'district'=>'Tangerang',
+            'province'=>'DKI Jakarta',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'buka',
+            'status24jam'=>''
+        ]);
+
     }
 }

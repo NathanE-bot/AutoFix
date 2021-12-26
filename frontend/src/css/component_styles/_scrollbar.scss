@@ -15,5 +15,7 @@
 }
 
 .list-workshop-scrollbar{
-	padding-right: 24px;
+	.q-scrollarea__content{
+		padding-right: 24px;
+	}
 }

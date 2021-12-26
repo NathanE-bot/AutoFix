@@ -100,7 +100,7 @@ export default {
     },
     mounted () {
       this.currentRouteName = this.$router.currentRoute._value.fullPath
-      console.log(this.currentRouteName)
+      // console.log(this.currentRouteName)
       if(this.currentRouteName == '/'){
         this.initialTab = 'home'
       }

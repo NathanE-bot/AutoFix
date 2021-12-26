@@ -27,7 +27,7 @@ export default {
         return {
             forLoad: true,
             forInsurance: false,
-            currentRouteName: this.$router.currentRoute._value.fullPath
+            currentRouteName: null
         }
     },
     components: {
@@ -35,6 +35,8 @@ export default {
         appSidebar: Sidebar
     },
     mounted () {
+        this.currentRouteName = this.$router.currentRoute._value.fullPath
+        console.log(this.forInsurance)
         if(!Auth.isUserLogin()){
             this.forLoad = false
             console.log('tes')
@@ -57,7 +59,7 @@ export default {
                 }
             })
         }
-        if(this.currentRouteName.includes('/member/insurance')){
+        if(this.currentRouteName.includes('/insurance')){
             this.forInsurance = true
         }
     },

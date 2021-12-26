@@ -72,7 +72,7 @@ class WorkshopController extends Controller
         }
         try{
             $workshops = DB::table('workshops')
-            ->paginate(2)->toArray();
+            ->paginate(10)->toArray();
             $operational_workshops =  DB::table('operational_workshops')
             ->get()->toArray();
             $workshop_details =  DB::table('workshop_details')

@@ -16,6 +16,6 @@ export function getRecommendWorkshop() {
   return axios.get(localURL + '/api/getRecommendationWorkshop')
 }
 
-export function getWorkshopByStatusUpdate() {
-  return axios.get(localURL + '/api/getWorkshopByStatusUpdate')
+export function getWorkshopByStatusUpdate(iPage) {
+  return axios.get(localURL + '/api/getWorkshopByStatusUpdate?page=' + iPage)
 }
