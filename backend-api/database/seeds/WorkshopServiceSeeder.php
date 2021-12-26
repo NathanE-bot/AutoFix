@@ -109,5 +109,90 @@ class WorkshopServiceSeeder extends Seeder
             'price'=>'2000000',
             'time'=>'2'
         ]);
+        //Detail4
+        WorkshopService::create([
+            'workshopDetailID'=>'8',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Kanvas Rem',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'8',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Aki',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'9',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Oli',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'10',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Kanvas Rem',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'11',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Aki',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'11',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Oli',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'11',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Kanvas Rem',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'12',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Aki',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'12',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Oli',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'13',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Kanvas Rem',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'13',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Aki',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'13',
+            'servicType'=>'Sevis umum',
+            'servicDetail'=>'ganti Oli',
+            'price'=>'2000000',
+            'time'=>'2'
+        ]);
     }
 }

@@ -51,6 +51,36 @@ class WorkshopDetailSeeder extends Seeder
             'carModel'=>'supra',
             'CarType'=>'supra webseries'
         ]);
-
+        //4 - start di 8
+        WorkshopDetail::create([
+            'workshopID'=>'4',
+            'carModel'=>'Jazz',
+            'CarType'=>'Jazz RS'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'4',
+            'carModel'=>'Jazz',
+            'CarType'=>'Jazz S'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'4',
+            'carModel'=>'Brio',
+            'CarType'=>'Brio Satya S M/T'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'4',
+            'carModel'=>'Brio',
+            'CarType'=>'Brio Satya E M/T'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'4',
+            'carModel'=>'Brio',
+            'CarType'=>'Brio Satya E CVT'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'4',
+            'carModel'=>'Mobilio',
+            'CarType'=>'RS 1.5'
+        ]);
     }
 }

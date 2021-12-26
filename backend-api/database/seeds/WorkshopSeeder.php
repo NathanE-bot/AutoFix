@@ -66,5 +66,22 @@ class WorkshopSeeder extends Seeder
             'status24jam'=>''
         ]);
 
+        Workshop::create([
+            'userID'=>'4',
+            'workshopName' => 'Honda',
+            'workshopAddress' => 'Jl. Sukamundur blok TT no. 36',
+            'workshopPhoneNumber' => '23214928492',
+            'workshopEmail'=>'sukamundur123@gmail.com',
+            'workshopDescription'=>'Bengkel terbaik disekitar sini',
+            'rating'=>'4.5',
+            'workshopLogo'=>'',
+            'city'=>'Tangerang',
+            'district'=>'Tangerang',
+            'province'=>'Banten',
+            'latitude'=>'-6.080771',
+            'longitude'=>'106.695535',
+            'statusBuka'=>'Buka',
+            'status24jam'=>''
+        ]);
     }
 }
