@@ -134,6 +134,7 @@ export default {
                 _this.loader = false
                 console.log(error)
                 Swal.fire({
+                    icon: error.id === 4 ? 'warning' : 'error',
                     title: 'Error',
                     text: error.message
                 })

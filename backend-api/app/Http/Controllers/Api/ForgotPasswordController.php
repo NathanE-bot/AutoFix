@@ -65,6 +65,7 @@ class ForgotPasswordController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
+                'id' => 1,
                 'message'=>$validator->errors()
             ], 401);
         }
@@ -74,6 +75,7 @@ class ForgotPasswordController extends Controller
         if(!$passwordResets = DB::table('password_resets')->where('token', $token)->first()){
             
             return response()->json([
+                'id' => 2,
                 'message' => 'Invalid Token. Try to resend email to get new link.'
             ], 401);
         }
@@ -81,8 +83,16 @@ class ForgotPasswordController extends Controller
         /** @var User $user */
         if(!$user = User::where('email', $passwordResets->email)->first()){
             return response()->json([
+                'id' => 3,
                 'message' => 'User does not exist.'
             ], 404);
+        }
+
+        if($user = User::where('password', $passwordResets->password)->first()){
+            return response()->json([
+                'id' => 4,
+                'message' => 'Your new password cannot be the same like your old password.'
+            ], 401);
         }
 
         $user->password = bcrypt($request->input('password'));
@@ -95,6 +105,7 @@ class ForgotPasswordController extends Controller
         }
 
         return response()->json([
+            'id' => 5,
             'message' => 'Successfully reset password.'
         ]);
     }
