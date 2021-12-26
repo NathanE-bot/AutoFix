@@ -17,8 +17,8 @@ class CreateWorkshopServicesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('workshopDetailID');
             $table->foreign('workshopDetailID')->references('id')->on('workshop_details');
-            $table->string('servicType');
-            $table->string('servicDetail');
+            $table->string('servisType');
+            $table->string('servisDetail');
             $table->string('price');
             $table->string('time');
             $table->timestamps();
