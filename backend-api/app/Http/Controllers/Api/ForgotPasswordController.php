@@ -88,26 +88,19 @@ class ForgotPasswordController extends Controller
             ], 404);
         }
 
-        if($user = User::where('password', $passwordResets->password)->first()){
-            return response()->json([
-                'id' => 4,
-                'message' => 'Your new password cannot be the same like your old password.'
-            ], 401);
-        }
-
         $user->password = bcrypt($request->input('password'));
         $user->save();
 
         try{
             $data = DB::table('password_resets')->where('token', $token)->delete();
+
+            return response()->json([
+                'id' => 5,
+                'message' => 'Successfully reset password.'
+            ], 200);
         }catch (Exception $error) {
             return response()->json($error, 500);
         }
-
-        return response()->json([
-            'id' => 5,
-            'message' => 'Successfully reset password.'
-        ]);
     }
 
     public function checkTokenResetPassword (Request $request) {

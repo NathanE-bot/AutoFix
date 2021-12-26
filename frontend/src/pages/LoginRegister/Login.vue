@@ -14,14 +14,13 @@
                   <div class="d-flex flex-dir-col a-center pos-back-btn-right">
                     <q-btn
                       @click="backToLandingPage()"
-                      unelevated
-                      round
+                      unelevated round outline
                       size="md"
                       style=""
                     >
                       <i class="fas fa-chevron-left fs-20"></i>
                     </q-btn>
-                    <span>Back</span>
+                    <!-- <span>Back</span> -->
                   </div>
                 </div>
                 <q-form
@@ -122,7 +121,7 @@ export default {
         ],
         password_r: [
           v => !!v || 'Password Harus Diisi',
-          v => v.length >= 8 || 'Password minimal 8 karakter'
+          // v => v.length >= 8 || 'Password minimal 8 karakter'
         ]
       },
       window: {

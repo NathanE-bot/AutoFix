@@ -121,8 +121,9 @@ export default {
             resetUserPassword(_this.form).then(response => {
                 console.log(response)
                 Swal.fire({
-                    title: 'Error',
-                    text: response.message
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.data.message
                 }) .then((result) => {
                     if(result.isConfirmed){
                         this.changePage('/session/login')
@@ -132,16 +133,15 @@ export default {
                 _this.loader = false
             }) .catch(function (error) {
                 _this.loader = false
-                console.log(error)
                 Swal.fire({
-                    icon: error.id === 4 ? 'warning' : 'error',
+                    icon: error.response.data.id === 4 ? 'warning' : 'error',
                     title: 'Error',
-                    text: error.message
+                    text: error.response.data.message
                 })
             })
         },
         changePage (url) {
-            this.$routes.push(url)
+            this.$router.push(url)
         }
     }
 }
