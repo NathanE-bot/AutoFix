@@ -48,7 +48,7 @@ Route::post('home/search', 'Api\HomeController@searchdata');
 
 
 Route::get('getWorkshopByStatusUpdate', 'Api\WorkshopController@viewWorkshop')->name('ViewWorkshopByStatusUpdate');
-Route::post('workshop/{workshopName}/{workshopAddress}/{statusBuka}', 'Api\WorkshopController@filterworkshop')->name('filterWorkshop');
+Route::post('workshop/{workshopName}/{workshopAddress}/{statusHr}', 'Api\WorkshopController@filterworkshop')->name('filterWorkshop');
 Route::get('workshop/filter', 'Api\WorkshopController@filterworkshop')->name('filterWorkshops');
 Route::post('workshop/{id}', 'Api\WorkshopController@workshopDetailView')->name('getIDWorkshop');
 Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
