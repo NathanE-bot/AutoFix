@@ -57,6 +57,9 @@ Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name(
 Route::get('workshop/count','Api\WorkshopController@countDistance')->name('distance');
 
 Route::post('makeSchedule/{id}', 'Api\ScheduleController@dataMakeSchedule')->name('getIDSchedule');
-Route::get('makeSchedule','Api\ScheduleController@dataMakeSchedule')->name('dataSchedule');
+// Route::get('makeSchedule','Api\ScheduleController@dataMakeSchedule')->name('dataSchedule');
 
 Route::get('email','mailController@index')->name('email');
+
+//insurance
+Route::get('workshopList','Api\InsuranceController@viewInsurance');

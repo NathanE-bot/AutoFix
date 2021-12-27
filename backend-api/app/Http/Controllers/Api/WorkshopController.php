@@ -53,20 +53,20 @@ class WorkshopController extends Controller
         ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
         ->select('operational_workshops.operationalCloseHour',
         'operational_workshops.operationalOpenHour',
-        'operational_workshops.operationalDate','workshops.id')
-        ->where('operational_workshops.operationalDate','=',$dateweek)
+        'operational_workshops.operationlaDate','workshops.id')
+        ->where('operational_workshops.operationlaDate','=',$dateweek)
         ->get();
         $array = array();
         foreach ($dataproses as $value) {
-            if ($time >= $value->operationalCloseHour || $time < $value->operationalOpenHour && $dateweek == $value->operationalDate) {
+            if ($time >= $value->operationalCloseHour || $time < $value->operationalOpenHour && $dateweek == $value->operationlaDate) {
                 array_push($array,'tutup');
                 DB::table('workshops')->where('id','=',$value->id)->update([
-                    'statusHr' => 'tutup'
+                    'statusBuka' => 'tutup'
                 ]);
-            }else if($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour && $dateweek == $value->operationalDate){
+            }else if($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour && $dateweek == $value->operationlaDate){
                 array_push($array,'buka');
                 DB::table('workshops')->where('id','=',$value->id)->update([
-                    'statusHr' => 'buka'
+                    'statusBuka' => 'buka'
                 ]);
             }
         }
@@ -97,7 +97,6 @@ class WorkshopController extends Controller
 
             $data = [
                 'objectReturn'=>$workshops
-                // 'objectReturn'=> $workshops['data'][0]->workshop_details[0]->workshop_services[0]
             ];
             return response()->json($data , 200);
         } catch (Exception $err){
@@ -115,10 +114,6 @@ class WorkshopController extends Controller
             ->where('workshopName','like','%'.$workshopName.'%')
             ->orWhere('workshopAddress','like','%'.$location.'%')
             ->orWhere('statusHr','=',$statusOpen)
-            ->get()->toArray();
-            $operational_workshops =  DB::table('operational_workshops')
-            ->get()->toArray();
-            $workshop_details =  DB::table('workshop_details')
             ->get()->toArray();
             $workshop_services =  DB::table('workshop_services')
             ->get()->toArray();
@@ -174,10 +169,10 @@ class WorkshopController extends Controller
                 }
             }
 
-            $data = [
-                'objectReturn'=>$workshops
-            ];
-            return response()->json($data, 200);
+            // $data = [
+            //     // 'objectReturn'=>$workshops
+            // ];
+            return response()->json($workshops, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

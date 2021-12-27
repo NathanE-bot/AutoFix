@@ -17,7 +17,8 @@ class CreateInsurancesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('userID');
             $table->foreign('userID')->references('id')->on('users');
-            $table->string('insuranceName');
+            $table->unsignedBigInteger('vendorInsuranceID');
+            $table->foreign('vendorInsuranceID')->references('id')->on('insurance_vendors');
             $table->string('insuredName');
             $table->string('phoneNumberClaimer');
             $table->string('emailClaimer');
