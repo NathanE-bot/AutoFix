@@ -64,10 +64,3 @@ Route::get('email','mailController@index')->name('email');
 //insurance
 Route::get('InsuranceList','Api\InsuranceController@viewInsurance');
 Route::post('FormInsurance', 'Api\InsuranceController@FormIsurance');
-
-//chat
-Route::get('messages', 'ChatsController@fetchMessages');
-Route::post('messages', 'ChatsController@sendMessage');
-Broadcast::channel('chat', function ($user) {
-    return Auth::check();
-  });
