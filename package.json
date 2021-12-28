@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "laravel-echo": "^1.11.3",
+    "pusher-js": "^7.0.3"
+  }
+}
