@@ -49,7 +49,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        
+
 
         $randomNumber = random_int(1000, 9999);
         $emailFromRegis = $request->email;
@@ -128,7 +128,7 @@ class UserController extends Controller
                 'isActive' => $records->isActive,
                 ]);
         }
-
+        $delatedTempUser = DB::table('temp_users')->where('id', $request->id)->delete();
         return response()->json([
             'user' => $user,
         ], 200);
