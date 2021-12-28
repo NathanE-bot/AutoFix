@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
-class Insurane extends Model
+
+class Insurance extends Model
 {
     protected $fillable =[
         'userID',

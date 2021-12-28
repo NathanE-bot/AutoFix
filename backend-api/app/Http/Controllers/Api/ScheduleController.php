@@ -97,14 +97,15 @@ class ScheduleController extends Controller
             $newSchedules -> caryType = $req->carType;
             $newSchedules->save();
             $idSchedule = $newSchedules->id;
-            $array = array();
+            // $array = array();
             foreach($req->serviceTypeUmum as $key => $value){
                 $newscheduledetail = new schedule_details;
                 $newscheduledetail -> scheduleID = $idSchedule;
                 $newscheduledetail ->serviceType = $req->serviceTypeUmum[$key];
                 $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
                 $newscheduledetail->save();
-                array_push($newscheduledetail,$array);
+                // kolo pake jobs
+                // array_push($newscheduledetail,$array);
 
             }
             foreach($req->serviceTypeBerkala as $key => $value){
@@ -113,7 +114,8 @@ class ScheduleController extends Controller
                 $newscheduledetail ->serviceType = $req->serviceTypeBerkala[$key];
                 $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
                 $newscheduledetail->save();
-                array_push($newscheduledetail,$array);
+                //kolo pake jobs
+                // array_push($newscheduledetail,$array);
             }
 
             $data = [

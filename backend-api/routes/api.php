@@ -62,4 +62,5 @@ Route::post('makeSchedule/{id}', 'Api\ScheduleController@dataMakeSchedule')->nam
 Route::get('email','mailController@index')->name('email');
 
 //insurance
-Route::get('workshopList','Api\InsuranceController@viewInsurance');
+Route::get('InsuranceList','Api\InsuranceController@viewInsurance');
+Route::post('FormInsurance', 'Api\InsuranceController@FormIsurance');
