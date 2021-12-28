@@ -70,3 +70,4 @@ Route::post('FormInsurance', 'Api\InsuranceController@FormIsurance');
 Route::get('/chat', 'Api\ChatsController@index');
 Route::get('/messages', 'Api\ChatsController@fetchMessages' );
 Route::post('/messages', 'Api\ChatsController@sendMessage' );
+Route::middleware('auth:api')->get('auth/messages', 'Api\ChatsController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu
