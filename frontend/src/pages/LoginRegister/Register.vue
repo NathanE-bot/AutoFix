@@ -77,19 +77,19 @@
                         </template>
                       </q-input>
                       <q-input
-                        v-model="form.DoB"
+                        v-model="tempDoBP"
                         :rules="rules.DoB_r" lazy-rules="ondemand"
                         type="text"
                         label="Tanggal Lahir"
-                        borderless
+                        borderless readonly
                         class="col-md-6 pr-6 default-input-1"
                       >
                         <template v-slot:append>
                           <q-icon name="event" class="cursor-pointer">
                             <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
-                              <q-date v-model="tempDoB">
+                              <q-date v-model="tempDoB" :options="(date) => date <= help.formatToday(help.data().dmy_3)">
                                 <div class="row items-center justify-end">
-                                  <q-btn @click="form.DoB = tempDoB" v-close-popup label="Ok" color="primary" flat />
+                                  <q-btn @click="form.DoB = tempDoB; tempDoBP = tempDoB" v-close-popup label="Ok" color="primary" flat />
                                 </div>
                               </q-date>
                             </q-popup-proxy>
@@ -152,6 +152,7 @@
 /* eslint-disable */
 import { registerToWebsite } from '../../api/loginRegisterServices'
 import help from '../../js/help'
+import Swal from 'sweetalert2'
 
 export default ({
   data () {
@@ -179,7 +180,7 @@ export default ({
         ],
         password_r: [
           v => !!v || 'Password harus diisi',
-          // v => v.length >= 8 || 'Password minimal 8 karakter'
+          v => v.length >= 8 || 'Password minimal 8 karakter'
         ],
         password_confirmation_r: [
           v => !!v || 'Password harus diisi',
@@ -232,13 +233,22 @@ export default ({
       }
     },
     doRegister () {
+      let _this = this
+      _this.loader = true
+      console.log(_this.form.DoB)
+      _this.form.DoB = help.defaultFormat(_this.form.DoB, help.data().dmy_5)
       registerToWebsite(this.form).then(response => {
-        if (response.status === 200) {
-          let temp = []
-          temp = response.data
-          console.log(temp)
-        }
-        // this.changePage('/')
+        // console.log(response)
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.data.message
+        }) .then((result) => {
+          if(result.isConfirmed){
+            _this.changePage('/session/otp/' + response.data.encryptUserId)
+            _this.loader = false
+          }
+        })
       }) .catch(function (error) {
         if(error.response.data.error === 'Unauthorised') {
           Swal.fire({

@@ -74,7 +74,7 @@
             class="list-workshop-scrollbar"
             :style="{height: window.heightAltered + 'px'}"
           >
-            <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px p-20">
+            <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px p-20 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
               <q-card-section class="d-flex a-start">
                 <div>
                   <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
@@ -91,16 +91,60 @@
                 </div>
               </q-card-section>
             </q-card>
+            <q-card class="my-card mb-20 br-20px p-20" v-if="listLoader">
+              <q-card-section class="d-flex a-start">
+                <div>
+                  <q-skeleton width="100px" height="80px" />
+                </div>
+                <div class="ml-20">
+                  <q-skeleton width="220px" type="text" />
+                  <q-skeleton width="300px" type="rect" />
+                  <q-skeleton width="60px" type="text" />
+                  <q-skeleton width="280px" type="text" />
+                </div>
+              </q-card-section>
+            </q-card>
           </q-scroll-area>
         </div>
         <div class="col-md-6 pl-16">
-          <q-card class="my-card">
+          <q-card class="my-card p-20 br-20px" v-if="!help.isObjectEmpty(workshopById.defaultData)">
             <q-card-section>
-              <div class="text-h6">Our Changing Planet</div>
-              <div class="text-subtitle2">by John Doe</div>
-            </q-card-section>
-            <q-card-section>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
+              <div>
+                <div>
+                  <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+                </div>
+                <div class="text-subtitle2 grey-txt my-6">{{ workshopById.defaultData.district }}, {{ workshopById.defaultData.city }}, {{ workshopById.defaultData.province }}</div>
+                <div class="text-h6 mb-6">{{ workshopById.defaultData.workshopName }}</div>
+              </div>
+              <q-separator class="br-5px" color="#605A5A" size="4px" />
+              <div class="my-12 row">
+                <div class="col-md-6 w-45-i px-20">
+                  <div class="text-h6 mb-6">Operational Hours</div>
+                  <div v-for="item in workshopById.defaultData.operational_workshop" :key="item.id">
+                    <div :class="['d-flex a-center layout_txt', {'primary_bg_fade' : help.formatTodayFormatter(this.today) == item.operationalDate}]">
+                      <div>
+                        <span>
+                          {{
+                            item.operationalDate == '0' ? 'Senin' :
+                            item.operationalDate == '1' ? 'Selasa' :
+                            item.operationalDate == '2' ? 'Rabu' :
+                            item.operationalDate == '3' ? 'Kamis' :
+                            item.operationalDate == '4' ? 'Jumat' :
+                            item.operationalDate == '5' ? 'Sabtu' :
+                            item.operationalDate == '6' ? 'Minggu' : ''
+                          }}
+                        </span>
+                        <span>:</span>
+                      </div>
+                      <span>{{ help.formatTime(item.operationalOpenHour, help.data().time_2) }} - {{ help.formatTime(item.operationalCloseHour, help.data().time_2) }}</span>
+                    </div>
+                  </div>
+                </div>
+                <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
+                <div class="col-md-6 w-45-i px-20">
+                  <div class="text-h6 mb-6">Services</div>
+                </div>
+              </div>
             </q-card-section>
           </q-card>
         </div>
@@ -110,7 +154,7 @@
 
 <script>
 /* eslint-disable */
-import { getWorkshopByStatusUpdate } from '../../api/workshopService'
+import { getWorkshopByStatusUpdate, getWorkshopById } from '../../api/workshopService'
 import help from '../../js/help'
 
 export default {
@@ -137,6 +181,8 @@ export default {
         heightAltered: 0
       },
       loader: false,
+      listLoader: false,
+      detailWorkshopLoader: false,
       searchKeyword: null,
       searchKeywordTemp: null,
       items: [],
@@ -151,15 +197,21 @@ export default {
       jsonDataParam: {
         iPage: 1
       },
-      fullData: false
+      clickedId: null,
+      workshopById: {
+        defaultData: [],
+        servisBerkala: [],
+        servisUmum: []
+      }
     }
   },
   created () {
-    this.doGetWorkshopByStatusUpdate()
+    this.doGetWorkshopByStatusUpdate(true)
   },
   mounted () {
+    this.today = this.help.formatToday(this.help.data().d_1).toLowerCase()
     document.querySelector('.q-scrollarea__container').addEventListener('scroll', () => {
-      // this.loadNextPage()
+      this.loadNextPage()
       console.log('scrolling')
     })
     window.addEventListener('resize', this.handleResize)
@@ -198,46 +250,65 @@ export default {
     //     this.items.push(tempString)
     //   })
     // },
-    doGetWorkshopByStatusUpdate () {
+    doGetWorkshopByStatusUpdate(validator) {
       let _this = this
       _this.loader = true
-        getWorkshopByStatusUpdate(this.jsonDataParam.iPage).then(response => {
-          _this.tempWorkshops = response.data.objectReturn
-          _this.totalWorkshop = _this.tempWorkshops.total
-          if(!_this.fullData){
-            _this.tempWorkshops.data.forEach(item => {
-              _this.workshops.push(item)
-            });
-            if(_this.jsonDataParam.iPage === _this.tempWorkshops.last_page){
-              _this.fullData = true
-            }
-          } else {
-            this.jsonDataParam.iPage = this.jsonDataParam.iPage - 1
-            console.log(this.jsonDataParam.iPage)
-          }
-          // _this.doLoopForFilter(_this.workshops.data)
-          _this.loader = false
-        }) .catch((err) =>{
-          console.log(err)
-          _this.loader = false
+      getWorkshopByStatusUpdate(_this.jsonDataParam.iPage).then(response => {
+        _this.tempWorkshops = response.data.objectReturn
+        console.log(_this.tempWorkshops)
+        _this.totalWorkshop = _this.tempWorkshops.length
+        _this.tempWorkshops.forEach(item => {
+          _this.workshops.push(item)
         })
+        _this.clickedId = _this.workshops[0].userID
+        if(_this.clickedId != null && validator){
+          _this.doGetWorkshopById()
+        }
+        _this.loader = false
+        _this.listLoader = true
+      }) .catch((err) =>{
+        console.log(err)
+        _this.loader = false
+      })
     },
-    // loadNextPage () {
-    //   let custList = document.getElementsByClassName("q-scrollarea__container")[0]
-    //     let custListScrollTillBottom = custList.scrollHeight - custList.clientHeight 
-    //     if (custListScrollTillBottom <= custList.scrollTop) {
-    //       if (this.jsonDataParamCustomer.iPage < this.jsonDataParamCustomer.maxPage && !this.loaderCustomer) {
-    //         this.loaderCustomer = true
-    //         this.jsonDataParamCustomer.iPage++
-    //         this.jsonDataParamCustomer.keyword = ''
-    //         this.doGetMerchantCustomerV2(false)
-    //         setTimeout(() => {
-    //             custList.scrollTop = custList.scrollTop - 5
-    //         }, 500)
-    //       }
-    //     }
-    //   }
-    // },
+    loadNextPage () {
+      let workshopList = document.getElementsByClassName("q-scrollarea__container")[0]
+      let workshopListScrollTillBottom = workshopList.scrollHeight - workshopList.clientHeight 
+      if (workshopListScrollTillBottom <= workshopList.scrollTop) {
+        if(this.jsonDataParam.iPage < this.tempWorkshops.last_page){
+          this.listLoader = true
+          this.jsonDataParam.iPage++
+          this.doGetWorkshopByStatusUpdate(false)
+        } else {
+          this.listLoader = false
+        }
+      }
+    },
+    doGetWorkshopById () {
+      let _this = this
+      _this.detailWorkshopLoader = true
+      getWorkshopById(_this.clickedId).then(response => {
+        _this.workshopById.defaultData = response.data[0]
+        console.log(_this.workshopById.defaultData)
+        // loopingan data servis
+        _this.workshopById.defaultData.workshop_details.forEach(el1 => {
+          console.log('el1', el1.workshop_services)
+          for (const index in el1.workshop_services) {
+            if(el1.workshop_services[index].serviceType == 'Servis Berkala'){
+              _this.workshopById.servisBerkala.push(el1.workshop_services[index])
+            } else {
+              _this.workshopById.servisUmum.push(el1.workshop_services[index])
+            }
+          }
+        })
+        console.log('sb', _this.workshopById.servisBerkala)
+        console.log('su', _this.workshopById.servisUmum)
+        _this.detailWorkshopLoader = false
+      }) .catch((err) =>{
+        console.log(err)
+        _this.detailWorkshopLoader = false
+      })
+    },
     doConsole(a){
       console.log(a);
     }

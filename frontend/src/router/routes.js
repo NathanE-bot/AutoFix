@@ -11,11 +11,11 @@ const login = () => import("pages/LoginRegister/Login");
 const register = () => import("pages/LoginRegister/Register");
 const forgotPassword = () => import("pages/LoginRegister/ForgotPassword");
 const resetPassword = () => import("pages/LoginRegister/ResetPassword");
+const otp = () => import("pages/LoginRegister/OTP");
 
 // Nico
 const createWorkshop = () => import("pages/CreateWorkshop");
 const editPage = () => import("pages/EditPage");
-// const error404 = () => import("pages/Error404");
 
 // Testing
 const testing = () => import("pages/Testing");
@@ -65,6 +65,13 @@ const routes = [
         component: resetPassword,
         meta: {
           title: 'Reset Password'
+        }
+      },
+      {
+        path: "/session/otp/:id",
+        component: otp,
+        meta: {
+          title: 'OTP'
         }
       }
     ]

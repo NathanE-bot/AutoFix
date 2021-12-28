@@ -28,7 +28,7 @@ Route::post('doResetUserPassword', 'Api\ForgotPasswordController@reset');
 
 //OTP email Auth
 Route::get('tempUserID', 'Api\UserController@idTemp');
-Route::post('otp', 'Api\UserController@otp');
+Route::post('doVerififcationEmailWithOtp', 'Api\UserController@otp');
 
 
 // ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop

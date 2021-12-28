@@ -82,20 +82,22 @@ class UserController extends Controller
 
     public function idTemp(Request $request){
 
-        $decryptUserId = decrypt($dataId);
-        dd($decryptUserId);
+        $decryptUserId = decrypt($request->id);
 
         try{
-            $data = [
-                'objectReturn' => DB::table('temp_users')
-                ->join('otps','otps.temp_userID','=','otps.id')
-                ->where('otps.temp_userID','=',$request->id)
-                ->get()
-            ];
-            return response()->json($data, 200);
+            $data = DB::table('temp_users')
+            ->join('otps','otps.temp_userID','=','otps.id')
+            ->where('otps.temp_userID','=',$decryptUserId[0]->id)
+            ->first();
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+
+
+
+        return response()->json([
+            'email' => $data->email
+        ], 200);
     }
 
     public function otp(Request $request)
@@ -118,13 +120,28 @@ class UserController extends Controller
         $otpCode = DB::table('temp_users')
         ->join('otps','otps.temp_userID','=','temp_users.id')
         ->select('otp')
-        ->where('temp_users.id','=',$tempId)->get();
+        ->where('temp_users.id','=',$tempId)->first();
 
-        if($otpCode[0]->otp != $request->otp){
+        if($otpCode->otp != $request->otp){
             return response()->json([
                 'message' => 'Kode yang anda masukkan salah.'
             ], 404);
         }
+
+        $dataUser = DB::table('temp_users')->where('id','=',$tempId)->first();
+
+        $user = User::create([
+            'fullName' => $dataUser->fullName,
+            'displayName' => $dataUser->displayName,
+            'email' => $dataUser->email,
+            'password' => $dataUser->password,
+            'DoB' => $dataUser->DoB,
+            'phoneNumber' => $dataUser->phoneNumber,
+            'address' => $dataUser->address,
+            'role' => $dataUser->role,
+            'profilePicture' => $dataUser->profilePicture,
+            'isActive' => $dataUser->isActive,
+        ]);
 
         try {
             
@@ -134,25 +151,7 @@ class UserController extends Controller
         } catch (Exception $error) {
             return response()->json($error, 500);
         }
-
-        $dataUser = DB::table('temp_users')->where('id','=',$tempId)->get();
-
-        foreach($dataUser as $records)
-        {
-            $user = User::create([
-                'fullName' => $records->fullName,
-                'displayName' => $records->displayName,
-                'email' => $records->email,
-                'password' => $records->password,
-                'DoB' => $records->DoB,
-                'phoneNumber' => $records->phoneNumber,
-                'address' => $records->address,
-                'role' => $records->role,
-                'profilePicture' => $records->profilePicture,
-                'isActive' => $records->isActive,
-            ]);
-        }
-        $delatedTempUser = DB::table('temp_users')->where('id', $request->id)->delete();
+        
         return response()->json([
             'message' => 'Verification success'
         ], 200);

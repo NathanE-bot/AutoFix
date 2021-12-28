@@ -24,5 +24,9 @@ export function resetUserPassword(formResetPassword) {
 }
 
 export function getTempUserID (id) {
-  return axios.get(localURL + '/api/tempUserID', id)
+  return axios.get(localURL + '/api/tempUserID?id=' + id)
+}
+
+export function verififcationEmailWithOtp (otp, encryptUserId) {
+  return axios.post(localURL + '/api/doVerififcationEmailWithOtp?otp=' + otp + '&encryptUserId=' + encryptUserId)
 }
