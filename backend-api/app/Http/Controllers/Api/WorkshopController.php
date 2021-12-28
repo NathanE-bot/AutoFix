@@ -98,7 +98,7 @@ class WorkshopController extends Controller
             $data = [
                 'objectReturn'=>$workshops
             ];
-            return response()->json($data , 200);
+            return response()->json($data, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

@@ -29,7 +29,7 @@ class otpMail extends Mailable
     public function build()
     {
 
-        return $this->subject('Mail from Autofix')
+        return $this->subject('Verification AutoRepair Account')
                     ->view('otp');
     }
 }

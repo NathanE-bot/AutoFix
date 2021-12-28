@@ -20,12 +20,18 @@ class UserController extends Controller
     {
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
-            $user['token'] =  $user->createToken('App')->accessToken;
-            $user['status'] = "Login Successfully";
-            return response()->json($user, 200);
+            $access_token =  $user->createToken('App')->accessToken;
+
+            return response()->json([
+                'user' => $user,
+                'access_token' => $access_token,
+                'status' => 'Login Successfully'
+            ], 200);
         }
         else{
-            return response()->json(['error'=>'Email atau password masih salah. Coba ulang kembali'], 401);
+            return response()->json([
+                'error'=>'Email atau password masih salah. Coba ulang kembali'
+            ], 401);
         }
     }
 
@@ -38,7 +44,7 @@ class UserController extends Controller
             'fullName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'DoB'=>['required','date_format:Y-m-d'],
+            'DoB'=>['required'],
             'phoneNumber'=>['required','string','max:12'],
             'address'=>['required','string','max:255']
         ]);
@@ -55,26 +61,29 @@ class UserController extends Controller
         $emailFromRegis = $request->email;
 
         \Mail::to($emailFromRegis)->send(new \App\Mail\otpMail($randomNumber));
-
-
+        
         $formRegister = $request->all();
         $formRegister['password'] = bcrypt($formRegister['password']);
-        $user = TempUser::create($formRegister);
-        $accessToken = $user->createToken('authToken')->accessToken;
-        $dataid= DB::table('temp_users')->select('id')->get();
+        $tempUser = TempUser::create($formRegister);
+        $dataId= DB::table('temp_users')->select('id')->where('email', $request->email)->get();
+
+        $encryptUserId = encrypt($dataId);
 
         DB::table('otps')->insert([
-            'temp_userID' => $user->id,
+            'temp_userID' => $tempUser->id,
             'otp' => $randomNumber
            ]);
 
         return response()->json([
-            'user' => $user,
-            'access_token' => $accessToken
+            'encryptUserId' => $encryptUserId,
+            'message' => 'We have send otp to your email for your account verification. Please check your Email.'
         ], 200);
     }
 
     public function idTemp(Request $request){
+
+        $decryptUserId = decrypt($dataId);
+        dd($decryptUserId);
 
         try{
             $data = [
@@ -93,6 +102,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'otp' => ['required', 'string', 'max:4'],
+            'encryptUserId' => ['required']
         ]);
 
         if ($validator->fails()) {
@@ -101,18 +111,32 @@ class UserController extends Controller
             ], 401);
         }
 
+        $decryptUserId = decrypt($request->encryptUserId);
+
+        $tempId = (string) $decryptUserId[0]->id;
+
         $otpCode = DB::table('temp_users')
         ->join('otps','otps.temp_userID','=','temp_users.id')
         ->select('otp')
-        ->where('temp_users.id','=',$request->id)->get();
+        ->where('temp_users.id','=',$tempId)->get();
 
         if($otpCode[0]->otp != $request->otp){
             return response()->json([
-                'message' => 'Code anda salah'
+                'message' => 'Kode yang anda masukkan salah.'
             ], 404);
         }
 
-        $dataUser = DB::table('temp_users')->where('id','=',$request->id)->get();
+        try {
+            
+            $dataOTP = DB::table('otps')->where('otp', '=', $request->otp)->delete();
+            $dataTemp = DB::table('temp_users')->where('id', '=', $tempId)->delete();
+
+        } catch (Exception $error) {
+            return response()->json($error, 500);
+        }
+
+        $dataUser = DB::table('temp_users')->where('id','=',$tempId)->get();
+
         foreach($dataUser as $records)
         {
             $user = User::create([
@@ -126,11 +150,11 @@ class UserController extends Controller
                 'role' => $records->role,
                 'profilePicture' => $records->profilePicture,
                 'isActive' => $records->isActive,
-                ]);
+            ]);
         }
         $delatedTempUser = DB::table('temp_users')->where('id', $request->id)->delete();
         return response()->json([
-            'user' => $user,
+            'message' => 'Verification success'
         ], 200);
     }
 }
