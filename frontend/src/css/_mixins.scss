@@ -20,6 +20,12 @@
     min-height: $min_h;
 }
 
+@mixin width_preset($width) {
+    width: $width;
+    max-width: $width;
+    min-width: $width;
+}
+
 // sosmed_box
 @mixin sosmed_box ($bg_c, $c) {
     background-color: $bg_c;
@@ -44,4 +50,30 @@
     transition-duration: 0.36s, 0.36s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
     transition-delay: 0s, 0s;
+}
+
+@mixin transition_mixin_duration ($property, $duration) {
+    transition: $property $duration cubic-bezier(0.4, 0, 0.2, 1);
+    transition-property: $property;
+    transition-duration: $duration, $duration;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0s, 0s;
+}
+
+// misc
+@mixin layout_txt($width) {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 4px;
+    border-radius: 5px;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        @include width_preset($width);
+    }
+
+    > span {
+        margin-left: 8px;
+    }
 }

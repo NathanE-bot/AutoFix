@@ -120,8 +120,7 @@ export default {
           v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Format Email Salah'
         ],
         password_r: [
-          v => !!v || 'Password Harus Diisi',
-          // v => v.length >= 8 || 'Password minimal 8 karakter'
+          v => !!v || 'Password Harus Diisi'
         ]
       },
       window: {

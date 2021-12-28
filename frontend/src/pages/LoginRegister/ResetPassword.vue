@@ -82,7 +82,7 @@ export default {
             rules: {
                 password_r: [
                     v => !!v || 'Password harus diisi',
-                    // v => v.length >= 8 || 'Password minimal 8 karakter'
+                    v => v.length >= 8 || 'Password minimal 8 karakter'
                 ],
                 password_confirmation_r: [
                     v => !!v || 'Password harus diisi',

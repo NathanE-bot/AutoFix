@@ -22,3 +22,7 @@ export function requestForgotPasswordEmail(email) {
 export function resetUserPassword(formResetPassword) {
   return axios.post(localURL + '/api/doResetUserPassword', formResetPassword)
 }
+
+export function getTempUserID (id) {
+  return axios.get(localURL + '/api/tempUserID', id)
+}

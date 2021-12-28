@@ -19,3 +19,7 @@ export function getRecommendWorkshop() {
 export function getWorkshopByStatusUpdate(iPage) {
   return axios.get(localURL + '/api/getWorkshopByStatusUpdate?page=' + iPage)
 }
+
+export function getWorkshopById(id) {
+  return axios.get(localURL + '/api/getWorkshopById?id=' + id)
+}
