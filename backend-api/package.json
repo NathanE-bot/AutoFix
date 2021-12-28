@@ -17,5 +17,9 @@
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0"
+    },
+    "dependencies": {
+        "laravel-echo": "^1.11.3",
+        "pusher-js": "^7.0.3"
     }
 }

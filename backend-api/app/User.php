@@ -43,6 +43,17 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    use HasApiTokens, HasFactory, Notifiable;
+
+
+
+
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    } 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

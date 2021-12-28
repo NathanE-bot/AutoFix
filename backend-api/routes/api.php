@@ -64,3 +64,9 @@ Route::get('email','mailController@index')->name('email');
 //insurance
 Route::get('InsuranceList','Api\InsuranceController@viewInsurance');
 Route::post('FormInsurance', 'Api\InsuranceController@FormIsurance');
+
+
+// message
+Route::get('/chat', 'Api\ChatsController@index');
+Route::get('/messages', 'Api\ChatsController@fetchMessages' );
+Route::post('/messages', 'Api\ChatsController@sendMessage' );
