@@ -1,7 +1,7 @@
 <template>
     <q-page class="flex flex-center">
         <q-card class="w-60 py-60 br-20px">
-            <q-card-section class="flex flex-center flex-dir-col">
+            <q-card-section class="flex flex-center flex-dir-col" v-if="!help.isDataEmpty(email)">
                 <h5 class="my-10">We've sent you a 4 digits verification code for your account at,</h5>
                 <h5 class="my-10 mb-20">{{ email }}</h5>
                 <div :class="['d-flex a-center', {'mb-40' : !errorMessage}]">
@@ -14,6 +14,13 @@
                     <q-input @keyup="doFinalOtp()" class="otp-input otp_4" outlined maxlength="1" v-model="otp4" />
                 </div>
                 <span v-if="errorMessage" class="red-txt text-subtitle2 fw-semibold mt-15">Kode OTP belum valid</span>
+                <div>
+                    <span v-if="timerVisible">Resend in {{ timerCount }}</span>
+                    <span v-else class="link_txt slate_grey" @click="doResendOtp()">Resend Otp?</span>
+                </div>
+            </q-card-section>
+            <q-card-section v-else class="flex flex-center flex-dir-col">
+                <h5 class="my-10">You are not authorized in this page.</h5>
             </q-card-section>
         </q-card>
     </q-page>
@@ -21,7 +28,7 @@
 <script>
 /* eslint-disable */
 import help from '../../js/help'
-import { getTempUserID, verififcationEmailWithOtp } from '../../api/loginRegisterServices'
+import { getTempUserID, verififcationEmailWithOtp, resendOtp } from '../../api/loginRegisterServices'
 import Swal from 'sweetalert2'
 
 export default {
@@ -34,12 +41,11 @@ export default {
             otp2: null,
             otp3: null,
             otp4: null,
-            rules: [
-                v => !!val || 'Masukkan 4 Kode Otp'
-            ],
             otpFinal: null,
             encryptUserId: null,
-            email: ''
+            email: '',
+            timerCount: 30,
+            timerVisible: true,
         }
     },
     created () {
@@ -48,6 +54,26 @@ export default {
         this.doGetTempUserID()
     },
     methods: {
+        doResendOtp () {
+            let _this = this
+            _this.resendLoader = true
+            resendOtp(_this.email, _this.encryptUserId).then(response => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.data.message
+                })
+                _this.timerCount = _this.timerCount++
+                _this.resendLoader = false
+            }) .catch(function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.response.data.message
+                })
+                _this.resendLoader = false
+            })
+        },
         doGetTempUserID () {
             let _this = this
             _this.loader = true
@@ -105,7 +131,6 @@ export default {
                     _this.otp2 = null
                     _this.otp3 = null
                     _this.otp4 = null
-
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -118,6 +143,22 @@ export default {
         },
         doConsole (a) {
             console.log(a)
+        }
+    },
+    watch: {
+        timerCount: {
+            handler(value) {
+                if(!help.isDataEmpty(this.email)){
+                    if (value > 0) {
+                        setTimeout(() => {
+                            this.timerCount--;
+                        }, 1000);
+                    } else {
+                        this.timerVisible = false
+                    }
+                }
+            },
+            immediate: true // This ensures the watcher is triggered upon creation
         }
     }
 }

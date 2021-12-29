@@ -28,7 +28,7 @@ class ForgotPasswordController extends Controller
 
         if(User::where('email', $emailInput)->doesntExist()){
             return response()->json([
-                'message' => 'User does not exit. Please input another email.'
+                'message' => 'User does not exists. Please input another email.'
             ], 404);
         }
 

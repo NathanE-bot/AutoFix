@@ -93,8 +93,6 @@ class UserController extends Controller
             return response()->json($err, 500);
         }
 
-
-
         return response()->json([
             'email' => $data->email
         ], 200);
@@ -155,5 +153,46 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Verification success'
         ], 200);
+    }
+
+    public function resendOtp(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'email' => ['required'],
+            'encryptUserId' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error'=>$validator->errors()
+            ], 401);
+        }
+
+        $decryptUserId = decrypt($request->encryptUserId);
+        $tempId = (string) $decryptUserId[0]->id;
+
+        try {
+            
+            $test = DB::table('otps')
+            ->where('temp_userID', '=', $tempId)
+            ->delete();
+
+            $randomNumber = random_int(1000, 9999);
+
+            DB::table('otps')->insert([
+                'temp_userID' => $tempId,
+                'otp' => $randomNumber
+            ]);
+
+            \Mail::to($request->email)->send(new \App\Mail\otpMail($randomNumber));
+
+        } catch (Exception $error) {
+            return response()->json($error, 500);
+        }
+
+        return response()->json([
+            'message' => 'Resend OTP success. Please check your email'
+        ], 200);
+
     }
 }
