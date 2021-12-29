@@ -117,7 +117,10 @@ class WorkshopController extends Controller
             ->get()->toArray();
             $workshop_services =  DB::table('workshop_services')
             ->get()->toArray();
-
+            $operational_workshops =  DB::table('operational_workshops')
+            ->get()->toArray();
+                   $workshop_details =  DB::table('workshop_details')
+            ->get()->toArray();
             foreach($workshops as &$value)
             {
                 $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
