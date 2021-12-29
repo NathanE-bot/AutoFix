@@ -61,12 +61,12 @@ class WorkshopController extends Controller
             if ($time >= $value->operationalCloseHour || $time < $value->operationalOpenHour && $dateweek == $value->operationalDate) {
                 array_push($array,'tutup');
                 DB::table('workshops')->where('id','=',$value->id)->update([
-                    'statusBuka' => 'tutup'
+                    'statusHr' => 'tutup'
                 ]);
             }else if($time >= $value->operationalOpenHour && $time <= $value->operationalCloseHour && $dateweek == $value->operationalDate){
                 array_push($array,'buka');
                 DB::table('workshops')->where('id','=',$value->id)->update([
-                    'statusBuka' => 'buka'
+                    'statusHr' => 'buka'
                 ]);
             }
         }
