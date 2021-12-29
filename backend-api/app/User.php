@@ -7,9 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
+
 
     /**
      * The attributes that are mass assignable.
@@ -44,16 +46,12 @@ class User extends Authenticatable
      * @var array
      */
 
-    use HasApiTokens, HasFactory, Notifiable;
 
-
-
-
-
+    //Add the below function
     public function messages()
     {
         return $this->hasMany(Message::class);
-    } 
+    }
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
