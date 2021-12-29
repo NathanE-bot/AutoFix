@@ -51,3 +51,14 @@
         }
     }
 }
+
+.w-list{
+    padding: 12px 16px;
+    @include transition_mixin (background-color);
+    background-color: #ffffff;
+
+    &:hover{
+        @include transition_mixin (background-color);
+        background-color: rgba(0, 0, 0, .01);
+    }
+}

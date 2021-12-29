@@ -15,7 +15,6 @@
     background-color: rgba(33, 161, 123, .3);
 }
 
-// color
 .white-bg{
     background: #ffffff;
 }
@@ -24,6 +23,7 @@
     background: #F2F0F0;
 }
 
+// color
 .primary_color{
     color: $primary;
 }
@@ -36,16 +36,16 @@
     color: black_2;
 }
 
-.rating_yellow{
-    color: $yellow_1;
-}
-
-.slate_grey{
-    color: slategray;
-}
-
 .grey-txt{
     color: #595959;
+}
+
+.grey-4{
+    color: #E0E0E0;
+}
+
+.grey-5{
+    color: #BDBDBD;
 }
 
 .red-txt{
@@ -63,4 +63,12 @@
 
 .waiting-color{
     color: $yellow;
+}
+
+.rating_yellow{
+    color: $yellow_1;
+}
+
+.slate_grey{
+    color: slategray;
 }

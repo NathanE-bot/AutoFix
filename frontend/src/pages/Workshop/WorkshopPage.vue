@@ -57,10 +57,6 @@
             class="fw-semibold ml-auto br-10px"
           >
           </q-btn>
-          <q-btn
-            @click="jsonDataParam.iPage += 1; doGetWorkshopByStatusUpdate()">
-            LEGO
-          </q-btn>
         </q-card-section>
       </q-card>
       <div class="my-20">
@@ -74,7 +70,7 @@
             class="list-workshop-scrollbar"
             :style="{height: window.heightAltered + 'px'}"
           >
-            <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px p-20 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
+            <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
               <q-card-section class="d-flex a-start">
                 <div>
                   <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
@@ -110,8 +106,15 @@
           <q-card class="my-card p-20 br-20px" v-if="!help.isObjectEmpty(workshopById.defaultData)">
             <q-card-section>
               <div>
-                <div>
+                <div class="d-flex a-start j-sp-between">
                   <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+                  <div class="soft-badge-primary">
+                    <span>Rating</span>
+                    <div>
+                      <i class="fas fa-star fs-10"></i>
+                      <span>{{ workshopById.defaultData.rating }}</span>
+                    </div>
+                  </div>
                 </div>
                 <div class="text-subtitle2 grey-txt my-6">{{ workshopById.defaultData.district }}, {{ workshopById.defaultData.city }}, {{ workshopById.defaultData.province }}</div>
                 <div class="text-h6 mb-6">{{ workshopById.defaultData.workshopName }}</div>
@@ -143,9 +146,54 @@
                 <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
                 <div class="col-md-6 w-45-i px-20">
                   <div class="text-h6 mb-6">Services</div>
+                  <span class="fw-semibold">Umum :</span>
+                  <div class="layout_bullet">
+                    <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
+                      <div class="bullet"></div>
+                      <span class="text">{{ item.serviceDetail }}</span>
+                    </div>
+                  </div>
+                  <span class="fw-semibold">Berkala :</span>
+                  <div class="layout_bullet">
+                    <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
+                      <div class="bullet"></div>
+                      <span class="text">{{ item.serviceDetail }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <q-separator class="br-5px" color="#605A5A" size="4px" />
             </q-card-section>
+            <q-card class="my-card border-card-i br-20px-i m-16">
+              <q-card-section>
+                <div class="text-h6">Reviews</div>
+                <q-scroll-area
+                  :thumb-style="thumbStyle"
+                  :bar-style="barStyle"
+                  class="review-workshop-scrollbar"
+                  :style="{height: window.heightAlteredReview + 'px'}"
+                >
+                  <q-card class="my-card review-card br-20px">
+                    <q-card-section class="relative-position">
+                      <span class="review-date grey-5">08/09/2021</span>
+                      <div class="review-content">
+                        <div class="text-h6">Bambang</div>
+                        <div class="line-clamp-3 text-subtitle2 fs-12">testing testing</div>
+                      </div>
+                      <q-rating
+                        class="review-rating"
+                        v-model="ratingModel"
+                        readonly
+                        size="xs"
+                        color="yellow-14"
+                        icon="star_border"
+                        icon-selected="star"
+                      />
+                    </q-card-section>
+                  </q-card>
+                </q-scroll-area>
+              </q-card-section>
+            </q-card>
           </q-card>
         </div>
       </div>
@@ -178,7 +226,8 @@ export default {
        window: {
         width: 0,
         height: 0,
-        heightAltered: 0
+        heightAltered: 0,
+        heightAlteredReview: 0
       },
       loader: false,
       listLoader: false,
@@ -202,7 +251,8 @@ export default {
         defaultData: [],
         servisBerkala: [],
         servisUmum: []
-      }
+      },
+      ratingModel: 4
     }
   },
   created () {
@@ -224,7 +274,8 @@ export default {
     handleResize () {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
-      this.window.heightAltered = window.innerHeight - (window.innerHeight * (22/100))
+      this.window.heightAltered = window.innerHeight - (window.innerHeight * (14/100))
+      this.window.heightAlteredReview = window.innerHeight - (window.innerHeight * (86/100))
     },
     // doFilterOption (val, update) {
     //   if (val === '') {
@@ -301,6 +352,16 @@ export default {
             }
           }
         })
+        // filter duplicated
+        const tempServisBerkala = _this.workshopById.servisBerkala.map(o => o.serviceDetail)
+        const filteredServisBerkala = _this.workshopById.servisBerkala.filter(({serviceDetail}, index) => !tempServisBerkala.includes(serviceDetail, index + 1))
+
+        const tempServisUmum = _this.workshopById.servisUmum.map(o => o.serviceDetail)
+        const filteredServisUmum = _this.workshopById.servisUmum.filter(({serviceDetail}, index) => !tempServisUmum.includes(serviceDetail, index + 1))
+
+        _this.workshopById.servisBerkala = filteredServisBerkala
+        _this.workshopById.servisUmum = filteredServisUmum
+
         console.log('sb', _this.workshopById.servisBerkala)
         console.log('su', _this.workshopById.servisUmum)
         _this.detailWorkshopLoader = false

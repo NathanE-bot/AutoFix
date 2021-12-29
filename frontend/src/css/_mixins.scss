@@ -26,6 +26,12 @@
     min-width: $width;
 }
 
+@mixin height_preset($height) {
+    height: $height;
+    max-height: $height;
+    min-height: $height;
+}
+
 // sosmed_box
 @mixin sosmed_box ($bg_c, $c) {
     background-color: $bg_c;
@@ -76,4 +82,50 @@
     > span {
         margin-left: 8px;
     }
+}
+
+@mixin layout_bullet ($width, $height) {
+    .wrapper{
+        display: flex;
+        align-items: center;
+        padding: 4px;
+        .bullet{
+            @include width_preset($width);
+            @include height_preset($height);
+            padding: 1px;
+            background-color: $primary;
+            border-radius: 50%;
+        }
+        .text{
+            margin-left: 6px;
+        }
+    }
+}
+
+@mixin layout_soft_badge ($bg, $c) {
+    display: flex;
+    align-items: center;
+    color: $c;
+    background-color: $bg;
+    padding: 5px 20px;
+    border-radius: 15px;
+
+    > span {
+        margin-right: 8px;
+    }
+
+    > div {
+        display: flex;
+        align-items: center;
+        i{
+            margin-right: 4px;
+        }
+    }
+}
+
+@mixin line_clamp($line) {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

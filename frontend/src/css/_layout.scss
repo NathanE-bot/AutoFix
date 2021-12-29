@@ -211,7 +211,30 @@
     }
 }
 
+// border
+.border-card{
+    border: 1px solid rgba(0, 0, 0, .2);
+    &-i{
+        border: 1px solid rgba(0, 0, 0, .2) !important;
+    }
+}
+
+// line clamp
+@for $i from 1 to 10 {
+    .line-clamp-#{$i}{
+        @include line_clamp(#{$i});
+    }
+}
+
 // misc
 .layout_txt{
     @include layout_txt(60px);
+}
+
+.layout_bullet{
+    @include layout_bullet(8px, 8px);
+}
+
+.soft-badge-primary{
+    @include layout_soft_badge($primary, #ffffff);
 }
