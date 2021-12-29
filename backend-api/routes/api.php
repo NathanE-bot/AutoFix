@@ -66,3 +66,7 @@ Route::get('email','mailController@index')->name('email');
 //insurance
 Route::get('InsuranceList','Api\InsuranceController@viewInsurance');
 Route::post('FormInsurance', 'Api\InsuranceController@FormIsurance');
+
+//chat
+Route::post('FCM-token','FCMController@index')->name('FCM-token');
+// Route::middleware('auth:api')->get('auth/chatUser', 'FCMController@index');

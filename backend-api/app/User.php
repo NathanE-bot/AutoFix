@@ -26,7 +26,8 @@ class User extends Authenticatable
         'address',
         'role',
         'profilePicture',
-        'isActive'
+        'isActive',
+        'fcm_token'
     ];
 
     /**

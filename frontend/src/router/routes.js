@@ -32,7 +32,8 @@ const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 const claimInsurance = () => import("pages/Insurance/ClaimInsurance");
 const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
 const statusInsurance = () => import("pages/Insurance/StatusInsurance");
-
+//chat
+const chattest = () => import("layouts/ChatLayout");
 const routes = [
   // forLoginRegis
   {
@@ -81,6 +82,14 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
+      {
+        path: "/member/kontolodon",
+        component: chattest,
+        meta: {
+          title: 'Workshop Page',
+          breadcrumb: 'Workshop Page'
+        }
+      },
       // Insurance
       {
         path: "/member/insurance",
