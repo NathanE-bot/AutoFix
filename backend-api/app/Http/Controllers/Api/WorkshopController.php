@@ -109,17 +109,19 @@ class WorkshopController extends Controller
         $workshopName= $req->workshopName;
         $location = $req->location;
         $statusOpen = $req->statusOpen;
+        $status24Hr = $req->status24hr;
         try{
             $workshops = DB::table('workshops')
             ->where('workshopName','like','%'.$workshopName.'%')
             ->orWhere('workshopAddress','like','%'.$location.'%')
             ->orWhere('statusHr','=',$statusOpen)
+            ->orWhere('status2hr','=',$req->status24hr)
             ->get()->toArray();
             $workshop_services =  DB::table('workshop_services')
             ->get()->toArray();
             $operational_workshops =  DB::table('operational_workshops')
             ->get()->toArray();
-                   $workshop_details =  DB::table('workshop_details')
+            $workshop_details =  DB::table('workshop_details')
             ->get()->toArray();
             foreach($workshops as &$value)
             {
@@ -144,6 +146,22 @@ class WorkshopController extends Controller
             return response()->json($err, 500);
         }
     }
+
+
+    public function filterDataWorkshop(){
+        try{
+            $workshops = DB::table('workshops')->select('workshopName','district','statusHr','status24hr')
+            ->get();
+            $data = [
+                'objectReturn'=>$workshops
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+
 
     public function workshopDetailView(Request $req)
     {
