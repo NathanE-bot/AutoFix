@@ -84,15 +84,6 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
-      // Chats
-      {
-        path: "/member/testchat",
-        component: testChat,
-        meta: {
-          title: 'Test Page',
-          breadcrumb: 'Test Page'
-        }
-      },
       // Insurance
       {
         path: "/member/insurance",
@@ -188,7 +179,16 @@ const routes = [
           title: 'Workshop Page',
           breadcrumb: 'Workshop Page'
         }
-      }
+      },
+       // Chats
+      {
+        path: "/testchat",
+        component: testChat,
+        meta: {
+          title: 'Test Page',
+          breadcrumb: 'Test Page'
+        }
+      },
     ]
   }
 ];
