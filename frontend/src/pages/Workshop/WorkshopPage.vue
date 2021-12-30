@@ -82,7 +82,8 @@
                     <q-badge class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
                       {{ item.statusHr }}
                     </q-badge>
-                    <div class="text-subtitle2 grey-txt">{{ tempDistance[index].distance.toFixed(2) }} Km</div>
+                    <div class="text-subtitle2 grey-txt" v-if="!help.isObjectEmpty(tempDistance)">{{ tempDistance[index].distance.toFixed(2) }} Km</div>
+                    <div class="text-subtitle2 grey-txt" v-else>- Km</div>
                   </div>
                 </q-card-section>
               </q-card>
