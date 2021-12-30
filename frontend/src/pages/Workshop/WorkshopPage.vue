@@ -5,51 +5,41 @@
           <span class="fw-bold fs-20">Workshop</span>
         </q-card-section>
         <q-card-section class="p-35 pt-0 d-flex row">
-          <!-- <q-select
-            @filter="doFilterOption"
-            v-model="searchKeywordTemp"
-            :options="tempItems"
-            use-input input-debounce="0" outlined hide-dropdown-icon
-            :placeholder="searchKeyword == null || searchKeyword == '' ? 'Cari workshop...' : ''"
-            class="col-md-3 mr-auto default-select"
+          <q-select
+            v-model="jsonDataParam.workshopName"
+            :options="workshopNameOptions"
+            @filter="filterWName"
+            @input-value="setModelWName"
+            use-input input-debounce="0" fill-input hide-selected outlined
+            placeholder="Find workshop..."
+            class="col-md-3 mr-auto br-10px default-select-2"
           >
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey">
-                  No results
-                </q-item-section>
-              </q-item>
-            </template>
             <template v-slot:prepend>
-              <q-icon name="search"></q-icon>
+              <q-icon name="search" />
             </template>
           </q-select>
           <q-select
-            v-model="searchLocation"
+            v-model="jsonDataParam.location"
             :options="locationOptions"
-            use-input input-debounce="0" outlined hide-dropdown-icon
-            :placeholder="searchLocation == null || searchLocation == '' ? 'Jakarta Barat, Tangerang...' : ''"
-            class="col-md-3 mx-auto default-select"
+            @filter="filterLocation"
+            @input-value="setModelLocation"
+            use-input input-debounce="0" fill-input hide-selected outlined
+            placeholder="Jakarta, Tangerang..."
+            class="col-md-3 mx-auto br-10px default-select-2"
           >
-            <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey">
-                  No results
-                </q-item-section>
-              </q-item>
-            </template>
             <template v-slot:prepend>
-              <q-icon name="search"></q-icon>
+              <q-icon name="search" />
             </template>
           </q-select>
           <q-select
-            v-model="filterTypeModel"
-            :options="filterType"
+            v-model="jsonDataParam.status"
+            :options="statusOptions"
             outlined
-            class="col-md-3 mx-auto default-select"
+            class="col-md-3 ml-auto br-10px default-select-2"
           >
-          </q-select> -->
+          </q-select>
           <q-btn
+            @click="doGetWorkshopApi(false, true)"
             color="primary"
             size="md" unelevated
             label="Search"
@@ -70,36 +60,41 @@
             class="list-workshop-scrollbar"
             :style="{height: window.heightAltered + 'px'}"
           >
-            <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
-              <q-card-section class="d-flex a-start">
-                <div>
-                  <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
-                </div>
-                <div class="ml-20">
-                  <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
-                  <div class="text-subtitle2 grey-txt">{{ item.district }}, {{ item.city }}, {{ item.province }}</div>
-                  <div class="d-flex a-baseline">
-                    <span class="text-subtitle2 grey-txt">Rating: {{ item.rating }}</span>
+            <div v-if="!help.isObjectEmpty(workshops)">
+              <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
+                <q-card-section class="d-flex a-start">
+                  <div>
+                    <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
                   </div>
-                  <div class="text-subtitle2">
-                    {{ item.workshopDescription }}
+                  <div class="ml-20">
+                    <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
+                    <div class="text-subtitle2 grey-txt">{{ item.district }}, {{ item.city }}, {{ item.province }}</div>
+                    <div class="d-flex a-baseline">
+                      <span class="text-subtitle2 grey-txt">Rating: {{ item.rating }}</span>
+                    </div>
+                    <div class="text-subtitle2">
+                      {{ item.workshopDescription }}
+                    </div>
                   </div>
-                </div>
-              </q-card-section>
-            </q-card>
-            <q-card class="my-card mb-20 br-20px p-20" v-if="listLoader">
-              <q-card-section class="d-flex a-start">
-                <div>
-                  <q-skeleton width="100px" height="80px" />
-                </div>
-                <div class="ml-20">
-                  <q-skeleton width="220px" type="text" />
-                  <q-skeleton width="300px" type="rect" />
-                  <q-skeleton width="60px" type="text" />
-                  <q-skeleton width="280px" type="text" />
-                </div>
-              </q-card-section>
-            </q-card>
+                </q-card-section>
+              </q-card>
+              <q-card class="my-card mb-20 br-20px p-20" v-if="listLoader">
+                <q-card-section class="d-flex a-start">
+                  <div>
+                    <q-skeleton width="100px" height="80px" />
+                  </div>
+                  <div class="ml-20">
+                    <q-skeleton width="220px" type="text" />
+                    <q-skeleton width="300px" type="rect" />
+                    <q-skeleton width="60px" type="text" />
+                    <q-skeleton width="280px" type="text" />
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+            <div v-else>
+              No Data
+            </div>
           </q-scroll-area>
         </div>
         <div class="col-md-6 pl-16">
@@ -128,13 +123,13 @@
                       <div>
                         <span>
                           {{
-                            item.operationalDate == '0' ? 'Senin' :
-                            item.operationalDate == '1' ? 'Selasa' :
-                            item.operationalDate == '2' ? 'Rabu' :
-                            item.operationalDate == '3' ? 'Kamis' :
-                            item.operationalDate == '4' ? 'Jumat' :
-                            item.operationalDate == '5' ? 'Sabtu' :
-                            item.operationalDate == '6' ? 'Minggu' : ''
+                            item.operationalDate == '1' ? 'Senin' :
+                            item.operationalDate == '2' ? 'Selasa' :
+                            item.operationalDate == '3' ? 'Rabu' :
+                            item.operationalDate == '4' ? 'Kamis' :
+                            item.operationalDate == '5' ? 'Jumat' :
+                            item.operationalDate == '6' ? 'Sabtu' :
+                            item.operationalDate == '0' ? 'Minggu' : '-'
                           }}
                         </span>
                         <span>:</span>
@@ -167,33 +162,47 @@
             <q-card class="my-card border-card-i br-20px-i m-16">
               <q-card-section>
                 <div class="text-h6">Reviews</div>
-                <q-scroll-area
-                  :thumb-style="thumbStyle"
-                  :bar-style="barStyle"
-                  class="review-workshop-scrollbar"
-                  :style="{height: window.heightAlteredReview + 'px'}"
-                >
-                  <q-card class="my-card review-card br-20px">
-                    <q-card-section class="relative-position">
-                      <span class="review-date grey-5">08/09/2021</span>
-                      <div class="review-content">
-                        <div class="text-h6">Bambang</div>
-                        <div class="line-clamp-3 text-subtitle2 fs-12">testing testing</div>
-                      </div>
-                      <q-rating
-                        class="review-rating"
-                        v-model="ratingModel"
-                        readonly
-                        size="xs"
-                        color="yellow-14"
-                        icon="star_border"
-                        icon-selected="star"
-                      />
-                    </q-card-section>
-                  </q-card>
-                </q-scroll-area>
+                <div>
+                  <q-scroll-area
+                    :thumb-style="thumbStyle"
+                    :bar-style="barStyle"
+                    class="review-workshop-scrollbar"
+                    :style="{height: window.heightAlteredReview + 'px'}"
+                  >
+                    <q-card class="my-card review-card br-20px">
+                      <q-card-section class="relative-position">
+                        <span class="review-date grey-5">08/09/2021</span>
+                        <div class="review-content">
+                          <div class="text-h6">Bambang</div>
+                          <div class="line-clamp-3 text-subtitle2 fs-12">testing testing</div>
+                        </div>
+                        <q-rating
+                          class="review-rating"
+                          v-model="ratingModel"
+                          readonly
+                          size="xs"
+                          color="yellow-14"
+                          icon="star_border"
+                          icon-selected="star"
+                        />
+                      </q-card-section>
+                    </q-card>
+                  </q-scroll-area>
+                </div>
+                <!-- <div v-else>
+                  <span class="text-subtitle2">No Reviews</span>
+                </div> -->
               </q-card-section>
             </q-card>
+            <div class="d-flex a-center j-end">
+              <q-btn
+                @click="changePage('/workshop/detail/' + workshopById.defaultData.id)"
+                color="primary" rounded unelevated padding="4px 24px"
+                label="See Full Profile"
+                class="tf-capitalize"
+              >
+              </q-btn>
+            </div>
           </q-card>
         </div>
       </div>
@@ -202,7 +211,7 @@
 
 <script>
 /* eslint-disable */
-import { getWorkshopByStatusUpdate, getWorkshopById } from '../../api/workshopService'
+import { getWorkshopApi, getWorkshopById, getAllWorkshops } from '../../api/workshopService'
 import help from '../../js/help'
 
 export default {
@@ -232,19 +241,17 @@ export default {
       loader: false,
       listLoader: false,
       detailWorkshopLoader: false,
-      searchKeyword: null,
-      searchKeywordTemp: null,
-      items: [],
-      tempItems: [],
-      filterTypeModel: 'Semua',
-      filterType: ['Semua', 'Buka', 'Tutup', '24 Jam'],
-      searchLocation: null,
-      locationOptions: [],
+      allWorkshops: [],
       tempWorkshops: [],
       workshops: [],
       totalWorkshop: 0,
       jsonDataParam: {
-        iPage: 1
+        iPage: 1,
+        workshopName: '',
+        location: '',
+        status: 'Semua',
+        statusHr: '',
+        status24Hr: ''
       },
       clickedId: null,
       workshopById: {
@@ -252,11 +259,18 @@ export default {
         servisBerkala: [],
         servisUmum: []
       },
-      ratingModel: 4
+      ratingModel: 4,
+      workshopNameOptions: ['Daihatsu', 'Honda', 'Toyota', 'Audi'],
+      tempWorkshopNameOptions: ['Daihatsu', 'Honda', 'Toyota', 'Audi'],
+      locationOptions: ['Jakarta', 'Tangerang'],
+      tempLocationOptions: ['Jakarta', 'Tangerang'],
+      statusOptions: ['Semua', 'Buka', 'Tutup', '24 Jam']
     }
   },
   created () {
-    this.doGetWorkshopByStatusUpdate(true)
+    this.setDefaultFilter()
+    this.doGetWorkshopApi(true)
+    this.doGetAllWorkshops()
   },
   mounted () {
     this.today = this.help.formatToday(this.help.data().d_1).toLowerCase()
@@ -271,44 +285,83 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    filterWName (val, update, abort) {
+      update(() => {
+        const needle = val.toLocaleLowerCase()  
+        this.workshopNameOptions = this.tempWorkshopNameOptions.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+      })
+    },
+    setModelWName (val) {
+      this.jsonDataParam.workshopName = val
+    },
+    filterLocation (val, update, abort) {
+      update(() => {
+        const needle = val.toLocaleLowerCase()  
+        this.locationOptions = this.tempLocationOptions.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+      })
+    },
+    setModelLocation (val) {
+      this.jsonDataParam.location = val
+    },
+    setDefaultFilter () {
+      this.jsonDataParam.workshopName = ''
+      this.jsonDataParam.location = ''
+      this.jsonDataParam.statusHr = ''
+      this.jsonDataParam.status24Hr = ''
+    },
     handleResize () {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
-      this.window.heightAltered = window.innerHeight - (window.innerHeight * (14/100))
-      this.window.heightAlteredReview = window.innerHeight - (window.innerHeight * (86/100))
+      this.window.heightAltered = window.innerHeight - (window.innerHeight * (11/100))
+      this.window.heightAlteredReview = window.innerHeight - (window.innerHeight * (84/100))
     },
-    // doFilterOption (val, update) {
-    //   if (val === '') {
-    //     update(() => {
-    //       this.tempItems = this.items
-    //     })
-    //     return
-    //   }
-    //   update(() => {
-    //     let needle = val.toLowerCase()
-    //     this.tempItems = this.items.filter(v => v.toLowerCase().indexOf(needle) > -1)
-    //     this.searchKeyword = needle
-    //   })
-    //   console.log(this.items, this.tempItems, this.searchKeyword, this.searchKeywordTemp)
-    // },
-    // doLoopForFilter (array) {
-    //   array.forEach(item => {
-    //     // let tempObj = {
-    //     //   label: item.workshopName,
-    //     //   id: item.id
-    //     // }
-    //     let tempString = item.workshopName
-    //     this.items.push(tempString)
-    //   })
-    // },
-    doGetWorkshopByStatusUpdate(validator) {
+    loadNextPage () {
+      let workshopList = document.getElementsByClassName("q-scrollarea__container")[0]
+      let workshopListScrollTillBottom = workshopList.scrollHeight - workshopList.clientHeight
+      console.log(workshopListScrollTillBottom, workshopList.scrollHeight, workshopList.clientHeight) 
+      if (workshopListScrollTillBottom <= workshopList.scrollTop) {
+        if(this.jsonDataParam.iPage < this.tempWorkshops.last_page){
+          this.listLoader = true
+          this.jsonDataParam.iPage++
+          this.doGetWorkshopApi(false)
+        } else {
+          this.listLoader = false
+        }
+      }
+    },
+    doGetAllWorkshops () {
+      let _this = this
+      getAllWorkshops().then(response => {
+        _this.allWorkshops = response.data.returnObject
+      }) .catch((err) =>{
+        console.log(err)
+      })
+    },
+    doGetWorkshopApi(validator, searching) {
       let _this = this
       _this.loader = true
-      getWorkshopByStatusUpdate(_this.jsonDataParam.iPage).then(response => {
+      if(_this.jsonDataParam.status == 'Semua'){
+        _this.jsonDataParam.statusHr = ''
+        _this.jsonDataParam.status24Hr = ''
+      } else if (_this.jsonDataParam.status == 'Buka'){
+        _this.jsonDataParam.statusHr = 'Buka'
+        _this.jsonDataParam.status24Hr = ''
+      } else if (_this.jsonDataParam.status == 'Tutup'){
+        _this.jsonDataParam.statusHr = 'Tutup'
+        _this.jsonDataParam.status24Hr = ''
+      } else if (_this.jsonDataParam.status == '24 Jam') {
+        _this.jsonDataParam.statusHr = ''
+        _this.jsonDataParam.status24Hr = '1'
+      }
+      console.log(_this.jsonDataParam)
+      getWorkshopApi(_this.jsonDataParam.iPage, _this.jsonDataParam.workshopName, _this.jsonDataParam.location, _this.jsonDataParam.statusHr, _this.jsonDataParam.status24Hr).then(response => {
         _this.tempWorkshops = response.data.objectReturn
+        _this.totalWorkshop = response.data.objectReturn.total
         console.log(_this.tempWorkshops)
-        _this.totalWorkshop = _this.tempWorkshops.length
-        _this.tempWorkshops.forEach(item => {
+        if(searching){
+          _this.workshops = []
+        }
+        _this.tempWorkshops.data.forEach(item => {
           _this.workshops.push(item)
         })
         _this.clickedId = _this.workshops[0].userID
@@ -316,24 +369,11 @@ export default {
           _this.doGetWorkshopById()
         }
         _this.loader = false
-        _this.listLoader = true
+        
       }) .catch((err) =>{
         console.log(err)
         _this.loader = false
       })
-    },
-    loadNextPage () {
-      let workshopList = document.getElementsByClassName("q-scrollarea__container")[0]
-      let workshopListScrollTillBottom = workshopList.scrollHeight - workshopList.clientHeight 
-      if (workshopListScrollTillBottom <= workshopList.scrollTop) {
-        if(this.jsonDataParam.iPage < this.tempWorkshops.last_page){
-          this.listLoader = true
-          this.jsonDataParam.iPage++
-          this.doGetWorkshopByStatusUpdate(false)
-        } else {
-          this.listLoader = false
-        }
-      }
     },
     doGetWorkshopById () {
       let _this = this
@@ -372,6 +412,9 @@ export default {
     },
     doConsole(a){
       console.log(a);
+    },
+    changePage(url) {
+      this.$router.push(url)
     }
   }
 }
