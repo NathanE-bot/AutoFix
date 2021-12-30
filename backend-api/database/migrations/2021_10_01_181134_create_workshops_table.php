@@ -30,7 +30,7 @@ class CreateWorkshopsTable extends Migration
             $table->decimal('latitude',10, 6);
             $table->decimal('longitude',10, 6);
             $table->string('statusHr')->nullable();
-            $table->string('status24hr')->nullable();
+            $table->string('status24Hr')->nullable();
             $table->boolean("isActive")->default(1);
             $table->timestamps();
         });

@@ -65,18 +65,5 @@ class UserSeeder extends Seeder
                 'profilePicture'=>''
             ]
         );
-        User::Create(
-            [
-                'fullName' => "Nathan Engolodoe",
-                'displayName'=>'nathanoe',
-                'email' => 'nathanengolodoe@gmail.com',
-                'password' => bcrypt('nathanoe'),
-                'DoB' => Carbon::parse('2000-10-24'),
-                'phoneNumber' => '087808769902',
-                'address'=> 'Resapan Air',
-                'role' => '3',
-                'profilePicture'=>''
-            ]
-        );
     }
 }

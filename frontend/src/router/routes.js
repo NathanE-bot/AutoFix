@@ -171,7 +171,7 @@ const routes = [
         }
       },
       {
-        path: "/workshop/detail",
+        path: "/workshop/detail/:id",
         component: WorkshopDetail,
         meta: {
           title: 'Workshop Detail Page',
@@ -199,33 +199,3 @@ if (process.env.MODE !== "ssr") {
     component: () => import("pages/Error404.vue")
   });
 }
-
-// const routes = [
-//   {
-//     path: '/',
-//     component: () => import('layouts/MainLayout.vue'),
-//     children: [
-//       { path: '', component: () => import('pages/Index.vue') }
-//     ]
-//   },
-//   {
-//     path: '/Login',
-//     component: () => import('layouts/MainLayout.vue'),
-//     children: [
-//       { path: '', component: () => import('pages/Login.vue') }
-//     ]
-//   },
-//   {
-//     path: '/Register',
-//     component: () => import('layouts/MainLayout.vue'),
-//     children: [
-//       { path: '', component: () => import('pages/Register.vue') }
-//     ]
-//   },
-//   // Always leave this as last one,
-//   // but you can also remove it
-//   {
-//     path: '/:catchAll(.*)*',
-//     component: () => import('pages/Error404.vue')
-//   }
-// ]

@@ -35,19 +35,19 @@ export default {
     },
     formatTodayFormatter (today) {
         if (today == 'monday') {
-            return today = '0'
-        } else if (today == 'tuesday') {
             return today = '1'
-        } else if (today == 'wednesday') {
+        } else if (today == 'tuesday') {
             return today = '2'
-        } else if (today == 'thursday') {
+        } else if (today == 'wednesday') {
             return today = '3'
-        } else if (today == 'friday') {
+        } else if (today == 'thursday') {
             return today = '4'
-        } else if (today == 'saturday') {
-            return today = '5'
-        } else if (today == 'sunday') {
+        } else if (today == 'friday') {
             return today = '6'
+        } else if (today == 'saturday') {
+            return today = '6'
+        } else if (today == 'sunday') {
+            return today = '0'
         }
     },
     formatToday (format) {

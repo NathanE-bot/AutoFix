@@ -5,8 +5,18 @@
     }
 }
 
+%default_input_2{
+    .q-field__control{
+        border-radius: 10px;
+    }
+}
+
 .default-input-1{
     @extend %default_input_1;
+}
+
+.default-input-2{
+    @extend %default_input_2;
 }
 
 .fix-txt-field{

@@ -1,5 +1,14 @@
 <template>
-  <div class="">
+  <q-page>
+    <q-btn
+      @click="goBack()"
+      unelevated round outline
+      size="lg"
+      class="back-btn-float_left"
+      style="color: white !important"
+    >
+      <i class="fas fa-chevron-left fs-20"></i>
+    </q-btn>
     <q-parallax :height="120" :speed="0.5">
       <template v-slot:media>
         <img src="~assets/images/background_img/car_bg_1.jpg">
@@ -119,16 +128,20 @@
       <!-- END contact -->
       <div class="flex flex-center py-50"><button class="button-make-shedule">Make Your Schedule</button></div>
     </div>
-  </div>
+  </q-page>
 </template>
-<script>
-// import { ref } from 'vue'
 
+<script>
+/* eslint-disable */
 export default {
-  setup () {
+  data () {
     return {
-      // slide: ref(1),
-      // autoplay: ref(true)
+
+    }
+  },
+  methods: {
+    goBack(){
+      this.$router.go(-1)
     }
   }
 }

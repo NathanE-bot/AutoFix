@@ -27,7 +27,7 @@ class WorkshopSeeder extends Seeder
             'latitude'=>'-6.091547',
             'longitude'=>'106.744798',
             'statusHr'=>'buka',
-            'status24hr'=>''
+            'status24hr'=>'1'
         ]);
 
         Workshop::create([
@@ -45,7 +45,7 @@ class WorkshopSeeder extends Seeder
             'latitude'=>'-6.080771',
             'longitude'=>'106.695535',
             'statusHr'=>'tutup',
-            'status24hr'=>''
+            'status24hr'=>'0'
         ]);
 
         Workshop::create([
@@ -63,7 +63,7 @@ class WorkshopSeeder extends Seeder
             'latitude'=>'-6.080771',
             'longitude'=>'106.695535',
             'statusHr'=>'buka',
-            'status24hr'=>''
+            'status24hr'=>'1'
         ]);
 
         Workshop::create([
@@ -81,7 +81,7 @@ class WorkshopSeeder extends Seeder
             'latitude'=>'-6.080771',
             'longitude'=>'106.695535',
             'statusHr'=>'Buka',
-            'status24hr'=>''
+            'status24hr'=>'1'
         ]);
     }
 }
