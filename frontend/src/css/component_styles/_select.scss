@@ -4,8 +4,25 @@
     }
 }
 
+%default_select_layout_2{
+    &.q-field--focused{
+        .q-field__control{
+            @include transition_mixin (border-radius);
+            border-radius: 10px 10px 0 0; 
+        }
+    }
+    .q-field__control{
+        @include transition_mixin (border-radius);
+        border-radius: 10px;
+    }
+}
+
 .default-select{
     @extend %default_select_layout;
+}
+
+.default-select-2{
+    @extend %default_select_layout_2;
 }
 
 .insurance_select{

@@ -43,14 +43,12 @@ Route::put('workshop/update/{id}', 'Api\WorkshopController@update');
 Route::delete('workshop/delete/{id}', 'Api\WorkshopController@destroy');
 
 
-
+// Route API Workshops
 Route::get('getRecommendationWorkshop','Api\HomeController@getRecommendationWorkshop')->name('homeWorkshopRecomendation');
 Route::post('home/search', 'Api\HomeController@searchdata');
 
-
-Route::get('getWorkshopByStatusUpdate', 'Api\WorkshopController@viewWorkshop')->name('ViewWorkshopByStatusUpdate');
-Route::post('workshop/{workshopName}/{workshopAddress}/{statusHr}', 'Api\WorkshopController@filterworkshop')->name('filterWorkshop');
-Route::get('workshop/filter', 'Api\WorkshopController@filterworkshop')->name('filterWorkshops');
+Route::get('getAllWorkshop', 'Api\WorkshopController@getAllWorkshop');
+Route::post('getWorkshopApi', 'Api\WorkshopController@getWorkshopApi');
 Route::post('workshop/{id}', 'Api\WorkshopController@workshopDetailView')->name('getIDWorkshop');
 Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
 Route::get('filterDataWorkshop','Api\WorkshopController@filterDataWorkshop')->name('filterDataWorkshop');

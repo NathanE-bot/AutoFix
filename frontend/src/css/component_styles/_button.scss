@@ -25,3 +25,22 @@
 .lg-rg-btn{
     min-width: 120px;    
 }
+
+.back-btn{
+    &-float_left{
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        z-index: 1;
+        .q-btn__content{
+            i{
+                font-size: 26px;
+            }
+        }
+    }
+    .q-btn__content{
+        i{
+            font-size: 26px;
+        }
+    }
+}

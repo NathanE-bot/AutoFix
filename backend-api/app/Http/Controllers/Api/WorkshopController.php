@@ -28,20 +28,43 @@ class WorkshopController extends Controller
      * list all workshop
      */
 
-    // public function allWorkshop()
-    // {
-    //     try{
-    //         $data = [
-    //             'objectReturn' => Workshop::all()
-    //             // 'objectReturn' => DB::table('users')->get()
-    //         ];
-    //         return response()->json($data, 200);
-    //     } catch (Exception $err){
-    //         return response()->json($err, 500);
-    //     }
-    // }
+    public function getAllWorkshop()
+    {
+        try{
+            $workshops = DB::table('workshops')
+            ->get()->toArray();
+            $workshop_services =  DB::table('workshop_services')
+            ->get()->toArray();
+            $operational_workshops =  DB::table('operational_workshops')
+            ->get()->toArray();
+            $workshop_details =  DB::table('workshop_details')
+            ->get()->toArray();
 
-    public function viewWorkshop()
+            foreach($workshops as &$value)
+            {
+                $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
+                    return $operational_workshops->workshopID === $value->id;
+                });
+                $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
+                    return $workshop_details->workshopID === $value->id;
+                });
+                foreach ($workshop_details as &$value2) {
+                    $value2->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value2) {
+                        return $workshop_services->workshopDetailID === $value2->id;
+                    });
+                }
+            }
+
+            $data = [
+                'objectReturn'=>$workshops
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function getWorkshopApi(Request $request)
     {
         date_default_timezone_set('Asia/Jakarta');
         $datestring = Carbon::now();
@@ -72,15 +95,19 @@ class WorkshopController extends Controller
         }
         try{
             $workshops = DB::table('workshops')
+            ->Where('workshopName','like','%'.$request->workshopName.'%')
+            ->Where('district','like','%'.$request->location.'%')
+            ->Where('statusHr','like','%'.$request->statusHr.'%')
+            ->Where('status24Hr','like','%'.$request->status24Hr.'%')
+            ->paginate(10)->toArray();
+            $workshop_services =  DB::table('workshop_services')
             ->get()->toArray();
             $operational_workshops =  DB::table('operational_workshops')
             ->get()->toArray();
             $workshop_details =  DB::table('workshop_details')
             ->get()->toArray();
-            $workshop_services =  DB::table('workshop_services')
-            ->get()->toArray();
 
-            foreach($workshops as &$value)
+            foreach($workshops['data'] as &$value)
             {
                 $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
                     return $operational_workshops->workshopID === $value->id;
@@ -104,53 +131,55 @@ class WorkshopController extends Controller
         }
     }
 
-    public function filterworkshop(Request $req)
-    {
-        $workshopName= $req->workshopName;
-        $location = $req->location;
-        $statusOpen = $req->statusOpen;
-        $status24Hr = $req->status24hr;
-        try{
-            $workshops = DB::table('workshops')
-            ->where('workshopName','like','%'.$workshopName.'%')
-            ->orWhere('workshopAddress','like','%'.$location.'%')
-            ->orWhere('statusHr','=',$statusOpen)
-            ->orWhere('status2hr','=',$req->status24hr)
-            ->get()->toArray();
-            $workshop_services =  DB::table('workshop_services')
-            ->get()->toArray();
-            $operational_workshops =  DB::table('operational_workshops')
-            ->get()->toArray();
-            $workshop_details =  DB::table('workshop_details')
-            ->get()->toArray();
-            foreach($workshops as &$value)
-            {
-                $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
-                    return $operational_workshops->workshopID === $value->id;
-                });
-                $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
-                    return $workshop_details->workshopID === $value->id;
-                });
-                foreach ($workshop_details as &$value2) {
-                    $value2->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value2) {
-                        return $workshop_services->workshopDetailID === $value2->id;
-                    });
-                }
-            }
+    // As of now not used
+    // public function filterworkshop(Request $req)
+    // {
+    //     $workshopName= $req->workshopName;
+    //     $location = $req->location;
+    //     $statusOpen = $req->statusOpen;
+    //     $status24Hr = $req->status24Hr;
+    //     try{
+    //         $workshops = DB::table('workshops')
+    //         ->Where('workshopName','like','%'.$req->workshopName.'%')
+    //         ->orWhere('district','=',$req->location)
+    //         ->orWhere('statusHr','=',$req->statusOpen)
+    //         ->orWhere('status24Hr','=',$req->status24Hr)
+    //         ->paginate(2)->toArray();
+    //         $workshop_services =  DB::table('workshop_services')
+    //         ->get()->toArray();
+    //         $operational_workshops =  DB::table('operational_workshops')
+    //         ->get()->toArray();
+    //         $workshop_details =  DB::table('workshop_details')
+    //         ->get()->toArray();
 
-            $data = [
-                'objectReturn'=>$workshops
-            ];
-            return response()->json($data, 200);
-        } catch (Exception $err){
-            return response()->json($err, 500);
-        }
-    }
+    //         foreach($workshops['data'] as &$value)
+    //         {
+    //             $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
+    //                 return $operational_workshops->workshopID === $value->id;
+    //             });
+    //             $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
+    //                 return $workshop_details->workshopID === $value->id;
+    //             });
+    //             foreach ($workshop_details as &$value2) {
+    //                 $value2->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value2) {
+    //                     return $workshop_services->workshopDetailID === $value2->id;
+    //                 });
+    //             }
+    //         }
+
+    //         $data = [
+    //             'objectReturn'=>$workshops
+    //         ];
+    //         return response()->json($data, 200);
+    //     } catch (Exception $err){
+    //         return response()->json($err, 500);
+    //     }
+    // }
 
 
     public function filterDataWorkshop(){
         try{
-            $workshops = DB::table('workshops')->select('workshopName','district','statusHr','status24hr')
+            $workshops = DB::table('workshops')->select('workshopName','district','statusHr','status24Hr')
             ->get();
             $data = [
                 'objectReturn'=>$workshops
