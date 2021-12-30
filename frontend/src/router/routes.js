@@ -33,6 +33,9 @@ const claimInsurance = () => import("pages/Insurance/ClaimInsurance");
 const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
 const statusInsurance = () => import("pages/Insurance/StatusInsurance");
 
+// Chats
+const testChat = () => import("pages/Chats/testPage");
+
 const routes = [
   // forLoginRegis
   {
@@ -81,6 +84,15 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
+      // Chats
+      {
+        path: "/member/testchat",
+        component: testChat,
+        meta: {
+          title: 'Test Page',
+          breadcrumb: 'Test Page'
+        }
+      },
       // Insurance
       {
         path: "/member/insurance",
