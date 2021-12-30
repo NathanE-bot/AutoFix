@@ -34,6 +34,7 @@ export default {
         }
     },
     formatTodayFormatter (today) {
+        console.log(today)
         if (today == 'monday') {
             return today = '1'
         } else if (today == 'tuesday') {
@@ -43,7 +44,7 @@ export default {
         } else if (today == 'thursday') {
             return today = '4'
         } else if (today == 'friday') {
-            return today = '6'
+            return today = '5'
         } else if (today == 'saturday') {
             return today = '6'
         } else if (today == 'sunday') {

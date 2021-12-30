@@ -27,3 +27,7 @@ export function getWorkshopApi(iPage, workshopName, location, statusHr, status24
 export function getWorkshopById(id) {
   return axios.get(localURL + '/api/getWorkshopById?id=' + id)
 }
+
+export function countDistanceFromCurrPos(currPos) {
+  return axios.post(localURL + '/api/doCountDistanceFromCurrPos', currPos)
+}

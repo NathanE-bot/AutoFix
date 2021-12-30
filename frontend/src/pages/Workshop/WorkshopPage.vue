@@ -11,7 +11,7 @@
             @filter="filterWName"
             @input-value="setModelWName"
             use-input input-debounce="0" fill-input hide-selected outlined
-            placeholder="Find workshop..."
+            placeholder="Cari bengkel..."
             class="col-md-3 mr-auto br-10px default-select-2"
           >
             <template v-slot:prepend>
@@ -61,20 +61,28 @@
             :style="{height: window.heightAltered + 'px'}"
           >
             <div v-if="!help.isObjectEmpty(workshops)">
-              <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
-                <q-card-section class="d-flex a-start">
-                  <div>
-                    <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+              <q-card v-for="(item, index) in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
+                <q-card-section class="d-flex j-sp-between">
+                  <div class="d-flex a-center">
+                    <div>
+                      <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+                    </div>
+                    <div class="ml-20">
+                      <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
+                      <div class="text-subtitle2 grey-txt">{{ item.district }}, {{ item.city }}, {{ item.province }}</div>
+                      <div class="d-flex a-baseline">
+                        <span class="text-subtitle2 grey-txt">Rating: {{ item.rating }}</span>
+                      </div>
+                      <div class="text-subtitle2">
+                        {{ item.workshopDescription }}
+                      </div>
+                    </div>
                   </div>
-                  <div class="ml-20">
-                    <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
-                    <div class="text-subtitle2 grey-txt">{{ item.district }}, {{ item.city }}, {{ item.province }}</div>
-                    <div class="d-flex a-baseline">
-                      <span class="text-subtitle2 grey-txt">Rating: {{ item.rating }}</span>
-                    </div>
-                    <div class="text-subtitle2">
-                      {{ item.workshopDescription }}
-                    </div>
+                  <div class="d-flex flex-dir-col a-end j-sp-between">
+                    <q-badge class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
+                      {{ item.statusHr }}
+                    </q-badge>
+                    <div class="text-subtitle2 grey-txt">{{ tempDistance[index].distance.toFixed(2) }} Km</div>
                   </div>
                 </q-card-section>
               </q-card>
@@ -119,7 +127,7 @@
                 <div class="col-md-6 w-45-i px-20">
                   <div class="text-h6 mb-6">Operational Hours</div>
                   <div v-for="item in workshopById.defaultData.operational_workshop" :key="item.id">
-                    <div :class="['d-flex a-center layout_txt', {'primary_bg_fade' : help.formatTodayFormatter(this.today) == item.operationalDate}]">
+                    <div :class="['d-flex a-center layout_txt', {'primary_bg_fade' : help.formatTodayFormatter(this.today) === item.operationalDate}]">
                       <div>
                         <span>
                           {{
@@ -211,7 +219,7 @@
 
 <script>
 /* eslint-disable */
-import { getWorkshopApi, getWorkshopById, getAllWorkshops } from '../../api/workshopService'
+import { getWorkshopApi, getWorkshopById, getAllWorkshops, countDistanceFromCurrPos } from '../../api/workshopService'
 import help from '../../js/help'
 
 export default {
@@ -264,12 +272,17 @@ export default {
       tempWorkshopNameOptions: ['Daihatsu', 'Honda', 'Toyota', 'Audi'],
       locationOptions: ['Jakarta', 'Tangerang'],
       tempLocationOptions: ['Jakarta', 'Tangerang'],
-      statusOptions: ['Semua', 'Buka', 'Tutup', '24 Jam']
+      statusOptions: ['Semua', 'Buka', 'Tutup', '24 Jam'],
+      currPos: {
+        lat: null,
+        lon: null
+      },
+      tempDistance: []
     }
   },
   created () {
     this.setDefaultFilter()
-    this.doGetWorkshopApi(true)
+    this.doGetCurrentPosition()
     this.doGetAllWorkshops()
   },
   mounted () {
@@ -337,9 +350,8 @@ export default {
         console.log(err)
       })
     },
-    doGetWorkshopApi(validator, searching) {
+    doGetWorkshopApi (validator, searching) {
       let _this = this
-      _this.loader = true
       if(_this.jsonDataParam.status == 'Semua'){
         _this.jsonDataParam.statusHr = ''
         _this.jsonDataParam.status24Hr = ''
@@ -353,11 +365,9 @@ export default {
         _this.jsonDataParam.statusHr = ''
         _this.jsonDataParam.status24Hr = '1'
       }
-      console.log(_this.jsonDataParam)
       getWorkshopApi(_this.jsonDataParam.iPage, _this.jsonDataParam.workshopName, _this.jsonDataParam.location, _this.jsonDataParam.statusHr, _this.jsonDataParam.status24Hr).then(response => {
         _this.tempWorkshops = response.data.objectReturn
         _this.totalWorkshop = response.data.objectReturn.total
-        console.log(_this.tempWorkshops)
         if(searching){
           _this.workshops = []
         }
@@ -365,7 +375,7 @@ export default {
           _this.workshops.push(item)
         })
         _this.clickedId = _this.workshops[0].userID
-        if(_this.clickedId != null && validator){
+        if(_this.clickedId != null && validator || searching){
           _this.doGetWorkshopById()
         }
         _this.loader = false
@@ -380,10 +390,8 @@ export default {
       _this.detailWorkshopLoader = true
       getWorkshopById(_this.clickedId).then(response => {
         _this.workshopById.defaultData = response.data[0]
-        console.log(_this.workshopById.defaultData)
         // loopingan data servis
         _this.workshopById.defaultData.workshop_details.forEach(el1 => {
-          console.log('el1', el1.workshop_services)
           for (const index in el1.workshop_services) {
             if(el1.workshop_services[index].serviceType == 'Servis Berkala'){
               _this.workshopById.servisBerkala.push(el1.workshop_services[index])
@@ -402,12 +410,37 @@ export default {
         _this.workshopById.servisBerkala = filteredServisBerkala
         _this.workshopById.servisUmum = filteredServisUmum
 
-        console.log('sb', _this.workshopById.servisBerkala)
-        console.log('su', _this.workshopById.servisUmum)
         _this.detailWorkshopLoader = false
       }) .catch((err) =>{
         console.log(err)
         _this.detailWorkshopLoader = false
+      })
+    },
+    doGetCurrentPosition() {
+      this.loader = true
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          this.currPos.lat = pos.coords.latitude
+          this.currPos.lon = pos.coords.longitude
+          if(!help.isDataEmpty(this.currPos.lat) && !help.isDataEmpty(this.currPos.lon)){
+            this.doGetDistanceFromAllWorkshops()
+          }
+          console.log(this.currPos)
+        }, error => {
+          console.log(error)
+        })
+      } else { 
+        console.log('no')
+      }
+    },
+    doGetDistanceFromAllWorkshops () {
+      let _this = this
+      countDistanceFromCurrPos(_this.currPos).then(response => {
+        _this.tempDistance = response.data.objectReturn
+        _this.doGetWorkshopApi(true)
+      }) .catch((err) =>{
+        console.log(err)
+        _this.loader = false
       })
     },
     doConsole(a){

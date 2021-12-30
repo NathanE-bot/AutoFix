@@ -54,7 +54,7 @@ Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name(
 Route::get('filterDataWorkshop','Api\WorkshopController@filterDataWorkshop')->name('filterDataWorkshop');
 
 
-Route::get('workshop/count','Api\WorkshopController@countDistance')->name('distance');
+Route::post('doCountDistanceFromCurrPos','Api\WorkshopController@countDistance')->name('distance');
 
 Route::post('makeSchedule/{id}', 'Api\ScheduleController@dataMakeSchedule')->name('getIDSchedule');
 // Route::get('makeSchedule','Api\ScheduleController@dataMakeSchedule')->name('dataSchedule');
