@@ -35,7 +35,7 @@
 <script>
 /* eslint-disable */
 import main from '../../main'
-
+import { LocalStorage } from 'quasar'
 export default {
   name: "App",
   data() {
@@ -52,20 +52,23 @@ export default {
       this.userName = "";
     },
     sendMessage() {
+      const user = LocalStorage.getItem('autoRepairUser').data.user;
       const message = {
-        String: this.showMessage,
-        username: this.name
+        time: new Date().getTime(),
+        username: user.fullName,
+        message: this.showMessage
       };
       main
         .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        .ref("message/kenny")
-        .set(message);
+        .ref("message/kennytatang")
+        .push(message);
       this.showMessage = "";
     }
   },
   mounted() {
+    console.log(LocalStorage.getItem('autoRepairUser').data.user)
     let viewMessage = this;
-    const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("message");
+    const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("message/kennytatang");
     itemsRef.on("value", snapshot => {
       let data = snapshot.val();
       let messages = [];
@@ -73,7 +76,8 @@ export default {
         messages.push({
           id: key,
           username: data[key].username,
-          text: data[key].text
+          message: data[key].message,
+          time: data[key].time
         });
       });
       console.log(messages)

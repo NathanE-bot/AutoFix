@@ -32,9 +32,8 @@ const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 const claimInsurance = () => import("pages/Insurance/ClaimInsurance");
 const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
 const statusInsurance = () => import("pages/Insurance/StatusInsurance");
-
-// Chats
-const testChat = () => import("pages/Chats/testPage");
+//chat
+const testchat = () => import("pages/Chats/testPage");
 
 const routes = [
   // forLoginRegis
@@ -84,6 +83,15 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
+      // chat
+      {
+        path: "/member/testchat",
+        component: testchat,
+        meta: {
+          title: 'test chat',
+          breadcrumb: 'test chat'
+        }
+      },
       // Insurance
       {
         path: "/member/insurance",
@@ -165,7 +173,7 @@ const routes = [
         }
       },
       {
-        path: "/workshop/detail/:id",
+        path: "/workshop/detail",
         component: WorkshopDetail,
         meta: {
           title: 'Workshop Detail Page',
@@ -179,16 +187,7 @@ const routes = [
           title: 'Workshop Page',
           breadcrumb: 'Workshop Page'
         }
-      },
-       // Chats
-      {
-        path: "/testchat",
-        component: testChat,
-        meta: {
-          title: 'Test Page',
-          breadcrumb: 'Test Page'
-        }
-      },
+      }
     ]
   }
 ];
@@ -202,3 +201,33 @@ if (process.env.MODE !== "ssr") {
     component: () => import("pages/Error404.vue")
   });
 }
+
+// const routes = [
+//   {
+//     path: '/',
+//     component: () => import('layouts/MainLayout.vue'),
+//     children: [
+//       { path: '', component: () => import('pages/Index.vue') }
+//     ]
+//   },
+//   {
+//     path: '/Login',
+//     component: () => import('layouts/MainLayout.vue'),
+//     children: [
+//       { path: '', component: () => import('pages/Login.vue') }
+//     ]
+//   },
+//   {
+//     path: '/Register',
+//     component: () => import('layouts/MainLayout.vue'),
+//     children: [
+//       { path: '', component: () => import('pages/Register.vue') }
+//     ]
+//   },
+//   // Always leave this as last one,
+//   // but you can also remove it
+//   {
+//     path: '/:catchAll(.*)*',
+//     component: () => import('pages/Error404.vue')
+//   }
+// ]
