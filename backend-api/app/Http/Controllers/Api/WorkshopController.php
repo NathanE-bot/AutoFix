@@ -164,7 +164,7 @@ class WorkshopController extends Controller
             foreach ($workshop_details as $key=>$value) {
                 $workshop_services =  DB::table('workshop_services')
                 ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
-                ->select('workshop_details.workshopID','workshopDetailID','serviceType','serviceDetail','price','time')
+                ->select('workshop_services.id','workshop_details.workshopID','workshopDetailID','serviceType','serviceDetail','price','time')
                 ->where('workshop_details.workshopID','=',$req->id)
                 ->orWhere('workshop_services.workshopDetailID','=',$value->id)
                 ->get()->toArray();
@@ -202,7 +202,7 @@ class WorkshopController extends Controller
                     return $workshop_review->workshopID === $value->id;
                 });
             }
-dd($workshops);
+
             // $data = [
             //     // 'objectReturn'=>$workshops
             // ];
