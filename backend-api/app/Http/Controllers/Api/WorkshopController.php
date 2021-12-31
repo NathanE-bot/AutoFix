@@ -69,6 +69,7 @@ class WorkshopController extends Controller
         date_default_timezone_set('Asia/Jakarta');
         $datestring = Carbon::now();
         $dateweek = $datestring->dayOfWeek;
+        dd($dateweek);
         $mytime = new DateTime('now');
         $date = $mytime->format("Y-m-d");
         $time = $mytime->format("H:i:s");
