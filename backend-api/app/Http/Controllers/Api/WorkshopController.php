@@ -69,7 +69,6 @@ class WorkshopController extends Controller
         date_default_timezone_set('Asia/Jakarta');
         $datestring = Carbon::now();
         $dateweek = $datestring->dayOfWeek;
-        dd($dateweek);
         $mytime = new DateTime('now');
         $date = $mytime->format("Y-m-d");
         $time = $mytime->format("H:i:s");
@@ -150,14 +149,41 @@ class WorkshopController extends Controller
     public function workshopDetailView(Request $req)
     {
         try{
-            $workshops = DB::table('workshops')->where('id','=',$req->id)
+            $workshops = DB::table('workshops')
+            ->where('id','=',$req->id)
             ->get()->toArray();
+
             $operational_workshops =  DB::table('operational_workshops')
+            ->where('operational_workshops.workshopID','=',$req->id)
             ->get()->toArray();
+
             $workshop_details =  DB::table('workshop_details')
+            ->where('workshop_details.workshopID','=',$req->id)
             ->get()->toArray();
-            $workshop_services =  DB::table('workshop_services')
+
+            foreach ($workshop_details as $key=>$value) {
+                $workshop_services =  DB::table('workshop_services')
+                ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
+                ->select('workshop_details.workshopID','workshopDetailID','serviceType','serviceDetail','price','time')
+                ->where('workshop_details.workshopID','=',$req->id)
+                ->orWhere('workshop_services.workshopDetailID','=',$value->id)
+                ->get()->toArray();
+
+            }
+            // $workshop_services =  DB::table('workshop_services')
+            // ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
+            // ->select('workshopDetailID','serviceType','serviceDetail','price','time')
+            // ->where('workshop_details.workshopID','=',$req->id)
+            // ->get()->toArray();
+
+
+            $workshop_review = DB::table('reviews')
+            ->select('reviews.id','reviews.scheduleID','schedules.workshopID','reviews.userName','reviews.reviewDate','reviews.rating','reviews.description')
+            ->join('schedules','schedules.id','=','reviews.scheduleID')
+            ->where('schedules.workshopID','=',$req->id)
+            ->where('schedules.scheduleStatus','=','done')
             ->get()->toArray();
+
 
             foreach($workshops as &$value)
             {
@@ -167,13 +193,16 @@ class WorkshopController extends Controller
                 $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
                     return $workshop_details->workshopID === $value->id;
                 });
-                foreach ($workshop_details as &$value2) {
-                    $value2->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value2) {
-                        return $workshop_services->workshopDetailID === $value2->id;
-                    });
-                }
-            }
 
+                $value->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value) {
+                    return $workshop_services->workshopID === $value->id;
+                });
+
+                $value->workshop_review = array_filter($workshop_review, function($workshop_review) use ($value) {
+                    return $workshop_review->workshopID === $value->id;
+                });
+            }
+dd($workshops);
             // $data = [
             //     // 'objectReturn'=>$workshops
             // ];
