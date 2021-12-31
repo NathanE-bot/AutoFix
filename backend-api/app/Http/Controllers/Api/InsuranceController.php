@@ -85,6 +85,8 @@ class InsuranceController extends Controller
             $dataInsurance->chronology = $req->chronology;
             $dataInsurance->incidentStatus = $req->incidentStatus;
             $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
+            $dataInsurance->insuranceStatus = $req->insuranceStatus;
+            $dataInsurance->submiteDate = $req->submiteDate;
             $dataInsurance->save();
 
 
@@ -120,8 +122,22 @@ class InsuranceController extends Controller
     }
 
 
-    public function ViewInsuranceDetail (){
-        
+    public function ViewInsuranceDetail (Request $req){
+        try{
+            $scheduleDetail= DB::table('insurances')
+            ->join('users','users.id','=','insurances.userID')
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->select('insurance_vendors.insuranceName','insuranceStatus','submiteDate','polisNumber')
+            ->where('insurances.userID','=',$req->userID)
+            ->where('users.role','=','1')
+            ->get();
+            $data = [
+                'objectReturner'=>$scheduleDetail
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
     }
 
 
