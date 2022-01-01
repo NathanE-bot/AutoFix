@@ -115,7 +115,6 @@ export default {
   },
   methods: {
     doLogout () {
-      console.log('logout', Auth.doUserLogout())
       if(!Auth.doUserLogout()){
         this.isLogin = false
         this.changePage('/session/login')
