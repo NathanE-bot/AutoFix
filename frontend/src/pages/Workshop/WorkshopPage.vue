@@ -338,7 +338,6 @@ export default {
     loadNextPage () {
       let workshopList = document.getElementsByClassName("q-scrollarea__container")[0]
       let workshopListScrollTillBottom = workshopList.scrollHeight - workshopList.clientHeight
-      console.log(workshopListScrollTillBottom, workshopList.scrollHeight, workshopList.clientHeight) 
       if (workshopListScrollTillBottom <= workshopList.scrollTop) {
         if(this.jsonDataParam.iPage < this.tempWorkshops.last_page){
           this.listLoader = true

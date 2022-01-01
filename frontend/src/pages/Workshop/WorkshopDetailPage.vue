@@ -289,7 +289,6 @@ export default {
       _this.loader = true
       getWorkshopById(_this.workshopId).then(response => {
         _this.workshopDetail = response.data
-        console.log(_this.workshopDetail)
         _this.doGetCurrentPosition()
         // loopingan data servis
         _this.workshopDetail.workshop_details.forEach(el1 => {
@@ -309,10 +308,8 @@ export default {
             created_at: el1.created_at,
             updated_at: el1.updated_at,
           }
-          console.log('yeet', tempObject)
           _this.workshop_details.push(tempObject)
         })
-        console.log(_this.workshop_details)
         _this.loader = false
       }) .catch((err) =>{
         console.log(err)
