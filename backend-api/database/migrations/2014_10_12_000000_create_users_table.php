@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('address');
             $table->integer('role')->default('1');
             $table->string("profilePicture")->nullable();
+            $table->string('tokenChat')->default(unique());
             $table->timestamp('email_verified_at');
             $table->boolean("isActive")->default(1);
             $table->rememberToken();

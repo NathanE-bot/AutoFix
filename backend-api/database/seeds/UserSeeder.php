@@ -23,7 +23,8 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '085813600655',
                 'address'=> 'jl kabupaten indah no 50',
                 'role' => '2',
-                'profilePicture'=>''
+                'profilePicture'=>'',
+                'tokenChat'=>'1s12e12r2'
             ]
         );
         User::Create(
@@ -36,7 +37,8 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '086237237',
                 'address'=> 'jl kedoya indah no 50',
                 'role' => '2',
-                'profilePicture'=>''
+                'profilePicture'=>'',
+                'tokenChat'=>'2d232d2222'
             ]
         );
         User::Create(
@@ -49,7 +51,8 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '0826326',
                 'address'=> 'jl maju indah no 50',
                 'role' => '2',
-                'profilePicture'=>''
+                'profilePicture'=>'',
+                'tokenChat'=>'12f2123f21'
             ]
         );
         User::Create(
@@ -62,7 +65,8 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '085813600655',
                 'address'=> 'jl puri indah no 50',
                 'role' => '1',
-                'profilePicture'=>''
+                'profilePicture'=>'',
+                'tokenChat'=>'12f31344gf'
             ]
         );
     }

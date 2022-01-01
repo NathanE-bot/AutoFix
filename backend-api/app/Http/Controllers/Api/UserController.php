@@ -61,7 +61,7 @@ class UserController extends Controller
         $emailFromRegis = $request->email;
 
         \Mail::to($emailFromRegis)->send(new \App\Mail\otpMail($randomNumber));
-        
+
         $formRegister = $request->all();
         $formRegister['password'] = bcrypt($formRegister['password']);
         $tempUser = TempUser::create($formRegister);
@@ -111,6 +111,9 @@ class UserController extends Controller
             ], 401);
         }
 
+
+
+
         $decryptUserId = decrypt($request->encryptUserId);
 
         $tempId = (string) $decryptUserId[0]->id;
@@ -125,38 +128,39 @@ class UserController extends Controller
                 'message' => 'Kode yang anda masukkan salah.'
             ], 404);
         }
+        $dataToken = new User;
 
         $dataUser = DB::table('temp_users')->where('id','=',$tempId)->first();
+        $dataToken->tokenChat = uniqid();
+        $dataToken->fullName = $dataUser->fullName;
+        $dataToken->displayName = $dataUser->displayName;
+        $dataToken->email = $dataUser->email;
+        $dataToken->password = $dataUser->password;
+        $dataToken->DoB = $dataUser->DoB;
+        $dataToken->phoneNumber = $dataUser->phoneNumber;
+        $dataToken->address = $dataUser->address;
+        $dataToken->role = $dataUser->role;
+        $dataToken->profilePicture = $dataUser->profilePicture;
+        $dataToken->isActive = $dataUser->isActive;
+        $dataToken->save();
 
-        $user = User::create([
-            'fullName' => $dataUser->fullName,
-            'displayName' => $dataUser->displayName,
-            'email' => $dataUser->email,
-            'password' => $dataUser->password,
-            'DoB' => $dataUser->DoB,
-            'phoneNumber' => $dataUser->phoneNumber,
-            'address' => $dataUser->address,
-            'role' => $dataUser->role,
-            'profilePicture' => $dataUser->profilePicture,
-            'isActive' => $dataUser->isActive,
-        ]);
 
         try {
-            
+
             $dataOTP = DB::table('otps')->where('otp', '=', $request->otp)->delete();
             $dataTemp = DB::table('temp_users')->where('id', '=', $tempId)->delete();
 
         } catch (Exception $error) {
             return response()->json($error, 500);
         }
-        
+
         return response()->json([
             'message' => 'Verification success'
         ], 200);
     }
 
     public function resendOtp(Request $request){
-        
+
         $validator = Validator::make($request->all(), [
             'email' => ['required'],
             'encryptUserId' => ['required']
@@ -172,7 +176,7 @@ class UserController extends Controller
         $tempId = (string) $decryptUserId[0]->id;
 
         try {
-            
+
             $test = DB::table('otps')
             ->where('temp_userID', '=', $tempId)
             ->delete();
