@@ -34,6 +34,7 @@ const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
 const statusInsurance = () => import("pages/Insurance/StatusInsurance");
 //chat
 const homeMessage = () => import("pages/Chats/HomeMessage");
+const roomMessage = () => import("pages/Chats/RoomMessage");
 
 const routes = [
   // forLoginRegis
@@ -90,6 +91,14 @@ const routes = [
         meta: {
           title: 'Chat Message',
           breadcrumb: 'Chat Message'
+        }
+      },
+      {
+        path: "/member/homemessage/roommessage/:id",
+        component: roomMessage,
+        meta: {
+          title: 'Room Message',
+          breadcrumb: 'Room Message'
         }
       },
       // Insurance

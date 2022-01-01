@@ -16,6 +16,8 @@ export default {
             // Hour
             time_1: 'HH A', // 21 PM
             time_2: 'HH:mm', // 21:20
+            time_3: 'HH:mm A', // 21:20 PM
+            time_4: 'HH:mm a', // 21:20 pm
             // Scrollbar Style
             thumbStyle: {
                 right: '4px',

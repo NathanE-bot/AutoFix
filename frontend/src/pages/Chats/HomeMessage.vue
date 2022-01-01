@@ -1,16 +1,18 @@
 <template>
     <q-page class="chat-page">
-      <div class="room-section" v-if="true">
-        <div class="content-section relative-position">
-          <span class="time-pos">14.20 pm</span>
-          <q-separator class="indicator mr-24" color="primary" vertical size="8px" />
-          <q-avatar size="90px" style="background-color: #d9d9d9">
-            <i class="fas fa-user grey-5 fs-50"></i>
-          </q-avatar>
-          <div class="d-flex flex-dir-col a-start ml-10">
-            <div class="fs-18 fw-bold black_3">Tatang Madadang</div>
-            <div class="text-subtitle2 ml-4 mb-0 grey_1 fw-lightbold line-clamp-3" style="white-space: pre-line">
-              qwdqwdqwd qwd qwd qwd qwdqwdqwd qwd qwdqwd qwdqwd q
+      <div v-if="!help.isObjectEmpty(room)">
+        <div class="room-section cursor-pointer" v-for="item in room" :key="item.roomSecureId" @click="changePage('/member/homemessage/roommessage/' + item.roomSecureId)">
+          <div class="content-section relative-position">
+            <span class="time-pos tf-capitalize">{{ help.defaultFormat(item.lastMessage.time, help.data().time_4) }}</span>
+            <q-separator class="indicator mr-24" color="primary" vertical size="8px" />
+            <q-avatar size="90px" style="background-color: #d9d9d9">
+              <i class="fas fa-user grey-5 fs-50"></i>
+            </q-avatar>
+            <div class="d-flex flex-dir-col a-start ml-10">
+              <div class="fs-18 fw-bold black_3">{{ userTest.role == '2' ? item.user_2 : item.user_1 }}</div>
+              <div class="text-subtitle2 ml-4 mb-0 grey_1 fw-lightbold line-clamp-3" style="white-space: pre-line">
+                {{ item.lastMessage.message }}
+              </div>
             </div>
           </div>
         </div>
@@ -52,15 +54,20 @@
 <script>
 /* eslint-disable */
 import main from '../../main'
+import help from '../../js/help'
 import { LocalStorage } from 'quasar'
+
 export default {
   name: "App",
   data() {
     return {
+      help,
       userName: "",
       name: null,
       showMessage: "",
-      messagesView: []
+      room: [],
+      messagesView: [],
+      userTest: LocalStorage.getItem('autoRepairUser').data.user
     };
   },
   methods: {
@@ -80,24 +87,36 @@ export default {
         .ref("chatRoom/1s12e12r2-2d232d2222")
         .push(message)
       this.showMessage = ""
+    },
+    changePage (url) {
+      this.$router.push(url)
     }
   },
   mounted() {
     let _this = this
     const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/1s12e12r2-2d232d2222")
-    const test = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("message")
-    test.on("value", test1 => {
-      // console.log('a', test1.val())
-      Object.keys(test1.val()).forEach(key => {
-        // console.log(key)
+    const roomRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom")
+    roomRef.on("value", room => {
+      let tempRoomObj = room.val()
+      let tempRoom = []
+      Object.keys(tempRoomObj).forEach(key => {
+        let tempLastMessage = tempRoomObj[key]
+        let last = Object.keys(tempLastMessage)[Object.keys(tempLastMessage).length-3]
+        tempRoom.push({
+          roomSecureId: key,
+          user_1: tempLastMessage['user-1'],
+          user_2: tempLastMessage['user-2'],
+          lastMessage: tempLastMessage[last]
+        })
       })
+      _this.room = tempRoom
+      console.log(_this.room)
     })
     itemsRef.on("value", snapshot => {
       let data = snapshot.val()
       let messages = []
       Object.keys(data).forEach(key => {
         if(key == 'user-1' || key == 'user-2'){
-          console.log('TOLOL')
         } else {
           messages.push({
             id: key,
@@ -108,7 +127,7 @@ export default {
         }
       })
       _this.messagesView = messages
-      console.log(_this.messagesView)
+      // console.log(_this.messagesView)
     })
   }
 };
