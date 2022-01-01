@@ -227,8 +227,12 @@
 }
 
 // misc
+.maxw-240{
+    max-width: 240px;
+}
+
 .layout_txt{
-    @include layout_txt(60px);
+    @include layout_txt(85px);
 }
 
 .layout_bullet{

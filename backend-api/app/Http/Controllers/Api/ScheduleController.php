@@ -16,44 +16,7 @@ use App\Schedule;
 
 class ScheduleController extends Controller
 {
-    public function dataMakeSchedule(Request $req)
-    {
-        try{
-            $workshops = DB::table('workshops')->where('id','=',$req->id)
-            ->get()->toArray();
-            $operational_workshops =  DB::table('operational_workshops')
-            ->get()->toArray();
-            $workshop_details =  DB::table('workshop_details')
-            ->get()->toArray();
-            $workshop_services =  DB::table('workshop_services')
-            ->get()->toArray();
-
-            foreach($workshops as &$value)
-            {
-                $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
-                    return $operational_workshops->workshopID === $value->id;
-                });
-                $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
-                    return $workshop_details->workshopID === $value->id;
-                });
-                foreach ($workshop_details as &$value2) {
-                    $value2->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value2) {
-                        return $workshop_services->workshopDetailID === $value2->id;
-                    });
-                }
-            }
-
-            $data = [
-                'objectReturn'=>$workshops
-            ];
-            return response()->json($data, 200);
-        } catch (Exception $err){
-            return response()->json($err, 500);
-        }
-    }
-
-
-    public function makeSchedule(Request $req){
+    public function formSchedule(Request $req){
         try{
             date_default_timezone_set('Asia/Jakarta');
             $datestring = Carbon::now();
@@ -83,22 +46,30 @@ class ScheduleController extends Controller
             //     //     }
             //     // }],
             // ]);
-            if ($validator->fails()) {
-                return $validator->errors();
-            }
+            // if ($validator->fails()) {
+            //     return $validator->errors();
+            // }
             $dataqueryworkshop = DB::table('workshops')->find($req->workshopID);
             $newSchedules = new Schedule;
+            $newSchedules -> workshopID = $req->workshopID;
+            $newSchedules -> userID = $req->userID;
             $newSchedules -> workshopName = $dataqueryworkshop->workshopName;
             $newSchedules -> workshopAddress = $dataqueryworkshop->workshopAddress;
             $newSchedules -> workshopPhoneNumber = $dataqueryworkshop->workshopPhoneNumber;
             $newSchedules -> workshopEmail = $dataqueryworkshop->workshopEmail;
-            $newSchedules -> workshopDescription = $dataqueryworkshop->workshopDescription;
-            $newSchedules -> rating = $dataqueryworkshop->rating;
-            $newSchedules -> caryType = $req->carType;
+            $newSchedules -> scheduleDate = $req->scheduleDate;
+            $newSchedules -> scheduleTime = $req->scheduleTime;
+            $newSchedules -> carModel = $req->carModel;
+            $newSchedules -> carType = $req->carType;
+            $newSchedules -> timeEstimation = $req->timeEstimation;
+            $newSchedules -> priceEstimation = $req->priceEstimation;
+            $newSchedules -> scheduleStatus = $req->scheduleStatus;
+            $newSchedules -> description = $req->description;
             $newSchedules->save();
             $idSchedule = $newSchedules->id;
             // $array = array();
-            foreach($req->serviceTypeUmum as $key => $value){
+            if ($req->has('serviceTypeUmum')) {
+                foreach($req->serviceTypeUmum as $key => $value){
                 $newscheduledetail = new schedule_details;
                 $newscheduledetail -> scheduleID = $idSchedule;
                 $newscheduledetail ->serviceType = $req->serviceTypeUmum[$key];
@@ -106,20 +77,41 @@ class ScheduleController extends Controller
                 $newscheduledetail->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);
-
+                }
+            }else{
+                return "tidak ada data";
             }
-            foreach($req->serviceTypeBerkala as $key => $value){
-                $newscheduledetail = new schedule_details;
-                $newscheduledetail -> scheduleID = $idSchedule;
-                $newscheduledetail ->serviceType = $req->serviceTypeBerkala[$key];
-                $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
-                $newscheduledetail->save();
-                //kolo pake jobs
-                // array_push($newscheduledetail,$array);
+            if ($req->has('serviceTypeBerkala')) {
+                foreach($req->serviceTypeBerkala as $key => $value){
+                    $newscheduledetail = new schedule_details;
+                    $newscheduledetail -> scheduleID = $idSchedule;
+                    $newscheduledetail ->serviceType = $req->serviceTypeBerkala[$key];
+                    $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
+                    $newscheduledetail->save();
+                    //kolo pake jobs
+                    // array_push($newscheduledetail,$array);
+                }
+            }else{
+                return "tidak ada servis berkala";
             }
 
             $data = [
                 'objectReturner'=>[$newSchedules,$newscheduledetail]
+            ];
+            return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function ShowDataSchedule(Request $req){
+        try{
+            $schedule= DB::table('schedules')->join('users','users.id','=','schedules.userID')
+            ->where('schedules.userID','=',$req->userID)
+            ->where('users.role','=','1')
+            ->get();
+            $data = [
+                'objectReturner'=>$schedule
             ];
             return response()->json($data, 200);
         } catch (Exception $err){

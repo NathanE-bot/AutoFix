@@ -28,3 +28,6 @@ export function getWorkshopById(id) {
   return axios.get(localURL + '/api/getWorkshopById?id=' + id)
 }
 
+export function countDistanceFromCurrPos(currPos) {
+  return axios.post(localURL + '/api/doCountDistanceFromCurrPos', currPos)
+}

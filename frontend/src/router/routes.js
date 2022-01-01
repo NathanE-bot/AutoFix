@@ -94,14 +94,6 @@ const routes = [
       },
       // Insurance
       {
-        path: "/member/insurance",
-        component: claimInsurance,
-        meta: {
-          title: 'Claim Insurance',
-          breadcrumb: 'Claim Insurance'
-        }
-      },
-      {
         path: "/member/insurance/status-insurance",
         component: statusInsurance,
         meta: {
@@ -148,6 +140,15 @@ const routes = [
     path: "/",
     component: MainLayout,
     children: [
+      // exception
+      {
+        path: "/insurance",
+        component: claimInsurance,
+        meta: {
+          title: 'Claim Insurance',
+          breadcrumb: 'Claim Insurance'
+        }
+      },
       {
         path: "/",
         component: landingPage,

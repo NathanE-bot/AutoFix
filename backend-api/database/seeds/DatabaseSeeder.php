@@ -16,5 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(OperationalWorkshopSeeder::class);
         $this->call(WorkshopDetailSeeder::class);
         $this->call(WorkshopServiceSeeder::class);
+        $this->call(ScheduleSeeder::class);
+        $this->call(ReviewSeeder::class);
+        $this->call(InsuranceVendorSeeder::class);
     }
 }

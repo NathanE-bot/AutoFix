@@ -21,7 +21,7 @@
         >
           <q-tab @click="changePage('/')" name="home" label="Home" />
           <q-tab @click="changePage('/workshop')" name="workshop" label="Workshop" />
-          <q-tab @click="changePage('/member/insurance')" name="insurance" label="Insurance" />
+          <q-tab @click="changePage('/insurance')" name="insurance" label="Insurance" />
           <q-tab name="aboutus" label="About Us" />
         </q-tabs>
         <div class="relative-position">
@@ -84,52 +84,71 @@ import Auth from '../js/AuthValidation'
 import Swal from 'sweetalert2'
 
 export default {
-    data () {
-      return {
-        initialTab: null,
-        isLogin: false,
-        currentRouteName: null
-      }
-    },
-    created () {
-      if(Auth.isUserLogin()){
-        this.isLogin = true
-      } else {
+  data () {
+    return {
+      initialTab: null,
+      isLogin: false,
+      currentRouteName: null
+    }
+  },
+  created () {
+    if(Auth.isUserLogin()){
+      this.isLogin = true
+    } else {
+      this.isLogin = false
+    }
+  },
+  mounted () {
+    this.currentRouteName = this.$router.currentRoute._value.fullPath
+    if(this.currentRouteName == '/'){
+      this.initialTab = 'home'
+    }
+    else if(this.currentRouteName == '/workshop'){
+      this.initialTab = 'workshop'
+    }
+    else if(this.currentRouteName.includes('/insurance')){
+      this.initialTab = 'insurance'
+    }
+    else {
+      this.initialTab = ''
+    }
+  },
+  methods: {
+    doLogout () {
+      console.log('logout', Auth.doUserLogout())
+      if(!Auth.doUserLogout()){
         this.isLogin = false
+        this.changePage('/session/login')
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: 'Test',
+        })
       }
     },
-    mounted () {
-      this.currentRouteName = this.$router.currentRoute._value.fullPath
-      // console.log(this.currentRouteName)
-      if(this.currentRouteName == '/'){
+    changePage (url) {
+      this.$router.push(url)
+    }
+  },
+  watch: {
+  '$route.path': {
+    handler: function(url) {
+      if(url == '/'){
         this.initialTab = 'home'
       }
-      else if(this.currentRouteName == '/workshop'){
+      else if(url == '/workshop'){
         this.initialTab = 'workshop'
       }
-      else if(this.currentRouteName.includes('/insurance')){
+      else if(url.includes('/insurance')){
         this.initialTab = 'insurance'
       }
       else {
         this.initialTab = ''
       }
     },
-    methods: {
-      doLogout () {
-        console.log('logout', Auth.doUserLogout())
-        if(!Auth.doUserLogout()){
-          this.isLogin = false
-          this.changePage('/session/login')
-        } else {
-          Swal.fire({
-            title: 'Error',
-            text: 'Test',
-          })
-        }
-      },
-      changePage (url) {
-        this.$router.push(url)
-      }
+      deep: true,
+      immediate: true
     }
+  }
 }
 </script>

@@ -43,7 +43,7 @@ export default {
         } else if (today == 'thursday') {
             return today = '4'
         } else if (today == 'friday') {
-            return today = '6'
+            return today = '5'
         } else if (today == 'saturday') {
             return today = '6'
         } else if (today == 'sunday') {
