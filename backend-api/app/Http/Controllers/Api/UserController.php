@@ -111,9 +111,6 @@ class UserController extends Controller
             ], 401);
         }
 
-
-
-
         $decryptUserId = decrypt($request->encryptUserId);
 
         $tempId = (string) $decryptUserId[0]->id;

@@ -51,7 +51,7 @@ Route::get('getAllWorkshop', 'Api\WorkshopController@getAllWorkshop');
 Route::post('getWorkshopApi', 'Api\WorkshopController@getWorkshopApi');
 Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
 Route::get('filterDataWorkshop','Api\WorkshopController@filterDataWorkshop')->name('filterDataWorkshop');
-Route::post('getUserProfile','Api\WorkshopController@getUserProfile')->name('getUserProfile');
+Route::post('getUserWorkshopByWorkshopId','Api\WorkshopController@getUserProfile')->name('getUserProfile');
 
 
 Route::post('doCountDistanceFromCurrPos','Api\WorkshopController@countDistance')->name('distance');

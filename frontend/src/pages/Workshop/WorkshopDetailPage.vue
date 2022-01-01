@@ -19,10 +19,18 @@
         <div  class="flex flex-center flex-start" style="position:relative; bottom:70px;">
             <img class="responsive_img detail-workshop-bg" width="120" src="~assets/images/logo/workshop/honda.png" alt="">
         </div>
-        <div class="flex flex-center flex-start content-logo mt-10">
-          {{ workshopDetail.district }}, {{ workshopDetail.city }}
+        <div class="d-flex flex-dir-col a-center flex-center content-logo mt-10">
+          <div class="text-h4 fw-semibold">
+            {{ workshopDetail.workshopName }}
+          </div>
+          <div class="text-subtitle2">
+            {{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}
+          </div>
+          <div v-if="!help.isObjectEmpty(tempDistance)">
+            <span class="text-subtitle2 grey-txt">{{ tempDistance.distance.toFixed(2) }} Km</span>
+          </div>
         </div>
-        <div class="title-workshop d-flex flex-dir-col a-start">
+        <!-- <div class="title-workshop d-flex flex-dir-col a-start">
           <span class="text-h4 fw-bold">{{ workshopDetail.workshopName }}</span>
           <div class="mt-8 d-flex flex-dir-col a-start">
             <div class="d-flex">
@@ -33,7 +41,7 @@
               <span class="grey-txt">Distance:</span> <span>{{ tempDistance.distance.toFixed(2) }} Km</span>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="rating-workshop">
           <div class="soft-badge-primary">
             <span>Rating</span>
@@ -43,7 +51,6 @@
             </div>
           </div>
         </div>
-        <q-separator class="br-5px" color="#605A5A" size="4px" />
         <div class="text-subtitle2 w-description">
           {{ workshopDetail.workshopDescription }}
         </div>
@@ -83,7 +90,7 @@
           <div class="col-md-6 w-49-i px-20">
             <div class="text-h6 fw-bold mb-6">Services</div>
               <div class="row" v-if="!help.isObjectEmpty(workshop_details)">
-                <div v-for="item in workshop_details" :key="item.id" class="mr-10">
+                <div v-for="item in workshop_details" :key="item.id" class="col-md-6 py-12">
                   <span class="fw-semibold">{{ item.carType }}</span>
                   <div>
                     <span class="ml-8">Servis Berkala:</span>
@@ -133,7 +140,7 @@
           <div class="text-h6 fw-bold">Contact</div>
           <div class="contact-section">
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex">
+              <div class="icon-phone-border d-flex" @click="copyPhoneNum()">
                 <q-icon class="phone-icon" name="phone" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
@@ -155,7 +162,7 @@
               </div>
             </div>
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex">
+              <div class="icon-phone-border d-flex cursor-pointer" @click="changePage('/member/homemessage/roommessage/' + userTokenChat + '-' + userWorkshop.tokenChat)">
                 <q-icon class="phone-icon" name="chat" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
@@ -171,12 +178,12 @@
               </div>
             </div>
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex">
-                <q-icon class="phone-icon" name="people" />
+              <div class="icon-phone-border d-flex" @click="openGoogleMapsWithCoords()">
+                <q-icon class="phone-icon" name="fas fa-map-marker-alt" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
                 <div class="fs-16 fw-semibold mb-15">Find Honda Indonesia</div>
-                <div class="text-subtitle2">Jl. agustin raya nomor 5</div>
+                <div class="text-subtitle2">{{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}</div>
               </div>
               <div>
                 <q-btn
@@ -205,7 +212,8 @@
 
 <script>
 /* eslint-disable */
-import { getWorkshopById, countDistanceFromCurrPos } from '../../api/workshopService'
+import { LocalStorage } from 'quasar'
+import { getWorkshopById, countDistanceFromCurrPos, getUserWorkshopByWorkshopId } from '../../api/workshopService'
 import help from '../../js/help'
 import ValidationFunction from '../../js/ValidationFunction'
 
@@ -218,6 +226,7 @@ export default {
       workshopId: null,
       workshopDetail: [],
       workshop_details: [],
+      userWorkshop: '',
       gallerySlide: 1,
       today: null,
       currPos: {
@@ -230,6 +239,7 @@ export default {
     }
   },
   created () {
+    this.userTokenChat = LocalStorage.getItem('autoRepairUser').data.user.tokenChat
     this.today = this.help.formatToday(this.help.data().d_1).toLowerCase()
     this.workshopId = this.$route.params.id
     if(!help.isDataEmpty(this.workshopId)){
@@ -237,6 +247,17 @@ export default {
     }
   },
   methods: {
+    doGetUserWorkshopByWorkshopId (id) {
+      let _this = this
+      console.log(id)
+      getUserWorkshopByWorkshopId(id).then(response => {
+        _this.userWorkshop = response.data
+        console.log('a', _this.userWorkshop)
+      }).catch((err) =>{
+        console.log(err)
+        _this.loader = false
+      })
+    },
     openGoogleMapsWithCoords () {
       if(!help.isDataEmpty(this.workshopDetail.latitude) && !help.isDataEmpty(this.workshopDetail.longitude)){
         var url = "https://maps.google.com/?q=" + this.workshopDetail.latitude + "," + this.workshopDetail.longitude
@@ -289,6 +310,7 @@ export default {
       _this.loader = true
       getWorkshopById(_this.workshopId).then(response => {
         _this.workshopDetail = response.data
+        _this.doGetUserWorkshopByWorkshopId(_this.workshopDetail.userID)
         _this.doGetCurrentPosition()
         // loopingan data servis
         _this.workshopDetail.workshop_details.forEach(el1 => {
@@ -315,6 +337,9 @@ export default {
         console.log(err)
         _this.loader = false
       })
+    },
+    changePage (url) {
+      this.$router.push(url)
     },
     goBack(){
       this.$router.go(-1)

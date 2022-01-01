@@ -183,7 +183,7 @@ const routes = [
         }
       },
       {
-        path: "/workshop/detail",
+        path: "/workshop/detail/:id",
         component: WorkshopDetail,
         meta: {
           title: 'Workshop Detail Page',
