@@ -202,7 +202,7 @@ class WorkshopController extends Controller
                     return $workshop_review->workshopID === $value->id;
                 });
             }
-            
+
             return response()->json($workshops[0], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
@@ -249,6 +249,20 @@ class WorkshopController extends Controller
             return response()->json($err, 500);
         }
     }
+
+
+    public function getUserProfile(Request $req){
+        try {
+            $user = DB::table('users')
+            ->where('id','=',$req->userID)
+            ->first();
+            return response()->json($user, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+
 
     public function create(Request $request)
     {
