@@ -1,13 +1,6 @@
 <template>
     <q-header class="autorepair-header">
       <q-toolbar>
-        <!-- <q-btn
-          v-if="propIsDisabled"
-          @click="toggleLeftDrawer"
-          flat dense round
-          icon="menu"
-          aria-label="Menu"
-        /> -->
         <div class="relative-box">
           <img class="logo-img fixed-top-left" src="../assets/images/logo.png" alt="">
         </div>
@@ -47,30 +40,40 @@
               </q-btn>
             </div>
             <div class="login-avatar" v-else>
-              <q-btn
-                round unelevated
-                color="primary"
-                size="lg"
-              >
-                <q-avatar size="60px">
-                  <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-                </q-avatar>
-                <q-menu>
-                  <q-list style="min-width: 100px">
-                    <q-item
-                      @click="changePage('/member/youraccount')"
-                      clickable v-close-popup
-                    >
-                      Profile
-                    </q-item>
-                    <q-item
-                      @click="doLogout()"
-                      clickable v-close-popup>
-                      Logout
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
+              <div>
+                <q-btn
+                  flat round dense
+                  color="primary" text-color="white"
+                  icon="fas fa-bell"
+                  class="fs-20 mr-20 notif-btn"
+                >
+                  <q-badge color="red" rounded floating />
+                </q-btn>
+                <q-btn
+                  round unelevated
+                  color="primary"
+                  size="lg"
+                >
+                  <q-avatar size="60px">
+                    <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+                  </q-avatar>
+                  <q-menu>
+                    <q-list style="min-width: 100px">
+                      <q-item
+                        @click="changePage('/member/youraccount')"
+                        clickable v-close-popup
+                      >
+                        Profile
+                      </q-item>
+                      <q-item
+                        @click="doLogout()"
+                        clickable v-close-popup>
+                        Logout
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
+              </div>
             </div>
           </div>
         </div>
@@ -96,21 +99,6 @@ export default {
       this.isLogin = true
     } else {
       this.isLogin = false
-    }
-  },
-  mounted () {
-    this.currentRouteName = this.$router.currentRoute._value.fullPath
-    if(this.currentRouteName == '/'){
-      this.initialTab = 'home'
-    }
-    else if(this.currentRouteName == '/workshop'){
-      this.initialTab = 'workshop'
-    }
-    else if(this.currentRouteName.includes('/insurance')){
-      this.initialTab = 'insurance'
-    }
-    else {
-      this.initialTab = ''
     }
   },
   methods: {
