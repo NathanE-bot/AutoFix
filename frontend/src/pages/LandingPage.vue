@@ -189,9 +189,7 @@
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import SwiperCore, { Pagination, Navigation } from 'swiper'
 import { getRecommendWorkshop } from '../api/workshopService'
-import { LocalStorage, SessionStorage } from 'quasar'
 import help from '../js/help'
-import Cookie from 'js-cookie'
 
 SwiperCore.use([Pagination, Navigation]);
 

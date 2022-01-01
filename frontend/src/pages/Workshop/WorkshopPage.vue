@@ -11,7 +11,7 @@
             @filter="filterWName"
             @input-value="setModelWName"
             use-input input-debounce="0" fill-input hide-selected outlined
-            placeholder="Cari bengkel..."
+            placeholder="Find Workshop..."
             class="col-md-3 mr-auto br-10px default-select-2"
           >
             <template v-slot:prepend>
@@ -65,7 +65,7 @@
                 <q-card-section class="d-flex j-sp-between">
                   <div class="d-flex a-center">
                     <div>
-                      <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+                      <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
                     </div>
                     <div class="ml-20">
                       <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
@@ -79,9 +79,14 @@
                     </div>
                   </div>
                   <div class="d-flex flex-dir-col a-end j-sp-between">
-                    <q-badge class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
-                      {{ item.statusHr }}
-                    </q-badge>
+                    <div>
+                      <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize mr-8" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
+                        {{ item.statusHr == 'tutup' ? 'Closed' : 'Open' }}
+                      </q-badge>
+                      <q-badge color="orange-6" v-else>
+                        24 Hr
+                      </q-badge>
+                    </div>
                     <div class="text-subtitle2 grey-txt" v-if="!help.isObjectEmpty(tempDistance)">{{ tempDistance[index].distance.toFixed(2) }} Km</div>
                     <div class="text-subtitle2 grey-txt" v-else>- Km</div>
                   </div>
@@ -111,7 +116,7 @@
             <q-card-section>
               <div>
                 <div class="d-flex a-start j-sp-between">
-                  <img class="img-responsive" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+                  <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
                   <div class="soft-badge-primary">
                     <span>Rating</span>
                     <div>
@@ -132,13 +137,13 @@
                       <div>
                         <span>
                           {{
-                            item.operationalDate == '1' ? 'Senin' :
-                            item.operationalDate == '2' ? 'Selasa' :
-                            item.operationalDate == '3' ? 'Rabu' :
-                            item.operationalDate == '4' ? 'Kamis' :
-                            item.operationalDate == '5' ? 'Jumat' :
-                            item.operationalDate == '6' ? 'Sabtu' :
-                            item.operationalDate == '0' ? 'Minggu' : '-'
+                            item.operationalDate == '1' ? 'Monday' :
+                            item.operationalDate == '2' ? 'Tuesday' :
+                            item.operationalDate == '3' ? 'Wednesday' :
+                            item.operationalDate == '4' ? 'Thrusday' :
+                            item.operationalDate == '5' ? 'Friday' :
+                            item.operationalDate == '6' ? 'Saturday' :
+                            item.operationalDate == '0' ? 'Sunday' : '-'
                           }}
                         </span>
                         <span>:</span>
@@ -150,14 +155,14 @@
                 <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
                 <div class="col-md-6 w-45-i px-20">
                   <div class="text-h6 mb-6">Services</div>
-                  <span class="fw-semibold">Umum :</span>
+                  <span class="fw-semibold">General :</span>
                   <div class="layout_bullet">
                     <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
                       <div class="bullet"></div>
                       <span class="text">{{ item.serviceDetail }}</span>
                     </div>
                   </div>
-                  <span class="fw-semibold">Berkala :</span>
+                  <span class="fw-semibold">Periodic :</span>
                   <div class="layout_bullet">
                     <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
                       <div class="bullet"></div>
@@ -222,6 +227,7 @@
 /* eslint-disable */
 import { getWorkshopApi, getWorkshopById, getAllWorkshops, countDistanceFromCurrPos } from '../../api/workshopService'
 import help from '../../js/help'
+import ValidationFunction from '../../js/ValidationFunction'
 
 export default {
   data () {
@@ -278,7 +284,8 @@ export default {
         lat: null,
         lon: null
       },
-      tempDistance: []
+      tempDistance: [],
+      today: null
     }
   },
   created () {
@@ -372,6 +379,9 @@ export default {
         if(searching){
           _this.workshops = []
         }
+        if(_this.totalWorkshop == 0){
+          this.workshopById.defaultData = []
+        }
         _this.tempWorkshops.data.forEach(item => {
           _this.workshops.push(item)
         })
@@ -390,29 +400,18 @@ export default {
       let _this = this
       _this.detailWorkshopLoader = true
       getWorkshopById(_this.clickedId).then(response => {
-        _this.workshopById.defaultData = response.data[0]
-        // loopingan data servis
-        _this.workshopById.defaultData.workshop_details.forEach(el1 => {
-          for (const index in el1.workshop_services) {
-            if(el1.workshop_services[index].serviceType == 'Servis Berkala'){
-              _this.workshopById.servisBerkala.push(el1.workshop_services[index])
-            } else {
-              _this.workshopById.servisUmum.push(el1.workshop_services[index])
-            }
+        _this.workshopById.defaultData = response.data
+        _this.workshopById.defaultData.workshop_services.forEach(el1 => {
+          if(el1.serviceType == 'Servis Berkala'){
+            _this.workshopById.servisBerkala.push(el1)
+          } else {
+            _this.workshopById.servisUmum.push(el1)
           }
         })
-        // filter duplicated
-        const tempServisBerkala = _this.workshopById.servisBerkala.map(o => o.serviceDetail)
-        const filteredServisBerkala = _this.workshopById.servisBerkala.filter(({serviceDetail}, index) => !tempServisBerkala.includes(serviceDetail, index + 1))
-
-        const tempServisUmum = _this.workshopById.servisUmum.map(o => o.serviceDetail)
-        const filteredServisUmum = _this.workshopById.servisUmum.filter(({serviceDetail}, index) => !tempServisUmum.includes(serviceDetail, index + 1))
-
-        _this.workshopById.servisBerkala = filteredServisBerkala
-        _this.workshopById.servisUmum = filteredServisUmum
-
+        _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
+        _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
         _this.detailWorkshopLoader = false
-      }) .catch((err) =>{
+      }) .catch((err) =>{ 
         console.log(err)
         _this.detailWorkshopLoader = false
       })
@@ -426,7 +425,6 @@ export default {
           if(!help.isDataEmpty(this.currPos.lat) && !help.isDataEmpty(this.currPos.lon)){
             this.doGetDistanceFromAllWorkshops()
           }
-          console.log(this.currPos)
         }, error => {
           console.log(error)
         })

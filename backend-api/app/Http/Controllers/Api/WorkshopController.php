@@ -202,11 +202,8 @@ class WorkshopController extends Controller
                     return $workshop_review->workshopID === $value->id;
                 });
             }
-
-            // $data = [
-            //     // 'objectReturn'=>$workshops
-            // ];
-            return response()->json($workshops, 200);
+            
+            return response()->json($workshops[0], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

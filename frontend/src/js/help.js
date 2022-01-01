@@ -34,7 +34,6 @@ export default {
         }
     },
     formatTodayFormatter (today) {
-        console.log(today)
         if (today == 'monday') {
             return today = '1'
         } else if (today == 'tuesday') {
