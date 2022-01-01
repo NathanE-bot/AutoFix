@@ -4,8 +4,7 @@ import help from '../js/help'
 
 export default {
     isUserLogin () {
-        // console.log(LocalStorage.has('autoRepairUser'))
-        if(LocalStorage.has('autoRepairUser')) return true 
+        if(!help.isDataEmpty(LocalStorage.getItem('autoRepairUser').data.access_token)) return true 
         else return false
     },
     doUserLogout () {

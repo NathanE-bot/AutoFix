@@ -1,5 +1,5 @@
 <template>
-    <q-page class="insurance_layout_1 flex flex-center position-relative" v-if="forLoad">
+    <q-page class="insurance_layout_1 flex flex-center position-relative">
         <div>
             <img class="responsive-img" src="~assets/images/preset/image1.png" alt="">
         </div>
@@ -35,6 +35,7 @@ export default {
     data () {
         return {
             help,
+            forLoad: true,
             model: null,
             options: [
                 'Testing1', 'Testing2', 'Testing3'
@@ -44,7 +45,7 @@ export default {
     mounted () {
         if(!Auth.isUserLogin()){
             this.forLoad = false
-            console.log('tes')
+            document.getElementsByClassName("q-layout")[0].style.display = "none"
             Swal.fire({
               title: 'Error',
               text: 'Please login first.',
@@ -55,11 +56,11 @@ export default {
             }) .then((result) => {
                 if(result.isConfirmed){
                     this.changePage('/session/login')
-                    this.forLoad = true
+                    document.getElementsByClassName("q-layout")[0].style.display = "unset"
                 } else {
                     this.changePage('/')
                     setTimeout(() => {
-                        this.forLoad = true
+                        document.getElementsByClassName("q-layout")[0].style.display = "unset"
                     }, 500)
                 }
             })
