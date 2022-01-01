@@ -51,11 +51,12 @@
                 </q-btn>
                 <q-btn
                   round unelevated
-                  color="primary"
-                  size="lg"
+                  color="white"
+                  size="md"
                 >
-                  <q-avatar size="60px">
-                    <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+                  <q-avatar size="50px" class="bg-white">
+                    <img v-if="!help.isDataEmpty(user.profilePicture)" src="https://cdn.quasar.dev/img/avatar2.jpg">
+                    <i v-else class="fas fa-user grey-5"></i>
                   </q-avatar>
                   <q-menu>
                     <q-list style="min-width: 100px">
@@ -83,12 +84,16 @@
 
 <script>
 /* eslint-disable */
+import help from '../js/help'
 import Auth from '../js/AuthValidation'
 import Swal from 'sweetalert2'
+import { LocalStorage } from 'quasar'
 
 export default {
   data () {
     return {
+      help,
+      user: [],
       initialTab: null,
       isLogin: false,
       currentRouteName: null
@@ -97,6 +102,7 @@ export default {
   created () {
     if(Auth.isUserLogin()){
       this.isLogin = true
+      this.user = LocalStorage.getItem('autoRepairUser').data.user
     } else {
       this.isLogin = false
     }

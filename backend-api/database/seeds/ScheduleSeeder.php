@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Schedule;
+
 class ScheduleSeeder extends Seeder
 {
     /**
@@ -29,6 +30,5 @@ class ScheduleSeeder extends Seeder
                 'description'=>'anjay mabar',
             ]
         );
-
     }
 }

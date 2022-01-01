@@ -43,7 +43,7 @@
             clickable
             v-ripple
             :active="link === 'messages'"
-            @click="changePage('/member/chatmessage')"
+            @click="changePage('/member/homemessage')"
             active-class="my-menu-link"
           >
             <q-item-section avatar>
@@ -214,7 +214,7 @@ export default {
       if(url.includes('/youraccount')){
         this.link = 'profile'
       }
-      else if(url.includes('/chatmessage')){
+      else if(url.includes('/homemessage')){
         this.link = 'messages'
       }
       else if(url.includes('/insurance')){
