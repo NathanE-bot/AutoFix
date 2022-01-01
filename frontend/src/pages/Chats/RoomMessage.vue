@@ -74,6 +74,7 @@ export default {
         let _this = this
         const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + this.roomId);
         itemsRef.on("value", snapshot => {
+            console.log(snapshot.val())
             let data = snapshot.val()
             let messages = []
             Object.keys(data).forEach(key => {

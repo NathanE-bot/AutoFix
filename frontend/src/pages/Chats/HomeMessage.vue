@@ -50,7 +50,6 @@ export default {
       let tempRoomObj = roomTemp.val()
       let tempRoom = []
       Object.keys(tempRoomObj).forEach(key => {
-        console.log(key.includes('1s12e12r2'))
         let tempLastMessage = tempRoomObj[key]
         let last = Object.keys(tempLastMessage)[Object.keys(tempLastMessage).length-3]
         if(key.includes(_this.user.tokenChat)){
