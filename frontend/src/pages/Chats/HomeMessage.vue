@@ -31,7 +31,6 @@ import help from '../../js/help'
 import { LocalStorage } from 'quasar'
 
 export default {
-  name: "App",
   data() {
     return {
       help,

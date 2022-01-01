@@ -19,3 +19,38 @@
         }
     }
 }
+
+.chat-room-page{
+    .q-message-sent{
+        .q-message-text{
+            &::before{
+                bottom: 25px;
+                border-top: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+                border-left: 8px solid currentColor;
+            }
+        }
+    }
+    .q-message-received{
+        .q-message-text{
+            &::before{
+                bottom: 25px;
+                border-top: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+                border-right: 8px solid currentColor;
+            }
+        }
+    }
+    .chat-message-bubble{
+        .q-message-text{
+            border-radius: 10px;
+        }
+    }
+    .textarea-chat{
+        textarea{
+            line-height: 22px;
+            padding: 9px 15px;
+            max-height: 80px;
+        }
+    }
+}
