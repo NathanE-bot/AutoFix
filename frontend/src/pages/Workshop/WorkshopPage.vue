@@ -246,7 +246,7 @@ export default {
         width: '10px',
         opacity: 0.2
       },
-       window: {
+      window: {
         width: 0,
         height: 0,
         heightAltered: 0,

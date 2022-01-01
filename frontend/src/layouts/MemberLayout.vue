@@ -7,7 +7,7 @@
         <div class="autorepair-sidebar" v-if="forNotInsurance">
             <app-sidebar />
         </div>
-        <q-page-container>
+        <q-page-container class="ml-20">
             <router-view />
         </q-page-container>
     </q-layout>
