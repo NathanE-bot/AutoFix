@@ -12,16 +12,16 @@
                         <span v-if="item.username != user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
                     </div>
                 </div>
-                <div class="d-flex a-center">
-                    <q-input
-                        @keydown.enter="sendMessage()"
-                        v-model="messageInput"
-                        placeholder="Write a reply..."
-                        borderless dense autogrow
-                        class="bg-white br-10px textarea-chat mr-20 fw"
-                    />
-                    <q-btn @click="sendMessage()" round color="secondary" icon="far fa-paper-plane"></q-btn>
-                </div>
+            </div>
+            <div class="d-flex a-center w-80 m-auto py-20">
+                <q-input
+                    @keydown.enter="sendMessage()"
+                    v-model="messageInput"
+                    placeholder="Write a reply..."
+                    borderless dense autogrow
+                    class="bg-white br-10px textarea-chat mr-20 fw"
+                />
+                <q-btn @click="sendMessage()" round color="secondary" icon="far fa-paper-plane"></q-btn>
             </div>
         </div>
     </q-page>
