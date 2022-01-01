@@ -1,5 +1,5 @@
 <template>
-    <q-page class="insurance_layout_1 flex flex-center position-relative">
+    <q-page class="insurance_layout_1 flex flex-center position-relative" v-if="forLoad">
         <div>
             <img class="responsive-img" src="~assets/images/preset/image1.png" alt="">
         </div>
@@ -28,6 +28,8 @@
 
 <script>
 /* eslint-disable */
+import Auth from '../../js/AuthValidation'
+import Swal from 'sweetalert2'
 import help from '../../js/help'
 export default {
     data () {
@@ -37,6 +39,30 @@ export default {
             options: [
                 'Testing1', 'Testing2', 'Testing3'
             ]
+        }
+    },
+    mounted () {
+        if(!Auth.isUserLogin()){
+            this.forLoad = false
+            console.log('tes')
+            Swal.fire({
+              title: 'Error',
+              text: 'Please login first.',
+              confirmButtonText: 'Login',
+              confirmButtonColor: '#21a17b',
+              showCancelButton: true,
+              cancelButtonText: 'Back',
+            }) .then((result) => {
+                if(result.isConfirmed){
+                    this.changePage('/session/login')
+                    this.forLoad = true
+                } else {
+                    this.changePage('/')
+                    setTimeout(() => {
+                        this.forLoad = true
+                    }, 500)
+                }
+            })
         }
     },
     methods: {

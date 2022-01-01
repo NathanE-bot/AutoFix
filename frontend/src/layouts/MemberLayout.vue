@@ -4,7 +4,7 @@
         <app-header />
 
         <!-- Sidebar -->
-        <div class="autorepair-sidebar" v-if="!forInsurance">
+        <div class="autorepair-sidebar" v-if="forNotInsurance">
             <app-sidebar />
         </div>
         <q-page-container>
@@ -19,15 +19,14 @@ import Auth from '../js/AuthValidation'
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
 import Swal from 'sweetalert2'
-import { LocalStorage } from 'quasar'
+import { Route } from 'vue-router'
 
 export default {
     name: 'MemberLayout',
     data () {
         return {
             forLoad: true,
-            forInsurance: false,
-            currentRouteName: null
+            forNotInsurance: true
         }
     },
     components: {
@@ -35,8 +34,6 @@ export default {
         appSidebar: Sidebar
     },
     mounted () {
-        this.currentRouteName = this.$router.currentRoute._value.fullPath
-        console.log(this.forInsurance)
         if(!Auth.isUserLogin()){
             this.forLoad = false
             console.log('tes')
@@ -59,13 +56,24 @@ export default {
                 }
             })
         }
-        if(this.currentRouteName.includes('/insurance')){
-            this.forInsurance = true
-        }
     },
     methods: {
         changePage (url) {
             this.$router.push(url)
+        }
+    },
+    watch: {
+    '$route.path': {
+        handler: function(url) {
+            if(url.includes('/insurance')){
+                console.log('yes')
+                this.forNotInsurance = false
+            } else {
+                this.forNotInsurance = true
+            }
+        },
+            deep: true,
+            immediate: true
         }
     }
 }
