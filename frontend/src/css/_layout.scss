@@ -227,6 +227,10 @@
 }
 
 // misc
+.maxw-240{
+    max-width: 240px;
+}
+
 .layout_txt{
     @include layout_txt(85px);
 }

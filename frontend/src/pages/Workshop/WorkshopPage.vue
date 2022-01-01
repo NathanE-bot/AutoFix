@@ -88,7 +88,6 @@
                       </q-badge>
                     </div>
                     <div class="text-subtitle2 grey-txt" v-if="!help.isObjectEmpty(tempDistance)">{{ tempDistance[index].distance.toFixed(2) }} Km</div>
-                    <div class="text-subtitle2 grey-txt" v-else>- Km</div>
                   </div>
                 </q-card-section>
               </q-card>
@@ -436,6 +435,9 @@ export default {
       let _this = this
       countDistanceFromCurrPos(_this.currPos).then(response => {
         _this.tempDistance = response.data.objectReturn
+        _this.tempDistance.forEach(item => {
+          item.distance = item.distance / 1000
+        })
         _this.doGetWorkshopApi(true)
       }) .catch((err) =>{
         console.log(err)
