@@ -50,7 +50,6 @@ export default {
     },
     created () {
         this.encryptUserId = this.$route.params.id
-        console.log(this.encryptUserId)
         this.doGetTempUserID()
     },
     methods: {
@@ -73,9 +72,6 @@ export default {
                 })
                 _this.resendLoader = false
             })
-        },
-        changePage (url) {
-            this.$router.push(url)
         },
         doGetTempUserID () {
             let _this = this
@@ -143,6 +139,9 @@ export default {
                 })
             }
            
+        },
+        changePage (url) {
+            this.$router.push(url)
         },
         doConsole (a) {
             console.log(a)
