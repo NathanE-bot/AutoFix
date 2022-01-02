@@ -144,8 +144,6 @@ class WorkshopController extends Controller
         }
     }
 
-
-
     public function workshopDetailView(Request $req)
     {
         try{
@@ -250,7 +248,6 @@ class WorkshopController extends Controller
         }
     }
 
-
     public function getUserProfile(Request $req){
         try {
             $user = DB::table('users')
@@ -262,74 +259,69 @@ class WorkshopController extends Controller
         }
     }
 
+    // public function create(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string',
+    //         'address' => 'required|string'
+    //     ]);
 
+    //     if ($validator->fails()) {
+    //         $return = [
+    //             'error' => $validator->errors()
+    //         ];
+    //         return response()->json($return, 400);
+    //     }
 
-    public function create(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'address' => 'required|string'
-        ]);
+    //     try{
+    //         $data = Workshop::create($request->all());
+    //         return response()->json($data, 201);
+    //     }catch (Exception $error) {
+    //         return response()->json($error, 500);
+    //     }
+    // }
 
-        if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
-            return response()->json($return, 400);
-        }
+    // public function showById($id)
+    // {
+    //     try {
+    //         $data = Workshop::find($id);
+    //         return response()->json($data, 200);
+    //     } catch (Exception $err) {
+    //         return response()->json($err, 500);
+    //     }
+    // }
 
-        try{
-            $data = Workshop::create($request->all());
-            return response()->json($data, 201);
-        }catch (Exception $error) {
-            return response()->json($error, 500);
-        }
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string',
+    //         'address' => 'required|string'
+    //     ]);
 
-    public function showById($id)
-    {
-        try {
-            $data = Workshop::find($id);
-            return response()->json($data, 200);
-        } catch (Exception $err) {
-            return response()->json($err, 500);
-        }
-    }
+    //     if ($validator->fails()) {
+    //         $return = [
+    //             'error' => $validator->errors()
+    //         ];
+    //         return response()->json($return, 400);
+    //     }
 
-    public function update(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'address' => 'required|string'
-        ]);
+    //     try{
+    //         $data = Workshop::find($id);
+    //         $data->update($request->all());
+    //         return response()->json($data, 200);
+    //     }catch (Exception $error) {
+    //         return response()->json($error, 500);
+    //     }
+    // }
 
-        if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
-            return response()->json($return, 400);
-        }
-
-        try{
-            $data = Workshop::find($id);
-            $data->update($request->all());
-            return response()->json($data, 200);
-        }catch (Exception $error) {
-            return response()->json($error, 500);
-        }
-    }
-
-    public function destroy($id)
-    {
-        try{
-            $data = Workshop::find($id);
-            $data->delete();
-            return response()->json(['success' => 'data has been deleted'], 200);
-        }catch (Exception $error) {
-            return response()->json($error, 500);
-        }
-    }
-
-
-
+    // public function destroy($id)
+    // {
+    //     try{
+    //         $data = Workshop::find($id);
+    //         $data->delete();
+    //         return response()->json(['success' => 'data has been deleted'], 200);
+    //     }catch (Exception $error) {
+    //         return response()->json($error, 500);
+    //     }
+    // }
 }
