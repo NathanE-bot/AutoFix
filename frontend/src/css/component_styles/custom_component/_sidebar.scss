@@ -26,15 +26,33 @@
                     background: linear-gradient(to left, $primary 50%, #ffffff 50%) right;
                     background-size: 200%;
                     transition: .3s ease-out;
+                    svg{
+                        path{
+                            fill: #ffffff;
+                            transition: .3s ease-out;
+                        }
+                    }
                     &:hover{
                         color: $primary;
                         background-position: left;
+                        svg{
+                            path{
+                                transition: .3s ease-out;
+                                fill: $primary;
+                            }
+                        }
                     }
                 }
                 > .q-item--active{
                     transition: none;
                     background: #ffffff;
                     color: $primary;
+                    svg{
+                        path{
+                            transition: .3s ease-out;
+                            fill: $primary;
+                        }
+                    }
                 }
             }
         }
