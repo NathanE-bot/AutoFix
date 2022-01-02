@@ -89,7 +89,6 @@ export default {
                     .ref("chatRoom/" + this.roomId)
                     .push(message)
                 this.messageInput = ""
-                this.scrollToBottom()
             }
       }
       else if(event.key == "Enter" && !event.shiftKey){
@@ -99,7 +98,7 @@ export default {
                     .ref("chatRoom/" + this.roomId)
                     .push(message)
                 this.messageInput = ""
-                this.scrollToBottom()
+                
             }
         }
     },
@@ -112,6 +111,7 @@ export default {
     scrollToBottom () {
         let tes = document.getElementsByClassName("chat-card")[0]
         let tes2 = tes.scrollHeight - tes.clientHeight
+        console.log(tes.scrollTop, tes2)
         tes.scrollTop = tes2
     },
     doConsole (a) {
@@ -155,10 +155,11 @@ export default {
             })
             _this.user_1 = user_1
             _this.user_2 = user_2
-            console.log(user_2, user_1)
             _this.messages = messages
+            setTimeout(() => {
+                _this.scrollToBottom()
+            }, 0);
         })
-        _this.test
     } 
   },
   unmounted () {
