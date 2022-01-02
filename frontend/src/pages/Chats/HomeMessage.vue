@@ -3,13 +3,13 @@
       <div v-if="!help.isObjectEmpty(room)">
         <div class="room-section cursor-pointer" v-for="item in room" :key="item.roomSecureId" @click="changePage('/member/homemessage/roommessage/' + item.roomSecureId)">
           <div class="content-section relative-position">
-            <span class="time-pos tf-capitalize">{{ help.defaultFormat(item.lastMessage.time, help.data().time_4) }}</span>
+            <span class="time-pos tf-capitalize" v-if="!help.isDataEmpty(item.lastMessage.time)">{{ help.defaultFormat(item.lastMessage.time, help.data().time_4) }}</span>
             <q-separator class="indicator mr-24" color="primary" vertical size="8px" />
             <q-avatar size="90px" style="background-color: #d9d9d9">
               <i class="fas fa-user grey-5 fs-50"></i>
             </q-avatar>
             <div class="d-flex flex-dir-col a-start ml-10">
-              <div class="fs-18 fw-bold black_3">{{ user.role == '2' ? item.user_2 : item.user_1 }}</div>
+              <div class="fs-18 fw-bold black_3">{{ user.role == '2' ? item.user_1 : item.user_2 }}</div>
               <div class="text-subtitle2 ml-4 mb-0 grey_1 fw-lightbold line-clamp-3" style="white-space: pre-line">
                 {{ item.lastMessage.message }}
               </div>
@@ -61,7 +61,7 @@ export default {
         }
       })
       _this.room = tempRoom
-      // console.log(_this.room)
+      console.log(_this.room)
     })
   },
   methods: {
