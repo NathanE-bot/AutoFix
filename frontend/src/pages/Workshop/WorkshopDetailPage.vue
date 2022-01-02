@@ -162,7 +162,7 @@
               </div>
             </div>
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex cursor-pointer" @click="changePage('/member/homemessage/roommessage/' + userTokenChat + '-' + userWorkshop.tokenChat)">
+              <div class="icon-phone-border d-flex cursor-pointer" @click="doMakeChatRoom()">
                 <q-icon class="phone-icon" name="chat" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
@@ -216,6 +216,7 @@ import { LocalStorage } from 'quasar'
 import { getWorkshopById, countDistanceFromCurrPos, getUserWorkshopByWorkshopId } from '../../api/workshopService'
 import help from '../../js/help'
 import ValidationFunction from '../../js/ValidationFunction'
+import main from '../../main'
 
 export default {
   data () {
@@ -228,6 +229,7 @@ export default {
       workshop_details: [],
       userWorkshop: '',
       gallerySlide: 1,
+      roomId: null,
       today: null,
       currPos: {
         lat: null,
@@ -247,6 +249,23 @@ export default {
     }
   },
   methods: {
+    doMakeChatRoom () {
+      let user_1 = LocalStorage.getItem('autoRepairUser').data.user.fullName
+      let user_2 = this.userWorkshop.fullName
+      this.roomId = LocalStorage.getItem('autoRepairUser').data.user.tokenChat + '-' + this.userWorkshop.tokenChat
+      if(!help.isDataEmpty(this.roomId)){
+        main
+          .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
+          .ref("chatRoom/" + this.roomId + "/user-1")
+          .set(user_1)
+        main
+          .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
+          .ref("chatRoom/" + this.roomId + "/user-2")
+          .set(user_2)
+
+        this.changePage('/member/homemessage/roommessage/' + this.userTokenChat + '-' + this.userWorkshop.tokenChat)
+      }
+    },
     doGetUserWorkshopByWorkshopId (id) {
       let _this = this
       console.log(id)

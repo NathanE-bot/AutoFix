@@ -50,6 +50,7 @@ export default {
       let tempRoom = []
       Object.keys(tempRoomObj).forEach(key => {
         let tempLastMessage = tempRoomObj[key]
+        console.log(tempLastMessage)
         let last = Object.keys(tempLastMessage)[Object.keys(tempLastMessage).length-3]
         if(key.includes(_this.user.tokenChat)){
           tempRoom.push({

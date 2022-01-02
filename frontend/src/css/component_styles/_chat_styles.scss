@@ -79,7 +79,7 @@
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
             &::before{
-                filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+                filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.25));
             }
             border-radius: 10px;
             .q-message-text-content{
@@ -102,7 +102,7 @@
     background-color: #378B72;
     position: sticky;
     position: -webkit-sticky;
-    bottom: -2px;
+    bottom: 0;
 }
 .receiver-name{
     z-index: 1;

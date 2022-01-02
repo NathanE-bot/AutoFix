@@ -3,7 +3,7 @@
         <q-card class="my-card w-60 chat-card" :style="{minHeight: window.heightAltered + 'px', maxHeight: window.heightAltered + 'px'}">
             <q-card-section class="d-flex a-center receiver-name">
                 <q-btn
-                    @click="goBack()"
+                    @click="changePage('/member/homemessage')"
                     unelevated round outline
                     size="sm"
                     color="white"
@@ -14,7 +14,7 @@
                     {{ user.role == '2' ? user_1 : user_2 }}
                 </div>
             </q-card-section>
-            <q-card-section class="chat-section" :style="{minHeight: window.heightAltered + 'px'}">
+            <q-card-section class="chat-section" :style="{minHeight: window.minHeightChatSection + 'px'}">
                 <div class="" v-for="item in messages" :key="item">
                     <div :class="[{'time-layout-not-sent' : item.username != user.fullName},{'time-layout-sent' : item.username == user.fullName}]">
                         <span v-if="item.username == user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
@@ -31,7 +31,7 @@
                     @keydown.enter="sendMessage($event)"
                     v-model="messageInput"
                     placeholder="Write a reply..."
-                    borderless dense autogrow
+                    borderless dense autogrow maxlength="1000"
                     class="bg-white br-10px textarea-chat mr-20 fw"
                 />
                 <q-btn @click="sendMessage()" round flat>
@@ -66,7 +66,8 @@ export default {
         window: {
             width: 0,
             height: 0,
-            heightAltered: 0
+            heightAltered: 0,
+            minHeightChatSection: 0
         }
     };
   },
@@ -106,6 +107,7 @@ export default {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
       this.window.heightAltered = window.innerHeight - (window.innerHeight * (16/100))
+      this.window.minHeightChatSection = window.innerHeight - (window.innerHeight * (34/100))
     },
     scrollToBottom () {
         let tes = document.getElementsByClassName("chat-card")[0]
@@ -114,6 +116,9 @@ export default {
     },
     doConsole (a) {
         console.log(a)
+    },
+    changePage (url) {
+        this.$router.push(url)
     },
     goBack () {
         this.$router.go(-1)
