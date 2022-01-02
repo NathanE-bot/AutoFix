@@ -74,6 +74,9 @@ export default {
                 _this.resendLoader = false
             })
         },
+        changePage (url) {
+            this.$router.push(url)
+        },
         doGetTempUserID () {
             let _this = this
             _this.loader = true
