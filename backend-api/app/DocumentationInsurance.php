@@ -11,4 +11,7 @@ class DocumentationInsurance extends Model
         'documentationInsuranceName',
         'documentationPicture',
     ];
+    public function Insurance(){
+        return $this->belongsTo(Insurance::class);
+    }
 }

@@ -36,4 +36,7 @@ class Insurance extends Model
     public function InsuranceVendor(){
         return $this->belongsTo(InsuranceVendor::class);
     }
+    public function DocumentationInsurance(){
+        return $this->hasMany(DocumentationInsurance::class);
+    }
 }

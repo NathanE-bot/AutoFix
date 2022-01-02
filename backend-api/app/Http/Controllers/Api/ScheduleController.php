@@ -73,13 +73,11 @@ class ScheduleController extends Controller
                 $newscheduledetail = new schedule_details;
                 $newscheduledetail -> scheduleID = $idSchedule;
                 $newscheduledetail ->serviceType = $req->serviceTypeUmum[$key];
-                $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
+                $newscheduledetail ->serviceDetail = $req->serviceDetailUmum[$key];
                 $newscheduledetail->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);
                 }
-            }else{
-                return "tidak ada data";
             }
             if ($req->has('serviceTypeBerkala')) {
                 foreach($req->serviceTypeBerkala as $key => $value){
@@ -91,10 +89,7 @@ class ScheduleController extends Controller
                     //kolo pake jobs
                     // array_push($newscheduledetail,$array);
                 }
-            }else{
-                return "tidak ada servis berkala";
             }
-
             $data = [
                 'objectReturner'=>[$newSchedules,$newscheduledetail]
             ];
@@ -111,7 +106,7 @@ class ScheduleController extends Controller
             ->where('users.role','=','1')
             ->get();
             $data = [
-                'objectReturner'=>$schedule
+                'objectReturn'=>$schedule
             ];
             return response()->json($data, 200);
         } catch (Exception $err){

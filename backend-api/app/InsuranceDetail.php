@@ -14,4 +14,7 @@ class InsuranceDetail extends Model
         'insuranceStatus',
         'insuranceDescription'
     ];
+    public function Insurance(){
+        return $this->belongsTo(Insurance::class);
+    }
 }
