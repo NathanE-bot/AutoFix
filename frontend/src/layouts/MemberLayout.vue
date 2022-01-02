@@ -65,7 +65,7 @@ export default {
     watch: {
     '$route.path': {
         handler: function(url) {
-            if(url.includes('/insurance')){
+            if(url.includes('/insurance') || url.includes('/workshop/member')){
                 console.log('yes')
                 this.forNotInsurance = false
             } else {

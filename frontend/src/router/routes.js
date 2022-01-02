@@ -118,6 +118,15 @@ const routes = [
           breadcrumb: 'Form Insurance'
         }
       },
+      // workshop
+      {
+        path: "/workshop/member/make-schedule/:id",
+        component: workshopMakeSchedule,
+        meta: {
+          title: 'Workshop Page',
+          breadcrumb: 'Workshop Page'
+        }
+      },
       {
         path: "/member/create",
         component: createWorkshop,
@@ -188,14 +197,6 @@ const routes = [
         meta: {
           title: 'Workshop Detail Page',
           breadcrumb: 'Workshop Detail Page'
-        }
-      },
-      {
-        path: "/workshop/make-schedule",
-        component: workshopMakeSchedule,
-        meta: {
-          title: 'Workshop Page',
-          breadcrumb: 'Workshop Page'
         }
       }
     ]

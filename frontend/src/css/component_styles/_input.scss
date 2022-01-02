@@ -19,6 +19,16 @@
     @extend %default_input_2;
 }
 
+.default-textarea-1{
+    .q-field__control{
+        border: 1px solid #EEE6E6;
+        border-radius: 10px;   
+    }
+    .q-field__control:hover:before{
+        border-color: #EEE6E6;
+    }
+}
+
 .fix-txt-field{
     .q-field__control{
         padding-right: 5px;

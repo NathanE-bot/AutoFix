@@ -1,107 +1,165 @@
 <template>
-    <q-page class="lightGrey-bg">
+    <q-page class="bg-white form-schedule">
         <div class="topInfo">
-          <img src="" alt="">
-          <span>INI DIBAWAH IMAGE</span>
+          <img class="responsive_img detail-workshop-bg my-30" width="120" src="~assets/images/logo/workshop/honda.png" alt="">
           <div class="detailInfo">
-            <span>{{ detail.namaBengkel }} INI NAMA BENGKEL</span>
-            <span>{{ detail.kabupaten }} INI KABUPATEN</span>
-            <span>{{ detail.rating }} INI RATING</span>
-            <br/>
-            <p>{{ detail.deskripsiBengkel }} INI DESKRIPSI BENGKEL LOREM Ipsum</p>
+            <span class="text-h6 fw-semibold">{{ workshopDetail.workshopName }}</span>
+            <span class="grey-txt">{{ workshopDetail.district }}, {{ workshopDetail.city }}</span>
+            <span class="grey-txt mb-20">Rating: {{ workshopDetail.rating }}</span>
+            <p>{{ workshopDetail.workshopDescription }}</p>
           </div>
-          <hr/>
         </div>
+        <q-separator class="br-5px" color="#605A5A" size="4px" />
         <div class="modelServisFragment" v-if="isShown === false">
-          <div class="modelServisTitle"><span>Model & Jenis Service</span></div>
+          <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30">
+            <span>Model & type of service</span>
+            <span class="accent_color">1 / 2</span>
+          </div>
+          <div class="d-flex flex-dir-col">
             <q-select
-                filled
-                v-model="model"
-                use-input
-                hide-selected
-                fill-input
-                input-debounce="0"
-                :options="options"
-                @filter="filterFn"
-                placeholder="Pilih model mobil"
-                style="width: 250px"
+              @update:model-value="doFilterCarType($event)"
+              v-model="jsonDataParam.carModel"
+              :options="carModelOptions"
+              outlined
+              class="br-10px default-select-2 mb-15 w-25"
             >
-                <template v-slot:no-option>
-                <q-item>
-                    <q-item-section class="text-grey">
-                      No results
-                    </q-item-section>
-                </q-item>
+              <template v-slot:selected>
+                <template v-if="jsonDataParam.carModel">
+                  {{ jsonDataParam.carModel }}
                 </template>
+                <template v-else>
+                  <span class="placeholder-text">Choose Car Model...</span>
+                </template>
+              </template>
             </q-select>
-            <br/>
             <q-select
-                filled
-                v-model="model"
-                use-input
-                hide-selected
-                fill-input
-                input-debounce="0"
-                :options="options"
-                @filter="filterFn"
-                placeholder="Pilih tipe mobil"
-                style="width: 250px"
+              @update:model-value="doGetCarServices($event)"
+              v-model="jsonDataParam.carType"
+              :options="carTypeOptions"
+              outlined
+              class="br-10px default-select-2 mt-15 w-25"
             >
-                <template v-slot:no-option>
-                <q-item>
-                    <q-item-section class="text-grey">
-                      No results
-                    </q-item-section>
-                </q-item>
+              <template v-slot:selected>
+                <template v-if="jsonDataParam.carType">
+                  {{ jsonDataParam.carType }}
                 </template>
+                <template v-else>
+                  <span class="placeholder-text">Choose Car Type...</span>
+                </template>
+              </template>
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    Please choose car model first.
+                  </q-item-section>
+                </q-item>
+              </template>
             </q-select>
-          <div>
-            <div class="modelServisSubtitle"><span>Pilih layanan yang diperlukan untuk mobil anda</span></div>
-            <q-card class="listServis">
-              <div class="q-gutter-sm">
-                <q-checkbox v-model="checkbox1" label="Servis Berkala" style="font-weight: bolder"/>
-              </div>
-              <div v-if="checkbox1 === true">
-                <q-select class="itemCheckbox1" dense square filled v-model="model" :options="optionsCheckbox1" options-label="label" options-value="value" label="Square filled" />
-              </div>
-              <div class="q-gutter-sm">
-                <q-checkbox v-model="checkbox2" label="Perbaikan Umum" style="font-weight: bolder"/>
-              </div>
-              <div v-if="checkbox2 === true">
-                BisaDipake2
-              </div>
-            </q-card>
           </div>
-          <br/>
-          <div class="reqTextCard">
-            <q-card class="reqServis">
-              <p class="infoReqServis" style="font-weight: bolder">Kerusakan Mobil / Permintaan Servis (Opsional)</p>
-              <q-input class="inputTextArea" type="textarea" counter maxlength="200"></q-input>
-            </q-card>
+          <div class="my-20">
+            <span class="text-h5">Select the services required for your car</span>
           </div>
-          <div class="estimasiContainer">
-            <q-card class="estimasiHarga">
-              <span>RP.0</span>
-              <br/>
-              <br/>
-              Estimasi Harga
-              <br/> <br/>
-              <p>*Harga di atas adalah estimasi biaya servis tanpa pekerjaan tambahan. Harga dapat berbeda, sesuai pada tipe mobil & ketentuan pajak.</p>
+          <div class="w-90 mx-auto">
+            <q-card class="br-10px mb-30">
+              <q-card-section>
+                <q-checkbox v-model="periodic" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">
+                  <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
+                    Choose car model and type first
+                  </q-tooltip>
+                </q-checkbox>
+                <div v-if="periodic" class="py-20 q-pa-md">
+                  <div class="q-gutter-y-lg">
+                    <q-select
+                      @update:model-value="doConsole($event)"
+                      v-model="jsonDataParam.periodicService"
+                      :options="periodicServicesOptions"
+                      outlined
+                      class="br-10px default-select-2 mt-15 w-25"
+                    >
+                      <template v-slot:selected>
+                        <template v-if="jsonDataParam.periodicService">
+                          {{ jsonDataParam.periodicService.label }}
+                        </template>
+                        <template v-else>
+                          <span class="placeholder-text">Choose periodic service...</span>
+                        </template>
+                      </template>
+                      <template v-slot:no-option>
+                        <q-item>
+                          <q-item-section class="text-grey">
+                            Please choose car type first.
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select>
+                  </div>
+                </div>
+              </q-card-section>
+              <q-card-section>
+                <q-checkbox v-model="general" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="General Services" :class="['fw-lightbold fs-20']">
+                  <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
+                    Choose car model and type first
+                  </q-tooltip>
+                </q-checkbox>
+                <div v-if="general">
+                  <div class="row q-col-gutter-y-xl" style="gap: 5%" v-if="!help.isObjectEmpty(generalServicesOptions)">
+                    <div class="col-md-3 w-30-i" v-for="service in generalServicesOptions" :key="service.id">
+                      <div class="general-services">
+                        <q-checkbox v-model="service.checked" size="xs" />
+                        <div class="content">
+                          <span>{{ service.serviceDetail }}</span>
+                          <span>{{ service.price }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else class="grey-txt p-10">
+                    Please Choose Car Type First.
+                  </div>
+                </div>
+              </q-card-section>
             </q-card>
-            <q-card class="estimasiWaktu">
-              <span>0 Jam</span>
-              <br/>
-              <br/>
-              Estimasi Waktu Servis
+            <q-card class="br-10px w-50">
+              <q-card-section class="pl-30 pr-30">
+                <div class="my-20">
+                  <span>Car Damage / Service Request. (Optional)</span>
+                </div>
+                <q-input
+                  v-model="jsonDataParam.description"
+                  outlined counter maxlength="500"
+                  type="textarea"
+                  class="fix-txt-field default-textarea-1"
+                >
+                </q-input>
+              </q-card-section>
             </q-card>
+            <div class="d-flex a-center my-40 estimation-section">
+              <q-card class="my-card l-card">
+                <q-card-section>
+                  <div class="text-h6">Our Changing Planet</div>
+                  <div class="text-subtitle2">by John Doe</div>
+                </q-card-section>
+                <q-card-section>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                </q-card-section>
+              </q-card>
+              <q-card class="my-card r-card">
+                <q-card-section>
+                  <div class="text-h6">Our Changing Planet</div>
+                  <div class="text-subtitle2">by John Doe</div>
+                </q-card-section>
+                <q-card-section>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
-          <br/>
           <q-btn @click="isShown = !isShown" label="Lanjut" color="primary"/>
         </div>
         <div v-else>
           <q-btn @click="isShown = !isShown" label="Kembali" color="secondary"/>
           <div>
-            <!-- :options="dateValidation.minimalDateFromToday(helper.formatToday(helper.data().dmy_3))" -->
+            <!-- :options="dateValidation.minimalDateFromToday(help.formatToday(help.data().dmy_3))" -->
             <q-date
               v-model="date"
               minimal
@@ -115,11 +173,29 @@
 </template>
 
 <script>
+/* eslint-disable */
 import dateValidation from '../../js/dateValidation'
-import helper from '../../js/help'
+import help from '../../js/help'
+import { getWorkshopById } from '../../api/workshopService'
 export default {
   data () {
     return {
+      help,
+      dateValidation,
+      workshopId: null,
+      workshopDetail: [],
+      workshop_details: [],
+      carModelOptions: [],
+      tempCarTypeOptions: [],
+      periodicServicesOptions: [],
+      generalServicesOptions: [],
+      carTypeOptions: [],
+      jsonDataParam: {
+        carModel: null,
+        carType: null,
+        periodicService: null,
+        description: null
+      },
       detail: {
         namaBengkel: '',
         kabupaten: '',
@@ -130,15 +206,117 @@ export default {
       checkbox1: false,
       checkbox2: false,
       disablePage2: false,
-      model: { label: '', value: '' },
+      periodic: false,
+      general: false,
       optionsCheckbox1: [
         { label: '1', value: '1' },
         { label: '2', value: '2' },
         { label: '3', value: '3' },
         { label: '4', value: '4' }
-      ],
-      dateValidation,
-      helper
+      ]
+    }
+  },
+  created () {
+    this.workshopId = this.$route.params.id
+    if(!help.isDataEmpty(this.workshopId)){
+      this.doGetWorkshopById()
+    }
+  },
+  methods: {
+    doGetWorkshopById () {
+      let _this = this
+      _this.loader = true
+      getWorkshopById(_this.workshopId).then(response => {
+        _this.workshopDetail = response.data
+        // _this.doGetUserWorkshopByWorkshopId(_this.workshopDetail.userID)
+        // _this.doGetCurrentPosition()
+        // loopingan data servis
+        _this.workshopDetail.workshop_details.forEach(el1 => {
+            let tempArr = []
+            //for car model option
+            let tempString1 = ""
+            tempString1 = el1.carModel
+            _this.carModelOptions.push(tempString1)
+
+            //for car type option
+            let tempObj = {
+              carModel: el1.carModel,
+              carType: el1.carType
+            }
+            _this.tempCarTypeOptions.push(tempObj)
+          _this.workshopDetail.workshop_services.forEach(el2 =>{
+            if(el2.workshopDetailID === el1.id){
+              tempArr.push(el2)
+            }
+          })
+
+          let tempObject = {
+            id: el1.id,
+            workshopId: el1.workshopId,
+            carModel: el1.carModel,
+            carType: el1.carType,
+            workshop_services: tempArr,
+            created_at: el1.created_at,
+            updated_at: el1.updated_at,
+          }
+          _this.workshop_details.push(tempObject)
+        })
+        _this.loader = false
+      }) .catch((err) =>{
+        console.log(err)
+        _this.loader = false
+      })
+    },
+    doFilterCarType (val) {
+      this.carTypeOptions = []
+      let tempArr = []
+      const needle = val.toLocaleLowerCase()
+      tempArr = this.tempCarTypeOptions.filter(v => v.carModel.toLocaleLowerCase().indexOf(needle) > -1)
+      tempArr.forEach(el1 => {
+        let tempString = ""
+        tempString = el1.carType
+        this.carTypeOptions.push(tempString)
+      })
+    },
+    doGetCarServices(val){
+      // get car model n type id
+      let selectedCarType = []
+      const needle1 = val.toLocaleLowerCase()
+      selectedCarType = this.workshopDetail.workshop_details.filter(v => v.carType.toLocaleLowerCase().indexOf(needle1) > -1)[0]
+
+      // get services by model n type id and separate services by type
+      let tempArrServices = []
+      const needle2 = selectedCarType.id
+      let tempArrPeriodic = []
+      let tempArrGeneral = []
+
+      tempArrServices = this.workshopDetail.workshop_services.filter(v => v.workshopDetailID == needle2)
+      // Periodic
+      tempArrPeriodic = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis berkala') > -1)
+      console.log('a', tempArrPeriodic)
+      tempArrPeriodic.forEach(el1 => {
+        let tempObj = {
+          label: el1.serviceDetail,
+          price: el1.price
+        }
+        // let tempString = ""
+        // tempString = el1.serviceDetail
+        this.periodicServicesOptions.push(tempObj)
+      })
+      // General
+      tempArrGeneral = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis umum') > -1)
+      tempArrGeneral.forEach(el1 => {
+        let tempObj1 = {
+          serviceDetail: el1.serviceDetail,
+          price: el1.price,
+          time: el1.time,
+          checked: false
+        }
+        this.generalServicesOptions.push(tempObj1)
+      })
+    },
+    doConsole(a){
+      console.log(a)
     }
   }
 }

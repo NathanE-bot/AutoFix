@@ -23,6 +23,11 @@
 
 .default-select-2{
     @extend %default_select_layout_2;
+    .q-field__native{
+        .placeholder-text{
+            color: rgba(0, 0, 0, .5);
+        }
+    }
 }
 
 .insurance_select{

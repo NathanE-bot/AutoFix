@@ -26,9 +26,6 @@
           <div class="text-subtitle2">
             {{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}
           </div>
-          <div v-if="!help.isObjectEmpty(tempDistance)">
-            <span class="text-subtitle2 grey-txt">{{ tempDistance.distance.toFixed(2) }} Km</span>
-          </div>
         </div>
         <!-- <div class="title-workshop d-flex flex-dir-col a-start">
           <span class="text-h4 fw-bold">{{ workshopDetail.workshopName }}</span>
@@ -42,7 +39,10 @@
             </div>
           </div>
         </div> -->
-        <div class="rating-workshop">
+        <div class="rating-workshop d-flex a-center">
+          <div class="mr-15" v-if="!help.isObjectEmpty(tempDistance)">
+            <span class="text-subtitle2 grey-txt">{{ tempDistance.distance.toFixed(2) }} Km</span>
+          </div>
           <div class="soft-badge-primary">
             <span>Rating</span>
             <div>
@@ -200,6 +200,7 @@
           </div>
         </div>
         <q-btn
+          @click="changePage('/workshop/member/make-schedule/' + userWorkshop.id)"
           outline color="primary"
           label="Make Your Schedule"
           class="tf-capitalize fw-bold fw my-30 fs-30 br-5px"
@@ -223,6 +224,7 @@ export default {
     return {
       help,
       ValidationFunction,
+      LocalStorage,
       loader: false,
       workshopId: null,
       workshopDetail: [],

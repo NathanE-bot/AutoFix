@@ -129,7 +129,7 @@ export default {
       if(url == '/'){
         this.initialTab = 'home'
       }
-      else if(url == '/workshop'){
+      else if(url.includes('/workshop')){
         this.initialTab = 'workshop'
       }
       else if(url.includes('/insurance')){

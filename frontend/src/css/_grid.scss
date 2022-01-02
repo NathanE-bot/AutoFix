@@ -121,6 +121,10 @@
     @include flex_grid(align-items, baseline);
 }
 
+.d-none{
+    display: none;
+}
+
 // width
 .fw{
     width: 100%;
