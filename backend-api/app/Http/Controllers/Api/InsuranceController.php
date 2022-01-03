@@ -21,7 +21,7 @@ use App\DocumentationInsurance;
 class InsuranceController extends Controller
 {
 
-    public function viewInsurance(){
+    public function getVendorInsuranceList(){
         try{
             $data = [
                 'objectReturn' => DB::table('insurance_vendors')
@@ -34,7 +34,7 @@ class InsuranceController extends Controller
     }
 
 
-    public function FormIsurance (Request $req){
+    public function makeInsuranceClaimApi (Request $req){
     try {
 
                 $validator = Validator::make($req->all(), [
@@ -90,30 +90,37 @@ class InsuranceController extends Controller
             $dataInsurance->save();
 
 
-            if ($req->has('documentationPicture'))
-            {
-                foreach ($req->file('documentationPicture') as $key => $file)
-                {
-                    $ext = strtolower($file->getClientOriginalExtension());
-                    $image = \Storage::dics('public')->put($req->documentationInsuranceName[$key]+$req->userID+'.'+$ext, $file); // your image path
-                    $path = '\public\$req->documentationInsuranceName[$key]+$req->userID+'.'+$ext';
+            // if ($req->has('documentationPicture'))
+            // {
+            //     foreach ($req->file('documentationPicture') as $key => $file)
+            //     {
+            //         $ext = strtolower($file->getClientOriginalExtension());
+            //         $image = \Storage::dics('public')->put($req->documentationInsuranceName[$key]+$req->userID+'.'+$ext, $file); // your image path
+            //         $path = '\public\$req->documentationInsuranceName[$key]+$req->userID+'.'+$ext';
 
-                    $insuranceDocumentation = new DocumentationInsurance;
-                    $insuranceDocumentation->insuranceID = $dataInsurance->id;
-                    $insuranceDocumentation->documentationPicture = $path;
-                    $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
-                    $insuranceDocumentation->save();
-                }
+            //         $insuranceDocumentation = new DocumentationInsurance;
+            //         $insuranceDocumentation->insuranceID = $dataInsurance->id;
+            //         $insuranceDocumentation->documentationPicture = $path;
+            //         $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
+            //         $insuranceDocumentation->save();
+            //     }
 
-                // $fileNameToStore = serialize($documentationPicture);
-            }
-            else
-            {
-                return response()->json('image not found', 400);
-            }
-
+            //     // $fileNameToStore = serialize($documentationPicture);
+            // }
+            // else
+            // {
+            //     return response()->json('image not found', 400);
+            // }
+            date_default_timezone_set('Asia/Jakarta');
+            $mytime = new DateTime('now');
+            $dateNow = $mytime->format("Y-m-d");
+            $dataInsuranceDetail = new InsuranceDetail;
+            $dataInsuranceDetail->insuranceID=$dataInsurance->id;
+            $dataInsuranceDetail->claimInsuranceDate=$dateNow;
+            $dataInsuranceDetail->insuranceStatus='waiting confirmation';
+            $dataInsuranceDetail->save();
             $data = [
-                'objectReturner'=>[$dataInsurance,$insuranceDocumentation]
+                'objectReturner'=>[$dataInsurance,$dataInsuranceDetail]
             ];
             return response()->json($data, 200);
         } catch (Exception $err){
@@ -122,19 +129,65 @@ class InsuranceController extends Controller
     }
 
 
-    public function ViewInsuranceDetail (Request $req){
+    public function getInsuranceStatusApi (Request $req){
         try{
             $scheduleDetail= DB::table('insurances')
             ->join('users','users.id','=','insurances.userID')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
-            ->select('insurance_vendors.insuranceName','insuranceStatus','submiteDate','polisNumber')
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
+            ->select('insurances.id','insurances.userID','insurances.vendorInsuranceID','insurance_vendors.insuranceName','insurance_details.insuranceStatus','insurance_details.claimInsuranceDate','insurances.polisNumber')
             ->where('insurances.userID','=',$req->userID)
-            ->where('users.role','=','1')
+            // ->where('users.role','=','1')
             ->get();
             $data = [
                 'objectReturner'=>$scheduleDetail
             ];
             return response()->json($data, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+
+    public function getInsuranceDetailByStatusAccepted (Request $req){
+        try{
+            $dataAccepted= DB::table('insurances')
+            ->join('users','users.id','=','insurances.userID')
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
+            ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
+            'insurance_vendors.insuranceName',
+            'insurance_details.insuranceStatus','insurance_details.claimInsuranceDate',
+            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF')
+            ->where('insurances.userID','=',$req->userID)
+            ->where('insurance_details.insuranceID','=',$req->insuranceID)
+            ->where('insurance_details.insuranceStatus','=','Approved')
+            // ->where('users.role','=','1')
+            ->get();
+
+            return response()->json($dataAccepted, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function getInsuranceDetailByStatusRejected (Request $req){
+        try{
+            $dataRejected= DB::table('insurances')
+            ->join('users','users.id','=','insurances.userID')
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
+            ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
+            'insurance_vendors.insuranceName',
+            'insurance_details.insuranceStatus','insurance_details.claimInsuranceDate',
+            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF')
+            ->where('insurances.userID','=',$req->userID)
+            ->where('insurance_details.insuranceID','=',$req->insuranceID)
+            ->where('insurance_details.insuranceStatus','=','Rejected')
+            // ->where('users.role','=','1')
+            ->get();
+
+            return response()->json($dataRejected, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

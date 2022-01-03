@@ -16,7 +16,7 @@ use App\Schedule;
 
 class ScheduleController extends Controller
 {
-    public function formSchedule(Request $req){
+    public function makeScheduleApi(Request $req){
         try{
             date_default_timezone_set('Asia/Jakarta');
             $datestring = Carbon::now();
@@ -99,15 +99,25 @@ class ScheduleController extends Controller
         }
     }
 
-    public function ShowDataSchedule(Request $req){
+    public function ShowDataScheduleByUserID(Request $req){
         try{
-            $schedule= DB::table('schedules')->join('users','users.id','=','schedules.userID')
+            $schedule= DB::table('schedules')
+            ->join('users','users.id','=','schedules.userID')
+            ->join('schedule_details','schedule_details.scheduleID','=','schedules.id')
+            ->distinct()
             ->where('schedules.userID','=',$req->userID)
-            ->where('users.role','=','1')
+            // ->where('users.role','=','1')
             ->get();
-            $data = [
-                'objectReturn'=>$schedule
-            ];
+
+            // $schedule_detail= DB::table('schedule_details')
+            // ->select('scheduleID')
+            // ->get()->toArray();
+            // foreach ($schedule as $value) {
+            //     $value->schedule_detail = array_filter($schedule_detail, function($schedule_detail) use ($value) {
+            //         return $schedule_detail->scheduleID === $value->id;
+            //     });
+            // }
+            dd($schedule);
             return response()->json($data, 200);
         } catch (Exception $err){
             return response()->json($err, 500);

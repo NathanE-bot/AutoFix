@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    public function FormReviewAPI(Request $req){
+    public function makeReviewApi(Request $req){
         try{
             if ($req->status == 'done') {
                 $validator = Validator::make($req->all(), [
@@ -30,7 +30,7 @@ class ReviewController extends Controller
         }
     }
 
-    public function ViewReviewAPI(Request $req){
+    public function getReviewApi(Request $req){
         $dataReview = DB::table('reviews')
         ->join('schedules','schedule.id','=','reviews.scheduleID')
         ->where('schedules.workshopID','=',$req->id)

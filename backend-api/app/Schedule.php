@@ -29,4 +29,7 @@ class Schedule extends Model
     public function Review(){
         return $this->hasMany(Review::class);
     }
+    public function ScheduleDetail(){
+        return $this->hasMany(ScheduleDetail::class);
+    }
 }

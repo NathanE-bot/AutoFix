@@ -41,7 +41,7 @@ Route::post('workshop/create', 'Api\WorkshopController@create');
 Route::get('workshop/getData/{id}', 'Api\WorkshopController@showById');
 Route::put('workshop/update/{id}', 'Api\WorkshopController@update');
 Route::delete('workshop/delete/{id}', 'Api\WorkshopController@destroy');
-
+Route::get('email','mailController@index')->name('email');
 
 // Route API Workshops
 Route::get('getRecommendationWorkshop','Api\HomeController@getRecommendationWorkshop')->name('homeWorkshopRecomendation');
@@ -52,19 +52,30 @@ Route::post('getWorkshopApi', 'Api\WorkshopController@getWorkshopApi');
 Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
 Route::get('filterDataWorkshop','Api\WorkshopController@filterDataWorkshop')->name('filterDataWorkshop');
 Route::post('getUserWorkshopByWorkshopId','Api\WorkshopController@getUserProfile')->name('getUserProfile');
-
-
 Route::post('doCountDistanceFromCurrPos','Api\WorkshopController@countDistance')->name('distance');
-//schedule
-Route::post('MakeSchedule', 'Api\ScheduleController@formSchedule');
-Route::post('ViewSchedule', 'Api\ScheduleController@ShowDataSchedule');
 
-Route::get('email','mailController@index')->name('email');
+
+//schedule
+Route::post('makeScheduleApi', 'Api\ScheduleController@makeScheduleApi');
+Route::post('getScheduleByUserID', 'Api\ScheduleController@ShowDataScheduleByUserID');
+
+
 
 //insurance
-Route::get('InsuranceList','Api\InsuranceController@viewInsurance');
-Route::post('FormInsurance', 'Api\InsuranceController@FormIsurance');
-Route::post('viewInsurance', 'Api\InsuranceController@ViewInsuranceDetail');
+Route::get('getVendorInsuranceList','Api\InsuranceController@getVendorInsuranceList');
+Route::post('makeInsuranceClaimApi', 'Api\InsuranceController@makeInsuranceClaimApi');
+Route::get('getInsuranceStatusApi', 'Api\InsuranceController@getInsuranceStatusApi');
+Route::get('getInsuranceDetailByStatusAccepted', 'Api\InsuranceController@getInsuranceDetailByStatusAccepted');
+Route::get('getInsuranceDetailByStatusRejected', 'Api\InsuranceController@getInsuranceDetailByStatusRejected');
 
 //API review
-Route::get('InsuranceList','Api\InsuranceController@viewInsurance');
+Route::post('makeReviewApi','Api\ReviewController@makeReviewApi');
+Route::post('getReviewApi','Api\ReviewController@getReviewApi');
+
+//favorites
+Route::post('makeFavoritesByWorkshopAndUserID','Api\FavoritesController@makeFavoritesByWorkshopAndUserID');
+Route::get('getFavoritesByUserID','Api\FavoritesController@getFavoritesByUserID');
+Route::post('deletFavoritesData','Api\FavoritesController@deletFavoritesData');
+
+//history
+Route::post('makeHistoryByUpdateStatusShedule','Api\HistoryController@makeHistoryByUpdateStatusShedule');
