@@ -193,5 +193,15 @@ class InsuranceController extends Controller
         }
     }
 
+    public function downloadInsurancePDF (Request $req){
+        $urlPDF=DB::table('insurance_details')
+        ->join('insurances','insurances.id','=','insurance_details.insuranceID')
+        ->select('insurance_details.filePDF')
+        ->where('insurance_details.insuranceID','=',$req->insuranceID)
+        ->where('insurances.userID','=',$req->userID)
+        ->get();
+        return response()->download($url);
+    }
+
 
 }

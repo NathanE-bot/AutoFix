@@ -66,6 +66,9 @@ Route::post('makeInsuranceClaimApi', 'Api\InsuranceController@makeInsuranceClaim
 Route::get('getInsuranceStatusApi', 'Api\InsuranceController@getInsuranceStatusApi');
 Route::get('getInsuranceDetailByStatusAccepted', 'Api\InsuranceController@getInsuranceDetailByStatusAccepted');
 Route::get('getInsuranceDetailByStatusRejected', 'Api\InsuranceController@getInsuranceDetailByStatusRejected');
+Route::get('downloadInsurancePDF', 'Api\InsuranceController@downloadInsurancePDF');
+
+
 
 //API review
 Route::post('formReviewAPI','Api\ReviewController@formReviewAPI');
