@@ -25,7 +25,7 @@
                         v-model="form.fullName"
                         :rules="rules.fullName_r" lazy-rules="ondemand"
                         type="text"
-                        label="Nama Lengkap"
+                        label="Full Name"
                         borderless
                         class="col-md-12 default-input-1"
                       >
@@ -61,7 +61,7 @@
                         v-model="form.password_confirmation"
                         :rules="rules.password_confirmation_r" lazy-rules="ondemand"
                         :type="isPwd ? 'password' : 'text'"
-                        label="Konfirmasi Password"
+                        label="Confirmation Password"
                         borderless
                         class="col-md-12 default-input-1"
                       >
@@ -80,9 +80,9 @@
                         v-model="tempDoBP"
                         :rules="rules.DoB_r" lazy-rules="ondemand"
                         type="text"
-                        label="Tanggal Lahir"
+                        label="Date of Birth"
                         borderless readonly
-                        class="col-md-6 pr-6 default-input-1"
+                        class="col-md-6 pr-6 default-input-1-dob"
                       >
                         <template v-slot:append>
                           <q-icon name="event" class="cursor-pointer">
@@ -99,7 +99,7 @@
                       <q-input
                         v-model="form.phoneNumber"
                         :rules="rules.phoneNumber_r" lazy-rules="ondemand"
-                        label="Nomor Telepon"
+                        label="Phone Number"
                         borderless
                         class="col-md-6 pl-6 default-input-1">
                           <template v-slot:prepend>
@@ -109,7 +109,7 @@
                       <q-input
                         v-model="form.address"
                         :rules="rules.address_r" lazy-rules="ondemand"
-                        borderless label="Alamat"
+                        borderless label="Address"
                         type="textarea"
                         class="col-md-12 default-input-1 fix-txt-field"
                       />
@@ -117,6 +117,7 @@
                   </q-scroll-area>
                   <div class="q-gutter-sm">
                     <q-btn
+                      :loading="loader"
                       class="tf-capitalize"
                       padding="6px 32px"
                       rounded unelevated
@@ -169,6 +170,7 @@ export default ({
         address: ''
       },
       tempDoB: null,
+      tempDoBP: null,
       isPwd: true,
       rules: {
         fullName_r: [

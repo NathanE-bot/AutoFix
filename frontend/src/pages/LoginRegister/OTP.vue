@@ -14,8 +14,8 @@
                     <q-input @keyup="doFinalOtp()" class="otp-input otp_4" outlined maxlength="1" v-model="otp4" />
                 </div>
                 <span v-if="errorMessage" class="red-txt text-subtitle2 fw-semibold mt-15">Kode OTP belum valid</span>
-                <div>
-                    <span v-if="timerVisible">Resend in {{ timerCount }}</span>
+                <div v-if="failed">
+                    <span v-if="timerVisible" class="slate_grey">Resend in {{ timerCount }}</span>
                     <span v-else class="link_txt slate_grey" @click="doResendOtp()">Resend Otp?</span>
                 </div>
             </q-card-section>
@@ -37,6 +37,8 @@ export default {
             help,
             loader: false,
             errorMessage: false,
+            failed: false,
+            timerVisible: true,
             otp1: null,
             otp2: null,
             otp3: null,
@@ -45,7 +47,7 @@ export default {
             encryptUserId: null,
             email: '',
             timerCount: 30,
-            timerVisible: true,
+            timerCountOriginal: 30
         }
     },
     created () {
@@ -56,13 +58,16 @@ export default {
         doResendOtp () {
             let _this = this
             _this.resendLoader = true
+            _this.timerCountOriginal = _this.timerCountOriginal + _this.timerCountOriginal
+            if(_this.timerCountOriginal > 60) _this.timerCountOriginal = 60
+            _this.timerCount = _this.timerCountOriginal
+            _this.timerVisible = true
             resendOtp(_this.email, _this.encryptUserId).then(response => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
                     text: response.data.message
                 })
-                _this.timerCount = _this.timerCount++
                 _this.resendLoader = false
             }) .catch(function (error) {
                 Swal.fire({
@@ -134,11 +139,19 @@ export default {
                         icon: 'error',
                         title: 'Error',
                         text: error.response.data.message
+                    }) .then((result) => {
+                        if(result.isConfirmed){
+                           _this.doStartTimer()
+                        }
                     })
                 _this.loader = false
                 })
             }
            
+        },
+        doStartTimer () {
+            this.failed = true
+            this.timerCount--
         },
         changePage (url) {
             this.$router.push(url)
@@ -150,17 +163,16 @@ export default {
     watch: {
         timerCount: {
             handler(value) {
-                if(!help.isDataEmpty(this.email)){
+                if(this.failed){
                     if (value > 0) {
                         setTimeout(() => {
-                            this.timerCount--;
-                        }, 1000);
+                            this.timerCount--
+                        }, 1000)
                     } else {
                         this.timerVisible = false
                     }
                 }
-            },
-            immediate: true // This ensures the watcher is triggered upon creation
+            }
         }
     }
 }

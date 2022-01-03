@@ -173,19 +173,30 @@ class UserController extends Controller
         $tempId = (string) $decryptUserId[0]->id;
 
         try {
-
-            $test = DB::table('otps')
-            ->where('temp_userID', '=', $tempId)
-            ->delete();
-
             $randomNumber = random_int(1000, 9999);
+            
+            if(Otp::where('otp', $randomNumber )->exists()){
+                try {
+                    do {
+                        $randomNumber = random_int(1000, 9999);
 
-            DB::table('otps')->insert([
-                'temp_userID' => $tempId,
-                'otp' => $randomNumber
-            ]);
+                    } while (Otp::where('otp', $randomNumber )->exists());
 
-            \Mail::to($request->email)->send(new \App\Mail\otpMail($randomNumber));
+                } catch (Exception $error) {
+                    return response()->json($error, 500);
+                }
+                
+                $data = Otp::find($tempId);
+                $data->update(['otp' => $randomNumber]);
+
+                \Mail::to($request->email)->send(new \App\Mail\otpMail($randomNumber));
+
+            } else {
+                $data = Otp::find($tempId);
+                $data->update(['otp' => $randomNumber]);
+
+                \Mail::to($request->email)->send(new \App\Mail\otpMail($randomNumber));
+            }
 
         } catch (Exception $error) {
             return response()->json($error, 500);

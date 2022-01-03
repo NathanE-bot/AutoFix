@@ -13,6 +13,18 @@
 
 .default-input-1{
     @extend %default_input_1;
+    &-dob{
+        @extend %default_input_1;
+        &:hover{
+            .q-icon{
+                @include transition_mixin (color);
+                color: $primary;
+            }       
+        }
+        .q-icon{
+            @include transition_mixin (color);
+        }
+    }
 }
 
 .default-input-2{
