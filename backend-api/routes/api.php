@@ -46,7 +46,6 @@ Route::get('email','mailController@index')->name('email');
 // Route API Workshops
 Route::get('getRecommendationWorkshop','Api\HomeController@getRecommendationWorkshop')->name('homeWorkshopRecomendation');
 Route::post('home/search', 'Api\HomeController@searchdata');
-
 Route::get('getAllWorkshop', 'Api\WorkshopController@getAllWorkshop');
 Route::post('getWorkshopApi', 'Api\WorkshopController@getWorkshopApi');
 Route::get('getWorkshopById','Api\WorkshopController@workshopDetailView')->name('viewWorkshopDetailByID');
@@ -57,8 +56,8 @@ Route::post('doCountDistanceFromCurrPos','Api\WorkshopController@countDistance')
 
 //schedule
 Route::post('makeScheduleApi', 'Api\ScheduleController@makeScheduleApi');
-Route::post('getScheduleByUserID', 'Api\ScheduleController@ShowDataScheduleByUserID');
-
+Route::get('getScheduleByUserID', 'Api\ScheduleController@ShowDataScheduleByUserID');
+Route::get('getDataFormMakeScheduleById', 'Api\ScheduleController@getDataFormMakeScheduleById');
 
 
 //insurance
@@ -69,8 +68,8 @@ Route::get('getInsuranceDetailByStatusAccepted', 'Api\InsuranceController@getIns
 Route::get('getInsuranceDetailByStatusRejected', 'Api\InsuranceController@getInsuranceDetailByStatusRejected');
 
 //API review
-Route::post('makeReviewApi','Api\ReviewController@makeReviewApi');
-Route::post('getReviewApi','Api\ReviewController@getReviewApi');
+Route::post('formReviewAPI','Api\ReviewController@formReviewAPI');
+// Route::post('viewReviewAPI','Api\ReviewController@viewReviewAPI');
 
 //favorites
 Route::post('makeFavoritesByWorkshopAndUserID','Api\FavoritesController@makeFavoritesByWorkshopAndUserID');
@@ -78,4 +77,4 @@ Route::get('getFavoritesByUserID','Api\FavoritesController@getFavoritesByUserID'
 Route::post('deletFavoritesData','Api\FavoritesController@deletFavoritesData');
 
 //history
-Route::post('makeHistoryByUpdateStatusShedule','Api\HistoryController@makeHistoryByUpdateStatusShedule');
+Route::get('getHistoryByScheduleStatusAndUserID','Api\HistoryController@getHistoryByScheduleStatusAndUserID');

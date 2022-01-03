@@ -168,12 +168,6 @@ class WorkshopController extends Controller
                 ->get()->toArray();
 
             }
-            // $workshop_services =  DB::table('workshop_services')
-            // ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
-            // ->select('workshopDetailID','serviceType','serviceDetail','price','time')
-            // ->where('workshop_details.workshopID','=',$req->id)
-            // ->get()->toArray();
-
 
             $workshop_review = DB::table('reviews')
             ->select('reviews.id','reviews.scheduleID','schedules.workshopID','reviews.userName','reviews.reviewDate','reviews.rating','reviews.description')

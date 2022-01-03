@@ -90,27 +90,27 @@ class InsuranceController extends Controller
             $dataInsurance->save();
 
 
-            // if ($req->has('documentationPicture'))
-            // {
-            //     foreach ($req->file('documentationPicture') as $key => $file)
-            //     {
-            //         $ext = strtolower($file->getClientOriginalExtension());
-            //         $image = \Storage::dics('public')->put($req->documentationInsuranceName[$key]+$req->userID+'.'+$ext, $file); // your image path
-            //         $path = '\public\$req->documentationInsuranceName[$key]+$req->userID+'.'+$ext';
+            if ($req->has('documentationPicture'))
+            {
+                foreach ($req->file('documentationPicture') as $key => $file)
+                {
+                    $ext = strtolower($file->getClientOriginalExtension());
+                    $image = \Storage::dics('public')->put($req->documentationInsuranceName[$key]+$req->userID+'.'+$ext, $file); // your image path
+                    $path = '\public\$req->documentationInsuranceName[$key]+$req->userID+'.'+$ext';
 
-            //         $insuranceDocumentation = new DocumentationInsurance;
-            //         $insuranceDocumentation->insuranceID = $dataInsurance->id;
-            //         $insuranceDocumentation->documentationPicture = $path;
-            //         $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
-            //         $insuranceDocumentation->save();
-            //     }
+                    $insuranceDocumentation = new DocumentationInsurance;
+                    $insuranceDocumentation->insuranceID = $dataInsurance->id;
+                    $insuranceDocumentation->documentationPicture = $path;
+                    $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
+                    $insuranceDocumentation->save();
+                }
 
-            //     // $fileNameToStore = serialize($documentationPicture);
-            // }
-            // else
-            // {
-            //     return response()->json('image not found', 400);
-            // }
+                // $fileNameToStore = serialize($documentationPicture);
+            }
+            else
+            {
+                return response()->json('image not found', 400);
+            }
             date_default_timezone_set('Asia/Jakarta');
             $mytime = new DateTime('now');
             $dateNow = $mytime->format("Y-m-d");
