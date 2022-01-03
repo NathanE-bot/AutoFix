@@ -24,8 +24,8 @@ class ScheduleSeeder extends Seeder
                 'scheduleTime'=>'08:29:00',
                 'carModel'=>'babi',
                 'carType'=>'anjing',
-                'timeEstimation'=>'2',
-                'priceEstimation'=>'1000000',
+                'timeEstimation'=>2,
+                'priceEstimation'=>1000000,
                 'scheduleStatus'=>'done',
                 'description'=>'anjay mabar',
             ]
