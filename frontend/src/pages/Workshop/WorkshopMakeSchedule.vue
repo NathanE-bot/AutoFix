@@ -136,25 +136,36 @@
             <div class="d-flex a-center my-40 estimation-section">
               <q-card class="my-card l-card">
                 <q-card-section>
-                  <div class="text-h6">Our Changing Planet</div>
-                  <div class="text-subtitle2">by John Doe</div>
-                </q-card-section>
-                <q-card-section>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                  <div class="text-align-right">
+                    <is-estimation-price class="svg-grey1" />
+                  </div>
+                  <div class="text-section">
+                    <div class="text-h4 fw-semibold">Rp. 0</div>
+                    <div class="text-h6">Estimation Price Services</div>
+                    <div class="text-subtitle2 grey-txt">*Prices above are estimated service costs without additional work. Prices may vary, depending on the type of car & tax conditions.</div>
+                  </div>
                 </q-card-section>
               </q-card>
               <q-card class="my-card r-card">
                 <q-card-section>
-                  <div class="text-h6">Our Changing Planet</div>
-                  <div class="text-subtitle2">by John Doe</div>
-                </q-card-section>
-                <q-card-section>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                  <div class="text-align-right">
+                    <is-estimation-hour class="svg-grey1" />
+                  </div>
+                  <div class="text-section">
+                    <div class="text-h4 fw-semibold">0 Hour</div>
+                    <div class="text-h6">Estimation Service Duration</div>
+                    <div class="text-subtitle2 grey-txt">*Note it can be varied and it's just an estimation.</div>
+                  </div>
                 </q-card-section>
               </q-card>
             </div>
+            <q-btn
+              outline color="primary"
+              label="Continue"
+              class="tf-capitalize fw-bold w-20 fs-30 br-10px mb-20 default-btn-1"
+            >
+            </q-btn>
           </div>
-          <q-btn @click="isShown = !isShown" label="Lanjut" color="primary"/>
         </div>
         <div v-else>
           <q-btn @click="isShown = !isShown" label="Kembali" color="secondary"/>
@@ -174,10 +185,18 @@
 
 <script>
 /* eslint-disable */
+// SVGs
+import isvgEstHour from '../../components/IconSVG/isvg_estimated_hour'
+import isvgEstPrice from '../../components/IconSVG/isvg_estimated_price'
+// End Of SVGs
 import dateValidation from '../../js/dateValidation'
 import help from '../../js/help'
 import { getWorkshopById } from '../../api/workshopService'
 export default {
+  components: {
+    isEstimationHour: isvgEstHour,
+    isEstimationPrice: isvgEstPrice
+  },
   data () {
     return {
       help,

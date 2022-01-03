@@ -106,3 +106,8 @@
 .slate_grey{
     color: slategray;
 }
+
+// FILL --------------------------------------------------
+.svg-grey1{
+    @include svg_color(#6C6B6B);
+}

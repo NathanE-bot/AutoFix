@@ -129,3 +129,15 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+// svg color
+@mixin svg_color ($color) {
+    svg{
+        path{
+            fill: $color;
+        }
+    }
+    path{
+        fill: $color;
+    }
+}

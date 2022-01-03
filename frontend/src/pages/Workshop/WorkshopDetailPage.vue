@@ -203,7 +203,7 @@
           @click="doCheckLogin()"
           outline color="primary"
           label="Make Your Schedule"
-          class="tf-capitalize fw-bold fw my-30 fs-30 br-5px"
+          class="tf-capitalize fw-bold fw my-30 fs-30 br-5px default-btn-1"
         >
         </q-btn>
       </div>

@@ -88,14 +88,24 @@
         }
     }
     .estimation-section{
-        .l-card{
-            border-radius: 10px 0 0 10px;
+        %template-card{
+            min-height: 230px;
+            max-height: 230px;
+            max-width: 340px;
             border: 1px solid #AEAEAE;
+            .text-section{
+                position: relative;
+                top: -20px;
+            }
+        }
+        .l-card{
+            @extend %template-card;
+            border-radius: 10px 0 0 10px;
         }
         .r-card{
-            border-radius: 0 10px 10px 0; 
+            @extend %template-card;
+            border-radius: 0 10px 10px 0;
             background-color: #E7E3E3;
-            border: 1px solid #AEAEAE;
         }
     }
 }
