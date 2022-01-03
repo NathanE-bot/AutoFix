@@ -7,9 +7,9 @@
 }
 
 .autorepair-header{
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(8px);
     transform: perspective(500px);
 
     .q-toolbar{

@@ -200,7 +200,7 @@
           </div>
         </div>
         <q-btn
-          @click="changePage('/workshop/member/make-schedule/' + userWorkshop.id)"
+          @click="doCheckLogin()"
           outline color="primary"
           label="Make Your Schedule"
           class="tf-capitalize fw-bold fw my-30 fs-30 br-5px"
@@ -213,11 +213,13 @@
 
 <script>
 /* eslint-disable */
+import Auth from '../../js/AuthValidation'
 import { LocalStorage } from 'quasar'
 import { getWorkshopById, countDistanceFromCurrPos, getUserWorkshopByWorkshopId } from '../../api/workshopService'
 import help from '../../js/help'
 import ValidationFunction from '../../js/ValidationFunction'
 import main from '../../main'
+import Swal from 'sweetalert2'
 
 export default {
   data () {
@@ -226,6 +228,7 @@ export default {
       ValidationFunction,
       LocalStorage,
       loader: false,
+      userTokenChat: null,
       workshopId: null,
       workshopDetail: [],
       workshop_details: [],
@@ -243,7 +246,9 @@ export default {
     }
   },
   created () {
-    this.userTokenChat = LocalStorage.getItem('autoRepairUser').data.user.tokenChat
+    if(LocalStorage.has('autoRepairUser')){
+      this.userTokenChat = LocalStorage.getItem('autoRepairUser').data.user.tokenChat
+    }
     this.today = this.help.formatToday(this.help.data().d_1).toLowerCase()
     this.workshopId = this.$route.params.id
     if(!help.isDataEmpty(this.workshopId)){
@@ -251,10 +256,32 @@ export default {
     }
   },
   methods: {
+    doCheckLogin () {
+    if(!Auth.isUserLogin()){
+        Swal.fire({
+          title: 'Error',
+          text: 'Please login first.',
+          confirmButtonText: 'Login',
+          confirmButtonColor: '#21a17b',
+          showCancelButton: true,
+          cancelButtonText: 'Back',
+        }) .then((result) => {
+          if(result.isConfirmed){
+            this.changePage('/session/login')
+          }
+        })
+      } else {
+        this.changePage('/workshop/member/make-schedule/' + this.userWorkshop.id)
+      }
+    },
     doMakeChatRoom () {
-      let user_1 = LocalStorage.getItem('autoRepairUser').data.user.fullName
-      let user_2 = this.userWorkshop.fullName
-      this.roomId = LocalStorage.getItem('autoRepairUser').data.user.tokenChat + '-' + this.userWorkshop.tokenChat
+      let user_1 = ''
+      let user_2 = ''
+      if(LocalStorage.has('autoRepairUser')){
+        user_1 = LocalStorage.getItem('autoRepairUser').data.user.fullName
+        user_2 = this.userWorkshop.fullName
+        this.roomId = LocalStorage.getItem('autoRepairUser').data.user.tokenChat + '-' + this.userWorkshop.tokenChat
+      }
       if(!help.isDataEmpty(this.roomId)){
         main
           .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -264,16 +291,33 @@ export default {
           .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
           .ref("chatRoom/" + this.roomId + "/user-2")
           .set(user_2)
-
-        this.changePage('/member/homemessage/roommessage/' + this.userTokenChat + '-' + this.userWorkshop.tokenChat)
+        if(help.isDataEmpty(this.userTokenChat)){
+          Swal.fire({
+            title: 'Error',
+            text: 'Please contact website admin.'
+          })
+        } else {
+          this.changePage('/member/homemessage/roommessage/' + this.userTokenChat + '-' + this.userWorkshop.tokenChat)
+        }
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: 'Please login first.',
+          confirmButtonText: 'Login',
+          confirmButtonColor: '#21a17b',
+          showCancelButton: true,
+          cancelButtonText: 'Back',
+        }) .then((result) => {
+          if(result.isConfirmed){
+            this.changePage('/session/login')
+          }
+        })
       }
     },
     doGetUserWorkshopByWorkshopId (id) {
       let _this = this
-      console.log(id)
       getUserWorkshopByWorkshopId(id).then(response => {
         _this.userWorkshop = response.data
-        console.log('a', _this.userWorkshop)
       }).catch((err) =>{
         console.log(err)
         _this.loader = false

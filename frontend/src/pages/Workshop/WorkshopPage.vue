@@ -80,7 +80,7 @@
                   </div>
                   <div class="d-flex flex-dir-col a-end j-sp-between">
                     <div>
-                      <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize mr-8" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
+                      <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
                         {{ item.statusHr == 'tutup' ? 'Closed' : 'Open' }}
                       </q-badge>
                       <q-badge color="orange-6" v-else>
