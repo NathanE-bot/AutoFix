@@ -27,8 +27,8 @@ class CreateSchedulesTable extends Migration
             $table->time('scheduleTime');
             $table->string('carModel');
             $table->string('carType');
-            $table->integer('timeEstimation');
-            $table->integer('priceEstimation');
+            $table->float('timeEstimation');
+            $table->float('priceEstimation');
             $table->string('scheduleStatus');
             $table->string('description')->nullable();
             $table->timestamps();
