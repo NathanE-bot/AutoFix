@@ -117,7 +117,7 @@ class ScheduleController extends Controller
                 foreach($req->serviceTypeUmum as $key => $value){
                 $newscheduledetail = new schedule_details;
                 $newscheduledetail -> scheduleID = $idSchedule;
-                $newscheduledetail ->serviceType = $req->serviceTypeUmum[$key];
+                $newscheduledetail ->serviceType = 'service umum';
                 $newscheduledetail ->serviceDetail = $req->serviceDetailUmum[$key];
                 $newscheduledetail->save();
                 // kolo pake jobs
@@ -128,7 +128,7 @@ class ScheduleController extends Controller
                 foreach($req->serviceTypeBerkala as $key => $value){
                     $newscheduledetail = new schedule_details;
                     $newscheduledetail -> scheduleID = $idSchedule;
-                    $newscheduledetail ->serviceType = $req->serviceTypeBerkala[$key];
+                    $newscheduledetail ->serviceType = 'service Berkala';
                     $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
                     $newscheduledetail->save();
                     //kolo pake jobs
@@ -136,7 +136,7 @@ class ScheduleController extends Controller
                 }
             }
             $data = [
-                'objectReturner'=>[$newSchedules]
+                'objectReturner'=>[$newSchedules,$newscheduledetail]
             ];
             return response()->json($data, 200);
         } catch (Exception $err){
