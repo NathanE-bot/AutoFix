@@ -112,29 +112,29 @@ class ScheduleController extends Controller
             $newSchedules -> description = $req->description;
             $newSchedules->save();
             $idSchedule = $newSchedules->id;
-            // $array = array();
-            // if ($req->has('serviceTypeUmum')) {
-            //     foreach($req->serviceTypeUmum as $key => $value){
-            //     $newscheduledetail = new schedule_details;
-            //     $newscheduledetail -> scheduleID = $idSchedule;
-            //     $newscheduledetail ->serviceType = $req->serviceTypeUmum[$key];
-            //     $newscheduledetail ->serviceDetail = $req->serviceDetailUmum[$key];
-            //     $newscheduledetail->save();
-            //     // kolo pake jobs
-            //     // array_push($newscheduledetail,$array);
-            //     }
-            // }
-            // if ($req->has('serviceTypeBerkala')) {
-            //     foreach($req->serviceTypeBerkala as $key => $value){
-            //         $newscheduledetail = new schedule_details;
-            //         $newscheduledetail -> scheduleID = $idSchedule;
-            //         $newscheduledetail ->serviceType = $req->serviceTypeBerkala[$key];
-            //         $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
-            //         $newscheduledetail->save();
-            //         //kolo pake jobs
-            //         // array_push($newscheduledetail,$array);
-            //     }
-            // }
+            $array = array();
+            if ($req->has('serviceTypeUmum')) {
+                foreach($req->serviceTypeUmum as $key => $value){
+                $newscheduledetail = new schedule_details;
+                $newscheduledetail -> scheduleID = $idSchedule;
+                $newscheduledetail ->serviceType = $req->serviceTypeUmum[$key];
+                $newscheduledetail ->serviceDetail = $req->serviceDetailUmum[$key];
+                $newscheduledetail->save();
+                // kolo pake jobs
+                // array_push($newscheduledetail,$array);
+                }
+            }
+            if ($req->has('serviceTypeBerkala')) {
+                foreach($req->serviceTypeBerkala as $key => $value){
+                    $newscheduledetail = new schedule_details;
+                    $newscheduledetail -> scheduleID = $idSchedule;
+                    $newscheduledetail ->serviceType = $req->serviceTypeBerkala[$key];
+                    $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
+                    $newscheduledetail->save();
+                    //kolo pake jobs
+                    // array_push($newscheduledetail,$array);
+                }
+            }
             $data = [
                 'objectReturner'=>[$newSchedules]
             ];
