@@ -81,3 +81,9 @@ Route::post('deletFavoritesData','Api\FavoritesController@deletFavoritesData');
 
 //history
 Route::get('getHistoryByScheduleStatusAndUserID','Api\HistoryController@getHistoryByScheduleStatusAndUserID');
+
+//profile user
+Route::get('getDataProfileUserCustomer','Api\ProfileController@getDataProfileUserCustomer');
+Route::post('updateDataUserProfile','Api\ProfileController@updateDataUserProfile');
+
+
