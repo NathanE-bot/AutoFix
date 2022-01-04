@@ -18,6 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// EXAMPLE--
+// ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop
+// Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
+// Route::middleware('auth:api')->get('auth/workshop', 'Api\WorkshopController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu
+
 //AUTHENTICATION
 Route::post('login', 'Api\UserController@login')->name('login');
 Route::post('register', 'Api\UserController@register');
@@ -30,11 +35,6 @@ Route::post('doResetUserPassword', 'Api\ForgotPasswordController@reset');
 Route::get('tempUserID', 'Api\UserController@idTemp');
 Route::post('doVerififcationEmailWithOtp', 'Api\UserController@otp');
 Route::post('doResendOtp', 'Api\UserController@resendOtp');
-
-
-// ini route utk manggil controller workshop, cth endpoint: http://127.0.0.1/api/workshop
-// Route::get('workshop', 'Api\WorkshopController@allWorkshop'); //di set di controller untuk authentication
-// Route::middleware('auth:api')->get('auth/workshop', 'Api\WorkshopController@allWorkshop'); //di set di routes untuk authentication, jadi yg di controller gak perlu
 
 //routes for CRUD
 Route::post('workshop/create', 'Api\WorkshopController@create');
@@ -55,7 +55,7 @@ Route::post('doCountDistanceFromCurrPos','Api\WorkshopController@countDistance')
 
 
 //schedule
-Route::post('makeScheduleApi', 'Api\ScheduleController@makeScheduleApi');
+Route::middleware('auth:api')->post('makeScheduleApi', 'Api\ScheduleController@makeScheduleApi');
 Route::get('getScheduleByUserID', 'Api\ScheduleController@ShowDataScheduleByUserID');
 Route::get('getDataFormMakeScheduleById', 'Api\ScheduleController@getDataFormMakeScheduleById');
 
