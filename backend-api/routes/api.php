@@ -55,7 +55,7 @@ Route::post('doCountDistanceFromCurrPos','Api\WorkshopController@countDistance')
 
 
 //schedule
-Route::middleware('auth:api')->post('makeScheduleApi', 'Api\ScheduleController@makeScheduleApi');
+Route::post('makeScheduleApi', 'Api\ScheduleController@makeScheduleApi');
 Route::get('getScheduleByUserID', 'Api\ScheduleController@ShowDataScheduleByUserID');
 Route::get('getDataFormMakeScheduleById', 'Api\ScheduleController@getDataFormMakeScheduleById');
 

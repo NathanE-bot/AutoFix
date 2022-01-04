@@ -13,6 +13,7 @@ use Illuminate\Support\ServceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Schedule;
+use App\ScheduleDetail;
 
 class ScheduleController extends Controller
 {
@@ -115,10 +116,10 @@ class ScheduleController extends Controller
             $array = array();
             if ($req->has('serviceTypeUmum')) {
                 foreach($req->serviceTypeUmum as $key => $value){
-                $newscheduledetail = new schedule_details;
+                $newscheduledetail = new ScheduleDetail;
                 $newscheduledetail -> scheduleID = $idSchedule;
                 $newscheduledetail ->serviceType = 'service umum';
-                $newscheduledetail ->serviceDetail = $req->serviceDetailUmum[$key];
+                $newscheduledetail ->serviceDetail = $req->serviceDetailUmum[$key]->serviceDetail;
                 $newscheduledetail->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);
@@ -126,10 +127,10 @@ class ScheduleController extends Controller
             }
             if ($req->has('serviceTypeBerkala')) {
                 foreach($req->serviceTypeBerkala as $key => $value){
-                    $newscheduledetail = new schedule_details;
+                    $newscheduledetail = new ScheduleDetail;
                     $newscheduledetail -> scheduleID = $idSchedule;
                     $newscheduledetail ->serviceType = 'service Berkala';
-                    $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key];
+                    $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key]->serviceDetail;
                     $newscheduledetail->save();
                     //kolo pake jobs
                     // array_push($newscheduledetail,$array);

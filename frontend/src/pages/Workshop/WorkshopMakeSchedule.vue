@@ -10,9 +10,9 @@
           </div>
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
-        <div class="modelServisFragment" v-if="isShown === false">
+        <div class="modelServisFragment">
           <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30">
-            <span>Model & type of service</span>
+            <span class="fw-semibold">Model & type of service</span>
             <span class="accent_color">1 / 2</span>
           </div>
           <div class="d-flex flex-dir-col">
@@ -60,7 +60,7 @@
             <span class="text-h5">Select the services required for your car</span>
           </div>
           <div class="w-90 mx-auto">
-            <q-card class="br-10px mb-30">
+            <q-card class="br-10px mb-30 grey-1bg card-shadow-1">
               <q-card-section>
                 <q-checkbox v-model="periodic" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">
                   <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
@@ -70,15 +70,23 @@
                 <div v-if="periodic" class="py-20 q-pa-md">
                   <div class="q-gutter-y-lg">
                     <q-select
-                      @update:model-value="doConsole($event)"
-                      v-model="jsonDataParam.periodicService"
+                      @update:model-value="doCalculateTotalPriceAndHour()"
+                      v-model="tempPeriodicService"
                       :options="periodicServicesOptions"
-                      outlined
+                      outlined input-debounce="0"
                       class="br-10px default-select-2 mt-15 w-25"
                     >
+                      <template v-slot:append>
+                        <q-icon
+                          v-if="tempPeriodicService !== null"
+                          class="cursor-pointer"
+                          name="clear"
+                          @click.stop="tempPeriodicService = null"
+                        />
+                      </template>
                       <template v-slot:selected>
-                        <template v-if="jsonDataParam.periodicService">
-                          {{ jsonDataParam.periodicService.label }}
+                        <template v-if="tempPeriodicService">
+                          {{ tempPeriodicService.label }}
                         </template>
                         <template v-else>
                           <span class="placeholder-text">Choose periodic service...</span>
@@ -105,7 +113,7 @@
                   <div class="row q-col-gutter-y-xl" style="gap: 5%" v-if="!help.isObjectEmpty(generalServicesOptions)">
                     <div class="col-md-3 w-30-i" v-for="service in generalServicesOptions" :key="service.id">
                       <div class="general-services">
-                        <q-checkbox v-model="service.checked" size="xs" />
+                        <q-checkbox v-model="service.checked" @update:model-value="doCalculateTotalPriceAndHour()" size="xs" />
                         <div class="content">
                           <span>{{ service.serviceDetail }}</span>
                           <span>{{ service.price }}</span>
@@ -119,7 +127,7 @@
                 </div>
               </q-card-section>
             </q-card>
-            <q-card class="br-10px w-50">
+            <q-card class="br-10px w-70 grey-1bg card-shadow-1">
               <q-card-section class="pl-30 pr-30">
                 <div class="my-20">
                   <span>Car Damage / Service Request. (Optional)</span>
@@ -133,53 +141,75 @@
                 </q-input>
               </q-card-section>
             </q-card>
-            <div class="d-flex a-center my-40 estimation-section">
-              <q-card class="my-card l-card">
+            <div class="row my-40 estimation-section">
+              <q-card class="my-card l-card col-md-4">
                 <q-card-section>
                   <div class="text-align-right">
                     <is-estimation-price class="svg-grey1" />
                   </div>
                   <div class="text-section">
-                    <div class="text-h4 fw-semibold">Rp. 0</div>
-                    <div class="text-h6">Estimation Price Services</div>
+                    <div class="text-h4 fw-semibold">{{ jsonDataParam.priceEstimation == 0 ? 'Rp. ' + 0 : ValidationFunction.convertToRupiah(jsonDataParam.priceEstimation) }}</div>
+                    <div class="text-h6">Estimation Services Price</div>
                     <div class="text-subtitle2 grey-txt">*Prices above are estimated service costs without additional work. Prices may vary, depending on the type of car & tax conditions.</div>
                   </div>
                 </q-card-section>
               </q-card>
-              <q-card class="my-card r-card">
+              <q-card class="my-card r-card col-md-4">
                 <q-card-section>
                   <div class="text-align-right">
                     <is-estimation-hour class="svg-grey1" />
                   </div>
                   <div class="text-section">
-                    <div class="text-h4 fw-semibold">0 Hour</div>
-                    <div class="text-h6">Estimation Service Duration</div>
+                    <div class="text-h4 fw-semibold">{{ jsonDataParam.timeEstimation == 0 ? 0 : jsonDataParam.timeEstimation }} Hour</div>
+                    <div class="text-h6">Estimation Services Duration</div>
                     <div class="text-subtitle2 grey-txt">*Note it can be varied and it's just an estimation.</div>
                   </div>
                 </q-card-section>
               </q-card>
             </div>
             <q-btn
+              @click="secondPage = true"
+              :disable="help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
               outline color="primary"
               label="Continue"
-              class="tf-capitalize fw-bold w-20 fs-30 br-10px mb-20 default-btn-1"
+              class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1"
             >
             </q-btn>
           </div>
         </div>
-        <div v-else>
-          <q-btn @click="isShown = !isShown" label="Kembali" color="secondary"/>
-          <div>
-            <!-- :options="dateValidation.minimalDateFromToday(help.formatToday(help.data().dmy_3))" -->
-            <q-date
-              v-model="date"
-              minimal
-              landscape
-            />
+        <q-separator class="br-5px" color="#605A5A" size="4px" />
+        <q-slide-transition class="w-95 m-auto">
+          <div v-show="secondPage">
+            <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30">
+              <span class="fw-semibold">Choose schedule date & time</span>
+              <span class="accent_color">2 / 2</span>
+            </div>
+            <div class="d-flex a-baseline mb-30">
+              <div class="d-flex flex-dir-col mr-30 w-60">
+                <span class="grey-txt text-h6 fw-semibold mb-10">Choose Date</span>
+                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDate" :options="(date) => date >= help.formatToday(help.data().dmy_3)" />
+              </div>
+              <div class="d-flex flex-dir-col">
+                <span class="grey-txt text-h6 fw-semibold mb-10">Choose Time</span>
+                <q-time
+                  v-model="jsonDataParam.scheduleTime"
+                  class="schedule-time fw" color="accent"
+                  landscape with-seconds
+                />
+                {{ jsonDataParam.scheduleTime }}
+                <q-btn @click="doConsole(jsonDataParam)">asd</q-btn>
+              </div>
+            </div>
+            <q-btn
+              @click="doMakeSchedule()"
+              :disable="help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
+              outline color="primary"
+              label="Make Schedule"
+              class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1"
+            >
+            </q-btn>
           </div>
-          tampilan 2
-          <q-btn label="Submit" color="primary"/>
-        </div>
+        </q-slide-transition>
     </q-page>
 </template>
 
@@ -190,30 +220,45 @@ import isvgEstHour from '../../components/IconSVG/isvg_estimated_hour'
 import isvgEstPrice from '../../components/IconSVG/isvg_estimated_price'
 // End Of SVGs
 import dateValidation from '../../js/dateValidation'
+import ValidationFunction from '../../js/ValidationFunction'
 import help from '../../js/help'
 import { getWorkshopById } from '../../api/workshopService'
+import { makeSchedule } from '../..//api/ScheduleService'
+import { LocalStorage } from 'quasar'
+
 export default {
   components: {
     isEstimationHour: isvgEstHour,
-    isEstimationPrice: isvgEstPrice
+    isEstimationPrice: isvgEstPrice,
+    ValidationFunction
   },
   data () {
     return {
       help,
+      ValidationFunction,
       dateValidation,
+      secondPage: false,
       workshopId: null,
+      tempPeriodicService: null,
       workshopDetail: [],
       workshop_details: [],
       carModelOptions: [],
+      carTypeOptions: [],
       tempCarTypeOptions: [],
       periodicServicesOptions: [],
       generalServicesOptions: [],
-      carTypeOptions: [],
       jsonDataParam: {
+        workshopID: null,
+        userID: null,
         carModel: null,
         carType: null,
-        periodicService: null,
-        description: null
+        serviceTypeBerkala: [],
+        serviceTypeUmum: [],
+        description: null,
+        timeEstimation: 0,
+        priceEstimation: 0,
+        scheduleDate: help.formatTommorow(help.data().dmy_3),
+        scheduleTime: null
       },
       detail: {
         namaBengkel: '',
@@ -227,26 +272,31 @@ export default {
       disablePage2: false,
       periodic: false,
       general: false,
-      optionsCheckbox1: [
-        { label: '1', value: '1' },
-        { label: '2', value: '2' },
-        { label: '3', value: '3' },
-        { label: '4', value: '4' }
-      ]
+      today: help.formatToday(help.data().d_1).toLowerCase()
     }
   },
   created () {
-    this.workshopId = this.$route.params.id
+    this.workshopId = parseInt(this.$route.params.id)
     if(!help.isDataEmpty(this.workshopId)){
       this.doGetWorkshopById()
     }
   },
   methods: {
+    doCheckValidTime (hr, min, sec) {
+      console.log(hr, min, sec)
+      this.workshopDetail.operational_workshop.forEach(el1 => {
+        if(help.formatTodayFormatter(this.today) === el1.operationalDate){
+          console.log(el1.operationalOpenHour, el1.operationalCloseHour)
+        }
+      })
+    },
     doGetWorkshopById () {
       let _this = this
-      _this.loader = true
       getWorkshopById(_this.workshopId).then(response => {
+        _this.loader = true
         _this.workshopDetail = response.data
+        // forCheckTime
+        _this.doCheckValidTime()
         // _this.doGetUserWorkshopByWorkshopId(_this.workshopDetail.userID)
         // _this.doGetCurrentPosition()
         // loopingan data servis
@@ -312,11 +362,11 @@ export default {
       tempArrServices = this.workshopDetail.workshop_services.filter(v => v.workshopDetailID == needle2)
       // Periodic
       tempArrPeriodic = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis berkala') > -1)
-      console.log('a', tempArrPeriodic)
       tempArrPeriodic.forEach(el1 => {
         let tempObj = {
           label: el1.serviceDetail,
-          price: el1.price
+          price: el1.price,
+          time: el1.time
         }
         // let tempString = ""
         // tempString = el1.serviceDetail
@@ -332,6 +382,49 @@ export default {
           checked: false
         }
         this.generalServicesOptions.push(tempObj1)
+      })
+    },
+    doFilterDataSchedule () {
+      this.jsonDataParam.timeEstimation = 0
+      this.jsonDataParam.priceEstimation = 0
+      this.jsonDataParam.serviceTypeUmum = []
+      this.jsonDataParam.serviceTypeBerkala = []
+    },
+    doCalculateTotalPriceAndHour () {
+      setTimeout(() => {
+        this.doFilterDataSchedule()
+        this.jsonDataParam.serviceTypeBerkala.push(this.tempPeriodicService)
+        // for periodic
+        if(!help.isObjectEmpty(this.jsonDataParam.serviceTypeBerkala)){
+          var counter = 1
+          this.jsonDataParam.timeEstimation = this.jsonDataParam.timeEstimation + this.tempPeriodicService.time
+          this.jsonDataParam.priceEstimation = this.jsonDataParam.priceEstimation + this.tempPeriodicService.price
+        }
+
+        // for general
+        this.generalServicesOptions.forEach(el1 => {
+          if(el1.checked){
+            counter++
+            this.jsonDataParam.serviceTypeUmum.push(el1)
+            this.jsonDataParam.timeEstimation = this.jsonDataParam.timeEstimation + el1.time
+            this.jsonDataParam.priceEstimation = this.jsonDataParam.priceEstimation + el1.price
+          }
+        })
+      }, 0)
+    },
+    doMakeSchedule () {
+      let _this = this
+      _this.jsonDataParam.workshopID = _this.workshopId
+      if(!help.isDataEmpty(LocalStorage.getItem('autoRepairUser').data.user.id)){
+        _this.jsonDataParam.userID = LocalStorage.getItem('autoRepairUser').data.user.id
+      }
+      _this.jsonDataParam.scheduleDate = help.defaultFormat(_this.jsonDataParam.scheduleDate, help.data().dmy_5)
+      makeSchedule(_this.jsonDataParam, LocalStorage.getItem('autoRepairUser').data.access_token).then(response => {
+        _this.loader = true
+        console.log(response)
+      }) .catch((err) =>{
+        console.log(err)
+        _this.loader = false
       })
     },
     doConsole(a){

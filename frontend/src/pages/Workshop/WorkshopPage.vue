@@ -293,7 +293,7 @@ export default {
     this.doGetAllWorkshops()
   },
   mounted () {
-    this.today = this.help.formatToday(this.help.data().d_1).toLowerCase()
+    this.today = help.formatToday(this.help.data().d_1).toLowerCase()
     document.querySelector('.q-scrollarea__container').addEventListener('scroll', () => {
       this.loadNextPage()
       console.log('scrolling')
