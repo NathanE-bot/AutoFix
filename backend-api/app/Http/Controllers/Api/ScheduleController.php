@@ -115,11 +115,11 @@ class ScheduleController extends Controller
             $idSchedule = $newSchedules->id;
             $array = array();
             if ($req->has('serviceTypeUmum')) {
-                foreach($req->serviceTypeUmum as $key => $value){
+                foreach($req->serviceTypeUmum as $key=>$value){
                 $newscheduledetail = new ScheduleDetail;
                 $newscheduledetail -> scheduleID = $idSchedule;
                 $newscheduledetail ->serviceType = 'service umum';
-                $newscheduledetail ->serviceDetail = $req->serviceDetailUmum[$key]->serviceDetail;
+                $newscheduledetail ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
                 $newscheduledetail->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);
@@ -130,7 +130,7 @@ class ScheduleController extends Controller
                     $newscheduledetail = new ScheduleDetail;
                     $newscheduledetail -> scheduleID = $idSchedule;
                     $newscheduledetail ->serviceType = 'service Berkala';
-                    $newscheduledetail ->serviceDetail = $req->serviceDetailBerkala[$key]->serviceDetail;
+                    $newscheduledetail ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
                     $newscheduledetail->save();
                     //kolo pake jobs
                     // array_push($newscheduledetail,$array);

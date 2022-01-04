@@ -194,6 +194,9 @@ class InsuranceController extends Controller
     }
 
     public function downloadInsurancePDF (Request $req){
+        if (condition) {
+            # code...
+        }
         $urlPDF=DB::table('insurance_details')
         ->join('insurances','insurances.id','=','insurance_details.insuranceID')
         ->select('insurance_details.filePDF')
