@@ -52,8 +52,12 @@ export default {
             return today = '0'
         }
     },
+    // dates
     formatToday (format) {
         return moment().format(format)
+    },
+    formatTommorow (format) {
+        return moment().clone().add(1,'days').format(format)
     },
     defaultFormat (dateTime, format) {
         return moment(dateTime).format(format)

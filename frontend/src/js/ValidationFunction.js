@@ -1,4 +1,5 @@
 /* eslint-disable */
+import help from './help'
 
 export default {
   convertToRupiah (angka) {
