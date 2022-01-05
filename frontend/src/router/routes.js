@@ -120,7 +120,7 @@ const routes = [
       },
       // workshop
       {
-        path: "/workshop/member/make-schedule/:id",
+        path: "/member/workshop/make-schedule/:id",
         component: workshopMakeSchedule,
         meta: {
           title: 'Workshop Page',

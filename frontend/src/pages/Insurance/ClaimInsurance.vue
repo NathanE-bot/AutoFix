@@ -43,6 +43,17 @@ export default {
         }
     },
     mounted () {
+        if(Auth.isUserLogin() == 'session_expired'){
+            Swal.fire({
+                icon: 'warning',
+                title: 'Session expired',
+                text: 'Please re-login'
+            }) .then((result) => {
+                if(result.isConfirmed){
+                    this.changePage('/session/login')
+                }
+            })
+        }
         if(!Auth.isUserLogin()){
             this.forLoad = false
             document.getElementsByClassName("q-layout")[0].style.display = "none"

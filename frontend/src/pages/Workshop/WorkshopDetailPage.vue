@@ -255,9 +255,22 @@ export default {
       this.doGetWorkshopById()
     }
   },
+  mounted () {
+    if(Auth.isUserLogin() == 'session_expired'){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Session expired',
+        text: 'Please re-login'
+      }) .then((result) => {
+        if(result.isConfirmed){
+          this.changePage('/session/login')
+        }
+      })
+    }
+  },
   methods: {
     doCheckLogin () {
-    if(!Auth.isUserLogin()){
+      if(!Auth.isUserLogin()){
         Swal.fire({
           title: 'Error',
           text: 'Please login first.',
@@ -271,7 +284,7 @@ export default {
           }
         })
       } else {
-        this.changePage('/workshop/member/make-schedule/' + this.userWorkshop.id)
+        this.changePage('/member/workshop/make-schedule/' + this.userWorkshop.id)
       }
     },
     doMakeChatRoom () {

@@ -107,6 +107,20 @@ export default {
       this.isLogin = false
     }
   },
+  mounted () {
+    if (Auth.isUserLogin() == 'session_expired') {
+      this.isLogin = false
+      Swal.fire({
+        icon: 'warning',
+        title: 'Session expired',
+        text: 'Please re-login'
+      }) .then((result) => {
+        if(result.isConfirmed){
+          this.changePage('/session/login')
+        }
+      })
+    }
+  },
   methods: {
     doLogout () {
       if(!Auth.doUserLogout()){
@@ -115,7 +129,7 @@ export default {
       } else {
         Swal.fire({
           title: 'Error',
-          text: 'Test',
+          text: '-',
         })
       }
     },

@@ -34,6 +34,17 @@ export default {
         appSidebar: Sidebar
     },
     mounted () {
+        if(Auth.isUserLogin() == 'session_expired'){
+            Swal.fire({
+                icon: 'warning',
+                title: 'Session expired',
+                text: 'Please re-login'
+            }) .then((result) => {
+                if(result.isConfirmed){
+                    this.changePage('/session/login')
+                }
+            })
+        }
         if(!Auth.isUserLogin()){
             this.forLoad = false
             console.log('tes')
@@ -65,7 +76,7 @@ export default {
     watch: {
     '$route.path': {
         handler: function(url) {
-            if(url.includes('/insurance') || url.includes('/workshop/member')){
+            if(url.includes('/insurance') || url.includes('/member/workshop')){
                 console.log('yes')
                 this.forNotInsurance = false
             } else {
