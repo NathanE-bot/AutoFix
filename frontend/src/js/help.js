@@ -5,6 +5,8 @@ import router from '../router'
 export default {
     data () {
         return {
+            // Day Month Year Hour Min Sec
+            dmyhms_1: 'YYYY-MM-DDTHH:MM:SS', // 2021-01-12T12:40:64
             // Day Month Year
             dmy_1: 'DD-MMM-YYYY', // 01-Mar-2018
             dmy_2: 'DD-MM-YYYY', // 01-03-2018

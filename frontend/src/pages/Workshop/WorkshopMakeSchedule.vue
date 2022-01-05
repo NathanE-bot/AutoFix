@@ -73,6 +73,8 @@
                       @update:model-value="doCalculateTotalPriceAndHour()"
                       v-model="tempPeriodicService"
                       :options="periodicServicesOptions"
+                      option-value="price"
+                      option-label="serviceDetail"
                       outlined input-debounce="0"
                       class="br-10px default-select-2 mt-15 w-25"
                     >
@@ -81,12 +83,12 @@
                           v-if="tempPeriodicService !== null"
                           class="cursor-pointer"
                           name="clear"
-                          @click.stop="tempPeriodicService = null"
+                          @click.stop="tempPeriodicService = null; doCalculateTotalPriceAndHour()"
                         />
                       </template>
                       <template v-slot:selected>
                         <template v-if="tempPeriodicService">
-                          {{ tempPeriodicService.label }}
+                          {{ tempPeriodicService.serviceDetail }}
                         </template>
                         <template v-else>
                           <span class="placeholder-text">Choose periodic service...</span>
@@ -95,7 +97,7 @@
                       <template v-slot:no-option>
                         <q-item>
                           <q-item-section class="text-grey">
-                            Please choose car type first.
+                            {{ help.isObjectEmpty(periodicServicesOptions) ? 'No available services.' : 'Please choose car type first.' }}
                           </q-item-section>
                         </q-item>
                       </template>
@@ -169,7 +171,7 @@
             </div>
             <q-btn
               @click="secondPage = true"
-              :disable="help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
+              :disable="(help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) || this.jsonDataParam.serviceTypeBerkala[0] === null) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
               outline color="primary"
               label="Continue"
               class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1"
@@ -196,13 +198,11 @@
                   class="schedule-time fw" color="accent"
                   landscape with-seconds
                 />
-                {{ jsonDataParam.scheduleTime }}
-                <q-btn @click="doConsole(jsonDataParam)">asd</q-btn>
               </div>
             </div>
             <q-btn
               @click="doMakeSchedule()"
-              :disable="help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
+              :disable="help.isObjectEmpty(jsonDataParam.scheduleTime) || help.isObjectEmpty(jsonDataParam.scheduleDate)"
               outline color="primary"
               label="Make Schedule"
               class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1"
@@ -225,6 +225,7 @@ import help from '../../js/help'
 import { getWorkshopById } from '../../api/workshopService'
 import { makeSchedule } from '../..//api/ScheduleService'
 import { LocalStorage } from 'quasar'
+import Swal from 'sweetalert2'
 
 export default {
   components: {
@@ -281,22 +282,35 @@ export default {
       this.doGetWorkshopById()
     }
   },
+  // setup () {
+  //   return {
+  //     timeValidation(hr, min, sec) {
+  //       this.workshopDetail.operational_workshop.forEach(el1 => {
+  //       if(help.formatTodayFormatter(this.today) === el1.operationalDate){
+  //         console.log(el1.operationalOpenHour, el1.operationalCloseHour)
+  //         var tempArrTime = []
+  //         tempArrOpenTime = el1.operationalOpenHour.toString().split(':')
+  //         tempArrCloseTime = el1.operationalCloseHour.toString().split(':')
+  //         if(hr !== null && hr >= tempArrOpenTime || hr <= operationalCloseHour){
+
+  //         }
+  //       }
+  //     })
+  //     }
+  //   }
+  // },
   methods: {
-    doCheckValidTime (hr, min, sec) {
-      console.log(hr, min, sec)
-      this.workshopDetail.operational_workshop.forEach(el1 => {
-        if(help.formatTodayFormatter(this.today) === el1.operationalDate){
-          console.log(el1.operationalOpenHour, el1.operationalCloseHour)
-        }
-      })
-    },
+    // doCheckValidTime (hr, min, sec) {
+    //   console.log(hr, min, sec)
+      
+    // },
     doGetWorkshopById () {
       let _this = this
       getWorkshopById(_this.workshopId).then(response => {
         _this.loader = true
         _this.workshopDetail = response.data
         // forCheckTime
-        _this.doCheckValidTime()
+        // _this.doCheckValidTime()
         // _this.doGetUserWorkshopByWorkshopId(_this.workshopDetail.userID)
         // _this.doGetCurrentPosition()
         // loopingan data servis
@@ -336,8 +350,17 @@ export default {
         _this.loader = false
       })
     },
-    doFilterCarType (val) {
+    doClearData () {
       this.carTypeOptions = []
+      this.generalServicesOptions = []
+      this.jsonDataParam.carType = null
+      this.tempPeriodicService = null
+      this.periodicServicesOptions = []
+      this.periodic = false
+      this.general = false
+    },
+    doFilterCarType (val) {
+      this.doClearData()
       let tempArr = []
       const needle = val.toLocaleLowerCase()
       tempArr = this.tempCarTypeOptions.filter(v => v.carModel.toLocaleLowerCase().indexOf(needle) > -1)
@@ -346,9 +369,11 @@ export default {
         tempString = el1.carType
         this.carTypeOptions.push(tempString)
       })
+      this.doCalculateTotalPriceAndHour()
     },
     doGetCarServices(val){
       // get car model n type id
+      this.generalServicesOptions = []
       let selectedCarType = []
       const needle1 = val.toLocaleLowerCase()
       selectedCarType = this.workshopDetail.workshop_details.filter(v => v.carType.toLocaleLowerCase().indexOf(needle1) > -1)[0]
@@ -364,12 +389,10 @@ export default {
       tempArrPeriodic = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis berkala') > -1)
       tempArrPeriodic.forEach(el1 => {
         let tempObj = {
-          label: el1.serviceDetail,
+          serviceDetail: el1.serviceDetail,
           price: el1.price,
           time: el1.time
         }
-        // let tempString = ""
-        // tempString = el1.serviceDetail
         this.periodicServicesOptions.push(tempObj)
       })
       // General
@@ -383,6 +406,7 @@ export default {
         }
         this.generalServicesOptions.push(tempObj1)
       })
+      this.doCalculateTotalPriceAndHour()
     },
     doFilterDataSchedule () {
       this.jsonDataParam.timeEstimation = 0
@@ -395,8 +419,7 @@ export default {
         this.doFilterDataSchedule()
         this.jsonDataParam.serviceTypeBerkala.push(this.tempPeriodicService)
         // for periodic
-        if(!help.isObjectEmpty(this.jsonDataParam.serviceTypeBerkala)){
-          var counter = 1
+        if(!help.isObjectEmpty(this.jsonDataParam.serviceTypeBerkala) && this.jsonDataParam.serviceTypeBerkala[0] !== null){
           this.jsonDataParam.timeEstimation = this.jsonDataParam.timeEstimation + this.tempPeriodicService.time
           this.jsonDataParam.priceEstimation = this.jsonDataParam.priceEstimation + this.tempPeriodicService.price
         }
@@ -404,7 +427,6 @@ export default {
         // for general
         this.generalServicesOptions.forEach(el1 => {
           if(el1.checked){
-            counter++
             this.jsonDataParam.serviceTypeUmum.push(el1)
             this.jsonDataParam.timeEstimation = this.jsonDataParam.timeEstimation + el1.time
             this.jsonDataParam.priceEstimation = this.jsonDataParam.priceEstimation + el1.price
@@ -414,14 +436,25 @@ export default {
     },
     doMakeSchedule () {
       let _this = this
+      _this.loader = true
       _this.jsonDataParam.workshopID = _this.workshopId
       if(!help.isDataEmpty(LocalStorage.getItem('autoRepairUser').data.user.id)){
         _this.jsonDataParam.userID = LocalStorage.getItem('autoRepairUser').data.user.id
       }
       _this.jsonDataParam.scheduleDate = help.defaultFormat(_this.jsonDataParam.scheduleDate, help.data().dmy_5)
-      makeSchedule(_this.jsonDataParam, LocalStorage.getItem('autoRepairUser').data.access_token).then(response => {
-        _this.loader = true
-        console.log(response)
+      let token = LocalStorage.getItem('autoRepairUser').data.access_token
+      makeSchedule(_this.jsonDataParam, token).then(response => {
+        _this.loader = false
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Schedule created successfully'
+        }) .then((result) => {
+          if(result.isConfirmed){
+            // MSH BELUM BENAR
+            this.changePage('/member/youraccount')
+          }
+        })
       }) .catch((err) =>{
         console.log(err)
         _this.loader = false

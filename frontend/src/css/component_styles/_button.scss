@@ -11,6 +11,9 @@
 
 .default-btn-1{
     @extend %default-btn-1;
+    &.disabled{
+        background-color: #E7E3E3 !important;
+    }
 }
 
 .default-btn{
