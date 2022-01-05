@@ -11,6 +11,8 @@ use App\User;
 use App\TempUser;
 use App\Otp;
 use DB;
+use Carbon\Carbon;
+use Laravel\Passport\Passport;
 class UserController extends Controller
 {
     /**
@@ -19,12 +21,18 @@ class UserController extends Controller
     public function login()
     {
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+
             $user = Auth::user();
-            $access_token =  $user->createToken('App')->accessToken;
+            $access_token =  $user->createToken('access_token');
+            $str_access_token = $access_token->accessToken;
+            $todayDate = Carbon::now();
+            $expiration = $access_token->token->expires_at;
+
 
             return response()->json([
                 'user' => $user,
-                'access_token' => $access_token,
+                'expires_in' => $expiration,
+                'access_token' => $str_access_token,
                 'status' => 'Login Successfully'
             ], 200);
         }
