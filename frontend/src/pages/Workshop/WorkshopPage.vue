@@ -288,6 +288,7 @@ export default {
     }
   },
   created () {
+    this.searchFromLP = ValidationFunction.getQueryVariableForURL('search', '')
     this.setDefaultFilter()
     this.doGetCurrentPosition()
     this.doGetAllWorkshops()
@@ -358,6 +359,10 @@ export default {
     },
     doGetWorkshopApi (validator, searching) {
       let _this = this
+      console.log(this.$router)
+      if(!help.isDataEmpty(_this.searchFromLP)){
+        _this.jsonDataParam.workshopName = _this.searchFromLP
+      }
       if(_this.jsonDataParam.status == 'Semua'){
         _this.jsonDataParam.statusHr = ''
         _this.jsonDataParam.status24Hr = ''

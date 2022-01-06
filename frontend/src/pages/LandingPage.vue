@@ -21,6 +21,7 @@
         </div>
         <div class="m-auto w-40 mt-20-i h-100">
           <q-input
+            @keyup.enter="doSearchWorkshop()"
             v-model="search"
             rounded outlined
             placeholder="Find the nearest workshop to you here..."
@@ -28,6 +29,7 @@
           >
             <template v-slot:append>
               <q-btn
+                @click="doSearchWorkshop()"
                 class="lp-search-btn"
                 color="primary"
                 type="search"
@@ -39,7 +41,7 @@
             <div class="mt-20">
               <img class="responsive-img" src="~assets/images/car_stock_img.png" alt="">
             </div>
-            <div class="d-flex a-center j-center">
+            <!-- <div class="d-flex a-center j-center">
               <div class="d-flex a-center mr-30">
                 <q-btn class="relative-position mr-16" unelevated round color="secondary">
                   <img class="responsive-img iconify round_btn_layout" src="~assets/iconify/car_mechanic.png" alt="">
@@ -58,7 +60,7 @@
                 </q-btn>
                 <span class="text-white">Service 01</span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -237,6 +239,9 @@ export default ({
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    doSearchWorkshop () {
+      this.changePage('/workshop?search=' + this.search)
+    },
     handleResize () {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
