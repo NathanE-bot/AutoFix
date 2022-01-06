@@ -26,6 +26,9 @@
 	}
 
 	.my-card{
+		&:not(:last-child){
+			margin: 5px 0 20px 5px;
+		}
 		margin: 5px 0 5px 5px;
 	}
 }

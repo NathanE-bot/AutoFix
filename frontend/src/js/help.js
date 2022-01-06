@@ -13,6 +13,7 @@ export default {
             dmy_3: 'YYYY/MM/DD', // 2019/02/01
             dmy_4: 'y-M-D', // 2019-02-01
             dmy_5: 'YYYY-MM-DD', // 2019-02-01
+            dmy_6: 'DD/MM/YYYY', // 2019-02-01
             // Day
             d_1: 'dddd', //Sunday
             // Hour

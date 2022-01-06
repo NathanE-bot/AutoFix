@@ -175,36 +175,35 @@
             <q-card class="my-card border-card-i br-20px-i m-16">
               <q-card-section>
                 <div class="text-h6">Reviews</div>
-                <div>
-                  <q-scroll-area
-                    :thumb-style="thumbStyle"
-                    :bar-style="barStyle"
-                    class="review-workshop-scrollbar"
-                    :style="{height: window.heightAlteredReview + 'px'}"
-                  >
-                    <q-card class="my-card review-card br-20px">
-                      <q-card-section class="relative-position">
-                        <span class="review-date grey-5">08/09/2021</span>
-                        <div class="review-content">
-                          <div class="text-h6">Bambang</div>
-                          <div class="line-clamp-3 text-subtitle2 fs-12">testing testing</div>
-                        </div>
-                        <q-rating
-                          class="review-rating"
-                          v-model="ratingModel"
-                          readonly
-                          size="xs"
-                          color="yellow-14"
-                          icon="star_border"
-                          icon-selected="star"
-                        />
-                      </q-card-section>
-                    </q-card>
-                  </q-scroll-area>
-                </div>
-                <!-- <div v-else>
+                <q-scroll-area
+                  v-if="!help.isObjectEmpty(workshopById.defaultData.workshop_review)"
+                  :thumb-style="thumbStyle"
+                  :bar-style="barStyle"
+                  class="review-workshop-scrollbar"
+                  :style="{height: window.heightAlteredReview + 'px'}"
+                >
+                  <q-card class="my-card review-card br-20px mb-20" v-for="review in workshopById.defaultData.workshop_review" :key="review.id">
+                    <q-card-section class="relative-position">
+                      <span class="review-date grey-5">{{ help.defaultFormat(review.reviewDate, help.data().dmy_6) }}</span>
+                      <div class="review-content">
+                        <div class="text-h6">{{ review.userName }}</div>
+                        <div class="line-clamp-3 text-subtitle2 fs-12">{{ review.description }}</div>
+                      </div>
+                      <q-rating
+                        class="review-rating"
+                        v-model="review.rating"
+                        readonly
+                        size="xs"
+                        color="yellow-14"
+                        icon="star_border"
+                        icon-selected="star"
+                      />
+                    </q-card-section>
+                  </q-card>
+                </q-scroll-area>
+                <div v-else>
                   <span class="text-subtitle2">No Reviews</span>
-                </div> -->
+                </div>
               </q-card-section>
             </q-card>
             <div class="d-flex a-center j-end">
@@ -359,7 +358,6 @@ export default {
     },
     doGetWorkshopApi (validator, searching) {
       let _this = this
-      console.log(this.$router)
       if(!help.isDataEmpty(_this.searchFromLP)){
         _this.jsonDataParam.workshopName = _this.searchFromLP
       }
