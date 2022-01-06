@@ -178,7 +178,7 @@
               </div>
             </div>
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex" @click="openGoogleMapsWithCoords()">
+              <div class="icon-phone-border d-flex cursor-pointer" @click="openGoogleMapsWithCoords()">
                 <q-icon class="phone-icon" name="fas fa-map-marker-alt" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">

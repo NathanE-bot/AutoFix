@@ -58,12 +58,14 @@ export default {
             }) .then((result) => {
                 if(result.isConfirmed){
                     this.changePage('/session/login')
-                    this.forLoad = true
+                    setTimeout(() => {
+                        this.forLoad = true
+                    }, 2000)
                 } else {
                     this.changePage('/')
                     setTimeout(() => {
                         this.forLoad = true
-                    }, 500)
+                    }, 2000)
                 }
             })
         }
