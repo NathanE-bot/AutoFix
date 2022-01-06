@@ -6,8 +6,25 @@
     .logo-img-form{
         position: absolute;
         right: 35px;
-        top: 35px;
+        // top: 35px;
         width: 120px;
+    }
+    .q-stepper__step-inner{
+        padding-bottom: 0;
+    }
+    .q-stepper__dot{
+        @include width_preset(40px);
+        @include height_preset(40px);
+    }
+    .notranslate{
+        // font-size: 16px;
+    }
+    .q-stepper__header{
+        display: none;
+    }
+    .hitter-form-container{
+        border: 1px solid $primary;
+        border-radius: 20px;
     }
 }
 
