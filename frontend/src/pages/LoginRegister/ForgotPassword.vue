@@ -83,7 +83,7 @@ export default {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: error.response.data.message
+                    text: error.response.data.email
                 })
                 _this.loader = false
             })

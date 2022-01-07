@@ -19,9 +19,7 @@ class ForgotPasswordController extends Controller
             'email' => 'required|email'
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'error'=>$validator->errors()
-            ], 401);
+            return response()->json($validator->errors(), 401);
         }
 
         $emailInput = $request->input('email');
