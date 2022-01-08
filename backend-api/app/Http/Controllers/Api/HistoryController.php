@@ -24,25 +24,25 @@ class HistoryController extends Controller
             ->where('scheduleStatus','=','done')
             ->get()->toArray();
 
-            foreach ($dataHistory as $key => $value) {
+            // foreach ($dataHistory as $key => $value) {
                 $dataDetailsSchedule = DB::table('schedule_details')
                 ->join('schedules','schedules.id','=','schedule_details.scheduleID')
                 ->select('schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
                 ->where('schedules.userID','=',$req->userID)
-                ->where('schedules.id','=',$value->id)
+                ->where('scheduleStatus','=','done')
                 ->get()
                 ->toArray();
-            }
-            foreach($dataHistory as &$value)
-            {
-                $value->dataDetailsSchedule = array_filter($dataDetailsSchedule, function($dataDetailsSchedule) use ($value) {
-                    return $dataDetailsSchedule->scheduleID === $value->id;
-                });
-            }
+            // }
+            // foreach($dataHistory as &$value)
+            // {
+            //     $value->dataDetailsSchedule = array_filter($dataDetailsSchedule, function($dataDetailsSchedule) use ($value) {
+            //         return $dataDetailsSchedule->scheduleID === $value->id;
+            //     });
+            // }
             $data = [
-                'objectReturn' =>$dataHistory
+                'objectReturn' =>$dataHistory,$dataDetailsSchedule
             ];
-            return response()->json($dataHistory, 200);
+            return response()->json($data, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

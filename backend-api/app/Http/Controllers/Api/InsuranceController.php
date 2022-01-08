@@ -24,7 +24,7 @@ class InsuranceController extends Controller
     public function getVendorInsuranceList(){
         try{
             $data = [
-                'objectReturn' => DB::table('insurance_vendors')
+                'objectReturner' => DB::table('insurance_vendors')
                 ->get()
             ];
             return response()->json($data, 200);
@@ -193,10 +193,7 @@ class InsuranceController extends Controller
         }
     }
 
-    public function downloadInsurancePDF (Request $req){
-        if (condition) {
-            # code...
-        }
+    public function downloadPDFInsurance (Request $req){
         $urlPDF=DB::table('insurance_details')
         ->join('insurances','insurances.id','=','insurance_details.insuranceID')
         ->select('insurance_details.filePDF')
@@ -204,7 +201,4 @@ class InsuranceController extends Controller
         ->where('insurances.userID','=',$req->userID)
         ->get();
         return response()->download($url);
-    }
-
-
-}
+    }}

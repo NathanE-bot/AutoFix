@@ -153,23 +153,23 @@ class ScheduleController extends Controller
             ->where('scheduleStatus','=','waiting confirmation')
             ->get()->toArray();
 
-            foreach ($schedule as $key => $value) {
+            // foreach ($schedule as $key => $value) {
                 $dataDetailsSchedule = DB::table('schedule_details')
                 ->join('schedules','schedules.id','=','schedule_details.scheduleID')
-                ->select('schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
+                ->select('schedules.userID as customer','schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
                 ->where('schedules.userID','=',$req->userID)
-                ->where('schedules.id','=',$value->id)
+                ->where('scheduleStatus','=','waiting confirmation')
                 ->get()
                 ->toArray();
-            }
-            foreach($schedule as &$value)
-            {
-                $value->dataDetailsSchedule = array_filter($dataDetailsSchedule, function($dataDetailsSchedule) use ($value) {
-                    return $dataDetailsSchedule->scheduleID === $value->id;
-                });
-            }
-
-            return response()->json($schedule, 200);
+            // }
+            // foreach($schedule as &$value)
+            // {
+            //     $value->dataDetailsSchedule = array_filter($dataDetailsSchedule, function($dataDetailsSchedule) use ($value) {
+            //         return $dataDetailsSchedule->scheduleID === $value->id;
+            //     });
+            // }
+                $data =['objectReturner'=>$schedule,$dataDetailsSchedule];
+            return response()->json($data, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

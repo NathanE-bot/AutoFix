@@ -66,7 +66,7 @@ Route::post('makeInsuranceClaimApi', 'Api\InsuranceController@makeInsuranceClaim
 Route::get('getInsuranceStatusApi', 'Api\InsuranceController@getInsuranceStatusApi');
 Route::get('getInsuranceDetailByStatusAccepted', 'Api\InsuranceController@getInsuranceDetailByStatusAccepted');
 Route::get('getInsuranceDetailByStatusRejected', 'Api\InsuranceController@getInsuranceDetailByStatusRejected');
-Route::get('downloadInsurancePDF', 'Api\InsuranceController@downloadInsurancePDF');
+Route::get('downloadInsurancePDF', 'Api\InsuranceController@downloadPDFInsurance');
 
 
 
@@ -85,5 +85,12 @@ Route::get('getHistoryByScheduleStatusAndUserID','Api\HistoryController@getHisto
 //profile user
 Route::get('getDataProfileUserCustomer','Api\ProfileController@getDataProfileUserCustomer');
 Route::post('updateDataUserProfile','Api\ProfileController@updateDataUserProfile');
+
+
+// admin bengkel
+Route::get('getScheduleByWorkshopIDAndAdminWorkshop','Api\AdminWorkshopController@getScheduleByWorkshopIDAndAdminWorkshop');
+Route::post('getAccpetScheduleByAdmin','Api\AdminWorkshopController@accpetScheduleByAdmin');
+Route::post('rejectedScheduleByAdmin','Api\AdminWorkshopController@rejectedScheduleByAdmin');
+
 
 

@@ -23,15 +23,13 @@ class ProfileController extends Controller
         return response()->json($dataUser, 200, $headers);
     }
 
-    public function updateDataUserProfile(){
-        $validator = Validator::make($request->all(), [
-            'fullName' => 'required|string',
-            'displayName' => 'required|string',
-            'email' => 'required|string',
-            'phoneNumber' => 'required|string',
-            'address' => 'required|string',
-            'profilePicture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'DoB' => 'required', 'date_format:Y-m-d',
+    public function updateDataUserProfile(Request $req){
+        $validator = Validator::make($req->all(), [
+            'displayName' => 'string',
+            'phoneNumber' => 'string',
+            'address' => 'string',
+            'profilePicture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'DoB' => 'date_format:Y-m-d',
         ]);
 
         if ($validator->fails()) {
@@ -43,16 +41,18 @@ class ProfileController extends Controller
         $image = \Storage::dics('public')
         ->put($req->fullName+$req->id+'.'+$ext, $req->profilePicture);
         $path = '\public\$req->fullName+$req->id+'.'+$ext';
-        $dataUser = new User;
-        $dataUser->fullName = $req->fullName;
-        $dataUser->displayName=$req->displayName;
-        $dataUser->email=$req->email;
-        $dataUser->phoneNumber=$req->phoneNumber;
-        $dataUser->address=$req->address;
-        $dataUser->profilePicture=$path;
-        $dataUser->DoB=$req->DoB;
-        $dataUser->save();
-            return response()->json($return, 400);
+        $dataUser = DB::table('users')->where('id','=',$req->userID)->where('role','=','1')
+        ->update(['displayName'=>$req->displayName,
+        'phoneNumber'=>$req->phoneNumber,
+        'address'=>$req->address,
+        'profilePicture'=>$path,
+        'DoB'=>$req->DoB]);
+
+        $dataUpdatedUser = DB::table('users')
+        ->where('id','=',$req->userID)->where('role','=','1')
+        ->get();
+
+        return response()->json($dataUpdatedUser, 400);
         }
     }
 
