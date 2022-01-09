@@ -247,3 +247,6 @@
 .soft-badge-primary{
     @include layout_soft_badge($primary, #ffffff);
 }
+.z-opacity{
+    opacity: 0;
+}

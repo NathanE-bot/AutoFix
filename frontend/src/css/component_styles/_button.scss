@@ -61,3 +61,18 @@
         right: 6px;
     }
 }
+
+.edit-img-btn{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    .q-focus-helper{
+        cursor: pointer;
+    }
+    .q-btn__content{
+        cursor: pointer;
+    }
+    .q-icon{
+        cursor: pointer;
+    }
+}

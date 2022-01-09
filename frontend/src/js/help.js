@@ -1,5 +1,6 @@
 /* eslint-disable */
 import moment from 'moment'
+import { createNamespacedHelpers } from 'vuex'
 import router from '../router'
 
 export default {
@@ -80,5 +81,12 @@ export default {
     },
     redirectNewTab (url) {
         window.open(url, '_blank')
+    },
+    isValidImageType (fileType) {
+        return fileType.substring(fileType.indexOf("/")+1) == "png" || fileType.substring(fileType.indexOf("/")+1) == "jpg" || fileType.substring(fileType.indexOf("/")+1) == "jpeg"
+    },
+    getNoPhotoURL (imageURL) {
+        if(this.isDataEmpty(imageURL)) return '@/img/no_user.png'
+        return imageURL
     }
 }
