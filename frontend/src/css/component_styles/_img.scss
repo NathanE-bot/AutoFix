@@ -16,6 +16,12 @@
     right: 20px;
 }
 
+.logo_topLeft{
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
 .dev_pic{
     @include max_width_height (190px, 190px);
 }

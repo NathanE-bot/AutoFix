@@ -57,27 +57,26 @@
     }
 
     .logo-logReg{
-        width: 100%;
-        max-width: 115px;
+        max-width: 100%;
     }
     
     // posisi Logo
     .pos-logReg-left{
         position: relative;
-        top: -25px;
-        left: -15px;
+        top: -15px;
+        left: -5px;
     }
     
     .pos-logReg-right{
         position: relative;
-        top: -25px;
-        right: -15px;
+        top: -15px;
+        right: -5px;
     }
 
     // posisi back button
     .pos-back-btn-right{
         position: relative;
-        left: 5px;
-        bottom: 45px;
+        left: 0px;
+        bottom: 85px;
     }
 }

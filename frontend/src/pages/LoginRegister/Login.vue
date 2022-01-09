@@ -2,23 +2,22 @@
   <q-page class="flex flex-center">
       <div class="w-70">
         <q-card class="my-card login-card fw position-relative m-auto">
-          <q-card-section class="p-35">
+          <q-card-section class="p-35 flex flex-center">
             <div class="row d-flex a-center">
               <div class="col-md-7 pr-12 l_side">
-                <img class="logo-logReg pos-logReg-left" src="~assets/images/logo.png" alt="">
-                <img class="car-img" src="~assets/images/background_img/car_bg_1.jpg" alt="">
+                <img class="logo-logReg pos-logReg-left" width="150" src="~assets/images/logo.png" alt="">
+                <img class="car-img" style="margin-top: 56px;" src="~assets/images/background_img/car_bg_1.jpg" alt="">
               </div>
               <div class="col-md-5 pl-12 r_side">
                 <div class="d-flex a-center j-sp-between">
-                  <h3 class="m-0 fw-blackbold fs-45">Welcome!</h3>
+                  <h3 class="m-0 fw-blackbold fs-45" style="margin-bottom: 7%">Welcome Back!</h3>
                   <div class="d-flex flex-dir-col a-center pos-back-btn-right">
                     <q-btn
                       @click="backToLandingPage()"
                       unelevated round outline
-                      size="md"
-                      style=""
+                      size="lg"
                     >
-                      <i class="fas fa-chevron-left fs-20"></i>
+                      <i class="fas fa-chevron-left fs-30"></i>
                     </q-btn>
                     <!-- <span>Back</span> -->
                   </div>
@@ -75,18 +74,18 @@
                       label="Login"
                       color="primary"/>
                     <q-btn
+                      @click="changePage('/session/register')"
                       class="tf-capitalize q-ml-sm"
                       padding="6px 32px"
-                      flat rounded unelevated
-                      type="reset"
-                      label="Clear"
+                      rounded outline
+                      label="Create Account"
                       color="primary"
                       />
                   </div>
-                  <div class="d-flex a-center q-ml-lg q-mt-lg">
+                  <!-- <div class="d-flex a-center q-ml-lg q-mt-lg">
                     <span>Don't have an account?&nbsp;</span>
                     <span @click="changePage('/session/register')" class="link_txt primary_color">Create account</span>
-                  </div>
+                  </div> -->
                 </q-form>
               </div>
             </div>
@@ -125,11 +124,8 @@ export default {
       },
       window: {
         width: 0,
-        height: 0
-      },
-      windowAlter: {
-        width: 0,
-        height: 0
+        height: 0,
+        heightAltered: 0
       }
     }
   },
@@ -144,7 +140,7 @@ export default {
     handleResize () {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
-      this.windowAlter.height = this.window.height - (this.window.height * 0.2)
+      this.window.heightAltered = window.innerHeight - (window.innerHeight * (18/100))
     },
     doConsole (a) {
       console.log(a)

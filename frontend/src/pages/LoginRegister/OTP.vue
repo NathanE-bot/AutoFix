@@ -1,7 +1,7 @@
 <template>
     <q-page class="flex flex-center">
         <q-card class="w-60 py-60 br-20px">
-            <q-card-section class="flex flex-center flex-dir-col" v-if="!help.isDataEmpty(email)">
+            <q-card-section class="flex flex-center flex-dir-col" v-if="help.isDataEmpty(email)">
                 <h5 class="my-10">We've sent you a 4 digits verification code for your account at,</h5>
                 <h5 class="my-10 mb-20">{{ email }}</h5>
                 <div :class="['d-flex a-center', {'mb-40' : !errorMessage}]">

@@ -5,7 +5,7 @@
           <q-card-section class="p-35">
             <div class="d-flex a-center j-sp-between">
               <h5 class="m-0 fw-blackbold fs-35">Welcome, Create your account here.</h5>
-              <img class="logo-logReg pos-logReg-right" src="~assets/images/logo.png" alt="">
+              <img class="logo-logReg pos-logReg-right" width="150" src="~assets/images/logo.png" alt="">
             </div>
             <div class="row">
               <div class="col-md-6 pr-12 l_side">
@@ -125,18 +125,18 @@
                       label="Register"
                       color="primary"/>
                     <q-btn
+                      @click="changePage('/session/login')"
                       class="tf-capitalize q-ml-sm"
                       padding="6px 32px"
-                      flat rounded unelevated
-                      type="reset"
-                      label="Clear"
+                      rounded outline
+                      label="Login"
                       color="primary"
                       />
                   </div>
-                  <div class="d-flex a-center q-ml-lg q-mt-lg">
+                  <!-- <div class="d-flex a-center q-ml-lg q-mt-lg">
                     <span>Already have an account?&nbsp;</span>
                     <span @click="changePage('/session/login')" class="link_txt primary_color">Log in</span>
-                  </div>
+                  </div> -->
                 </q-form>
               </div>
               <div class="col-md-6 pl-12 r_side">
