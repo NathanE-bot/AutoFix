@@ -38,8 +38,10 @@ $yellow_1  : #ffd600;
 
 
 // Background
-$dark-theme-header-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 66.09%, #000000 135.08%);
-$dark-theme-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 62.09%, #000000 125.08%);
+// $dark-theme-header-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 66.09%, #000000 135.08%);
+// $dark-theme-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 62.09%, #000000 125.08%);
+$dark-theme-header-bg: #212121;
+$dark-theme-bg: #212121;
 
 // font-family
 $font-family-default: "Nunito", "Helvetica Neue", "Helvetica" ,"sans-serif";

@@ -1,20 +1,26 @@
 .chat-page{
     padding: 30px 20px;
-    .room-section{
-        padding: 24px 32px 24px 0;
-        border-radius: 20px;
-        background-color: #F3F3F5;
-        .indicator{
-            border-radius: 0 20px 20px 0;
+    .room-section-gap{
+        .room-section:not(:last-child){
+            margin-bottom: 20px;
         }
-        .content-section{
-            display: flex;
-            align-items: flex-start;
-            .time-pos{
-                color: #18775B;
-                position: absolute;
-                right: 0;
-                top: -10px;
+        
+        .room-section{
+            padding: 24px 32px 24px 0;
+            border-radius: 20px;
+            background-color: #F3F3F5;
+            .indicator{
+                border-radius: 0 20px 20px 0;
+            }
+            .content-section{
+                display: flex;
+                align-items: flex-start;
+                .time-pos{
+                    color: #18775B;
+                    position: absolute;
+                    right: 0;
+                    top: -10px;
+                }
             }
         }
     }

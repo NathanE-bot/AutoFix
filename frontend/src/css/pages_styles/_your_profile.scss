@@ -4,6 +4,14 @@
         font-size: 18px;
     }
     > div {
+        > span {
+            padding: 2px 8px;
+            position: relative;
+            top: 15px;
+            z-index: 1;
+            background: #212121;
+            left: 8px;
+        }
         > label {
             .q-field__control::before{
                 border: 2px solid #fff !important;
