@@ -4,7 +4,7 @@
             <div class="position-relative">
                 <img class="responsive_img logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
             </div>
-            <q-card-section class="flex flex-center flex-dir-col" v-if="help.isDataEmpty(email)">
+            <q-card-section class="flex flex-center flex-dir-col" v-if="!help.isDataEmpty(email)">
                 <h5 class="my-10">We've sent you a 4 digits verification code for your account at,</h5>
                 <h5 class="my-10 mb-20 fw-blackbold">{{ email }}</h5>
                 <div :class="['d-flex a-center', {'mb-40' : !errorMessage}]">
