@@ -4,7 +4,7 @@
             <img class="responsive_img fw d-block m-auto" src="~assets/images/preset/bg_profile.png" alt="">
             <q-avatar class="bg-white absolute-img-profile relative-position" size="120px">
                 <q-badge v-if="!help.isDataEmpty(userDisplay.profilePicture) && !isEditable" class="discardDP cursor-pointer" rounded color="red" @click="user.profilePicture = ''">X</q-badge>
-                <img :class="['responsive_img', {'z-opacity w-0-i' : help.isDataEmpty(userDisplay.profilePicture)}]" :src="userDisplay.profilePicture" id="myImg">
+                <img :class="['responsive_img', {'z-opacity w-0-i' : help.isDataEmpty(userDisplay.profilePicture)}]" src="#" id="myImg">
                 <i v-if="help.isDataEmpty(userDisplay.profilePicture)" class="fas fa-user grey-5"></i>
                 <q-btn icon="fas fa-pen" fab-mini class="edit-img-btn cursor-pointer" text-color="white" color="secondary" v-if="!isEditable">
                     <div class="input-hide">
@@ -109,6 +109,7 @@ export default {
             var preview = document.getElementById('myImg'); // Image reference
             var file = inputFile[0];  // File refrence
             this.user.profilePicture = document.getElementById('uploadDPUser').value
+            this.userDisplay.profilePicture = this.user.profilePicture 
             var reader = new FileReader(); // Creating reader instance from FileReader() API
 
             reader.addEventListener("load", function () { // Setting up base64 URL on image
@@ -155,6 +156,7 @@ export default {
             if(help.isDataEmpty(_this.userDisplay.profilePicture)){
                 _this.user.profilePicture = _this.userDisplay.profilePicture
             }
+            console.log(_this.user.profilePicture)
             updateDataUserProfile(_this.userDisplay).then(response => {
                 console.log(response)
             })
