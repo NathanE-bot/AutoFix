@@ -108,8 +108,7 @@ export default {
             var reader = new FileReader()
             var preview = document.getElementById('myImg'); // Image reference
             var file = inputFile[0];  // File refrence
-            this.user.profilePicture = document.getElementById('uploadDPUser').value
-            this.userDisplay.profilePicture = this.user.profilePicture 
+            this.userDisplay.profilePicture = document.getElementById('uploadDPUser').value
             var reader = new FileReader(); // Creating reader instance from FileReader() API
 
             reader.addEventListener("load", function () { // Setting up base64 URL on image
