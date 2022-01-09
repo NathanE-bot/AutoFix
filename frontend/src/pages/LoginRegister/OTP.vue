@@ -1,9 +1,12 @@
 <template>
     <q-page class="flex flex-center">
-        <q-card class="w-60 py-60 br-20px">
+        <q-card class="w-60 py-60 br-20px position-relative flex flex-center" :style="{height: window.heightAltered + 'px'}">
+            <div class="position-relative">
+                <img class="responsive_img logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
+            </div>
             <q-card-section class="flex flex-center flex-dir-col" v-if="help.isDataEmpty(email)">
                 <h5 class="my-10">We've sent you a 4 digits verification code for your account at,</h5>
-                <h5 class="my-10 mb-20">{{ email }}</h5>
+                <h5 class="my-10 mb-20 fw-blackbold">{{ email }}</h5>
                 <div :class="['d-flex a-center', {'mb-40' : !errorMessage}]">
                     <q-input @keyup="otpChangeIndex(2, $event, otp1)" class="otp-input otp_1" outlined maxlength="1" v-model="otp1" />
                     <span class="mx-15">-</span>
@@ -11,7 +14,10 @@
                     <span class="mx-15">-</span>
                     <q-input @keyup="otpChangeIndex(4, $event, otp3)" class="otp-input otp_3" outlined maxlength="1" v-model="otp3" />
                     <span class="mx-15">-</span>
-                    <q-input @keyup="doFinalOtp()" class="otp-input otp_4" outlined maxlength="1" v-model="otp4" />
+                    <q-input class="otp-input otp_4" outlined maxlength="1" v-model="otp4" />
+                </div>
+                <div>
+                    <q-btn @click="doFinalOtp()" label="Verify Code" padding="10px 32px" outline color="primary" class="br-15px fw-bold tf-capitalize mb-20"></q-btn>
                 </div>
                 <span v-if="errorMessage" class="red-txt text-subtitle2 fw-semibold mt-15">Kode OTP belum valid</span>
                 <div v-if="failed">
@@ -47,14 +53,31 @@ export default {
             encryptUserId: null,
             email: '',
             timerCount: 30,
-            timerCountOriginal: 30
+            timerCountOriginal: 30,
+            window: {
+                width: 0,
+                height: 0,
+                heightAltered: 0
+            }
         }
+    },
+    mounted () {
+        window.addEventListener('resize', this.handleResize)
+        this.handleResize()
+    },
+    unmounted () {
+        window.removeEventListener('resize', this.handleResize)
     },
     created () {
         this.encryptUserId = this.$route.params.id
         this.doGetTempUserID()
     },
     methods: {
+        handleResize () {
+            this.window.width = window.innerWidth
+            this.window.height = window.innerHeight
+            this.window.heightAltered = window.innerHeight - (window.innerHeight * (18/100))
+        },
         doResendOtp () {
             let _this = this
             _this.resendLoader = true

@@ -1,35 +1,35 @@
 <template>
     <q-page class="flex flex-center" v-if="pageLodaer">
-        <q-card class="my-card forgotpass-card w-50">
-            <q-card-section class="p-35">
-                <div class="position-relative">
-                    <img class="responsive_img logo_topRight" width="120" src="~assets/images/logo.png" alt="">
-                </div>
-                <h4 class="mt-0 mb-20 fw-bold">Reset Password</h4>
-                <span class="text-subtitle2">Please insert your new password</span>
-            </q-card-section>
-            <q-card-section class="p-35 pt-0">
-                <q-form
-                  @submit.prevent.stop="doResetUserPassword"
-                  class="w-95 m-auto"
-                >
-                    <q-input
-                        v-model="form.password"
-                        :rules="rules.password_r" lazy-rules="ondemand"
-                        :type="isPwd ? 'password' : 'text'"
-                        label="Password"
-                        borderless
-                        class="col-md-12 default-input-1"
+        <q-card class="my-card forgotpass-card w-75" :style="{height: window.heightAltered + 'px'}">
+            <div class="position-relative">
+                <img class="responsive_img logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
+            </div>
+            <q-card-section class="p-35 flex flex-center">
+                <div style="width: 100%">
+                    <div class="text-align-center mb-30">
+                        <h4 class="mt-0 mb-20 fw-blackbold fs-40 w-50 m-auto">Reset Your Password</h4>
+                    </div>
+                    <q-form
+                    @submit.prevent.stop="doResetUserPassword"
+                    class="w-40 m-auto"
                     >
-                        <template v-slot:prepend>
-                            <q-icon name="lock" />
-                        </template>
-                    </q-input>
+                        <q-input
+                            v-model="form.password"
+                            :rules="rules.password_r" lazy-rules="ondemand"
+                            :type="isPwd ? 'password' : 'text'"
+                            label="Password"
+                            borderless
+                            class="col-md-12 default-input-1"
+                        >
+                            <template v-slot:prepend>
+                                <q-icon name="lock" />
+                            </template>
+                        </q-input>
                         <q-input
                             v-model="form.password_confirmation"
                             :rules="rules.password_confirmation_r" lazy-rules="ondemand"
                             :type="isPwd ? 'password' : 'text'"
-                            label="Konfirmasi Password"
+                            label="Password Confirmation"
                             borderless
                             class="col-md-12 default-input-1"
                         >
@@ -44,18 +44,19 @@
                                 />
                             </template>
                         </q-input>
-                    <div class="mt-20 d-flex">
-                        <q-btn
-                            :loading="loader"
-                            class="tf-capitalize"
-                            padding="6px 32px"
-                            rounded unelevated
-                            type="submit"
-                            label="Reset Password"
-                            color="primary"
-                        />
-                    </div>
-                </q-form>
+                        <div class="mt-20 d-flex j-center">
+                            <q-btn
+                                :loading="loader"
+                                class="tf-capitalize"
+                                padding="6px 32px"
+                                rounded unelevated
+                                type="submit"
+                                label="Reset Password"
+                                color="primary"
+                            />
+                        </div>
+                    </q-form>
+                </div>
             </q-card-section>
         </q-card>
     </q-page>
@@ -88,14 +89,31 @@ export default {
                     v => !!v || 'Password harus diisi',
                     v => v === this.form.password || 'Password belum sama'
                 ],
+            },
+            window: {
+                width: 0,
+                height: 0,
+                heightAltered: 0
             }
         }
+    },
+    mounted () {
+        window.addEventListener('resize', this.handleResize)
+        this.handleResize()
+    },
+    unmounted () {
+        window.removeEventListener('resize', this.handleResize)
     },
     created () {
         this.form.token = this.$route.params.id
         this.doCheckTokenIdFromURL()
     },
     methods: {
+        handleResize () {
+            this.window.width = window.innerWidth
+            this.window.height = window.innerHeight
+            this.window.heightAltered = window.innerHeight - (window.innerHeight * (18/100))
+        },
         doCheckTokenIdFromURL () {
             if(help.isDataEmpty(this.form.token)){
                 this.pageLodaer = false
