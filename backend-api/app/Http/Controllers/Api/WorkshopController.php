@@ -95,11 +95,22 @@ class WorkshopController extends Controller
             }
         }
         try{
+
+            $byKM = 6371;
+            $currentLat = $request->lat;
+            $currentLng = $request->lon;
+            $distanceKmLu = 30;
+
             $workshops = DB::table('workshops')
+            ->selectRaw('id,userID,workshopName,workshopAddress,workshopPhoneNumber,workshopEmail,
+            workshopDescription,rating,workshopLogo,city,district,province,statusHr,status24Hr,
+            ( ? * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance', [$byKM, $currentLat, $currentLng, $currentLat])
+            ->havingRaw('distance < ?', [$distanceKmLu])
             ->Where('workshopName','like','%'.$request->workshopName.'%')
             ->Where('district','like','%'.$request->location.'%')
             ->Where('statusHr','like','%'.$request->statusHr.'%')
             ->Where('status24Hr','like','%'.$request->status24Hr.'%')
+            ->orderByRaw('distance asc')
             ->paginate(10);
             // $workshop_services =  DB::table('workshop_services')
             // ->get()->toArray();
@@ -201,6 +212,9 @@ class WorkshopController extends Controller
             return response()->json($err, 500);
         }
     }
+
+
+
 
     public function countDistance(Request $request)
     {
