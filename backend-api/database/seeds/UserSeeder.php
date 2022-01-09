@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '085813600655',
                 'address'=> 'jl kabupaten indah no 50',
                 'role' => '2',
-                'profilePicture'=>'',
+                'profilePicture'=>'test.jpg',
                 'tokenChat'=>'1s12e12r2'
             ]
         );
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '086237237',
                 'address'=> 'jl kedoya indah no 50',
                 'role' => '2',
-                'profilePicture'=>'',
+                'profilePicture'=>'test.jpg',
                 'tokenChat'=>'2d232d2222'
             ]
         );
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '0826326',
                 'address'=> 'jl maju indah no 50',
                 'role' => '2',
-                'profilePicture'=>'',
+                'profilePicture'=>'test.jpg',
                 'tokenChat'=>'12f2123f21'
             ]
         );

@@ -182,7 +182,7 @@ class UserController extends Controller
 
         try {
             $randomNumber = random_int(1000, 9999);
-            
+
             if(Otp::where('otp', $randomNumber )->exists()){
                 try {
                     do {
@@ -193,7 +193,7 @@ class UserController extends Controller
                 } catch (Exception $error) {
                     return response()->json($error, 500);
                 }
-                
+
                 $data = Otp::find($tempId);
                 $data->update(['otp' => $randomNumber]);
 

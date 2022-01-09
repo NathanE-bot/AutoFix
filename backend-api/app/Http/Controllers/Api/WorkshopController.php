@@ -13,6 +13,7 @@ use DateTime;
 use Illuminate\Support\ServceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 
 class WorkshopController extends Controller
 {
@@ -233,6 +234,13 @@ class WorkshopController extends Controller
                     'distance' => $hasil
                 ]);
             }
+
+            // $sortedData = Arr::sort($array, function($key,$value)
+            // {
+            //     // Sort the student's scores by their name.
+            //     return $value[$key]['workshopId'];
+            // });
+
             $data = [
                 'objectReturn' => $array
             ];
