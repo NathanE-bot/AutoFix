@@ -85,6 +85,7 @@ Route::get('getHistoryByScheduleStatusAndUserID','Api\HistoryController@getHisto
 //profile user
 Route::get('getDataProfileUserCustomer','Api\ProfileController@getDataProfileUserCustomer');
 Route::post('updateDataUserProfile','Api\ProfileController@updateDataUserProfile');
+Route::post('saveImg','Api\ProfileController@uploadImage');
 
 
 // admin bengkel

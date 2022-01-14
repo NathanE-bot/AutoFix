@@ -55,7 +55,7 @@
                   size="md"
                 >
                   <q-avatar size="50px" class="bg-white">
-                    <img v-if="!help.isDataEmpty(user.profilePicture)" src="https://cdn.quasar.dev/img/avatar2.jpg">
+                    <img v-if="!help.isDataEmpty(user.profilePicture)" :src="user.profilePicture">
                     <i v-else class="fas fa-user grey-5"></i>
                   </q-avatar>
                   <q-menu>
@@ -99,15 +99,14 @@ export default {
       currentRouteName: null
     }
   },
-  created () {
+  mounted () {
     if(Auth.isUserLogin()){
       this.isLogin = true
       this.user = LocalStorage.getItem('autoRepairUser').data.user
     } else {
       this.isLogin = false
     }
-  },
-  mounted () {
+
     if (Auth.isUserLogin() == 'session_expired') {
       this.isLogin = false
       Swal.fire({
@@ -153,6 +152,13 @@ export default {
         this.initialTab = ''
       }
     },
+      deep: true,
+      immediate: true
+    },
+    'LocalStorage(\'autoRepairUser\')': {
+      handler: function(user) {
+        console.log(user)
+      },
       deep: true,
       immediate: true
     }

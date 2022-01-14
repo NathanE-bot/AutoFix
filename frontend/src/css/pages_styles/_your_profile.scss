@@ -18,6 +18,10 @@
             }
         }
     }
+    textarea{
+        color: #fff;
+        font-size: 18px;
+    }
 }
 .edit-icon{
     @include transition_mixin (color);

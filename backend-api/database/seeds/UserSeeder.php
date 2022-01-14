@@ -69,5 +69,19 @@ class UserSeeder extends Seeder
                 'tokenChat'=>'12f31344gf'
             ]
         );
+        User::Create(
+            [
+                'fullName' => "Nathan Engolodoe",
+                'displayName'=>'gugugugu',
+                'email' => 'nathanengolodoe@gmail.com',
+                'password' => bcrypt('qwdqwdqwd'),
+                'DoB' => Carbon::parse('2000-10-24'),
+                'phoneNumber' => '087808769902',
+                'address'=> 'RESAPAN AER',
+                'role' => '1',
+                'profilePicture'=>'',
+                'tokenChat'=>'499023ufie2'
+            ]
+        );
     }
 }
