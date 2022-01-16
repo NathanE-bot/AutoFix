@@ -18,7 +18,7 @@
             <q-tab class="insurance-tab" name="insurance" />
             <q-btn-dropdown class="tf-capitalize fs-16 dropdown-btn-tab" label="Insurance" auto-close flat :ripple="false" :menu-offset="[35, 1]" :color="initialTab == 'insurance' ? 'primary' : ''">
               <q-list class="bg-primary text-white">
-                <q-item clickable @click="initialTab = 'insurance'">
+                <q-item clickable @click="changePage('/insurance/claim-insurance')">
                   <q-item-section>Claim Insurance</q-item-section>
                 </q-item>
 

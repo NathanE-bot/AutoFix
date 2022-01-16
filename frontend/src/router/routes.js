@@ -188,7 +188,7 @@ const routes = [
     children: [
       // exception
       {
-        path: "/insurance",
+        path: "/insurance/claim-insurance",
         component: claimInsurance,
         meta: {
           title: 'Claim Insurance',
