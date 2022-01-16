@@ -78,7 +78,7 @@ class UserSeeder extends Seeder
                 'DoB' => Carbon::parse('2000-10-11'),
                 'phoneNumber' => '085231624',
                 'address'=> 'jl puri mall no 50',
-                'role' => '2',
+                'role' => '3',
                 'profilePicture'=>'',
                 'tokenChat'=>'12f31344gf'
             ]
