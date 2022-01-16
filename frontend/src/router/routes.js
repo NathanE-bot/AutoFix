@@ -36,6 +36,12 @@ const statusInsurance = () => import("pages/Insurance/StatusInsurance");
 const homeMessage = () => import("pages/Chats/HomeMessage");
 const roomMessage = () => import("pages/Chats/RoomMessage");
 
+//Admin Workshop
+const AdminOrderSchedule = () => import("pages/Admin/AdminWorkshop/OrderSchedule");
+const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
+
+// const insuranceAdmin = () => import("pages/Admin/AdminInsurance");
+
 const routes = [
   // forLoginRegis
   {
@@ -79,6 +85,28 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/admin',
+    component: MemberLayout,
+    children: [
+      {
+        path: "/admin/workshop/order-schedule",
+        component: AdminOrderSchedule,
+        meta: {
+          title: 'Order Schedule Admin',
+          breadcrumb: 'Order Schedule Admin'
+        }
+      },
+      {
+        path: "/admin/workshop/incoming-order",
+        component: AdminIncomingOrder,
+        meta: {
+          title: 'Incoming Order Admin',
+          breadcrumb: 'Incoming Order Admin'
+        }
+      }
+    ]
+  },
   // ForUsers
   {
     path: '/member',
@@ -86,7 +114,7 @@ const routes = [
     children: [
       // chat
       {
-        path: "/member/homemessage",
+        path: "/member/home-message",
         component: homeMessage,
         meta: {
           title: 'Chat Message',
@@ -94,7 +122,7 @@ const routes = [
         }
       },
       {
-        path: "/member/homemessage/roommessage/:id",
+        path: "/member/home-message/roommessage/:id",
         component: roomMessage,
         meta: {
           title: 'Room Message',
@@ -144,7 +172,7 @@ const routes = [
         }
       },
       {
-        path: "/member/youraccount",
+        path: "/member/your-account",
         component: yourAccount,
         meta: {
           title: 'Your Account',
@@ -200,7 +228,7 @@ const routes = [
         }
       }
     ]
-  }
+  },
 ];
 
 export default routes;

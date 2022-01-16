@@ -22,142 +22,142 @@
         </q-avatar>
         <span class="text-subtitle1 fw-semibold">{{ user.fullName }}</span>
       </q-item-label>
-      <q-item-section class="mt-30">
-        <q-item-label>
-          <span class="text-subtitle1 fw-semibold">Menu</span>
-        </q-item-label>
+        <q-item-section class="mt-30">
+          <q-item-label>
+            <span class="text-subtitle1 fw-semibold">Menu</span>
+          </q-item-label>
 
-        <!-- <q-item
-          clickable
-          v-ripple
-          :active="link === 'document'"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar>
-            <is-document />
-          </q-item-section>
-          <q-item-section>Document</q-item-section>
-        </q-item> -->
+          <!-- <q-item
+            clickable
+            v-ripple
+            :active="link === 'document'"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <is-document />
+            </q-item-section>
+            <q-item-section>Document</q-item-section>
+          </q-item> -->
 
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'messages'"
-          @click="changePage('/member/homemessage')"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar>
-            <is-message />
-          </q-item-section>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'messages'"
+            @click="changePage('/member/home-message')"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <is-message />
+            </q-item-section>
 
-          <q-item-section>Message</q-item-section>
-        </q-item>
+            <q-item-section>Message</q-item-section>
+          </q-item>
 
-        <!-- <q-item
-          clickable
-          v-ripple
-          :active="link === 'feedback'"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar>
-            <q-icon name="inbox" />
-          </q-item-section>
+          <!-- <q-item
+            clickable
+            v-ripple
+            :active="link === 'feedback'"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <q-icon name="inbox" />
+            </q-item-section>
 
-          <q-item-section>Feedback</q-item-section>
-        </q-item> -->
+            <q-item-section>Feedback</q-item-section>
+          </q-item> -->
 
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'history'"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar>
-            <is-history />
-          </q-item-section>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'history'"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <is-history />
+            </q-item-section>
 
-          <q-item-section>History</q-item-section>
-        </q-item>
+            <q-item-section>History</q-item-section>
+          </q-item>
 
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'schedule'"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar>
-            <is-schedule />
-          </q-item-section>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'schedule'"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <is-schedule />
+            </q-item-section>
 
-          <q-item-section>Schedule</q-item-section>
-        </q-item>
+            <q-item-section>Schedule</q-item-section>
+          </q-item>
 
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'favourites'"
-          active-class="my-menu-link"
-          class="mb-20"
-        >
-          <q-item-section avatar>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17.0034 1.11548C15.8844 1.11548 14.8149 1.37201 13.8246 1.87799C13.1506 2.22235 12.5314 2.67988 12 3.22273C11.4686 2.67988 10.8494 2.22235 10.1754 1.87799C9.18507 1.37201 8.11556 1.11548 6.99652 1.11548C3.13866 1.11548 0 4.25413 0 8.11205C0 10.8445 1.44312 13.7467 4.28922 16.7379C6.66557 19.2354 9.57496 21.3173 11.5971 22.6241L12 22.8844L12.4029 22.6241C14.425 21.3174 17.3344 19.2354 19.7108 16.7379C22.5569 13.7467 24 10.8445 24 8.11205C24 4.25413 20.8613 1.11548 17.0034 1.11548Z" fill="black"/>
-            </svg>
-          </q-item-section>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'favourites'"
+            active-class="my-menu-link"
+            class="mb-20"
+          >
+            <q-item-section avatar>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.0034 1.11548C15.8844 1.11548 14.8149 1.37201 13.8246 1.87799C13.1506 2.22235 12.5314 2.67988 12 3.22273C11.4686 2.67988 10.8494 2.22235 10.1754 1.87799C9.18507 1.37201 8.11556 1.11548 6.99652 1.11548C3.13866 1.11548 0 4.25413 0 8.11205C0 10.8445 1.44312 13.7467 4.28922 16.7379C6.66557 19.2354 9.57496 21.3173 11.5971 22.6241L12 22.8844L12.4029 22.6241C14.425 21.3174 17.3344 19.2354 19.7108 16.7379C22.5569 13.7467 24 10.8445 24 8.11205C24 4.25413 20.8613 1.11548 17.0034 1.11548Z" fill="black"/>
+              </svg>
+            </q-item-section>
 
-          <q-item-section>Favourites</q-item-section>
-        </q-item>
+            <q-item-section>Favourites</q-item-section>
+          </q-item>
 
-        <!-- <q-item
-          clickable
-          v-ripple
-          :active="link === 'insurance'"
-          active-class="my-menu-link"
-          class="mb-20"
-        >
-          <q-item-section avatar>
-            <q-icon name="inbox" />
-          </q-item-section>
+          <!-- <q-item
+            clickable
+            v-ripple
+            :active="link === 'insurance'"
+            active-class="my-menu-link"
+            class="mb-20"
+          >
+            <q-item-section avatar>
+              <q-icon name="inbox" />
+            </q-item-section>
 
-          <q-item-section>Insurance</q-item-section>
-        </q-item> -->
+            <q-item-section>Insurance</q-item-section>
+          </q-item> -->
 
-      </q-item-section>
-      <q-item-section class="mt-30 ml-0-i">
-        <q-item-label>
-          <span class="text-subtitle1 fw-semibold">Account</span>
-        </q-item-label>
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'profile'"
-          @click="changePage('/member/youraccount')"
-          active-class="my-menu-link"
-        >
-          <q-item-section avatar>
-            <is-account />
-          </q-item-section>
+        </q-item-section>
+        <q-item-section class="mt-30 ml-0-i">
+          <q-item-label>
+            <span class="text-subtitle1 fw-semibold">Account</span>
+          </q-item-label>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'profile'"
+            @click="changePage('/member/your-account')"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <is-account />
+            </q-item-section>
 
-          <q-item-section>Your Profile</q-item-section>
-        </q-item>
+            <q-item-section>Your Profile</q-item-section>
+          </q-item>
 
-        <q-item
-          clickable
-          v-ripple
-          :active="link === 'signOut'"
-          active-class="my-menu-link"
-          class="mb-20"
-        >
-          <q-item-section avatar>
-            <is-logout />
-          </q-item-section>
+          <q-item
+            clickable
+            v-ripple
+            :active="link === 'signOut'"
+            active-class="my-menu-link"
+            class="mb-20"
+          >
+            <q-item-section avatar>
+              <is-logout />
+            </q-item-section>
 
-          <q-item-section>Sign Out</q-item-section>
-        </q-item>
-      </q-item-section>
-    </q-list>
-  </q-scroll-area>
-  </q-drawer>
+            <q-item-section>Sign Out</q-item-section>
+          </q-item>
+        </q-item-section>
+      </q-list>
+    </q-scroll-area>
+    </q-drawer>
 </template>
 
 <script>
@@ -233,10 +233,10 @@ export default {
   watch: {
   '$route.path': {
     handler: function(url) {
-      if(url.includes('/youraccount')){
+      if(url.includes('/your-account')){
         this.link = 'profile'
       }
-      else if(url.includes('/homemessage')){
+      else if(url.includes('/home-message')){
         this.link = 'messages'
       }
       else if(url.includes('/insurance')){

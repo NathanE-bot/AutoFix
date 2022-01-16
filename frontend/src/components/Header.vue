@@ -61,7 +61,7 @@
                   <q-menu>
                     <q-list style="min-width: 100px">
                       <q-item
-                        @click="changePage('/member/youraccount')"
+                        @click="changePage('/member/your-account')"
                         clickable v-close-popup
                       >
                         Profile

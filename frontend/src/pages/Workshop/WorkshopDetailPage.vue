@@ -310,7 +310,7 @@ export default {
             text: 'Please contact website admin.'
           })
         } else {
-          this.changePage('/member/homemessage/roommessage/' + this.userTokenChat + '-' + this.userWorkshop.tokenChat)
+          this.changePage('/member/home-message/roommessage/' + this.userTokenChat + '-' + this.userWorkshop.tokenChat)
         }
       } else {
         Swal.fire({
