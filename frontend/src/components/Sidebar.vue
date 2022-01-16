@@ -5,23 +5,23 @@
     :breakpoint="400"
     style="overflow-y: hidden; overflow-x: hidden;"
   >
-  <q-scroll-area
-    :thumb-style="thumbStyle"
-    :bar-style="barStyle"
-    class="list-workshop-scrollbar"
-    :style="{height: window.heightAltered + 'px'}"
-  >
-    <q-list padding class="txt-white">
-      <q-item-label
-        header
-        class="d-flex a-center"
-      >
-        <q-avatar class="mr-30 user-img-sidebar" size="50px">
-          <img v-if="!help.isDataEmpty(user.profilePicture)" :src="user.profilePicture">
-          <i v-else class="fas fa-user grey-5"></i>
-        </q-avatar>
-        <span class="text-subtitle1 fw-semibold">{{ user.fullName }}</span>
-      </q-item-label>
+    <q-scroll-area
+      :thumb-style="thumbStyle"
+      :bar-style="barStyle"
+      class="list-workshop-scrollbar"
+      :style="{height: window.heightAltered + 'px'}"
+    >
+      <q-list padding class="txt-white">
+        <q-item-label
+          header
+          class="d-flex a-center"
+        >
+          <q-avatar class="mr-30 user-img-sidebar" size="50px">
+            <img v-if="!help.isDataEmpty(user.profilePicture)" :src="user.profilePicture">
+            <i v-else class="fas fa-user grey-5"></i>
+          </q-avatar>
+          <span class="text-subtitle1 fw-semibold">{{ user.fullName }}</span>
+        </q-item-label>
         <q-item-section class="mt-30">
           <q-item-label>
             <span class="text-subtitle1 fw-semibold">Menu</span>
@@ -100,9 +100,7 @@
             class="mb-20"
           >
             <q-item-section avatar>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.0034 1.11548C15.8844 1.11548 14.8149 1.37201 13.8246 1.87799C13.1506 2.22235 12.5314 2.67988 12 3.22273C11.4686 2.67988 10.8494 2.22235 10.1754 1.87799C9.18507 1.37201 8.11556 1.11548 6.99652 1.11548C3.13866 1.11548 0 4.25413 0 8.11205C0 10.8445 1.44312 13.7467 4.28922 16.7379C6.66557 19.2354 9.57496 21.3173 11.5971 22.6241L12 22.8844L12.4029 22.6241C14.425 21.3174 17.3344 19.2354 19.7108 16.7379C22.5569 13.7467 24 10.8445 24 8.11205C24 4.25413 20.8613 1.11548 17.0034 1.11548Z" fill="black"/>
-              </svg>
+              <is-favourite />
             </q-item-section>
 
             <q-item-section>Favourites</q-item-section>
@@ -157,7 +155,7 @@
         </q-item-section>
       </q-list>
     </q-scroll-area>
-    </q-drawer>
+  </q-drawer>
 </template>
 
 <script>
@@ -169,6 +167,7 @@ import isvgHistory from './IconSVG/isvg_history'
 import isvgSchedule from './IconSVG/isvg_schedule'
 import isvgAccount from './IconSVG/isvg_account'
 import isvgLogout from './IconSVG/isvg_logout'
+import isvgFavourite from './IconSVG/isvg_favourite'
 // End of SVGs
 import help from '../js/help'
 import { LocalStorage } from 'quasar'
@@ -182,6 +181,7 @@ export default {
     isSchedule: isvgSchedule,
     isAccount: isvgAccount,
     isLogout: isvgLogout,
+    isFavourite: isvgFavourite,
     // End of SVGs
     help
   },
