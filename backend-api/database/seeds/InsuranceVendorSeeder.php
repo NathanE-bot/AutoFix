@@ -12,9 +12,9 @@ class InsuranceVendorSeeder extends Seeder
     public function run()
     {
         InsuranceVendor::create([
-            'userID'=>'2',
+            'userID'=>'5',
             'insuranceName'=>'alianz',
-            'phoneNumber' => '08582132725',
+            'phoneNumber' => '085231624',
         ]);
     }
 }
