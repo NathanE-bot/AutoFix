@@ -61,8 +61,9 @@ class ProfileController extends Controller
                 'error' => $validator->errors()
             ];
         }
+        echo $req->image;
         $dataUpdatedUser = DB::table('users')->where('id','=',$req->id)->first();
-        if ($req->has('image'))
+        if (!is_null($req->image))
         {
 
             $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->fullName);
@@ -75,11 +76,10 @@ class ProfileController extends Controller
         }
         else{
             $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
-            ->update(['profilePicture' =>'null']);
+            ->update(['profilePicture' =>null]);
         }
         return response()->json([
-            'path' => $path,
-            'message' => 'yes'
+            'message' => 'success'
         ], 200);
     }
 
@@ -87,8 +87,7 @@ class ProfileController extends Controller
         DB::table('users')->where('id','=',$req->id)->update(['profilePicture' => $imagePath]);
 
         return response()->json([
-            'path' => $path,
-            'message' => 'yes'
+            'message' => 'success'
         ], 200);
     }
 }

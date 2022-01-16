@@ -25,7 +25,7 @@
                     </q-tooltip>
                 </div>
                 <div v-else>
-                    <q-btn v-if="!isEditable" @click="doRequestForgotPasswordEmail()" :loading="loader" unelevated rounded color="primary" label="Change Password?" class="tf-capitalize ml-20"></q-btn>
+                    <q-btn v-if="!isEditable" @click="doRequestForgotPasswordEmail()" :loading="loader" unelevated rounded color="primary" label="Change Password" class="tf-capitalize ml-20"></q-btn>
                 </div>
             </div>
             <div class="q-gutter-y-lg pt-20 input-outline-profile">
@@ -115,7 +115,7 @@ export default {
     },
     methods: {
         doClearImage () {
-            this.userDisplay.image = null
+            this.userDisplay.image = ''
             document.getElementById('uploadDPUser').value = ''
         },
         doUploadProfilePicture (event) {
@@ -144,7 +144,6 @@ export default {
             const formData = new FormData
             formData.set('image', file)
             this.userDisplay.image = formData
-            this.doSaveImage()
         },
         doSaveImage(){
             saveImgTest(this.userDisplay.image, this.user.id).then(response => {
@@ -163,6 +162,9 @@ export default {
                 this.userDisplay.id = this.user.id
                 this.userDisplay.name = this.user.fullName
                 this.userDisplay.email = this.user.email
+            }
+            if(this.userDisplay.image == null){
+                this.userDisplay.image = ''
             }
             this.userDisplay.image = this.user.profilePicture
             this.userDisplay.displayName = this.user.displayName
@@ -193,13 +195,14 @@ export default {
                 _this.loader = false
             })
         },
-        doUpdateDataUserProfile () {
+        doUpdateDataUserProfile () {    
             let _this = this
             _this.$q.loading.show({})
             if(help.isDataEmpty(_this.userDisplay.image)){
-                _this.user.profilePicture = _this.userDisplay.image
+                _this.userDisplay.image = null
             }
             _this.userDisplay.DoB = help.defaultFormat(_this.userDisplay.DoB, help.data().dmy_5)
+            _this.doSaveImage()
             updateDataUserProfile(_this.userDisplay).then(response => {
                 console.log(response.data)
                 let tempLocalStorage = {}
@@ -210,7 +213,6 @@ export default {
                 _this.user = LocalStorage.getItem('autoRepairUser').data.user
                 _this.doInsertUserDisplay(false)
                 _this.pageLoader = false
-                
                 _this.$q.loading.hide
                 _this.$router.go()
             }) .catch(function (error) {
