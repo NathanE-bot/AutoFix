@@ -1,7 +1,7 @@
 <template>
     <q-page class="chat-page">
       <div class="room-section-gap" v-if="!help.isObjectEmpty(room)">
-        <div class="room-section cursor-pointer" v-for="item in room" :key="item.roomSecureId" @click="changePage('/member/homemessage/roommessage/' + item.roomSecureId)">
+        <div class="room-section cursor-pointer" v-for="item in room" :key="item.roomSecureId" @click="changePage('/member/home-message/room-message/' + item.roomSecureId)">
           <div class="content-section relative-position">
             <span class="time-pos tf-capitalize" v-if="!help.isDataEmpty(item.lastMessage.time)">{{ help.defaultFormat(item.lastMessage.time, help.data().time_4) }}</span>
             <q-separator class="indicator mr-24" color="primary" vertical size="8px" />

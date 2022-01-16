@@ -122,7 +122,7 @@ const routes = [
         }
       },
       {
-        path: "/member/home-message/roommessage/:id",
+        path: "/member/home-message/room-message/:id",
         component: roomMessage,
         meta: {
           title: 'Room Message',
