@@ -11,6 +11,7 @@ export default
 export function updateDataUserProfile(userCred) {
   return axios.post(localURL + '/api/updateDataUserProfile', userCred)
 }
+
 export function saveImgTest(fileImg, id){
   return axios.post(localURL + '/api/saveImg?id=' + id, fileImg)
 }

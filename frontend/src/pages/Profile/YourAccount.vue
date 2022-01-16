@@ -115,7 +115,7 @@ export default {
     },
     methods: {
         doClearImage () {
-            this.userDisplay.image = ''
+            this.userDisplay.image = null
             document.getElementById('uploadDPUser').value = ''
         },
         doUploadProfilePicture (event) {

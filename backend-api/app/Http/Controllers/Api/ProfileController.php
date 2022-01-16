@@ -38,7 +38,20 @@ class ProfileController extends Controller
                 'error' => $validator->errors()
             ];
         }
-
+        if($req->image == null){
+            $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
+            ->update(['displayName'=>$req->displayName,
+            'phoneNumber'=>$req->phoneNumber,
+            'address'=>$req->address,
+            'profilePicture'=>$req->image,
+            'DoB'=>$req->DoB]);
+        } else {
+            $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
+            ->update(['displayName'=>$req->displayName,
+            'phoneNumber'=>$req->phoneNumber,
+            'address'=>$req->address,
+            'DoB'=>$req->DoB]);
+        }
         $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
         ->update(['displayName'=>$req->displayName,
         'phoneNumber'=>$req->phoneNumber,
