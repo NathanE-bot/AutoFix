@@ -38,20 +38,7 @@ class ProfileController extends Controller
                 'error' => $validator->errors()
             ];
         }
-        if($req->image == null){
-            $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
-            ->update(['displayName'=>$req->displayName,
-            'phoneNumber'=>$req->phoneNumber,
-            'address'=>$req->address,
-            'profilePicture'=>$req->image,
-            'DoB'=>$req->DoB]);
-        } else {
-            $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
-            ->update(['displayName'=>$req->displayName,
-            'phoneNumber'=>$req->phoneNumber,
-            'address'=>$req->address,
-            'DoB'=>$req->DoB]);
-        }
+
         $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
         ->update(['displayName'=>$req->displayName,
         'phoneNumber'=>$req->phoneNumber,
@@ -81,6 +68,15 @@ class ProfileController extends Controller
         $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$userTemp->id.'.'.$ext), 'public');
         $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
+        DB::table('users')->where('id','=',$req->id)->update(['profilePicture' => $imagePath]);
+
+        return response()->json([
+            'path' => $path,
+            'message' => 'yes'
+        ], 200);
+    }
+
+    public function deleteImage (Request $req) {
         DB::table('users')->where('id','=',$req->id)->update(['profilePicture' => $imagePath]);
 
         return response()->json([
