@@ -14,7 +14,20 @@
         >
           <q-tab @click="changePage('/')" name="home" label="Home" />
           <q-tab @click="changePage('/workshop')" name="workshop" label="Workshop" />
-          <q-tab @click="changePage('/insurance')" name="insurance" label="Insurance" />
+          <div class="relative-position">
+            <q-tab class="insurance-tab" name="insurance" />
+            <q-btn-dropdown class="tf-capitalize fs-16 dropdown-btn-tab" label="Insurance" auto-close flat :ripple="false" :menu-offset="[35, 1]" :color="initialTab == 'insurance' ? 'primary' : ''">
+              <q-list class="bg-primary text-white">
+                <q-item clickable @click="initialTab = 'insurance'">
+                  <q-item-section>Claim Insurance</q-item-section>
+                </q-item>
+
+                <q-item clickable @click="initialTab = 'insurance'">
+                  <q-item-section>Insurance List</q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
           <q-tab name="aboutus" label="About Us" />
         </q-tabs>
         <div class="relative-position">
@@ -95,8 +108,7 @@ export default {
       help,
       user: [],
       initialTab: null,
-      isLogin: false,
-      currentRouteName: null
+      isLogin: false
     }
   },
   mounted () {
@@ -152,13 +164,6 @@ export default {
         this.initialTab = ''
       }
     },
-      deep: true,
-      immediate: true
-    },
-    'LocalStorage(\'autoRepairUser\')': {
-      handler: function(user) {
-        console.log(user)
-      },
       deep: true,
       immediate: true
     }

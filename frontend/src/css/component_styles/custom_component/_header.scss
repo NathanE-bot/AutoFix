@@ -12,6 +12,12 @@
     backdrop-filter: blur(8px);
     transform: perspective(500px);
 
+    .insurance-tab{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
     .q-toolbar{
         min-height: 70px;
         .q-tabs{
