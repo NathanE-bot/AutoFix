@@ -31,6 +31,28 @@ class ProfileController extends Controller
             'phoneNumber' => 'string',
             'address' => 'string',
             'DoB' => 'date_format:Y-m-d',
+        ]);
+
+        if ($validator->fails()) {
+            $return = [
+                'error' => $validator->errors()
+            ];
+        }
+
+        $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
+        ->update(['displayName'=>$req->displayName,
+        'phoneNumber'=>$req->phoneNumber,
+        'address'=>$req->address,
+        'DoB'=>$req->DoB]);
+
+        $dataUpdatedUser = DB::table('users')->where('id','=',$req->id)->first();
+
+        return response()->json($dataUpdatedUser, 200);
+    }
+
+    public function uploadImage (Request $req) {
+
+        $validator = Validator::make($req->all(), [
             'image' => 'image|file|max:2048'
         ]);
 
@@ -39,7 +61,6 @@ class ProfileController extends Controller
                 'error' => $validator->errors()
             ];
         }
-        // dd($req->file('image'));
         $dataUpdatedUser = DB::table('users')->where('id','=',$req->id)->first();
         if ($req->has('image'))
         {
@@ -50,47 +71,24 @@ class ProfileController extends Controller
             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
             $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
-            ->update(['displayName'=>$req->displayName,
-            'phoneNumber'=>$req->phoneNumber,
-            'address'=>$req->address,
-            'DoB'=>$req->DoB,
-            'profilePicture' => $imagePath]);
+            ->update(['profilePicture' => $imagePath]);
         }
         else{
             $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
-            ->update(['displayName'=>$req->displayName,
-            'phoneNumber'=>$req->phoneNumber,
-            'address'=>$req->address,
-            'DoB'=>$req->DoB,
-            'profilePicture' =>'null']);
+            ->update(['profilePicture' =>'null']);
         }
-        return response()->json([$dataUpdatedUser ,'message'=>'Success'], 200);
+        return response()->json([
+            'path' => $path,
+            'message' => 'yes'
+        ], 200);
     }
 
-    // public function uploadImage (Request $req) {
+    public function deleteImage (Request $req) {
+        DB::table('users')->where('id','=',$req->id)->update(['profilePicture' => $imagePath]);
 
-    //     $validator = Validator::make($req->all(), [
-    //         'image' => 'image|file|max:2048'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         $return = [
-    //             'error' => $validator->errors()
-    //         ];
-    //     }
-
-    //     $userTemp = DB::table('users')->where('id','=',$req->id)->first();
-    //     $fullNameTemp = str_replace(' ', '', $userTemp->fullName);
-    //     $ext = $req->image->getClientOriginalExtension();
-    //     $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$userTemp->id.'.'.$ext), 'public');
-    //     $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
-
-    //     DB::table('users')->where('id','=',$req->id)->update(['profilePicture' => $imagePath]);
-
-    //     return response()->json([
-    //         'path' => $path,
-    //         'message' => 'yes'
-    //     ], 200);
-    // }
-
+        return response()->json([
+            'path' => $path,
+            'message' => 'yes'
+        ], 200);
+    }
 }
