@@ -61,7 +61,7 @@
             :style="{height: window.heightAltered + 'px'}"
           >
             <div v-if="!help.isObjectEmpty(workshops)">
-              <q-card v-for="(item, index) in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
+              <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
                 <q-card-section class="d-flex j-sp-between">
                   <div class="d-flex a-center">
                     <div>
@@ -87,7 +87,7 @@
                         24 Hr
                       </q-badge>
                     </div>
-                    <div class="text-subtitle2 grey-txt" v-if="!help.isObjectEmpty(tempDistance)">{{ tempDistance[index].distance.toFixed(2) }} Km</div>
+                    <div class="text-subtitle2 grey-txt">{{ item.distance.toFixed(2) }} Km</div>
                   </div>
                 </q-card-section>
               </q-card>
@@ -223,14 +223,18 @@
 
 <script>
 /* eslint-disable */
-import { getWorkshopApi, getWorkshopById, getAllWorkshops, countDistanceFromCurrPos } from '../../api/workshopService'
+import { getWorkshopApi, getWorkshopById, getAllWorkshops } from '../../api/workshopService'
 import help from '../../js/help'
 import ValidationFunction from '../../js/ValidationFunction'
 
 export default {
+  components: {
+    ValidationFunction
+  },
   data () {
     return {
       help,
+      ValidationFunction,
       thumbStyle: {
         right: '2px',
         borderRadius: '10px',
@@ -264,7 +268,9 @@ export default {
         location: '',
         status: 'Semua',
         statusHr: '',
-        status24Hr: ''
+        status24Hr: '',
+        lat: null,
+        lon: null
       },
       clickedId: null,
       workshopById: {
@@ -273,15 +279,11 @@ export default {
         servisUmum: []
       },
       ratingModel: 4,
-      workshopNameOptions: ['Daihatsu', 'Honda', 'Toyota', 'Audi'],
-      tempWorkshopNameOptions: ['Daihatsu', 'Honda', 'Toyota', 'Audi'],
-      locationOptions: ['Jakarta', 'Tangerang'],
-      tempLocationOptions: ['Jakarta', 'Tangerang'],
+      workshopNameOptions: [],
+      tempWorkshopNameOptions: [],
+      locationOptions: [],
+      tempLocationOptions: [],
       statusOptions: ['Semua', 'Buka', 'Tutup', '24 Jam'],
-      currPos: {
-        lat: null,
-        lon: null
-      },
       tempDistance: [],
       today: null
     }
@@ -290,7 +292,7 @@ export default {
     this.searchFromLP = ValidationFunction.getQueryVariableForURL('search', '')
     this.setDefaultFilter()
     this.doGetCurrentPosition()
-    this.doGetAllWorkshops()
+    this.doGetAllWorkshopsForAutocomplete()
   },
   mounted () {
     this.today = help.formatToday(this.help.data().d_1).toLowerCase()
@@ -348,10 +350,24 @@ export default {
         }
       }
     },
-    doGetAllWorkshops () {
+    doGetAllWorkshopsForAutocomplete () {
       let _this = this
       getAllWorkshops().then(response => {
-        _this.allWorkshops = response.data.returnObject
+        let forWorkshopName = response.data.objectReturn
+        let forDistrict = response.data.objectReturn
+        forWorkshopName = ValidationFunction.arrayFilterWName(forWorkshopName)
+        forDistrict = ValidationFunction.arrayFilterDistrict(forDistrict)
+
+        forWorkshopName.forEach(el1 => {
+          _this.tempWorkshopNameOptions.push(el1.workshopName)
+          _this.workshopNameOptions.push(el1.workshopName)
+        })
+
+        forDistrict.forEach(el1 => {
+          _this.locationOptions.push(el1.district)
+          _this.tempLocationOptions.push(el1.district)
+        })
+
       }) .catch((err) =>{
         console.log(err)
       })
@@ -374,7 +390,7 @@ export default {
         _this.jsonDataParam.statusHr = ''
         _this.jsonDataParam.status24Hr = '1'
       }
-      getWorkshopApi(_this.jsonDataParam.iPage, _this.jsonDataParam.workshopName, _this.jsonDataParam.location, _this.jsonDataParam.statusHr, _this.jsonDataParam.status24Hr).then(response => {
+      getWorkshopApi(_this.jsonDataParam).then(response => {
         _this.tempWorkshops = response.data.objectReturn
         _this.totalWorkshop = response.data.objectReturn.total
         if(searching){
@@ -391,12 +407,12 @@ export default {
           _this.doGetWorkshopById()
         }
         _this.loader = false
-        
       }) .catch((err) =>{
         console.log(err)
         _this.loader = false
       })
     },
+
     doGetWorkshopById () {
       let _this = this
       _this.detailWorkshopLoader = true
@@ -421,10 +437,10 @@ export default {
       this.loader = true
       if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
-          this.currPos.lat = pos.coords.latitude
-          this.currPos.lon = pos.coords.longitude
-          if(!help.isDataEmpty(this.currPos.lat) && !help.isDataEmpty(this.currPos.lon)){
-            this.doGetDistanceFromAllWorkshops()
+          this.jsonDataParam.lat = pos.coords.latitude
+          this.jsonDataParam.lon = pos.coords.longitude
+          if(!help.isDataEmpty(this.jsonDataParam.lat) && !help.isDataEmpty(this.jsonDataParam.lon)){
+            this.doGetWorkshopApi(true)
           }
         }, error => {
           console.log(error)
@@ -432,19 +448,6 @@ export default {
       } else { 
         console.log('no')
       }
-    },
-    doGetDistanceFromAllWorkshops () {
-      let _this = this
-      countDistanceFromCurrPos(_this.currPos).then(response => {
-        _this.tempDistance = response.data.objectReturn
-        _this.tempDistance.forEach(item => {
-          item.distance = item.distance / 1000
-        })
-        _this.doGetWorkshopApi(true)
-      }) .catch((err) =>{
-        console.log(err)
-        _this.loader = false
-      })
     },
     doConsole(a){
       console.log(a);

@@ -21,6 +21,30 @@ export default {
     )
     return array
   },
+  arrayFilterWName (array) {
+    array = array.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t.workshopName === value.workshopName
+      ))
+    )
+    return array
+  },
+  arrayFilterWName (array) {
+    array = array.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t.workshopName === value.workshopName
+      ))
+    )
+    return array
+  },
+  arrayFilterDistrict (array) {
+    array = array.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t.district === value.district
+      ))
+    )
+    return array
+  },
   getQueryVariableForURL (variable, defaultValue, asd='') {
     var querys = !help.isObjectEmpty(asd) ? asd : window.location.href
     if (querys.split('?').length > 1) {

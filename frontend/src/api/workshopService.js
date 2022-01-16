@@ -20,8 +20,8 @@ export function getAllWorkshops() {
   return axios.get(localURL + '/api/getAllWorkshop')
 }
 
-export function getWorkshopApi(iPage, workshopName, location, statusHr, status24Hr) {
-  return axios.post(localURL + '/api/getWorkshopApi?page=' + iPage + '&workshopName=' + workshopName + '&location=' + location + '&statusHr=' + statusHr + '&status24Hr=' + status24Hr)
+export function getWorkshopApi(jsonDataParam) {
+  return axios.post(localURL + '/api/getWorkshopApi', jsonDataParam)
 }
 
 export function getWorkshopById(id) {
