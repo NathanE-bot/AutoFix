@@ -99,7 +99,7 @@ class WorkshopController extends Controller
             $byKM = 6371;
             $currentLat = $request->lat;
             $currentLng = $request->lon;
-            $distanceKmLu = 30;
+            $distanceKmLu = 50;
 
             $workshops = DB::table('workshops')
             ->selectRaw('id,userID,workshopName,workshopAddress,workshopPhoneNumber,workshopEmail,

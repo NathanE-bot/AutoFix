@@ -19,19 +19,20 @@ import Auth from '../js/AuthValidation'
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
 import Swal from 'sweetalert2'
-import { Route } from 'vue-router'
 
 export default {
     name: 'MemberLayout',
     data () {
         return {
             forLoad: true,
-            forNotInsurance: true
+            forNotInsurance: true,
+            forWorkshops: false,
+            forInsurances: false
         }
     },
     components: {
         appHeader: Header,
-        appSidebar: Sidebar
+        appSidebar: Sidebar,
     },
     mounted () {
         if(Auth.isUserLogin() == 'session_expired'){
@@ -81,7 +82,15 @@ export default {
             if(url.includes('/insurance') || url.includes('/member/workshop')){
                 console.log('yes')
                 this.forNotInsurance = false
-            } else {
+            }else if(url.includes('/admin/workshop')){
+                this.forWorkshops = true
+                this.forNotInsurance = false
+            }else if(url.includes('/admin/insurance')){
+                this.forInsurances = true
+                this.forNotInsurance = false
+            }else{
+                this.forWorkshops = false
+                this.forInsurances = false
                 this.forNotInsurance = true
             }
         },

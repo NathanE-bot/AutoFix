@@ -37,8 +37,8 @@ const homeMessage = () => import("pages/Chats/HomeMessage");
 const roomMessage = () => import("pages/Chats/RoomMessage");
 
 //Admin Workshop
-// const AdminOrderSchedule = () => import("pages/Admin/AdminWorkshop/OrderSchedule");
-// const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
+const AdminOrderSchedule = () => import("pages/Admin/AdminWorkshop/OrderSchedule");
+const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
 
 // const insuranceAdmin = () => import("pages/Admin/AdminInsurance");
 
@@ -85,28 +85,28 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: '/admin',
-  //   component: MemberLayout,
-  //   children: [
-  //     {
-  //       path: "/admin/workshop/order-schedule",
-  //       component: AdminOrderSchedule,
-  //       meta: {
-  //         title: 'Order Schedule Admin',
-  //         breadcrumb: 'Order Schedule Admin'
-  //       }
-  //     },
-  //     {
-  //       path: "/admin/workshop/incoming-order",
-  //       component: AdminIncomingOrder,
-  //       meta: {
-  //         title: 'Incoming Order Admin',
-  //         breadcrumb: 'Incoming Order Admin'
-  //       }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/admin',
+    component: MemberLayout,
+    children: [
+      {
+        path: "/admin/workshop/order-schedule",
+        component: AdminOrderSchedule,
+        meta: {
+          title: 'Order Schedule Admin',
+          breadcrumb: 'Order Schedule Admin'
+        }
+      },
+      {
+        path: "/admin/workshop/incoming-order",
+        component: AdminIncomingOrder,
+        meta: {
+          title: 'Incoming Order Admin',
+          breadcrumb: 'Incoming Order Admin'
+        }
+      }
+    ]
+  },
   // ForUsers
   {
     path: '/member',
