@@ -8,6 +8,11 @@ export default
 }
 
 export function makeSchedule(formSchedule, userToken) {
-    const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-    return axios.post(localURL + '/api/makeScheduleApi', formSchedule, authorization)
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/makeScheduleApi', formSchedule, authorization)
+}
+
+export function getScheduleList(userID, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.get(localURL + '/api/getScheduleByUserID?userID=' + userID, authorization)
 }

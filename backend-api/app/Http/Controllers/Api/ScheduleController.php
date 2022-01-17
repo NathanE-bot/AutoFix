@@ -19,48 +19,47 @@ class ScheduleController extends Controller
 {
 
     public function getDataFormMakeScheduleById(Request $req){
-            try{
-                $workshops = DB::table('workshops')->select('id','userID')
-                ->where('id','=',$req->id)
-                ->get()->toArray();
+        try{
+            $workshops = DB::table('workshops')->select('id','userID')
+            ->where('id','=',$req->id)
+            ->get()->toArray();
 
-                $operational_workshops =  DB::table('operational_workshops')
-                ->where('operational_workshops.workshopID','=',$req->id)
-                ->get()->toArray();
+            $operational_workshops =  DB::table('operational_workshops')
+            ->where('operational_workshops.workshopID','=',$req->id)
+            ->get()->toArray();
 
-                $workshop_details =  DB::table('workshop_details')
+            $workshop_details =  DB::table('workshop_details')
+            ->where('workshop_details.workshopID','=',$req->id)
+            ->get()->toArray();
+
+            foreach ($workshop_details as $key=>$value) {
+                $workshop_services =  DB::table('workshop_services')
+                ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
+                ->select('workshop_services.id','workshop_details.workshopID','workshopDetailID','serviceType','serviceDetail','price','time')
                 ->where('workshop_details.workshopID','=',$req->id)
+                ->orWhere('workshop_services.workshopDetailID','=',$value->id)
                 ->get()->toArray();
-
-                foreach ($workshop_details as $key=>$value) {
-                    $workshop_services =  DB::table('workshop_services')
-                    ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
-                    ->select('workshop_services.id','workshop_details.workshopID','workshopDetailID','serviceType','serviceDetail','price','time')
-                    ->where('workshop_details.workshopID','=',$req->id)
-                    ->orWhere('workshop_services.workshopDetailID','=',$value->id)
-                    ->get()->toArray();
-                }
-
-                foreach($workshops as &$value)
-                {
-                    $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
-                        return $operational_workshops->workshopID === $value->id;
-                    });
-                    $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
-                        return $workshop_details->workshopID === $value->id;
-                    });
-
-                    $value->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value) {
-                        return $workshop_services->workshopID === $value->id;
-                    });
-
-                }
-                return response()->json($workshops, 200);
-            } catch (Exception $err){
-                return response()->json($err, 500);
             }
-    }
 
+            foreach($workshops as &$value)
+            {
+                $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
+                    return $operational_workshops->workshopID === $value->id;
+                });
+                $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
+                    return $workshop_details->workshopID === $value->id;
+                });
+
+                $value->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value) {
+                    return $workshop_services->workshopID === $value->id;
+                });
+
+            }
+            return response()->json($workshops, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
 
     public function makeScheduleApi(Request $req){
         try{
@@ -136,10 +135,12 @@ class ScheduleController extends Controller
                     // array_push($newscheduledetail,$array);
                 }
             }
-            $data = [
-                'objectReturner'=>[$newSchedules,$newscheduledetail]
-            ];
-            return response()->json($data, 200);
+            // $data = [
+            //     'objectReturner'=>[$newSchedules,$newscheduledetail]
+            // ];
+            return response()->json([
+                'message' => 'Successful'
+            ], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
@@ -168,8 +169,10 @@ class ScheduleController extends Controller
             //         return $dataDetailsSchedule->scheduleID === $value->id;
             //     });
             // }
-                $data =['objectReturner'=>$schedule,$dataDetailsSchedule];
-            return response()->json($data, 200);
+            return response()->json([
+                'schedules' => $schedule,
+                'serviceDetail' => $dataDetailsSchedule
+            ], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

@@ -196,7 +196,7 @@
                 <q-time
                   v-model="jsonDataParam.scheduleTime"
                   class="schedule-time fw" color="accent"
-                  landscape with-seconds
+                  landscape
                 />
               </div>
             </div>
@@ -344,6 +344,7 @@ export default {
           }
           _this.workshop_details.push(tempObject)
         })
+        _this.carModelOptions = ValidationFunction.arrayFilterCarModel(_this.carModelOptions)
         _this.loader = false
       }) .catch((err) =>{
         console.log(err)
@@ -455,13 +456,16 @@ export default {
         }) .then((result) => {
           if(result.isConfirmed){
             // MSH BELUM BENAR
-            this.changePage('/member/youraccount')
+            this.changePage('/member/schedule-list')
           }
         })
       }) .catch((err) =>{
         console.log(err)
         _this.loader = false
       })
+    },
+    changePage (url) {
+      this.$router.push(url)
     },
     doConsole(a){
       console.log(a)

@@ -83,6 +83,7 @@
             clickable
             v-ripple
             :active="link === 'schedule'"
+            @click="changePage('/member/schedule-list')"
             active-class="my-menu-link"
           >
             <q-item-section avatar>

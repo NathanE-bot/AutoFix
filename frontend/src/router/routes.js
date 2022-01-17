@@ -22,6 +22,7 @@ const testing = () => import("pages/Testing");
 
 // Profile
 const yourAccount = () => import("pages/Profile/YourAccount");
+const scheduleList = () => import("pages/Profile/ScheduleList");
 
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
@@ -112,6 +113,14 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
+      {
+        path: "/member/schedule-list",
+        component: scheduleList,
+        meta: {
+          title: 'Schedule List',
+          breadcrumb: 'Schedule List'
+        }
+      },
       // chat
       {
         path: "/member/home-message",

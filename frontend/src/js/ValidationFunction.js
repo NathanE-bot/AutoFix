@@ -45,6 +45,14 @@ export default {
     )
     return array
   },
+  arrayFilterCarModel (array) {
+    array = array.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t[index] === value[index]
+      ))
+    )
+    return array
+  },
   getQueryVariableForURL (variable, defaultValue, asd='') {
     var querys = !help.isObjectEmpty(asd) ? asd : window.location.href
     if (querys.split('?').length > 1) {
