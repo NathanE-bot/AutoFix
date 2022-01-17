@@ -150,7 +150,7 @@
               <is-logout />
             </q-item-section>
 
-            <q-item-section>Sign Out</q-item-section>
+            <q-item-section>Log Out</q-item-section>
           </q-item>
         </q-item-section>
       </q-list>

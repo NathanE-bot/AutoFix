@@ -417,7 +417,9 @@ export default {
     doCalculateTotalPriceAndHour () {
       setTimeout(() => {
         this.doFilterDataSchedule()
-        this.jsonDataParam.serviceTypeBerkala.push(this.tempPeriodicService)
+        if(!help.isDataEmpty(this.tempPeriodicService)){
+          this.jsonDataParam.serviceTypeBerkala.push(this.tempPeriodicService)
+        }
         // for periodic
         if(!help.isObjectEmpty(this.jsonDataParam.serviceTypeBerkala) && this.jsonDataParam.serviceTypeBerkala[0] !== null){
           this.jsonDataParam.timeEstimation = this.jsonDataParam.timeEstimation + this.tempPeriodicService.time
@@ -443,6 +445,7 @@ export default {
       }
       _this.jsonDataParam.scheduleDate = help.defaultFormat(_this.jsonDataParam.scheduleDate, help.data().dmy_5)
       let token = LocalStorage.getItem('autoRepairUser').data.access_token
+      console.log(_this.jsonDataParam)
       makeSchedule(_this.jsonDataParam, token).then(response => {
         _this.loader = false
         Swal.fire({
