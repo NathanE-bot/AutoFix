@@ -178,7 +178,6 @@ class WorkshopController extends Controller
                 ->where('workshop_details.workshopID','=',$req->id)
                 ->orWhere('workshop_services.workshopDetailID','=',$value->id)
                 ->get()->toArray();
-
             }
 
             $workshop_review = DB::table('reviews')
