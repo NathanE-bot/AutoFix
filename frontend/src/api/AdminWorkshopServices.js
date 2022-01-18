@@ -9,4 +9,8 @@ export default
 
 export function getIncomingOrderSchedule(adminID) {
     return axios.get(localURL + '/api/getScheduleByWorkshopIDAndAdminWorkshop?adminID=' + adminID)
-  }
+}
+
+export function doAcceptScheduleByAdmin(scheduleID) {
+  return axios.post(localURL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID)
+}
