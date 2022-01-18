@@ -40,8 +40,11 @@ class AdminWorkshopController extends Controller
         ->where('scheduleStatus','=','waiting confirmation')
         ->get()
         ->toArray();
-        $data =['objectReturner'=>$IncomingSchedule,$dataDetailsSchedule];
-        return response()->json($data, 200);
+
+        return response()->json([
+            'listSchedule' => $IncomingSchedule,
+            'listDetails' => $dataDetailsSchedule
+        ], 200);
     }
 
     public function acceptScheduleByAdmin(Request $req){
@@ -55,7 +58,7 @@ class AdminWorkshopController extends Controller
                 ];
             }
             $dataSchedule= Schedule::find($req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
-            ->update(['scheduleStatus'=>$req->scheduleStatus,
+            ->update(['scheduleStatus'=>'accepted',
             'description'=>'Your schedule have been accept. Please Call Customer Service if you have any question']);
 
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
@@ -75,7 +78,7 @@ class AdminWorkshopController extends Controller
                 ];
 
             $dataSchedule= Schedule::find($req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
-            ->update(['scheduleStatus'=>$req->scheduleStatus,
+            ->update(['scheduleStatus'=>'rejected',
             'description'=>$req->description]);
         }
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
