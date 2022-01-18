@@ -90,8 +90,11 @@ Route::post('saveImg','Api\ProfileController@uploadImage');
 
 // admin bengkel
 Route::get('getScheduleByWorkshopIDAndAdminWorkshop','Api\AdminWorkshopController@getScheduleByWorkshopIDAndAdminWorkshop');
-Route::post('getAccpetScheduleByAdmin','Api\AdminWorkshopController@accpetScheduleByAdmin');
+Route::post('getAccpetScheduleByAdmin','Api\AdminWorkshopController@acceptScheduleByAdmin');
 Route::post('rejectedScheduleByAdmin','Api\AdminWorkshopController@rejectedScheduleByAdmin');
+Route::get('getWorkshopProfileByUserID','Api\AdminWorkshopController@getWorkshopProfileByUserID');
+
+
 
 
 
