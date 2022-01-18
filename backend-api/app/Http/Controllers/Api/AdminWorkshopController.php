@@ -44,7 +44,7 @@ class AdminWorkshopController extends Controller
         return response()->json($data, 200);
     }
 
-    public function accpetScheduleByAdmin(Request $req){
+    public function acceptScheduleByAdmin(Request $req){
         if ($req->scheduleStatus=='accepted') {
             $validator = Validator::make($req->all(), [
                 'description' => 'string','required'
@@ -57,7 +57,7 @@ class AdminWorkshopController extends Controller
             }
             $dataSchedule= Schedule::find($req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
             ->update(['scheduleStatus'=>$req->scheduleStatus,
-            'description'=>$req->description]);
+            'description'=>'Your schedule have been accept. Please Call Customer Service if you have any question']);
         }
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
 
@@ -87,7 +87,29 @@ class AdminWorkshopController extends Controller
     }
 
     public function updateWorkshopForAdminBengkel (Request $req){
-
+        $validator = Validator::make($req->all(), [
+            'workshopName'=>['required', 'string', 'max:255'],
+            'workshopAddress'=>['required', 'string', 'max:12'],
+            'workshopPhoneNumber'=>['required', 'string', 'max:255'],
+            'workshopEmail'=>['required', 'string', 'max:255'],
+            'workshopDescription'=>['required', 'string', 'max:255'],
+            'rating'=>['required', 'float'],
+            'workshopLogo'=>['required', 'image', 'file','max:2048'],
+            'city'=>['required', 'string', 'max:255'],
+            'district'=>['required', 'string', 'max:255'],
+            'province'=>['required', 'string', 'max:255'],
+            'latitude'=>['required', 'string', 'max:255'],
+            'longitude'=>['required', 'string', 'max:255'],
+            'statusHr'=>['required', 'string', 'max:255'],
+            'status24Hr'=>['required', 'string', 'max:255'],
+            'operationalOpenHour.*'=>['required', 'date_format:H:i:s'],
+            'operationalCloseHour.*'=>['required', 'date_format:H:i:s'],
+            'carModel.*'=>['required', 'string', 'max:255'],
+            'carType.*'=>['required', 'string'],
+            'serviceType.*'=>['required', 'string', 'max:255'],
+            'serviceType.*'=> ['required|string|max:255'],
+        ]);
+        DB::table('workshops')->where('id','=',$req->workshopID)->update();
     }
 
     public function getWorkshopProfileByUserID (Request $req){
