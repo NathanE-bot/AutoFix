@@ -77,7 +77,7 @@ class AdminWorkshopController extends Controller
                     'error' => $validator->errors()
                 ];
 
-            $dataSchedule= Schedule::find($req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
+            $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
             ->update(['scheduleStatus'=>'rejected',
             'description'=>$req->description]);
         }
