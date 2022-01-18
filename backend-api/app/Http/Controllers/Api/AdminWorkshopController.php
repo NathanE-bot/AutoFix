@@ -45,7 +45,6 @@ class AdminWorkshopController extends Controller
     }
 
     public function acceptScheduleByAdmin(Request $req){
-        if ($req->scheduleStatus=='accepted') {
             $validator = Validator::make($req->all(), [
                 'description' => 'string','required'
             ]);
@@ -58,7 +57,7 @@ class AdminWorkshopController extends Controller
             $dataSchedule= Schedule::find($req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
             ->update(['scheduleStatus'=>$req->scheduleStatus,
             'description'=>'Your schedule have been accept. Please Call Customer Service if you have any question']);
-        }
+
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
 
         return response()->json($dataUpdatedSchedule, 200);
@@ -66,8 +65,6 @@ class AdminWorkshopController extends Controller
 
     public function rejectedScheduleByAdmin(Request $req){
 
-
-        if ($req->scheduleStatus=='rejected') {
             $validator = Validator::make($req->all(), [
                 'description' => 'string','required'
             ]);
@@ -76,7 +73,7 @@ class AdminWorkshopController extends Controller
                 $return = [
                     'error' => $validator->errors()
                 ];
-            }
+
             $dataSchedule= Schedule::find($req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
             ->update(['scheduleStatus'=>$req->scheduleStatus,
             'description'=>$req->description]);
