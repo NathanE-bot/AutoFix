@@ -22,8 +22,7 @@
                                     </div>
                                     <div class="flex flex-dir-col mb-10">
                                         <span class="fw-semibold">Model dan Tipe Mobil</span>
-                                        <span>Model : {{ incoming.carModel}} | Tipe: {{ incoming.carType}}</span>
-                                        <!-- ni gw gatau urutannya model dl ap tipe dl -->
+                                        <span>{{ incoming.carModel}} {{ incoming.carType}}</span>
                                     </div>
                                     <div class="flex flex-dir-col mb-10">
                                         <span class="fw-semibold">Estimasi waktu pengerjaan</span>
@@ -43,21 +42,20 @@
                                     </div>
                                     <div class="ml-5">
                                         <span class="fw-semibold">General Services: </span><br>
-                                        <span v-for="service in incoming.serviceDetail.generalServices" :key="service.id">
+                                        <span class="flex flex-dir-col" v-for="service in incoming.serviceDetail.generalServices" :key="service.id">
                                             - {{ service.serviceDetail}}</span>
                                     </div>
                                 </div>
                             </q-card-section>
-                            <!-- <q-separator  class="br-5px" color="#605A5A" size="4px"/> -->
                             <div class="d-flex a-center j-end" style="gap: 20px">
                                 <q-btn
-                                    @click="promptReject = true"
+                                    @click="doSetTempScheduleID(incoming.scheduleID, 'reject')"
                                     color="negative" rounded unelevated padding="4px 24px"
                                     label="Reject"
                                     class="tf-capitalize"
                                 />
                                 <q-btn
-                                    @click="doSetTempScheduleID(incoming.scheduleID)"
+                                    @click="doSetTempScheduleID(incoming.scheduleID, 'accept')"
                                     color="primary" rounded unelevated padding="4px 24px"
                                     label="Accept"
                                     class="tf-capitalize"
@@ -90,11 +88,12 @@
                         outlined
                         type="textarea"
                         class="fix-txt-field default-textarea-1 w-80 m-auto"
+                        v-model="rejectReason"
                     >
                     </q-input>
                 </div>
                 <q-card-actions align="right" class="text-primary">
-                    <q-btn padding="4px 16px" color="primary" rounded label="Submit" v-close-popup />
+                    <q-btn padding="4px 16px" color="primary" rounded label="Submit" v-close-popup @click="doRejectIncomingOrderSchedule(this.rejectReason)"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -103,10 +102,11 @@
 
 <script>
 /* eslint-disable */
-import { getIncomingOrderSchedule, doAcceptScheduleByAdmin } from '../../../api/AdminWorkshopServices'
+import { getIncomingOrderSchedule, doAcceptScheduleByAdmin, doRejectScheduleByAdmin } from '../../../api/AdminWorkshopServices'
 import { LocalStorage } from 'quasar'
 import help from '../../../js/help'
 import validationFunction from '../../../js/ValidationFunction'
+import Swal from 'sweetalert2'
 export default {
     data () {
       return {
@@ -115,6 +115,7 @@ export default {
         user: [],
         listIncoming: [],
         tempManageScheduleID: null,
+        rejectReason: '',
         window: {
             width: 0,
             height: 0,
@@ -152,7 +153,7 @@ export default {
     methods: {
         doGetIncomingOrderSchedule() {
             this.loader = true
-
+            this.listIncoming = []
             getIncomingOrderSchedule(this.user.id).then(response => {
                 let tempListIncoming = []
                 let tempListServiceDetails = []
@@ -184,21 +185,40 @@ export default {
 
             this.loader = false
         },
-        doSetTempScheduleID(scheduleID) {
-            this.promptAccept = true
+        doSetTempScheduleID(scheduleID, action) {
+            if(action === 'accept'){
+                this.promptAccept = true
+            }else{
+                this.promptReject = true
+            }
             this.tempManageScheduleID = scheduleID
-            console.log(this.tempManageScheduleID)
         },
         doAcceptIncomingOrderSchedule() {
             this.loader = true
-            doAcceptScheduleByAdmin(this.tempManageScheduleID)
-            this.tempManageScheduleID = null
+            doAcceptScheduleByAdmin(this.tempManageScheduleID).then(response => {
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.message,
+                }).then(response => {
+                    this.doGetIncomingOrderSchedule()
+                })
+            }).catch(err => {
+                console.log(err)
+            })
+            this.promptAccept = false
+            
+        },
+        doRejectIncomingOrderSchedule(reason) {
+            let submitReject = {}
+            submitReject = { scheduleID: this.tempManageScheduleID, description: reason}
+            doRejectScheduleByAdmin(submitReject)
+            this.promptReject = false
+            this.doGetIncomingOrderSchedule()
         },
         handleResize () {
             this.window.width = window.innerWidth
             this.window.height = window.innerHeight
             this.window.heightAltered = window.innerHeight - (window.innerHeight * (15/100))
-            // this.window.heightAltered2 = window.innerHeight - (window.innerHeight * (/100))
         },
         changePage (url) {
             this.$router.push(url)

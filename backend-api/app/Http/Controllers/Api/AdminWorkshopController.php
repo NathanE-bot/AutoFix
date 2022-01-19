@@ -63,7 +63,10 @@ class AdminWorkshopController extends Controller
 
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
 
-        return response()->json($dataUpdatedSchedule, 200);
+        return response()->json([
+            'scheduleID' => $req->scheduleID,
+            'message' => 'Incoming Order Accepted'
+        ], 200);
     }
 
     public function rejectedScheduleByAdmin(Request $req){
@@ -83,7 +86,10 @@ class AdminWorkshopController extends Controller
         }
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
 
-        return response()->json($dataUpdatedSchedule, 200);
+        return response()->json([
+            'scheduleID' => $req->scheduleID,
+            'message' => 'Incoming Order Rejected'
+        ], 200);
     }
 
     public function updateWorkshopForAdminBengkel (Request $req){
