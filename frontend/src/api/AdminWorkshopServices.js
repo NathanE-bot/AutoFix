@@ -14,3 +14,7 @@ export function getIncomingOrderSchedule(adminID) {
 export function doAcceptScheduleByAdmin(scheduleID) {
   return axios.post(localURL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID)
 }
+
+export function doRejectScheduleByAdmin(dataReject) {
+  return axios.post(localURL + '/api/rejectedScheduleByAdmin', dataReject)
+}
