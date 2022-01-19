@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Workshop;
 use App\OperationalWorkshop;
+use App\WorkshopPicture;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -93,8 +94,7 @@ class AdminWorkshopController extends Controller
             'workshopPhoneNumber'=>['required', 'string', 'max:255'],
             'workshopEmail'=>['required', 'string', 'max:255'],
             'workshopDescription'=>['required', 'string', 'max:255'],
-            'rating'=>['required', 'float'],
-            'workshopLogo'=>['required', 'image', 'file','max:2048'],
+            // 'workshopLogo'=>['required', 'image', 'file','max:2048'],
             'city'=>['required', 'string', 'max:255'],
             'district'=>['required', 'string', 'max:255'],
             'province'=>['required', 'string', 'max:255'],
@@ -102,17 +102,203 @@ class AdminWorkshopController extends Controller
             'longitude'=>['required', 'string', 'max:255'],
             'statusHr'=>['required', 'string', 'max:255'],
             'status24Hr'=>['required', 'string', 'max:255'],
-            'operationalOpenHour.*'=>['required', 'date_format:H:i:s'],
-            'operationalCloseHour.*'=>['required', 'date_format:H:i:s'],
-            'carModel.*'=>['required', 'string', 'max:255'],
-            'carType.*'=>['required', 'string'],
-            'serviceType.*'=>['required', 'string', 'max:255'],
-            'serviceType.*'=> ['required|string|max:255'],
+            'operationalWorkshop.operationalCloseHour'=>['required', 'date_format:H:i:s'],
+            'operationalWorkshop.operationalOpenHour'=>['required', 'date_format:H:i:s'],
+            'workshop_details.carModel'=>['required', 'string', 'max:255'],
+            'workshop_details.carType'=>['required', 'string', 'max:255'],
+            'workshop_services.serviceType'=> ['required|string|max:255'],
+            'workshop_services.serviceDetail'=> ['required|string|max:255'],
         ]);
-        DB::table('workshops')->where('id','=',$req->workshopID)->update();
+        DB::table('workshops')->where('id','=',$req->workshopID)
+        ->where('userID','=',$req->userID)
+        ->update(['workshopName'=>$req->workshopName,
+        'workshopAddress'=>$req->workshopAddress,
+        'workshopPhoneNumber'=>$req->workshopPhoneNumber,
+        'workshopEmail'=>$req->workshopEmail,
+        'workshopDescription'=>$req->workshopDescription,
+        'city'=>$req->city,
+        'district'=>$req->district,
+        'province'=>$req->province,
+        'latitude'=>$req->latitude,
+        'longitude'=>$req->longitude,
+        'statusHr'=>$req->statusHr,
+        'status24Hr'=>$req->status24Hr]);
+
+        foreach ($req->operationalWorkshop as $key => $value)
+        {
+            DB::table('operational_workshops')->where('workshopID','=',$req->workshopID)
+            ->where('operationalDate','=',$req->operationalWorkshop[$key]['operationalDate'])
+            ->update(['operationalOpenHour'=>$req->operationalOpenHour[$key]['operationalOpenHour'],
+            'operationalCloseHour'=>$req->operationalCloseHour[$key]['operationalCloseHour']]);
+
+            $data=DB::table('operational_workshops')->where('workshopID','=',$req->workshopID)
+            ->where('operationalDate','=',$req->operationalDate[$key])
+            ->get();
+            dd($data);
+        }
+        foreach ($req->workshop_details as $key => $value)
+        {
+            DB::table('workshop_details')->where('workshopID','=',$req->workshopID)
+            ->where('id','=',$req->workshop_details[$key]['id'])
+            ->update(['carModel'=>$req->workshop_details[$key]['carModel'],
+            'carType'=>$req->workshop_details[$key]['carType']]);
+        }
+
+        foreach ($req->workshop_services as $key => $value)
+        {
+            DB::table('workshop_services')
+            ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
+            ->where('id','=',$req->workshop_services[$key]['workshop_servicesID'])
+            ->where('workshop_details.workshopID','=',$req->workshopID)
+            ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
+            ->update(['serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
+        }
+        return response()->json(['message'=>'berhasil'], 200);
+
     }
 
-    public function getWorkshopProfileByUserID (Request $req){
+
+    public function updateLogoWorkshop(Request $req){
+        $validator = Validator::make($req->all(), [
+            'workshopLogo' => 'image|file|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            $return = [
+                'error' => $validator->errors()
+            ];
+        }
+        $dataUpdatedUser = DB::table('workshops')->where('id','=',$req->workshopID)->first();
+        if (!is_null($req->workshopLogo))
+        {
+
+            $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->workshopName);
+            $ext = $req->workshopLogo->getClientOriginalExtension();
+            $path = $req->file('workshopLogo')->storeAs('avatar', strtolower($fullNameTemp.$dataUpdatedUser->id.'.'.$ext), 'public');
+            $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+
+            $dataUser = DB::table('workshops')->where('id','=',$req->workshopID)
+            ->update(['workshopLogo' => $imagePath]);
+        }
+        else{
+            $dataUser = DB::table('workshops')->where('id','=',$req->workshopID)
+            ->update(['workshopLogo' =>null]);
+        }
+        return response()->json([
+            'message' => 'success'
+        ], 200);
+    }
+
+
+    public function uploadGaleryWorkshop(Request $req){
+        $validator = Validator::make($req->all(), [
+            'workshopPicture' => 'image|file|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            $return = [
+                'error' => $validator->errors()
+            ];
+        }
+
+        if ($req->has('workshopPicture'))
+        {
+            $dataWorkshop =DB::table('workshops')->where('id','=',$req->workshopID)->first();
+            foreach ($req->file('workshopPicture') as $key => $file)
+            {
+                $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
+                $ext = $file->getClientOriginalExtension();
+                $path = $file->storeAs('avatar', strtolower($fullNameTemp.$req->workshopID.$key.'.'.$ext), 'public');
+                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+
+                $workshopPicture = new WorkshopPicture;
+                $workshopPicture->workshopID = $req->workshopID;
+                $workshopPicture->workshopPicture = $imagePath;
+                $workshopPicture->save();
+            }
+        }
+        else
+        {
+            return response()->json('image not found', 400);
+        }
+        return response()->json([
+            'message' => 'success'
+        ], 200);
+    }
+
+
+    public function updateGaleryWorkshop(Request $req){
+        // $validator = Validator::make($req->all(), [
+        //     'idWorkshopPicture'=>'required',
+        //     'workshopPicture' => 'image|file|max:2048'
+        // ]);
+        $validator = Validator::make($req->all(), [
+            'workshop_pictures.idWorkshopPicture'=>'required',
+            'workshop_pictures.workshopPicture' => 'image|file|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            $return = [
+                'error' => $validator->errors()
+            ];
+        }
+
+        if ($req->has('workshopPicture'))
+        {
+            $dataWorkshop = DB::table('workshops')->where('id','=',$req->workshopID)->first();
+            // foreach ($req->file('workshopPicture') as $key => $file)
+            // {
+            //     if (!is_null($req->workshopPicture))
+            //     {
+            //         $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
+            //         $ext = $file->getClientOriginalExtension();
+            //         $path = $file->storeAs('avatar', strtolower($fullNameTemp.$req->workshopID.$key.'.'.$ext), 'public');
+            //         $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+
+            //         $dataUser = DB::table('workshop_pictures')->where('id','=',$req->workshopID)
+            //         ->where('id','=',$req->idWorkshopPicture[$key])
+            //         ->update(['workshopPicture' => $imagePath]);
+            //     }
+            //     else{
+            //         $dataUser = DB::table('workshop_pictures')
+            //         ->where('id','=',$req->workshopID)
+            //         ->where('id','=',$req->idWorkshopPicture[$key])
+            //         ->update(['workshopPicture' =>null]);
+            //     }
+            // }
+            foreach ($req->workshop_pictures as $key => $file)
+            {
+                if (!is_null($req->workshop_pictures[$key]['workshopPicture']))
+                {
+                    $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
+                    $ext = $req->workshop_pictures[$key]['workshopPicture']->getClientOriginalExtension();
+                    $path = $req->workshop_pictures[$key]['workshopPicture']->storeAs('avatar', strtolower($fullNameTemp.$req->workshopID.$key.'.'.$ext), 'public');
+                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+
+                    $dataUser = DB::table('workshop_pictures')
+                    ->where('id','=',$req->workshopID)
+                    ->where('id','=',$req->workshop_pictures[$key]['idWorkshopPicture'])
+                    ->update(['workshopPicture' => $imagePath]);
+                }
+                else{
+                    $dataUser = DB::table('workshop_pictures')
+                    ->where('id','=',$req->workshopID)
+                    ->where('id','=',$req->workshop_pictures[$key]['idWorkshopPicture'])
+                    ->update(['workshopPicture' =>null]);
+                }
+            }
+        }
+        else
+        {
+            return response()->json('image not found', 400);
+        }
+        return response()->json([
+            'message' => 'success'
+        ], 200);
+    }
+
+
+    public function getWorkshopDetailByUserID (Request $req){
         try{
             $workshops = DB::table('workshops')
             ->where('userID','=',$req->adminID)
@@ -155,6 +341,17 @@ class AdminWorkshopController extends Controller
             }
 
             return response()->json($workshops[0], 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function getAdminWorkshopProfile(){
+        try{
+            $dataProfileAdmin= DB::table('users')->where('id','=',$req->adminID)
+            ->where('role','=','2')->get();
+
+            return response()->json($dataProfileAdmin, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

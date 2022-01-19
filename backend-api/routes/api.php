@@ -92,7 +92,13 @@ Route::post('saveImg','Api\ProfileController@uploadImage');
 Route::get('getScheduleByWorkshopIDAndAdminWorkshop','Api\AdminWorkshopController@getScheduleByWorkshopIDAndAdminWorkshop');
 Route::post('acceptScheduleByAdmin','Api\AdminWorkshopController@acceptScheduleByAdmin');
 Route::post('rejectedScheduleByAdmin','Api\AdminWorkshopController@rejectedScheduleByAdmin');
-Route::get('getWorkshopProfileByUserID','Api\AdminWorkshopController@getWorkshopProfileByUserID');
+Route::get('getWorkshopDetailByUserID','Api\AdminWorkshopController@getWorkshopDetailByUserID');
+Route::post('updateWorkshopForAdminBengkel','Api\AdminWorkshopController@updateWorkshopForAdminBengkel');
+Route::post('updateLogoWorkshop','Api\AdminWorkshopController@updateLogoWorkshop');
+Route::post('uploadGaleryWorkshop','Api\AdminWorkshopController@uploadGaleryWorkshop');
+Route::post('updateGaleryWorkshop','Api\AdminWorkshopController@updateGaleryWorkshop');
+Route::get('getAdminWorkshopProfile','Api\AdminWorkshopController@getAdminWorkshopProfile');
+
 
 
 
