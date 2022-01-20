@@ -16,8 +16,8 @@
           <q-tab @click="changePage('/workshop')" name="workshop" label="Workshop" />
           <div class="relative-position">
             <q-tab class="insurance-tab" name="insurance" />
-            <q-btn-dropdown class="tf-capitalize fs-16 dropdown-btn-tab" label="Insurance" auto-close flat :ripple="false" :menu-offset="[35, 1]" :color="initialTab == 'insurance' ? 'primary' : ''">
-              <q-list class="bg-primary text-white">
+            <q-btn-dropdown class="tf-capitalize fs-16 dropdown-btn-tab" content-class="dropdown-tab" label="Insurance" auto-close flat :ripple="false" :menu-offset="[25, 15]" :color="initialTab == 'insurance' ? 'primary' : ''">
+              <q-list class="dropdown-g text-white">
                 <q-item clickable @click="changePage('/insurance/claim-insurance')">
                   <q-item-section>Claim Insurance</q-item-section>
                 </q-item>
@@ -28,7 +28,6 @@
               </q-list>
             </q-btn-dropdown>
           </div>
-          <q-tab name="aboutus" label="About Us" />
         </q-tabs>
         <div class="relative-position">
           <div class="float-button">
@@ -118,7 +117,6 @@ export default {
     } else {
       this.isLogin = false
     }
-
     if (Auth.isUserLogin() == 'session_expired') {
       this.isLogin = false
       Swal.fire({

@@ -41,6 +41,7 @@
             <div class="mt-20">
               <img class="responsive-img" src="~assets/images/car_stock_img.png" alt="">
             </div>
+            <!-- <h4 class="m-auto txt-white cursor-pointer" @click="test()">About Us</h4> -->
             <!-- <div class="d-flex a-center j-center">
               <div class="d-flex a-center mr-30">
                 <q-btn class="relative-position mr-16" unelevated round color="secondary">
@@ -80,8 +81,8 @@
           }'
           class="mySwiper lp-swiper"
         >
-          <swiper-slide v-for="(item) in workshopRecommendation" :key="item.id">
-            <q-card class="my-card">
+          <swiper-slide v-for="(item) in workshopRecommendation" :key="item.id" @click="changePage('/workshop/detail/' + item.id)">
+            <q-card class="my-card cursor-pointer">
               <img src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
                 <div class="text-h6 primary_color mb-8">{{ item.workshopName }}</div>
@@ -109,7 +110,7 @@
           </swiper-slide>
         </swiper>
       </div>
-      <div class="mt-50">
+      <div class="mt-50" id="about-us">
         <div class="text-center">
           <h4 class="m-0 primary_color">How to Use Our Website</h4>
           <span class="fs-16">Get convenience with our website</span>
@@ -186,6 +187,12 @@
   </q-page>
 </template>
 
+<style>
+  html{
+    scroll-behavior: smooth;
+  }
+</style>
+
 <script>
 /* eslint-disable */
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -239,6 +246,9 @@ export default ({
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    test () {
+      document.getElementById('about-us').scrollIntoView()
+    },
     doSearchWorkshop () {
       this.changePage('/workshop?search=' + this.search)
     },
