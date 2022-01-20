@@ -49,21 +49,25 @@ class AdminWorkshopController extends Controller
     }
 
     public function acceptScheduleByAdmin(Request $req){
-            $validator = Validator::make($req->all(), [
-                'description' => 'string','required'
-            ]);
+        $validator = Validator::make($req->all(), [
+            'description' => 'string','required'
+        ]);
 
-            if ($validator->fails()) {
-                $return = [
-                    'error' => $validator->errors()
-                ];
-            }
+        if ($validator->fails()) {
+            $return = [
+                'error' => $validator->errors()
+            ];
+        }
+        try {        
             $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
             ->update(['scheduleStatus'=>'accepted',
             'description'=>'Your schedule have been accept. Please Call Customer Service if you have any question']);
-
-        $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
-
+            
+            $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
+        }catch (Exception $err) {
+            return response()->json($err, 500);
+        }
+            
         return response()->json([
             'scheduleID' => $req->scheduleID,
             'message' => 'Incoming Order Accepted'
@@ -392,7 +396,7 @@ class AdminWorkshopController extends Controller
         ], 200);
     }
 
-    public function cancleFormAdminWorkshop(Request $req){
+    public function cancelScheduleByAdmin(Request $req){
         $validator = Validator::make($req->all(), [
             'description' => 'string','required'
         ]);
@@ -407,7 +411,7 @@ class AdminWorkshopController extends Controller
         'description'=>$req->description]);
     }
 
-    public function doneAdminWorkshop(Request $req){
+    public function doneScheduleByAdmin(Request $req){
         $validator = Validator::make($req->all(), [
             'description' => 'string','required'
         ]);
