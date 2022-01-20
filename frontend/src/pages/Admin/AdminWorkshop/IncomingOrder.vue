@@ -1,14 +1,14 @@
 <template>
     <q-page>
-        <div class="w-80">
-            <span class="text-h6 fw-semibold mb-20">Incoming Order</span>
+        <div class="w-80 m-auto">
+            <div class="text-h5 fw-semibold py-20 txt-white">Incoming Order</div>
             </div>
             <div class="white-1bg w-80 m-auto py-20">
-            <q-card v-for="incoming in this.listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80">
-        <!-- <q-scroll-area
-        :thumb-style="thumbStyle"
-        :bar-style="barStyle"
-        class="list-workshop-scrollbar h-80"> -->
+                <q-card v-for="incoming in this.listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80">
+                    <!-- <q-scroll-area
+                    :thumb-style="thumbStyle"
+                    :bar-style="barStyle"
+                    class="list-workshop-scrollbar h-80"> -->
                         <q-card-section >
                             <div class="flex j-sp-between mb-10">
                                 <div class="flex flex-center flex-dir-col">
@@ -73,7 +73,7 @@
                                 />
                             </div>
                         </q-card-section>
-        <!-- </q-scroll-area> -->
+                    <!-- </q-scroll-area> -->
                 </q-card>
             </div>
         <q-dialog v-model="promptAccept">
