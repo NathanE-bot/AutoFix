@@ -362,4 +362,63 @@ class AdminWorkshopController extends Controller
             return response()->json($err, 500);
         }
     }
+
+    public function getScheduleAcceptedByAdmin (Request $req){
+        $acceptedSchedule = DB::table('schedules')
+        ->join('workshops','workshops.id','=','schedules.workshopID')
+        ->join('users','users.ID','=','workshops.userID')
+        ->select('schedules.id as scheduleID','schedules.userID as customerID','workshops.userID as AdminID','schedules.workshopID'
+        ,'schedules.workshopName','schedules.workshopAddress','schedules.workshopPhoneNumber',
+        'schedules.workshopEmail','schedules.scheduleDate','schedules.scheduleTime','schedules.carModel',
+        'schedules.carType','schedules.timeEstimation','schedules.priceEstimation','schedules.scheduleStatus'
+        ,'schedules.description')
+        ->where('workshops.userID','=',$req->adminID)
+        ->where('scheduleStatus','=','accepted')
+        ->get()
+        ->toArray();
+
+        $dataDetailsSchedule = DB::table('schedule_details')
+        ->join('schedules','schedules.id','=','schedule_details.scheduleID')
+        ->join('workshops','workshops.id','=','schedules.workshopID')
+        ->select('schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
+        ->where('workshops.userID','=',$req->adminID)
+        ->where('scheduleStatus','=','accepted')
+        ->get()
+        ->toArray();
+
+        return response()->json([
+            'listSchedule' => $acceptedSchedule,
+            'listDetails' => $dataDetailsSchedule
+        ], 200);
+    }
+
+    public function cancleFormAdminWorkshop(Request $req){
+        $validator = Validator::make($req->all(), [
+            'description' => 'string','required'
+        ]);
+
+        if ($validator->fails()) {
+            $return = [
+                'error' => $validator->errors()
+            ];
+        }
+        $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
+        ->update(['scheduleStatus'=>'cancle',
+        'description'=>$req->description]);
+    }
+
+    public function doneAdminWorkshop(Request $req){
+        $validator = Validator::make($req->all(), [
+            'description' => 'string','required'
+        ]);
+
+        if ($validator->fails()) {
+            $return = [
+                'error' => $validator->errors()
+            ];
+        }
+        $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
+        ->update(['scheduleStatus'=>'Done',
+        'description'=>'Your schedule has done, Thank you for using our website']);
+    }
 }
