@@ -43,8 +43,10 @@ class AdminWorkshopController extends Controller
         ->toArray();
 
         $dataCustomer = DB::table('users')
-        ->select('id as customerID','users.fullName','users.phoneNumber')
+        ->join('schedules','schedules.userID','=','id')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber')
         ->where('role','=','1')
+        ->where('users.id','=','schedules.userID')
         ->get();
 
 
@@ -66,16 +68,16 @@ class AdminWorkshopController extends Controller
                 'error' => $validator->errors()
             ];
         }
-        try {        
+        try {
             $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
             ->update(['scheduleStatus'=>'accepted',
             'description'=>'Your schedule have been accept. Please Call Customer Service if you have any question']);
-            
+
             $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
         }catch (Exception $err) {
             return response()->json($err, 500);
         }
-            
+
         return response()->json([
             'scheduleID' => $req->scheduleID,
             'message' => 'Incoming Order Accepted'
