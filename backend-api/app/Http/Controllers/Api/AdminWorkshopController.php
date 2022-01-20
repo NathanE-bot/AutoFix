@@ -399,9 +399,16 @@ class AdminWorkshopController extends Controller
         ->get()
         ->toArray();
 
+        $dataCustomer = DB::table('users')
+        ->join('schedules','schedules.userID','=','users.id')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber')
+        ->where('users.role','=','1')
+        ->get();
+
         return response()->json([
             'listSchedule' => $acceptedSchedule,
-            'listDetails' => $dataDetailsSchedule
+            'listDetails' => $dataDetailsSchedule,
+            'listDataCustomer' => $dataCustomer
         ], 200);
     }
 
