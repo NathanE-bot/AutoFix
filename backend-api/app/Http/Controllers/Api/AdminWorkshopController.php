@@ -422,9 +422,14 @@ class AdminWorkshopController extends Controller
                 'error' => $validator->errors()
             ];
         }
-        $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
-        ->update(['scheduleStatus'=>'cancle',
+        $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
+        ->update(['scheduleStatus'=>'Cancel',
         'description'=>$req->description]);
+
+        return response()->json([
+            'scheduleID' => $req->scheduleID,
+            'message' => 'Order Cancelled'
+        ], 200);
     }
 
     public function doneScheduleByAdmin(Request $req){
@@ -437,8 +442,13 @@ class AdminWorkshopController extends Controller
                 'error' => $validator->errors()
             ];
         }
-        $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
+        $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
         ->update(['scheduleStatus'=>'Done',
         'description'=>'Your schedule has done, Thank you for using our website']);
+
+        return response()->json([
+            'scheduleID' => $req->scheduleID,
+            'message' => 'Order Completed'
+        ], 200);
     }
 }

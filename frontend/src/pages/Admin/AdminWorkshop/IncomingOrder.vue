@@ -84,7 +84,7 @@
 
                 <q-card-actions align="center" class="text-primary">
                     <q-btn label="Cancel" v-close-popup  @click="promptReject = false"/>
-                    <q-btn color="primary" label="Accept" v-close-popup @click="doAcceptIncomingOrderSchedule()"/>
+                    <q-btn color="primary" label="Done" v-close-popup @click="doHandleIncomingOrder('accept', '')"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -103,7 +103,7 @@
                     </q-input>
                 </div>
                 <q-card-actions align="right" class="text-primary">
-                    <q-btn padding="4px 16px" color="primary" rounded label="Submit" v-close-popup @click="doRejectIncomingOrderSchedule(this.rejectReason)"/>
+                    <q-btn padding="4px 16px" color="primary" rounded label="Submit" v-close-popup @click="doHandleIncomingOrder('reject',this.rejectReason)"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -219,36 +219,51 @@ export default {
             }
             this.tempManageScheduleID = scheduleID
         },
-        doAcceptIncomingOrderSchedule() {
+        doHandleIncomingOrder(action, reason) {
             this.loader = true
-            doAcceptScheduleByAdmin(this.tempManageScheduleID).then(response => {
-                Swal.fire({
-                    icon: 'success',
-                    title: response.data.message,
-                }).then(response => {
-                    this.doGetIncomingOrderSchedule()
+            if(action === 'accept'){
+                doAcceptScheduleByAdmin(this.tempManageScheduleID).then(response => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.data.message,
+                    }).then(response => {
+                        this.doGetIncomingOrderSchedule()
+                    })
+                }).catch(err => {
+                    console.log(err)
                 })
-            }).catch(err => {
-                console.log(err)
-            })
-            this.promptAccept = false
-            
-        },
-        doRejectIncomingOrderSchedule(reason) {
-            let submitReject = {}
-            submitReject = { scheduleID: this.tempManageScheduleID, description: reason}
-            doRejectScheduleByAdmin(submitReject).then(response => {
-                Swal.fire({
-                    icon: 'error',
-                    title: response.data.message
-                }).then(response => {
-                    this.doGetIncomingOrderSchedule()
+                this.promptAccept = false
+            }else if(action === 'reject'){
+                let submitReject = {}
+                submitReject = { scheduleID: this.tempManageScheduleID, description: reason}
+                doRejectScheduleByAdmin(submitReject).then(response => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.data.message
+                    }).then(response => {
+                        this.doGetIncomingOrderSchedule()
+                    })
+                }).catch(err => {
+                    console.log(err)
                 })
-            }).catch(err => {
-                console.log(err)
-            })
-            this.promptReject = false
+                this.promptReject = false
+            }
         },
+        // doRejectIncomingOrderSchedule(reason) {
+        //     let submitReject = {}
+        //     submitReject = { scheduleID: this.tempManageScheduleID, description: reason}
+        //     doRejectScheduleByAdmin(submitReject).then(response => {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: response.data.message
+        //         }).then(response => {
+        //             this.doGetIncomingOrderSchedule()
+        //         })
+        //     }).catch(err => {
+        //         console.log(err)
+        //     })
+        //     this.promptReject = false
+        // },
         // handleResize () {
         //     this.window.width = window.innerWidth
         //     this.window.height = window.innerHeight

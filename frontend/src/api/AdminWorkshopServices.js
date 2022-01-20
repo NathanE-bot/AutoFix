@@ -24,7 +24,7 @@ export function getScheduleAcceptedByAdmin(adminID) {
 }
 
 export function doDoneScheduleByAdmin(scheduleID) {
-  return axios.post(localURL + '/api/doneScheduleByAdmin?scheduleID' + scheduleID)
+  return axios.post(localURL + '/api/doneScheduleByAdmin?scheduleID=' + scheduleID)
 }
 
 export function doCancelScheduleByAdmin(dataCancel) {

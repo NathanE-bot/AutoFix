@@ -1,13 +1,16 @@
 <template>
-    <q-page class="p-20" :style="{height: window.heightAltered + 'px'}">
-        <div class="text-h6 fw-semibold mb-20">Accepted Order</div>
-        <q-scroll-area
-          :thumb-style="thumbStyle"
-          :bar-style="barStyle"
-          class="list-workshop-scrollbar h-80">
-            <q-card v-for="accepted in this.listAccepted" :key="accepted.scheduleID" class="adminWorkshop-card w-80 ">
-                <q-card-section >
-                    <div class="flex j-sp-between mb-10">
+    <q-page>
+        <div class="w-80 m-auto">
+            <div class="text-h5 fw-semibold py-20 txt-white">Accepted Order</div>
+            </div>
+            <div class="white-1bg w-80 m-auto py-20">
+                <q-card v-for="accepted in this.listAccepted" :key="accepted.scheduleID" class="adminWorkshop-card w-80">
+                    <!-- <q-scroll-area
+                    :thumb-style="thumbStyle"
+                    :bar-style="barStyle"
+                    class="list-workshop-scrollbar h-80"> -->
+                        <q-card-section >
+                            <div class="flex j-sp-between mb-10">
                                 <div class="flex flex-center flex-dir-col">
                                     <span class="fw-semibold p-10">{{ accepted.fullName}}</span>
                                 </div>
@@ -17,7 +20,7 @@
                             </div>
                             <q-separator/>
                             <q-card-section class="flex m-auto">
-                                <div class="w-50">
+                                <div class="w-40">
                                     <div class="flex flex-dir-col mb-10">
                                         <span class="fw-semibold">Tanggal dan Waktu</span>
                                         <span>{{ help.defaultFormat(accepted.scheduleDate, help.data().dmy_8) }}</span>
@@ -36,7 +39,7 @@
                                         <span>{{ validationFunction.convertToRupiah(accepted.priceEstimation) }}</span>
                                     </div>
                                 </div>
-                                <div class="w-50 p">
+                                <div class="w-60">
                                     <span class="fw-semibold">Layanan yang dipilih : </span>
                                     <div v-if="Object.keys(accepted.serviceDetail.periodicService).length !== 0" class="flex flex-dir-col mb-10 ml-5">
                                         <span class="fw-semibold">Periodic Service :</span>
@@ -44,7 +47,7 @@
                                     </div>
                                     <div v-if="accepted.serviceDetail.generalServices.length !== 0" class="ml-5">
                                         <span class="fw-semibold">General Services: </span><br>
-                                        <div class="tes">
+                                        <div>
                                             <span class="flex flex-dir-col" v-for="service in accepted.serviceDetail.generalServices" :key="service.id">
                                                 - {{ service.serviceDetail}}</span>
                                         </div>
@@ -52,54 +55,55 @@
                                 </div>
                                 <div v-if="accepted.serviceDescription !== null">
                                     <span class="fw-semibold">Service Request: </span>
-                                    <span>{{ accepted.serviceDescription}}</span>
+                                    <p class="m-0">{{ accepted.serviceDescription }}</p>
                                 </div>
                             </q-card-section>
-                    <q-separator vertical class="br-5px" color="#605A5A" size="4px"/>
-                    <div class="d-flex a-center j-end" style="gap: 20px">
-                        <q-btn
-                            @click="promptCancel = true"
-                            color="negative" rounded unelevated padding="4px 24px"
-                            label="Cancel"
-                            class="tf-capitalize"
-                        />
-                        <q-btn
-                            @click="promptDone = true"
-                            color="primary" rounded unelevated padding="4px 24px"
-                            label="Done"
-                            class="tf-capitalize"
-                        />
-                    </div>
-                </q-card-section>
-            </q-card>
-        </q-scroll-area>
+                            <div class="d-flex a-center j-end" style="gap: 20px">
+                                <q-btn
+                                    @click="doSetTempScheduleID(accepted.scheduleID, 'cancel')"
+                                    color="negative" rounded unelevated padding="4px 24px"
+                                    label="Cancel"
+                                    class="tf-capitalize"
+                                />
+                                <q-btn
+                                    @click="doSetTempScheduleID(accepted.scheduleID, 'done')"
+                                    color="primary" rounded unelevated padding="4px 24px"
+                                    label="Done"
+                                    class="tf-capitalize"
+                                />
+                            </div>
+                        </q-card-section>
+                    <!-- </q-scroll-area> -->
+                </q-card>
+            </div>
         <q-dialog v-model="promptDone">
             <q-card style="min-width: 480px" class="py-20" >
                 <q-card-section>
-                    <div class="black-1 m-auto fw-semibold text-align-center">Done Schedule?</div>
+                    <div class="black-1 m-auto fw-semibold text-align-center">Finish Schedule?</div>
                 </q-card-section>
 
                 <q-card-actions align="center" class="text-primary">
-                    <q-btn label="Cancel" v-close-popup  @click="promptCancel = false"/>
-                    <q-btn color="primary" label="Done" v-close-popup />
+                    <q-btn label="Cancel" v-close-popup  @click="promptReject = false"/>
+                    <q-btn color="primary" label="Done" v-close-popup @click="doHandleIncomingOrder('done', '')"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
         <q-dialog v-model="promptCancel">
             <q-card style="min-width: 640px" class="p-16">
                 <q-card-section>
-                    <div class="black-1 m-auto fw-semibold text-align-center">Please insert your reason for Canceling</div>
+                    <div class="black-1 m-auto fw-semibold text-align-center">Please insert your reason for Cancelling</div>
                 </q-card-section>
                 <div class="m-auto">
                     <q-input
                         outlined
                         type="textarea"
                         class="fix-txt-field default-textarea-1 w-80 m-auto"
+                        v-model="cancelReason"
                     >
                     </q-input>
                 </div>
                 <q-card-actions align="right" class="text-primary">
-                    <q-btn padding="4px 16px" color="primary" rounded label="Submit" v-close-popup />
+                    <q-btn padding="4px 16px" color="primary" rounded label="Submit" v-close-popup @click="doHandleIncomingOrder('cancel',this.cancelReason)"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -202,6 +206,44 @@ export default {
             })
 
             this.loader = false
+        },
+        doSetTempScheduleID(scheduleID, action) {
+            if(action === 'done'){
+                this.promptDone = true
+            }else{
+                this.promptCancel = true
+            }
+            this.tempManageScheduleID = scheduleID
+        },
+        doHandleIncomingOrder(action, reason) {
+            this.loader = true
+            if(action === 'done'){
+                doDoneScheduleByAdmin(this.tempManageScheduleID).then(response => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.data.message,
+                    }).then(response => {
+                        this.doGetAcceptedOrder()
+                    })
+                }).catch(err => {
+                    console.log(err)
+                })
+                this.promptAccept = false
+            }else if(action === 'cancel'){
+                let submitReject = {}
+                submitReject = { scheduleID: this.tempManageScheduleID, description: reason}
+                doCancelScheduleByAdmin(submitReject).then(response => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.data.message
+                    }).then(response => {
+                        this.doGetAcceptedOrder()
+                    })
+                }).catch(err => {
+                    console.log(err)
+                })
+                this.promptReject = false
+            }
         }
     },
 }
