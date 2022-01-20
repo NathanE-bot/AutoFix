@@ -109,7 +109,7 @@ class ScheduleController extends Controller
             $newSchedules -> timeEstimation = $req->timeEstimation;
             $newSchedules -> priceEstimation = $req->priceEstimation;
             $newSchedules -> scheduleStatus = 'waiting confirmation';
-            $newSchedules -> description = $req->description;
+            $newSchedules -> serviceDescription = $req->description;
             $newSchedules->save();
             $idSchedule = $newSchedules->id;
             $array = array();

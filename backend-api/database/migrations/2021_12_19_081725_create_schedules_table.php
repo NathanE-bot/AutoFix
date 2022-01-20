@@ -30,7 +30,8 @@ class CreateSchedulesTable extends Migration
             $table->integer('timeEstimation');
             $table->integer('priceEstimation');
             $table->string('scheduleStatus');
-            $table->string('description')->nullable();
+            $table->text('serviceDescription')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
