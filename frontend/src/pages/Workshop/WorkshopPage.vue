@@ -91,7 +91,7 @@
                   </div>
                 </q-card-section>
               </q-card>
-              <q-card class="my-card mb-20 br-20px p-20" v-if="listLoader">
+              <q-card class="my-card mb-20 br-20px p-20" style="background-color:transparent" v-if="listLoader">
                 <q-card-section class="d-flex a-start">
                   <div>
                     <q-skeleton width="100px" height="80px" />
@@ -111,7 +111,7 @@
           </q-scroll-area>
         </div>
         <div class="col-md-6 pl-16">
-          <q-card class="my-card p-20 br-20px" v-if="!help.isObjectEmpty(workshopById.defaultData)">
+          <q-card class="my-card p-20 br-20px" v-if="!help.isObjectEmpty(workshopById.defaultData) && !detailWorkshopLoader">
             <q-card-section>
               <div>
                 <div class="d-flex a-start j-sp-between">
@@ -152,22 +152,29 @@
                   </div>
                 </div>
                 <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
-                <div class="col-md-6 w-45-i px-20">
+                <div class="col-md-6 w-45-i px-20" v-if="!help.isObjectEmpty(workshopById.servisUmum) && !help.isObjectEmpty(workshopById.servisBerkala)">
                   <div class="text-h6 mb-6">Services</div>
-                  <span class="fw-semibold">General :</span>
-                  <div class="layout_bullet">
-                    <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
-                      <div class="bullet"></div>
-                      <span class="text">{{ item.serviceDetail }}</span>
+                  <div v-if="!help.isObjectEmpty(workshopById.servisUmum)">
+                    <span class="fw-semibold">General :</span>
+                    <div class="layout_bullet">
+                      <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
+                        <div class="bullet"></div>
+                        <span class="text">{{ item.serviceDetail }}</span>
+                      </div>
                     </div>
                   </div>
-                  <span class="fw-semibold">Periodic :</span>
-                  <div class="layout_bullet">
-                    <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
-                      <div class="bullet"></div>
-                      <span class="text">{{ item.serviceDetail }}</span>
+                  <div v-if="!help.isObjectEmpty(workshopById.servisBerkala)">
+                    <span class="fw-semibold">Periodic :</span>
+                    <div class="layout_bullet">
+                      <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
+                        <div class="bullet"></div>
+                        <span class="text">{{ item.serviceDetail }}</span>
+                      </div>
                     </div>
                   </div>
+                </div>
+                <div v-else>
+                  No Services
                 </div>
               </div>
               <q-separator class="br-5px" color="#605A5A" size="4px" />
@@ -214,6 +221,34 @@
                 class="tf-capitalize"
               >
               </q-btn>
+            </div>
+          </q-card>
+          <q-card class="my-card p-20 br-20px" style="background-color:transparent" v-else>
+            <q-card-section>
+              <div>
+                <div class="d-flex a-start j-sp-between">
+                  <q-skeleton width="100px" height="90px" />
+                  <q-skeleton type="QChip" />
+                </div>
+                <q-skeleton type="text" width="200px" />
+                <q-skeleton type="rect" width="80px" />
+              </div>
+              <div class="my-12 row">
+                <div class="col-md-6 w-45-i px-20 q-gutter-y-xs">
+                  <q-skeleton type="rect" width="140px" />
+                  <q-skeleton type="rect" width="130px" />
+                  <q-skeleton type="rect" width="120px" />
+                </div>
+                <div class="col-md-6 w-45-i px-20 q-gutter-y-xs">
+                  <q-skeleton type="rect" width="140px" />
+                  <q-skeleton type="rect" width="130px" />
+                  <q-skeleton type="rect" width="120px" />
+                </div>
+              </div>
+            </q-card-section>
+            <div class="p-30 q-gutter-y-md">
+              <q-skeleton type="rect" width="80px" />
+              <q-skeleton height="90px" />
             </div>
           </q-card>
         </div>
@@ -416,6 +451,8 @@ export default {
     doGetWorkshopById () {
       let _this = this
       _this.detailWorkshopLoader = true
+      _this.workshopById.servisBerkala = []
+      _this.workshopById.servisUmum = []
       getWorkshopById(_this.clickedId).then(response => {
         _this.workshopById.defaultData = response.data
         _this.workshopById.defaultData.workshop_services.forEach(el1 => {
@@ -428,6 +465,8 @@ export default {
         _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
         _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
         _this.detailWorkshopLoader = false
+        console.log(_this.workshopById.defaultData)
+        console.log(_this.workshopById.servisBerkala, _this.workshopById.servisUmum)
       }) .catch((err) =>{ 
         console.log(err)
         _this.detailWorkshopLoader = false
