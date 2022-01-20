@@ -6,6 +6,18 @@
     min-width: 100px;
 }
 
+.dropdown-g{
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(8px);
+    transform: perspective(500px);
+}
+
+.dropdown-tab{
+    border-radius: 0 0 4px 4px;
+    background-color: transparent;
+}
+
 .autorepair-header{
     background: rgba(0, 0, 0, 0.7);
     -webkit-backdrop-filter: blur(20px);
@@ -24,6 +36,7 @@
             background: inherit !important;
 
             .q-tab{
+                padding: 0 24px;
                 .q-tab__content{
                     min-width: 42px;
                     .q-tab__label{
