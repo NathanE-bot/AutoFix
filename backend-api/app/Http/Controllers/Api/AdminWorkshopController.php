@@ -43,9 +43,9 @@ class AdminWorkshopController extends Controller
         ->toArray();
 
         $dataCustomer = DB::table('users')
-        ->join('schedules','schedules.userID','=','id')
+        ->join('schedules','schedules.userID','=','users.id')
         ->select('users.id as customerID','users.fullName','users.phoneNumber')
-        ->where('role','=','1')
+        ->where('users.role','=','1')
         ->where('users.id','=','schedules.userID')
         ->get();
 
@@ -366,7 +366,7 @@ class AdminWorkshopController extends Controller
         }
     }
 
-    public function getAdminWorkshopProfile(){
+    public function getAdminWorkshopProfile(Request $req){
         try{
             $dataProfileAdmin= DB::table('users')->where('id','=',$req->adminID)
             ->where('role','=','2')->get();
