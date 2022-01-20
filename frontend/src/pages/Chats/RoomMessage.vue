@@ -3,7 +3,7 @@
         <q-card class="my-card w-60 chat-card" :style="{minHeight: window.heightAltered + 'px', maxHeight: window.heightAltered + 'px'}">
             <q-card-section class="d-flex a-center receiver-name">
                 <q-btn
-                    @click="changePage('/member/home-message')"
+                    @click="goBack()"
                     unelevated round outline
                     size="sm"
                     color="white"

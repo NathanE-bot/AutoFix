@@ -61,7 +61,7 @@
             :style="{height: window.heightAltered + 'px'}"
           >
             <div v-if="!help.isObjectEmpty(workshops)">
-              <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="clickedId = item.userID; doGetWorkshopById()">
+              <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="doGetWorkshopById(true, clickedId, item.userID)">
                 <q-card-section class="d-flex j-sp-between">
                   <div class="d-flex a-center">
                     <div>
@@ -439,7 +439,7 @@ export default {
         })
         _this.clickedId = _this.workshops[0].userID
         if(_this.clickedId != null && validator || searching){
-          _this.doGetWorkshopById()
+          _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
         }
         _this.loader = false
       }) .catch((err) =>{
@@ -448,29 +448,35 @@ export default {
       })
     },
 
-    doGetWorkshopById () {
+    doGetWorkshopById (clicking, clickId, id) {
       let _this = this
-      _this.detailWorkshopLoader = true
-      _this.workshopById.servisBerkala = []
-      _this.workshopById.servisUmum = []
-      getWorkshopById(_this.clickedId).then(response => {
-        _this.workshopById.defaultData = response.data
-        _this.workshopById.defaultData.workshop_services.forEach(el1 => {
-          if(el1.serviceType == 'Servis Berkala'){
-            _this.workshopById.servisBerkala.push(el1)
-          } else {
-            _this.workshopById.servisUmum.push(el1)
-          }
+      console.log(_this.clickedId , id)
+      if(clicking && _this.clickedId == id){} 
+      else {
+        _this.detailWorkshopLoader = true
+        _this.workshopById.servisBerkala = []
+        _this.workshopById.servisUmum = []
+        _this.clickedId = id
+        getWorkshopById(_this.clickedId).then(response => {
+          _this.workshopById.defaultData = response.data
+          _this.workshopById.defaultData.workshop_services.forEach(el1 => {
+            if(el1.serviceType == 'Servis Berkala'){
+              _this.workshopById.servisBerkala.push(el1)
+            } else {
+              _this.workshopById.servisUmum.push(el1)
+            }
+          })
+          _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
+          _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
+          _this.detailWorkshopLoader = false
+          console.log(_this.workshopById.defaultData)
+          console.log(_this.workshopById.servisBerkala, _this.workshopById.servisUmum)
+        }) .catch((err) =>{ 
+          console.log(err)
+          _this.detailWorkshopLoader = false
         })
-        _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
-        _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
-        _this.detailWorkshopLoader = false
-        console.log(_this.workshopById.defaultData)
-        console.log(_this.workshopById.servisBerkala, _this.workshopById.servisUmum)
-      }) .catch((err) =>{ 
-        console.log(err)
-        _this.detailWorkshopLoader = false
-      })
+      }
+      
     },
     doGetCurrentPosition() {
       this.loader = true
