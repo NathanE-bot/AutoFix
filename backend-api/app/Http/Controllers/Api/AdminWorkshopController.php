@@ -42,9 +42,17 @@ class AdminWorkshopController extends Controller
         ->get()
         ->toArray();
 
+        $dataCustomer = DB::table('users')
+        ->select('id as customerID','users.fullName','users.phoneNumber')
+        ->where('role','=','1')
+        ->get();
+
+
+
         return response()->json([
             'listSchedule' => $IncomingSchedule,
-            'listDetails' => $dataDetailsSchedule
+            'listDetails' => $dataDetailsSchedule,
+            'listDataCustomer' => $dataCustomer
         ], 200);
     }
 
