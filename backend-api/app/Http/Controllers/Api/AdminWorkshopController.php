@@ -46,7 +46,6 @@ class AdminWorkshopController extends Controller
         ->join('schedules','schedules.userID','=','users.id')
         ->select('users.id as customerID','users.fullName','users.phoneNumber')
         ->where('users.role','=','1')
-        ->where('users.id','=','schedules.userID')
         ->get();
 
 
