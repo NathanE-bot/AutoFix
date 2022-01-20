@@ -99,8 +99,8 @@ Route::post('uploadGaleryWorkshop','Api\AdminWorkshopController@uploadGaleryWork
 Route::post('updateGaleryWorkshop','Api\AdminWorkshopController@updateGaleryWorkshop');
 Route::get('getAdminWorkshopProfile','Api\AdminWorkshopController@getAdminWorkshopProfile');
 Route::get('getScheduleAcceptedByAdmin','Api\AdminWorkshopController@getScheduleAcceptedByAdmin');
-Route::post('cancleFormAdminWorkshop','Api\AdminWorkshopController@cancleFormAdminWorkshop');
-Route::post('doneAdminWorkshop','Api\AdminWorkshopController@doneAdminWorkshop');
+Route::post('cancelScheduleByAdmin','Api\AdminWorkshopController@cancelScheduleByAdmin');
+Route::post('doneScheduleByAdmin','Api\AdminWorkshopController@doneScheduleByAdmin');
 
 
 

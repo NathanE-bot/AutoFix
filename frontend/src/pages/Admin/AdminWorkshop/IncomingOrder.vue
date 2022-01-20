@@ -1,20 +1,26 @@
 <template>
-    <q-page class="p-20" :style="{height: window.heightAltered + 'px'}">
-        <div class="text-h6 fw-semibold mb-20">Incoming Order</div>
-        <q-scroll-area
+    <q-page>
+        <div class="w-80">
+            <span class="text-h6 fw-semibold mb-20">Incoming Order</span>
+            </div>
+            <div class="white-1bg w-80 m-auto py-20">
+            <q-card v-for="incoming in this.listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80">
+        <!-- <q-scroll-area
         :thumb-style="thumbStyle"
         :bar-style="barStyle"
-        class="list-workshop-scrollbar h-80">
-            <q-card class="w-80 m-auto">
-                <q-card-section>
-                    <q-card v-for="incoming in this.listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80 "  >
+        class="list-workshop-scrollbar h-80"> -->
                         <q-card-section >
+                            <div class="flex j-sp-between mb-10">
+                                <div class="flex flex-center flex-dir-col">
+                                    <span class="fw-semibold p-10">{{ incoming.fullName}}</span>
+                                </div>
+                                <div class="flex primary-bg px-15 br-10 br-20px align-item-center txt-white tf-capitalize">
+                                    {{ incoming.scheduleStatus }}
+                                </div>
+                            </div>
+                            <q-separator/>
                             <q-card-section class="flex m-auto">
-                                <div class="w-50">
-                                    <div class="flex flex-dir-col mb-10">
-                                        <span class="fw-semibold">Nama Pelanggan</span>
-                                        <span>Joko Sutanto</span>
-                                    </div>
+                                <div class="w-40">
                                     <div class="flex flex-dir-col mb-10">
                                         <span class="fw-semibold">Tanggal dan Waktu</span>
                                         <span>{{ help.defaultFormat(incoming.scheduleDate, help.data().dmy_8) }}</span>
@@ -33,18 +39,23 @@
                                         <span>{{ validationFunction.convertToRupiah(incoming.priceEstimation) }}</span>
                                     </div>
                                 </div>
-                                <div class="w-50 p">
+                                <div class="w-60">
                                     <span class="fw-semibold">Layanan yang dipilih : </span>
-                                    <div class="flex flex-dir-col mb-10 ml-5">
+                                    <div v-if="Object.keys(incoming.serviceDetail.periodicService).length !== 0" class="flex flex-dir-col mb-10 ml-5">
                                         <span class="fw-semibold">Periodic Service :</span>
-                                        <span>{{ Object.keys(incoming.serviceDetail.periodicService).length === 0 ?
-                                            '-' : incoming.serviceDetail.periodicService.serviceDetail }}</span>
+                                        <span>{{ incoming.serviceDetail.periodicService.serviceDetail }}</span>
                                     </div>
-                                    <div class="ml-5">
+                                    <div v-if="incoming.serviceDetail.generalServices.length !== 0" class="ml-5">
                                         <span class="fw-semibold">General Services: </span><br>
-                                        <span class="flex flex-dir-col" v-for="service in incoming.serviceDetail.generalServices" :key="service.id">
-                                            - {{ service.serviceDetail}}</span>
+                                        <div>
+                                            <span class="flex flex-dir-col" v-for="service in incoming.serviceDetail.generalServices" :key="service.id">
+                                                - {{ service.serviceDetail}}</span>
+                                        </div>
                                     </div>
+                                </div>
+                                <div v-if="incoming.serviceDescription !== null">
+                                    <span class="fw-semibold">Service Request: </span>
+                                    <p class="m-0">{{ incoming.serviceDescription }}</p>
                                 </div>
                             </q-card-section>
                             <div class="d-flex a-center j-end" style="gap: 20px">
@@ -62,10 +73,9 @@
                                 />
                             </div>
                         </q-card-section>
-                    </q-card>
-                </q-card-section>
-            </q-card>
-            </q-scroll-area>
+        <!-- </q-scroll-area> -->
+                </q-card>
+            </div>
         <q-dialog v-model="promptAccept">
             <q-card style="min-width: 480px" class="py-20" >
                 <q-card-section>
@@ -143,28 +153,38 @@ export default {
         this.user = LocalStorage.getItem('autoRepairUser').data.user
         this.doGetIncomingOrderSchedule()
     },
-    mounted () {
-        window.addEventListener('resize', this.handleResize)
-        this.handleResize()
-    },
-    unmounted () {
-        window.removeEventListener('resize', this.handleResize)
-    },
+    // mounted () {
+    //     window.addEventListener('resize', this.handleResize)
+    //     this.handleResize()
+    // },
+    // unmounted () {
+    //     window.removeEventListener('resize', this.handleResize)
+    // },
     methods: {
         doGetIncomingOrderSchedule() {
             this.loader = true
             this.listIncoming = []
             getIncomingOrderSchedule(this.user.id).then(response => {
+                console.log(response)
                 let tempListIncoming = []
                 let tempListServiceDetails = []
+                let tempListDataCustomer = {}
                 tempListIncoming = response.data.listSchedule
                 tempListServiceDetails = response.data.listDetails
+                tempListDataCustomer = response.data.listDataCustomer
+
                 tempListIncoming.forEach(el1 => {
                     let tempObject = {
                         serviceDetail: {
                             periodicService: {},
                             generalServices: []
                         }
+                    }
+
+                    let tempObjectCustomer = {
+                        customerID: null,
+                        fullName: '',
+                        phoneNumber: ''
                     }
 
                     tempListServiceDetails.forEach(el2 => {
@@ -177,7 +197,13 @@ export default {
                         }
                     })
 
-                    tempObject = { ...tempObject, ...el1}
+                    tempListDataCustomer.forEach(el2 => {
+                        if(el1.customerID === el2.customerID){
+                            tempObjectCustomer = el2
+                        }
+                    })
+
+                    tempObject = { ...tempObject, ...el1, ...tempObjectCustomer}
                     this.listIncoming.push(tempObject)
                 })
                 console.log('listIncoming',this.listIncoming)
@@ -211,15 +237,23 @@ export default {
         doRejectIncomingOrderSchedule(reason) {
             let submitReject = {}
             submitReject = { scheduleID: this.tempManageScheduleID, description: reason}
-            doRejectScheduleByAdmin(submitReject)
+            doRejectScheduleByAdmin(submitReject).then(response => {
+                Swal.fire({
+                    icon: 'error',
+                    title: response.data.message
+                }).then(response => {
+                    this.doGetIncomingOrderSchedule()
+                })
+            }).catch(err => {
+                console.log(err)
+            })
             this.promptReject = false
-            this.doGetIncomingOrderSchedule()
         },
-        handleResize () {
-            this.window.width = window.innerWidth
-            this.window.height = window.innerHeight
-            this.window.heightAltered = window.innerHeight - (window.innerHeight * (15/100))
-        },
+        // handleResize () {
+        //     this.window.width = window.innerWidth
+        //     this.window.height = window.innerHeight
+        //     this.window.heightAltered = window.innerHeight - (window.innerHeight * (15/100))
+        // },
         changePage (url) {
             this.$router.push(url)
         }
