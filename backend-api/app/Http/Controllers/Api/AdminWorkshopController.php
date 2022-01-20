@@ -27,7 +27,7 @@ class AdminWorkshopController extends Controller
         ,'schedules.workshopName','schedules.workshopAddress','schedules.workshopPhoneNumber',
         'schedules.workshopEmail','schedules.scheduleDate','schedules.scheduleTime','schedules.carModel',
         'schedules.carType','schedules.timeEstimation','schedules.priceEstimation','schedules.scheduleStatus'
-        ,'schedules.description')
+        ,'schedules.serviceDescription')
         ->where('workshops.userID','=',$req->adminID)
         ->where('scheduleStatus','=','waiting confirmation')
         ->get()
