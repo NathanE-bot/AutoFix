@@ -39,7 +39,6 @@ class FavoritesController extends Controller
         }catch (Exception $error) {
             return response()->json($error, 500);
         }
-
     }
 
 

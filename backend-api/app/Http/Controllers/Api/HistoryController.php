@@ -22,8 +22,8 @@ class HistoryController extends Controller
             // ->join('schedule_details','schedule_details.scheduleID','=','schedules.id')
             ->where('userID','=',$req->userID)
             ->where('scheduleStatus','=','done')
-            ->where('scheduleStatus','=','rejected')
-            ->where('scheduleStatus','=','cancled')
+            ->orWhere('scheduleStatus','=','rejected')
+            ->orWhere('scheduleStatus','=','cancelled')
             ->get()->toArray();
 
             // foreach ($dataHistory as $key => $value) {
@@ -32,8 +32,8 @@ class HistoryController extends Controller
                 ->select('schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
                 ->where('schedules.userID','=',$req->userID)
                 ->where('scheduleStatus','=','done')
-                ->where('scheduleStatus','=','rejected')
-                ->where('scheduleStatus','=','cancled')
+                ->orWhere('scheduleStatus','=','rejected')
+                ->orWhere('scheduleStatus','=','cancelled')
                 ->get()
                 ->toArray();
             // }
