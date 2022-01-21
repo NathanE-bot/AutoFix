@@ -5,8 +5,6 @@
             <div class="row fw">
               <div class="col-md-12 filternya j-end txt-white q-gutter-x-md">
                 <div>
-                  <!-- <q-select>
-                  </q-select> -->
                   Year
                 </div>
                 <div>

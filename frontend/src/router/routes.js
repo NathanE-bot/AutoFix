@@ -23,7 +23,7 @@ const testing = () => import("pages/Testing");
 // Profile
 const yourAccount = () => import("pages/Profile/YourAccount");
 const scheduleList = () => import("pages/Profile/ScheduleList");
-const historyList = () => import("pages/Profile/HistoryList");
+// const historyList = () => import("pages/Profile/HistoryList");
 
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
@@ -43,6 +43,11 @@ const roomMessage = () => import("pages/Chats/RoomMessage");
 const AdminWorkshopHome = () => import("pages/Admin/AdminWorkshop/AdminWorkshopHome");
 const AdminAcceptedOrder = () => import("pages/Admin/AdminWorkshop/AcceptedOrder");
 const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
+
+//Admin Insurance
+const AdminInsuranceHome = () => import("pages/Admin/AdminInsurance/AdminInsuranceHome");
+const AdminIncomingClaimRequest = () => import("pages/Admin/AdminInsurance/IncomingClaimRequest");
+const AdminInsuranceClaimHistory = () => import("pages/Admin/AdminInsurance/InsuranceClaimHistory");
 
 // const insuranceAdmin = () => import("pages/Admin/AdminInsurance");
 
@@ -116,6 +121,30 @@ const routes = [
           title: 'Admin Workshop Home',
           breadcrumb: 'Admin Workshop Home'
         }
+      },
+      {
+        path: "/admin/insurance/home",
+        component: AdminWorkshopHome,
+        meta: {
+          title: 'Admin Insurance Home',
+          breadcrumb: 'Admin Insurance Home'
+        }
+      },
+      {
+        path: "/admin/insurance/incoming-claim-request",
+        component: AdminWorkshopHome,
+        meta: {
+          title: 'Incoming Claim Request',
+          breadcrumb: 'Incoming Claim Request'
+        }
+      },
+      {
+        path: "/admin/insurance/insurance-claim-history",
+        component: AdminWorkshopHome,
+        meta: {
+          title: 'Insurance Claim History',
+          breadcrumb: 'Insurance Claim History'
+        }
       }
     ]
   },
@@ -124,14 +153,14 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
-      {
-        path: "/member/history-list",
-        component: historyList,
-        meta: {
-          title: 'History List',
-          breadcrumb: 'History List'
-        }
-      },
+      // {
+      //   path: "/member/history-list",
+      //   component: historyList,
+      //   meta: {
+      //     title: 'History List',
+      //     breadcrumb: 'History List'
+      //   }
+      // },
       {
         path: "/member/schedule-list",
         component: scheduleList,
