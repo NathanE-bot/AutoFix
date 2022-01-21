@@ -21,8 +21,9 @@
               auto-close flat :ripple="false" :menu-offset="[25, 15]"
               transition-show="jump-down" transition-hide="jump-up" label="Insurance"
               class="tf-capitalize fs-16 dropdown-btn-tab"
+              content-class="dropdown-tab text-white"
             >
-              <q-list class="dropdown-g text-white">
+              <q-list class="dropdown-g">
                 <q-item clickable @click="changePage('/insurance/claim-insurance')">
                   <q-item-section>Claim Insurance</q-item-section>
                 </q-item>
