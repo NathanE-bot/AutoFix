@@ -444,7 +444,7 @@ class AdminWorkshopController extends Controller
         }
         $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
         ->update(['scheduleStatus'=>'Done',
-        'description'=>'Your schedule has done, Thank you for using our website']);
+        'description'=>'Your schedule has been completed, Thank you for using our website']);
 
         return response()->json([
             'scheduleID' => $req->scheduleID,
