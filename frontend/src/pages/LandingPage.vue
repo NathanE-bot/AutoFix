@@ -41,6 +41,19 @@
             <div class="mt-20">
               <img class="responsive-img" src="~assets/images/car_stock_img.png" alt="">
             </div>
+            <div class="scrolldown-animation m-auto cursor-pointer" @click="test()">
+              <q-tooltip
+                class="bg-primary text-body2"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                About Us
+              </q-tooltip>
+              <div class="chevrons">
+                <div class="chevrondown"></div>
+                <div class="chevrondown"></div>
+              </div>
+            </div>
             <!-- <h4 class="m-auto txt-white cursor-pointer" @click="test()">About Us</h4> -->
             <!-- <div class="d-flex a-center j-center">
               <div class="d-flex a-center mr-30">
@@ -110,7 +123,7 @@
           </swiper-slide>
         </swiper>
       </div>
-      <div class="mt-50" id="about-us">
+      <div class="mt-50">
         <div class="text-center">
           <h4 class="m-0 primary_color">How to Use Our Website</h4>
           <span class="fs-16">Get convenience with our website</span>
@@ -120,7 +133,7 @@
             src="https://www.youtube.com/embed/veKsxin7iRg"
           />
       </div>
-      <div class="mt-80">
+      <div class="mt-80" id="about-us">
         <div class="text-center">
           <h4 class="m-0 primary_color">Builder Of Our Company</h4>
           <span class="fs-16">Get to know more of the developers</span>

@@ -2,7 +2,7 @@
   <q-drawer
     v-model="leftDrawerOpen"
     :width="350"
-    :breakpoint="400"
+    :breakpoint="500"
     style="overflow-y: hidden; overflow-x: hidden;"
   >
     <q-scroll-area
