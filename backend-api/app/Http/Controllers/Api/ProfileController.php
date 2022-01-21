@@ -51,7 +51,6 @@ class ProfileController extends Controller
     }
 
     public function uploadImage (Request $req) {
-
         $validator = Validator::make($req->all(), [
             'image' => 'image|file|max:2048'
         ]);
@@ -61,22 +60,21 @@ class ProfileController extends Controller
                 'error' => $validator->errors()
             ];
         }
-        echo $req->image;
+        // echo $req->image;
         $dataUpdatedUser = DB::table('users')->where('id','=',$req->id)->first();
         if (!is_null($req->image))
         {
 
             $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->fullName);
+            $qid = Carbon::now()->format('Y-m-d_H-i-s');
             $ext = $req->image->getClientOriginalExtension();
-            $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$dataUpdatedUser->id.'.'.$ext), 'public');
+            $path = $req->file('image')->storeAs('avatar', strtolower($qid.$fullNameTemp.$dataUpdatedUser->id.'.'.$ext), 'public');
             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-            $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
-            ->update(['profilePicture' => $imagePath]);
+            $dataUser = DB::table('users')->where('id','=',$req->id)->update(['profilePicture' => $imagePath]);
         }
         else{
-            $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
-            ->update(['profilePicture' =>null]);
+            $dataUser = DB::table('users')->where('id','=',$req->id)->update(['profilePicture' =>null]);
         }
         return response()->json([
             'message' => 'success'
