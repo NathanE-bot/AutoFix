@@ -70,6 +70,7 @@
             clickable
             v-ripple
             :active="link === 'history'"
+            @click="changePage('/member/history-list')"
             active-class="my-menu-link"
           >
             <q-item-section avatar>
@@ -240,14 +241,11 @@ export default {
       else if(url.includes('/home-message')){
         this.link = 'messages'
       }
-      else if(url.includes('/insurance')){
-        this.initialTab = 'insurance'
-      }
       else if(url.includes('/schedule-list')){
         this.link = 'schedule'
       }
-      else {
-        this.initialTab = ''
+      else if(url.includes('/history-list')){
+        this.link = 'history'
       }
     },
     deep: true,

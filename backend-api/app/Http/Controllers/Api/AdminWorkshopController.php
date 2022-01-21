@@ -423,7 +423,7 @@ class AdminWorkshopController extends Controller
             ];
         }
         $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
-        ->update(['scheduleStatus'=>'Cancel',
+        ->update(['scheduleStatus'=>'cancelled',
         'description'=>$req->description]);
 
         return response()->json([
@@ -443,7 +443,7 @@ class AdminWorkshopController extends Controller
             ];
         }
         $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
-        ->update(['scheduleStatus'=>'Done',
+        ->update(['scheduleStatus'=>'done',
         'description'=>'Your schedule has been completed, Thank you for using our website']);
 
         return response()->json([

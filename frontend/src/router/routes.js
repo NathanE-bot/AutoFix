@@ -23,6 +23,7 @@ const testing = () => import("pages/Testing");
 // Profile
 const yourAccount = () => import("pages/Profile/YourAccount");
 const scheduleList = () => import("pages/Profile/ScheduleList");
+const historyList = () => import("pages/Profile/HistoryList");
 
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
@@ -33,6 +34,7 @@ const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 const claimInsurance = () => import("pages/Insurance/ClaimInsurance");
 const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
 const statusInsurance = () => import("pages/Insurance/StatusInsurance");
+
 //chat
 const homeMessage = () => import("pages/Chats/HomeMessage");
 const roomMessage = () => import("pages/Chats/RoomMessage");
@@ -122,6 +124,14 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
+      {
+        path: "/member/history-list",
+        component: historyList,
+        meta: {
+          title: 'History List',
+          breadcrumb: 'History List'
+        }
+      },
       {
         path: "/member/schedule-list",
         component: scheduleList,

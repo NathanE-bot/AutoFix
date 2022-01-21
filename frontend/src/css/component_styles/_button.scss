@@ -84,12 +84,14 @@
 }
 
 .dropdown-btn-tab{
+    @extend %transition_default;
     .q-icon{
         display: none;
     }
     .q-btn__content{
         .block{
-            color: rgba(255,255,255,.85) !important;
+            // color: rgba(255,255,255,.85);
+            @extend %transition_default;
         }
     }
 }

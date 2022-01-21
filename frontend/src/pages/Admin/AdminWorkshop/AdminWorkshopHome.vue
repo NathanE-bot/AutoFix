@@ -18,7 +18,7 @@
               </div>
               <div class="white-1bg col-md-12 chart h-50">
                 <div>
-                  <apexchart class="fw" type="line" :options="options" :series="series"></apexchart>
+                  <apexchart width="100%" height="300em" type="line" :options="options" :series="series"></apexchart>
                 </div>
               </div>
             </div>
