@@ -9,6 +9,7 @@ use Validator;
 use App\User;
 use DB;
 use App\Favorites;
+use Carbon\Carbon;
 class FavoritesController extends Controller
 {
 
@@ -27,13 +28,23 @@ class FavoritesController extends Controller
 
 
     public function getFavoritesByUserID(Request $req){
+        $date = Carbon::now();
+        $dateweek = $date->dayOfWeek;
         try {
             $data = [
                 $favorite=DB::table('favorites')
                 ->join('users','users.id','=','favorites.userID')
                 ->join('workshops','workshops.id','=','favorites.workshopID')
+                ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
+                ->select('favorites.id as favoritesID','favorites.userID as customerID'
+                ,'favorites.workshopID','workshops.workshopName','workshops.workshopAddress'
+                ,'workshops.rating','workshops.city','workshops.district','workshops.province','workshops.statusHr','workshops.status24Hr'
+                ,'operational_workshops.operationalDate','operational_workshops.operationalOpenHour'
+                ,'operational_workshops.operationalCloseHour')
                 ->where('favorites.userID','=',$req->userID)
+                ->where('operationalDate','=',$dateweek)
                 ->get()
+
             ];
             return response()->json($data, 200);
         }catch (Exception $error) {

@@ -60,18 +60,38 @@ class ProfileController extends Controller
                 'error' => $validator->errors()
             ];
         }
-        // echo $req->image;
+
         $dataUpdatedUser = DB::table('users')->where('id','=',$req->id)->first();
         if (!is_null($req->image))
         {
+            if (!isset($dataUpdatedUser->documentationPicture)) {
+                $dataImageProfile= DB::table('users')
+                ->select(DB::raw('SUBSTRING(profilePicture,30,100) AS path'))
+                ->where('id','=',$req->id)->first();
+                Storage::delete('/public/'.$dataImageProfile->path);
 
-            $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->fullName);
-            $qid = Carbon::now()->format('Y-m-d_H-i-s');
-            $ext = $req->image->getClientOriginalExtension();
-            $path = $req->file('image')->storeAs('avatar', strtolower($qid.$fullNameTemp.$dataUpdatedUser->id.'.'.$ext), 'public');
-            $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                $dateNow = carbon::now()->format("Y-m-d_H-i-s");
+                $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->fullName);
+                $ext = $req->image->getClientOriginalExtension();
+                $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$dateNow.$dataUpdatedUser->id.'.'.$ext), 'public');
+                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-            $dataUser = DB::table('users')->where('id','=',$req->id)->update(['profilePicture' => $imagePath]);
+                $dataUser = DB::table('users')->where('id','=',$req->id)
+                ->update(['profilePicture' => $imagePath]);
+
+            }
+            else{
+
+                $dateNow = carbon::now()->format("Y-m-d_H-i-s");
+                $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->fullName);
+                $ext = $req->image->getClientOriginalExtension();
+                $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$dateNow.$dataUpdatedUser->id.'.'.$ext), 'public');
+                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+
+                $dataUser = DB::table('users')->where('id','=',$req->id)
+                ->update(['profilePicture' => $imagePath]);
+            }
+
         }
         else{
             $dataUser = DB::table('users')->where('id','=',$req->id)->update(['profilePicture' =>null]);
