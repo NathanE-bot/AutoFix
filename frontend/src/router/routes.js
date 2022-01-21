@@ -38,6 +38,7 @@ const homeMessage = () => import("pages/Chats/HomeMessage");
 const roomMessage = () => import("pages/Chats/RoomMessage");
 
 //Admin Workshop
+const AdminWorkshopHome = () => import("pages/Admin/AdminWorkshop/AdminWorkshopHome");
 const AdminAcceptedOrder = () => import("pages/Admin/AdminWorkshop/AcceptedOrder");
 const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
 
@@ -104,6 +105,14 @@ const routes = [
         meta: {
           title: 'Incoming Order Admin',
           breadcrumb: 'Incoming Order Admin'
+        }
+      },
+      {
+        path: "/admin/workshop/home",
+        component: AdminWorkshopHome,
+        meta: {
+          title: 'Admin Workshop Home',
+          breadcrumb: 'Admin Workshop Home'
         }
       }
     ]
