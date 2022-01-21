@@ -19,7 +19,7 @@
             <q-btn-dropdown
               :color="initialTab == 'insurance' ? 'primary' : ''"
               auto-close flat :ripple="false" :menu-offset="[25, 15]"
-              transition-show="jump-down" transition-hide="jump-up"
+              transition-show="jump-down" transition-hide="jump-up" label="Insurance"
               class="tf-capitalize fs-16 dropdown-btn-tab"
             >
               <q-list class="dropdown-g text-white">
