@@ -18,7 +18,7 @@ class HistoryController extends Controller
 {
     public function getHistoryByScheduleStatusAndUserID(Request $req){
         try{
-            $dataHistory=DB::table('schedules')
+            $dataHistory = DB::table('schedules')
             // ->join('schedule_details','schedule_details.scheduleID','=','schedules.id')
             ->where('userID','=',$req->userID)
             ->where('scheduleStatus','=','done')
@@ -43,10 +43,10 @@ class HistoryController extends Controller
             //         return $dataDetailsSchedule->scheduleID === $value->id;
             //     });
             // }
-            $data = [
-                'objectReturn' =>$dataHistory,$dataDetailsSchedule
-            ];
-            return response()->json($data, 200);
+            return response()->json([
+                'schedules' => $dataHistory,
+                'serviceDetail' => $dataDetailsSchedule
+            ], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
