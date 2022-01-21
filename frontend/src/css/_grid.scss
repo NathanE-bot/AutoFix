@@ -125,6 +125,12 @@
     display: none;
 }
 
+.d-only{
+    @media (max-width: 500px) {
+        display: none;
+    }
+}
+
 // width
 .fw{
     width: 100%;

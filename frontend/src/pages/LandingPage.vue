@@ -7,8 +7,8 @@
       <template v-slot:media>
         <img src="~assets/images/bg_9.png">
       </template>
-      <div :style="{height: window.height + 'px'}">
-        <div>
+      <div class="row" :style="{minHeight: window.alteredHeight + 'px'}">
+        <div class="col-md-12">
           <div class="lp-title text-center mb-20">
             <span class="txt-white mr-8">AUTO</span>
             <span class="txt-primary">REPAIR</span>
@@ -19,7 +19,7 @@
             </p>
           </div>
         </div>
-        <div class="m-auto w-40 mt-20-i h-100">
+        <div class="m-auto col-md-5 col-xs-11 mt-20-i h-100">
           <q-input
             @keyup.enter="doSearchWorkshop()"
             v-model="search"
@@ -86,7 +86,7 @@
       </div>
       <div class="py-30">
         <swiper
-          :slidesPerView="3"
+          :slidesPerView="window.width < 500 ? 1 : 3"
           :spaceBetween="30"
           :navigation="true"
           :pagination='{
@@ -138,9 +138,9 @@
           <h4 class="m-0 primary_color">Builder Of Our Company</h4>
           <span class="fs-16">Get to know more of the developers</span>
         </div>
-        <div class="mt-40 d-flex a-center j-sp-evenly">
-          <q-card class="my-card br-10px no-shadow" v-for="n in 3" :key="n">
-            <q-card-section horizontal>
+        <div class="row">
+          <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40" v-for="n in 3" :key="n">
+            <q-card-section horizontal class="d-flex j-center">
               <img class="responsive-img dev_pic"
                 src="~assets/images/preset/person_1.png"
               />
@@ -164,25 +164,25 @@
           </q-card>
         </div>
       </div>
-      <div class="mt-80 btm-lp">
-        <div class="text-center">
+      <div class="mt-80 btm-lp row">
+        <div class="text-center col-md-12 col-xs-12">
           <h4 class="m-0 primary_color">For More Information</h4>
           <span class="fs-16">Reach out to us.</span>
         </div>
-        <div class="sosmed_section mt-30">
-          <div class="d-flex a-center mr-32">
+        <div class="sosmed_section text-center m-auto col-md-5 col-xs-12 row">
+          <div class="d-flex a-center j-center col-md-4 col-xs-12 mt-30">
             <div class="sosmed-box-lp mr-14">
               <i class="fab fa-instagram"></i>
             </div>
             <span>@auto_repair</span>
           </div>
-          <div class="d-flex a-center mr-32">
+          <div class="d-flex a-center j-center col-md-4 col-xs-12 mt-30">
             <div class="sosmed-box-lp mr-14">
               <i class="fab fa-facebook-f"></i>
             </div>
             <span>Auto Repair</span>
           </div>
-          <div class="d-flex a-center">
+          <div class="d-flex a-center j-center col-md-4 col-xs-12 mt-30">
             <div class="sosmed-box-lp mr-14">
               <i class="fab fa-twitter"></i>
             </div>
@@ -240,11 +240,8 @@ export default ({
       workShop: null,
       window: {
         width: 0,
-        height: 0
-      },
-      windowAlter: {
-        width: 0,
-        height: 0
+        height: 0,
+        alteredWidth: 0
       },
       search: '',
       workshopRecommendation: []
@@ -268,7 +265,7 @@ export default ({
     handleResize () {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
-      this.windowAlter.width = this.window.width + 400
+      this.window.alteredHeight = window.innerHeight - (window.innerHeight * (10/100))
     },
     doConsole (a) {
       console.log(a)

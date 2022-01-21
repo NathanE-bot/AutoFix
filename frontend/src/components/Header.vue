@@ -16,7 +16,12 @@
           <q-tab @click="changePage('/workshop')" name="workshop" label="Workshop" />
           <div class="relative-position">
             <q-tab class="insurance-tab" name="insurance" />
-            <q-btn-dropdown class="tf-capitalize fs-16 dropdown-btn-tab" content-class="dropdown-tab" label="Insurance" auto-close flat :ripple="false" :menu-offset="[25, 15]" :color="initialTab == 'insurance' ? 'primary' : ''">
+            <q-btn-dropdown
+              :color="initialTab == 'insurance' ? 'primary' : ''"
+              auto-close flat :ripple="false" :menu-offset="[25, 15]"
+              transition-show="jump-down" transition-hide="jump-up"
+              class="tf-capitalize fs-16 dropdown-btn-tab"
+            >
               <q-list class="dropdown-g text-white">
                 <q-item clickable @click="changePage('/insurance/claim-insurance')">
                   <q-item-section>Claim Insurance</q-item-section>
@@ -70,7 +75,11 @@
                     <img v-if="!help.isDataEmpty(user.profilePicture)" :src="user.profilePicture">
                     <i v-else class="fas fa-user grey-5"></i>
                   </q-avatar>
-                  <q-menu>
+                  <q-menu
+                    class="dropdown-g text-white"
+                    style="border-radius: 0px 0px 5px 5px"
+                    :offset="[25, 15]"
+                  >
                     <q-list style="min-width: 100px">
                       <q-item
                         @click="changePage('/member/your-account')"

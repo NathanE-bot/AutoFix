@@ -19,6 +19,9 @@
         }
     }
     .bottom-section{
+        @media (max-width: 500px) {
+            padding: 15px 25px 25px 25px;
+        }
         padding: 40px 70px 70px 70px;
         background-image: url('~assets/images/background_img/cogs_black_2.png'), url('~assets/images/background_img/cogs_black_2_inverted.png');
         background-repeat: no-repeat;

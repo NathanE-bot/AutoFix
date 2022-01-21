@@ -1,79 +1,92 @@
 <template>
-    <q-page>
-        <q-card v-for="item in scheduleList" :key="item.id" class="my-card w-80 m-auto">
-            <q-card-section>
-                <div class="d-flex a-center j-sp-between mb-10">
-                    <div class="text-h6">{{ item.workshopName }}</div>
-                    <div class="">
-                        <q-badge class="tf-capitalize mr-10 p-5" color="yellow" text-color="#ffffff" :label="item.scheduleStatus" />
-                        <!-- <q-badge class="tf-capitalize p-5" text-color="#ffffff" label="New" /> -->
-                    </div>
-                </div>
-                <q-separator class="br-5px" color="#605A5A" size="4px" />
-                <div class="mt-10 row q-gutter-y-md">
-                    <div class="col-md-12 flex-dir-col mt-0">
-                        <span class="fw-semibold">Address</span>
-                        <span>{{ item.workshopAddress }}</span>
-                    </div>
-                    <div class="col-md-5">
-                        <span class="fw-semibold">Date and Time</span>
-                        <div class="d-flex flex-dir-col">
-                            <span>{{ help.defaultFormat(item.scheduleDate, help.data().dmy_7) }}</span>
-                            <span>{{ help.formatTime(item.scheduleTime, help.data().time_2) + ' WIB' }}</span>
+    <q-page class="pt-20">
+        <div v-if="!help.isObjectEmpty(scheduleList)">
+            <q-card v-for="item in scheduleList" :key="item.id" class="my-card w-80 m-auto">
+                <q-card-section>
+                    <div class="d-flex a-center j-sp-between mb-10">
+                        <div class="text-h6">{{ item.workshopName }}</div>
+                        <div class="">
+                            <q-badge class="tf-capitalize mr-10 p-5" color="yellow" text-color="#ffffff" :label="item.scheduleStatus" />
+                            <!-- <q-badge class="tf-capitalize p-5" text-color="#ffffff" label="New" /> -->
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <span class="fw-semibold">Services</span>
-                        <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.generalServices)">
-                            <span style="min-width:120px; max-width:120px; width:120px">General Services:&nbsp;</span>
+                    <q-separator class="br-5px" color="#605A5A" size="4px" />
+                    <div class="mt-10 row q-gutter-y-md">
+                        <div class="col-md-12 flex-dir-col mt-0">
+                            <span class="fw-semibold">Address</span>
+                            <span>{{ item.workshopAddress }}</span>
+                        </div>
+                        <div class="col-md-5">
+                            <span class="fw-semibold">Date and Time</span>
                             <div class="d-flex flex-dir-col">
-                                <span v-for="gn in item.serviceDetail.generalServices" :key="'gn'+gn.id">{{ gn.serviceDetail }}</span>
+                                <span>{{ help.defaultFormat(item.scheduleDate, help.data().dmy_7) }}</span>
+                                <span>{{ help.formatTime(item.scheduleTime, help.data().time_2) + ' WIB' }}</span>
                             </div>
                         </div>
-                        <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.periodicSerivce)">
-                            <span style="min-width:120px; max-width:120px; width:120px">Periodic Services:&nbsp;</span>
-                            <div class="d-flex flex-dir-col">
-                                <span>{{ item.serviceDetail.periodicSerivce.serviceDetail }}</span>
+                        <div class="col-md-5">
+                            <span class="fw-semibold">Services</span>
+                            <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.generalServices)">
+                                <span style="min-width:120px; max-width:120px; width:120px">General Services:&nbsp;</span>
+                                <div class="d-flex flex-dir-col">
+                                    <span v-for="gn in item.serviceDetail.generalServices" :key="'gn'+gn.id">{{ gn.serviceDetail }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.periodicSerivce)">
+                                <span style="min-width:120px; max-width:120px; width:120px">Periodic Services:&nbsp;</span>
+                                <div class="d-flex flex-dir-col">
+                                    <span>{{ item.serviceDetail.periodicSerivce.serviceDetail }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 flex-dir-col">
+                            <span class="fw-semibold">Car Model and Type</span>
+                            <span>{{ item.carModel + ' ' + item.carType}}</span>
+                        </div>
+                        <div class="col-md-5 flex-dir-col">
+                            <span class="fw-semibold">Estimation Service Time</span>
+                            <span>{{ item.timeEstimation + ' Hour' }}</span>
+                        </div>
+                        <div class="col-md-5 flex-dir-col">
+                            <span class="fw-semibold">Description</span>
+                            <span>{{ item.description }}</span>
+                        </div>
+                        <div class="col-md-12 row mt-30 a-center">
+                            <div class="col-md-6 primary_color">
+                                <span class="fw-bold text-h6">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</span>
+                            </div>
+                            <div class="col-md-5 q-gutter-x-lg j-end">
+                                <q-btn
+                                    @click="test = !test"
+                                    :icon="test ? 'fas fa-heart' : 'far fa-heart'"
+                                    flat round color="primary"
+                                />
+                                <q-btn
+                                    @click="changePage('/member/home-message/room-message/' + this.user.tokenChat + '-' + item.tokenChat)"
+                                    icon="fas fa-comment-dots"
+                                    flat round color="primary"
+                                />
+                                <q-btn
+                                    @click="openGoogleMapsWithCoords(item.lat, item.lon)"
+                                    icon="fas fa-map-marker-alt"
+                                    flat round color="primary"
+                                />
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 flex-dir-col">
-                        <span class="fw-semibold">Car Model and Type</span>
-                        <span>{{ item.carModel + ' ' + item.carType}}</span>
-                    </div>
-                    <div class="col-md-5 flex-dir-col">
-                        <span class="fw-semibold">Estimation Service Time</span>
-                        <span>{{ item.timeEstimation + ' Hour' }}</span>
-                    </div>
-                    <div class="col-md-5 flex-dir-col">
-                        <span class="fw-semibold">Description</span>
-                        <span>{{ item.description }}</span>
-                    </div>
-                    <div class="col-md-12 row mt-30 a-center">
-                        <div class="col-md-6 primary_color">
-                            <span class="fw-bold text-h6">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</span>
-                        </div>
-                        <div class="col-md-5 q-gutter-x-lg j-end">
-                            <q-btn
-                                @click="test = !test"
-                                :icon="test ? 'fas fa-heart' : 'far fa-heart'"
-                                flat round color="primary"
-                            />
-                            <q-btn
-                                @click="changePage('/member/home-message/room-message/' + this.user.tokenChat + '-' + item.tokenChat)"
-                                icon="fas fa-comment-dots"
-                                flat round color="primary"
-                            />
-                            <q-btn
-                                @click="openGoogleMapsWithCoords(item.lat, item.lon)"
-                                icon="fas fa-map-marker-alt"
-                                flat round color="primary"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </q-card-section>
-        </q-card>
+                </q-card-section>
+            </q-card>
+        </div>
+        <div v-else class="flex flex-dir-col flex-center" :style="{minHeight: window.alteredHeight + 'px'}">
+            <img class="responsive_img" width="450" src="~assets/images/preset/no_schedule_bg.png" alt="">
+            <span class="fs-30 txt-white fw-semibold mt-10">No Schedule Yet</span>
+            <q-btn
+                @click="changePage('/workshop')"
+                class="tf-capitalize mt-30 fw-semibold br-10px fs-20"
+                rounded color="primary"
+                label="Make Schedule"
+                padding="16px 24px"
+            />
+        </div>
     </q-page>
 </template>
 
@@ -98,13 +111,30 @@ export default {
                 servisBerkala: [],
                 servisUmum: []
             },
+            window: {
+                width: 0,
+                height: 0,
+                alteredWidth: 0
+            }
         }
     },
     created () {
         this.user = LocalStorage.getItem('autoRepairUser').data.user
         this.doGetScheduleList()
     },
+    mounted () {
+        window.addEventListener('resize', this.handleResize)
+        this.handleResize()
+    },
+     unmounted () {
+        window.removeEventListener('resize', this.handleResize)
+    },
     methods: {
+        handleResize () {
+            this.window.width = window.innerWidth
+            this.window.height = window.innerHeight
+            this.window.alteredHeight = window.innerHeight - (window.innerHeight * (13/100))
+        },
         doGetScheduleList () {
             let _this = this
             _this.loader = true

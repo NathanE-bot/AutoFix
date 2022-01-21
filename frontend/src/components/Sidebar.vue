@@ -151,7 +151,7 @@
               <is-logout />
             </q-item-section>
 
-            <q-item-section>Log Out</q-item-section>
+            <q-item-section>Sign Out</q-item-section>
           </q-item>
         </q-item-section>
       </q-list>
@@ -242,6 +242,9 @@ export default {
       }
       else if(url.includes('/insurance')){
         this.initialTab = 'insurance'
+      }
+      else if(url.includes('/schedule-list')){
+        this.link = 'schedule'
       }
       else {
         this.initialTab = ''

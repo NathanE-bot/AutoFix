@@ -87,4 +87,9 @@
     .q-icon{
         display: none;
     }
+    .q-btn__content{
+        .block{
+            color: rgba(255,255,255,.85) !important;
+        }
+    }
 }
