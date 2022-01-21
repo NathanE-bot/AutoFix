@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <q-separator class="br-5px" color="#605A5A" size="4px" />
-                    <div class="mt-10 row q-gutter-y-md">
+                    <div class="mt-10 q-gutter-y-md row">
                         <div class="col-md-12 flex-dir-col mt-0">
                             <span class="fw-semibold">Address</span>
                             <span>{{ item.workshopAddress }}</span>
@@ -212,31 +212,34 @@ export default {
                 let tempScheduleDetails = []
                 tempScheduleList = response.data.schedules
                 tempScheduleDetails = response.data.serviceDetail
-                tempScheduleList.forEach(el1 => {
-                    let tempObject = {
-                        serviceDetail: {
-                            periodicSerivce: {},
-                            generalServices: []
-                        },
-                        lon: null,
-                        lat: null,
-                        tokenChat: null
-                    }
-                    tempScheduleDetails.forEach(el2 => {
-                        if(el2.scheduleID === el1.id){
-                            if(el2.serviceType == 'service umum'){
-                                tempObject.serviceDetail.generalServices.push(el2)
-                            } else {
-                                tempObject.serviceDetail.periodicSerivce = el2
-                            }
+                if(help.isObjectEmpty(tempScheduleList) && help.isObjectEmpty(tempScheduleDetails)) {
+                    _this.loader = false
+                } else {
+                    tempScheduleList.forEach(el1 => {
+                        let tempObject = {
+                            serviceDetail: {
+                                periodicSerivce: {},
+                                generalServices: []
+                            },
+                            lon: null,
+                            lat: null,
+                            tokenChat: null
                         }
+                        tempScheduleDetails.forEach(el2 => {
+                            if(el2.scheduleID === el1.id){
+                                if(el2.serviceType == 'service umum'){
+                                    tempObject.serviceDetail.generalServices.push(el2)
+                                } else {
+                                    tempObject.serviceDetail.periodicSerivce = el2
+                                }
+                            }
+                        })
+                        tempObject = {...tempObject, ...el1}
+                        _this.doGetWorkshopById(tempObject.workshopID, tempObject)
+                        _this.doGetUserWorkshopByWorkshopId(tempObject.workshopID, tempObject)
+                        _this.scheduleList.push(tempObject)
                     })
-                    tempObject = {...tempObject, ...el1}
-                    _this.doGetWorkshopById(tempObject.workshopID, tempObject)
-                    _this.doGetUserWorkshopByWorkshopId(tempObject.workshopID, tempObject)
-                    _this.scheduleList.push(tempObject)
-               })
-               console.log(_this.scheduleList)
+                }
             }) .catch((err) =>{ 
                 console.log(err)
                 _this.loader = false

@@ -73,7 +73,6 @@ export default {
         }
       })
       _this.room = tempRoom
-      console.log(_this.room)
       _this.loader = false
     })
     
