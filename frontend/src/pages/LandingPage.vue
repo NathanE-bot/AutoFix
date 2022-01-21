@@ -94,7 +94,7 @@
           }'
           class="mySwiper lp-swiper"
         >
-          <swiper-slide v-for="(item) in workshopRecommendation" :key="item.id" @click="changePage('/workshop/detail/' + item.id)">
+          <swiper-slide v-for="(item) in workshopRecommendation" :key="item.id" @click="changePage('/workshop/detail/' + item.workshopID)">
             <q-card class="my-card cursor-pointer">
               <img src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
