@@ -157,7 +157,7 @@ export default {
     methods: {
         doGetAcceptedOrder(){
             this.loader = true
-            let listAccepted = []
+            this.listAccepted = []
 
             getScheduleAcceptedByAdmin(this.user.id).then(response => {
                 console.log(response)
