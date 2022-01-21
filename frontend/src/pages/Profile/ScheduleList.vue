@@ -1,7 +1,7 @@
 <template>
-    <q-page class="pt-20">
-        <div v-if="!help.isObjectEmpty(scheduleList)">
-            <q-card v-for="item in scheduleList" :key="item.id" class="my-card w-80 m-auto">
+    <q-page>
+        <div v-if="!help.isObjectEmpty(scheduleList) && !loader">
+            <q-card v-for="item in scheduleList" :key="'sl' + item.id" class="my-card w-80 mx-auto mt-20-i">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
                         <div class="text-h6">{{ item.workshopName }}</div>
@@ -76,6 +76,73 @@
                 </q-card-section>
             </q-card>
         </div>
+        <div v-else-if="loader">
+            <q-card class="my-card w-80 mx-auto mt-20-i">
+                <q-card-section>
+                    <div class="d-flex a-center j-sp-between mb-10">
+                        <q-skeleton type="rect" width="80px" />
+                        <div class="d-flex a-center q-gutter-x-md">
+                            <q-skeleton type="text" width="70px" />
+                            <q-skeleton type="text" width="30px" />
+                        </div>
+                    </div>
+                    <q-skeleton type="text" />
+                    <div class="mt-10 row q-gutter-y-md">
+                        <div class="col-md-12 flex-dir-col mt-0">
+                            <q-skeleton type="text" width="50px" />
+                            <q-skeleton type="text" width="100px" />
+                        </div>
+                        <div class="col-md-5">
+                            <q-skeleton type="text" width="60px" />
+                            <div class="d-flex flex-dir-col">
+                                <q-skeleton type="text" width="130px" />
+                                <q-skeleton type="text" width="60px" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <q-skeleton type="text" width="40px" />
+                            <div class="d-flex a-start">
+                                <q-skeleton type="text" class="w3-120px mr-10" />
+                                <div class="d-flex flex-dir-col">
+                                    <q-skeleton v-for="n in 2" :key="'loader-gn' + n" type="text" width="50px" />
+                                </div>
+                            </div>
+                            <div class="d-flex a-start">
+                                <q-skeleton type="text" class="w3-120px" />
+                                <div class="d-flex flex-dir-col">
+                                    <q-skeleton type="text" width="60px" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 flex-dir-col">
+                            <q-skeleton type="text" width="60px" />
+                            <q-skeleton type="text" width="100px" />
+                        </div>
+                        <div class="col-md-5 flex-dir-col">
+                            <q-skeleton type="text" width="80px" />
+                            <q-skeleton type="text" width="110px" />
+                        </div>
+                        <div class="col-md-5 flex-dir-col">
+                            <q-skeleton type="text" width="40px" />
+                            <q-skeleton type="text" width="140px" />
+                        </div>
+                        <div class="col-md-12 row mt-30 a-center">
+                            <div class="col-md-6 primary_color">
+                                <q-skeleton type="rect" width="200px" />
+                            </div>
+                            <div class="col-md-5 q-gutter-x-lg j-end">
+                                <q-skeleton v-for="n in 3" :key="'bl-' + n" type="QToggle" width="60px" />
+                            </div>
+                        </div>
+                    </div>
+                </q-card-section>
+            </q-card>
+            <div class="w-80 mx-auto mt-20-i q-gutter-y-sm">
+                <q-skeleton class="black-bg-loader" type="QToggle" width="50%" />
+                <q-skeleton class="black-bg-loader" type="rect" width="30%" />
+                <q-skeleton class="black-bg-loader" type="text" width="20%" />
+            </div>
+        </div>
         <div v-else class="flex flex-dir-col flex-center" :style="{minHeight: window.alteredHeight + 'px'}">
             <img class="responsive_img" width="450" src="~assets/images/preset/no_schedule_bg.png" alt="">
             <span class="fs-30 txt-white fw-semibold mt-10">No Schedule Yet</span>
@@ -103,6 +170,7 @@ export default {
         return {
             help,
             ValidationFunction,
+            loader: false,
             user: [],
             scheduleList: [],
             test: false,
@@ -169,8 +237,10 @@ export default {
                     _this.scheduleList.push(tempObject)
                })
                console.log(_this.scheduleList)
+            }) .catch((err) =>{ 
+                console.log(err)
+                _this.loader = false
             })
-            _this.loader = false
         },
         doGetWorkshopById (id, obj) {
             let _this = this
@@ -180,6 +250,7 @@ export default {
                 _this.doGetUserWorkshopByWorkshopId(id, obj)
             }) .catch((err) =>{ 
                 console.log(err)
+                _this.loader = false
             })
         },
         doGetUserWorkshopByWorkshopId (id, obj) {

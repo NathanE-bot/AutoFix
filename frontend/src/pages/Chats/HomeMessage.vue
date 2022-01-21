@@ -1,6 +1,6 @@
 <template>
     <q-page class="chat-page">
-      <div class="room-section-gap" v-if="!help.isObjectEmpty(room)">
+      <div class="room-section-gap" v-if="!help.isObjectEmpty(room) && !loader">
         <div class="room-section cursor-pointer" v-for="item in room" :key="item.roomSecureId" @click="changePage('/member/home-message/room-message/' + item.roomSecureId)">
           <div class="content-section relative-position">
             <span class="time-pos tf-capitalize" v-if="!help.isDataEmpty(item.lastMessage.time)">{{ help.defaultFormat(item.lastMessage.time, help.data().time_4) }}</span>
@@ -15,6 +15,15 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div v-else-if="loader">
+        <div class="q-gutter-y-lg">
+          <q-skeleton class="black-bg-loader br-20px" height="120px" width="100%" />
+          <q-skeleton class="black-bg-loader br-20px" height="120px" width="100%" />
+          <q-skeleton class="black-bg-loader br-20px" type="QToolbar" width="80%" />
+          <q-skeleton class="black-bg-loader br-20px" type="rect" width="30%" />
+          <q-skeleton class="black-bg-loader br-20px" type="text" width="20%" />
         </div>
       </div>
       <div class="flex flex-dir-col flex-center" v-else>
@@ -34,6 +43,7 @@ export default {
   data() {
     return {
       help,
+      loader: false,
       userName: "",
       name: null,
       showMessage: "",
@@ -44,6 +54,7 @@ export default {
   },
   mounted() {
     let _this = this
+    _this.loader = true
     const roomRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom")
     roomRef.on("value", roomTemp => {
       let tempRoomObj = roomTemp.val()
@@ -63,7 +74,9 @@ export default {
       })
       _this.room = tempRoom
       console.log(_this.room)
+      _this.loader = false
     })
+    
   },
   methods: {
     changePage (url) {
