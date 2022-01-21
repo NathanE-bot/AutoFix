@@ -56,7 +56,7 @@
             </div>
             <div class="d-flex a-center j-end mt-20" v-if="!isEditable">
                 <q-btn
-                    @click="doUpdateDataUserProfile()"
+                    @click="doUpdateUserData()"
                     type="button"
                     color="primary"
                     rounded unelevated
@@ -115,8 +115,9 @@ export default {
     },
     methods: {
         doClearImage () {
-            this.userDisplay.image = ''
+            this.userDisplay.image = null
             document.getElementById('uploadDPUser').value = ''
+            this.doSaveImage()
         },
         doUploadProfilePicture (event) {
             var inputFile = event.target.files || event.dataTransfer.files
@@ -145,9 +146,10 @@ export default {
             formData.set('image', file)
             this.userDisplay.image = formData
         },
-        doSaveImage(){
+        doUpdateUserData(){
             saveImgTest(this.userDisplay.image, this.user.id).then(response => {
                 console.log(response.data)
+                this.doUpdateDataUserProfile()
             }) .catch(function (error) {
                 console.log(error.response)
                 Swal.fire({
@@ -202,7 +204,6 @@ export default {
                 _this.userDisplay.image = null
             }
             _this.userDisplay.DoB = help.defaultFormat(_this.userDisplay.DoB, help.data().dmy_5)
-            _this.doSaveImage()
             updateDataUserProfile(_this.userDisplay).then(response => {
                 console.log(response.data)
                 let tempLocalStorage = {}
@@ -213,8 +214,8 @@ export default {
                 _this.user = LocalStorage.getItem('autoRepairUser').data.user
                 _this.doInsertUserDisplay(false)
                 _this.pageLoader = false
-                _this.$q.loading.hide
-                _this.$router.go()
+                _this.$q.loading.hide()
+                // _this.$router.go()
             }) .catch(function (error) {
                 console.log(error.response)
                 Swal.fire({
