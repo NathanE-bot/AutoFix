@@ -23,7 +23,8 @@ const testing = () => import("pages/Testing");
 // Profile
 const yourAccount = () => import("pages/Profile/YourAccount");
 const scheduleList = () => import("pages/Profile/ScheduleList");
-// const historyList = () => import("pages/Profile/HistoryList");
+const historyList = () => import("pages/Profile/HistoryList");
+const favouriteList = () => import("pages/Profile/FavouriteList");
 
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
@@ -153,14 +154,22 @@ const routes = [
     path: '/member',
     component: MemberLayout,
     children: [
-      // {
-      //   path: "/member/history-list",
-      //   component: historyList,
-      //   meta: {
-      //     title: 'History List',
-      //     breadcrumb: 'History List'
-      //   }
-      // },
+      {
+        path: "/member/favourite-list",
+        component: favouriteList,
+        meta: {
+          title: 'Favourite List',
+          breadcrumb: 'Favourite List'
+        }
+      },
+      {
+        path: "/member/history-list",
+        component: historyList,
+        meta: {
+          title: 'History List',
+          breadcrumb: 'History List'
+        }
+      },
       {
         path: "/member/schedule-list",
         component: scheduleList,
