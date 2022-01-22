@@ -239,7 +239,6 @@ export default {
                         })
                         tempObject = {...tempObject, ...el1}
                         _this.doGetWorkshopById(tempObject.workshopID, tempObject)
-                        _this.scheduleList.push(tempObject)
                     })
                 }
             }) .catch((err) =>{ 
@@ -263,6 +262,7 @@ export default {
             getUserWorkshopByWorkshopId(id).then(response => {
                 obj.tokenChat = response.data.tokenChat
                 obj.workshopUserName = response.data.fullName
+                _this.scheduleList.push(obj)
                 _this.loader = false
             }).catch((err) =>{
                 console.log(err)

@@ -1,6 +1,6 @@
 <template>
   <q-page-container class="p-30-i lightGrey-bg">
-    <q-page v-if="!help.isObjectEmpty(workshops) && !loader">
+    <q-page v-if="!help.isObjectEmpty(workshops) && !pageLoader">
       <q-card class="my-card br-20px">
         <q-card-section class="p-35 pb-20">
           <span class="fw-bold fs-20">Workshop</span>
@@ -50,208 +50,283 @@
           </q-btn>
         </q-card-section>
       </q-card>
-      <div class="my-20">
-        <span class="fw-bold fs-20">Total Workshop : {{ totalWorkshop }}</span>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <q-scroll-area
-            :thumb-style="thumbStyle"
-            :bar-style="barStyle"
-            class="list-workshop-scrollbar"
-            :style="{height: window.heightAltered + 'px'}"
-          >
-            <div>
-              <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="doGetWorkshopById(true, clickedId, item.userID)">
-                <q-card-section class="d-flex j-sp-between">
-                  <div class="d-flex a-center">
-                    <div>
-                      <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
-                    </div>
-                    <div class="ml-20">
-                      <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
-                      <div class="text-subtitle2 grey-txt">{{ item.district }}, {{ item.city }}, {{ item.province }}</div>
-                      <div class="d-flex a-baseline">
-                        <span class="text-subtitle2 grey-txt">Rating: {{ item.rating }}</span>
+      <div v-if="!filterLoader">
+        <div class="my-20">
+          <span class="fw-bold fs-20">Total Workshop : {{ totalWorkshop }}</span>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <q-scroll-area
+              :thumb-style="thumbStyle"
+              :bar-style="barStyle"
+              class="list-workshop-scrollbar"
+              :style="{height: window.heightAltered + 'px'}"
+            >
+              <div>
+                <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="doGetWorkshopById(true, clickedId, item.userID)">
+                  <q-card-section class="d-flex j-sp-between">
+                    <div class="d-flex a-center">
+                      <div>
+                        <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
                       </div>
-                      <div class="text-subtitle2">
-                        {{ item.workshopDescription }}
+                      <div class="ml-20">
+                        <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
+                        <div class="text-subtitle2 grey-txt">{{ item.district }}, {{ item.city }}, {{ item.province }}</div>
+                        <div class="d-flex a-baseline">
+                          <span class="text-subtitle2 grey-txt">Rating: {{ item.rating }}</span>
+                        </div>
+                        <div class="text-subtitle2">
+                          {{ item.workshopDescription }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-dir-col a-end j-sp-between">
+                      <div>
+                        <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
+                          {{ item.statusHr == 'tutup' ? 'Closed' : 'Open' }}
+                        </q-badge>
+                        <q-badge color="orange-6" v-else>
+                          24 Hr
+                        </q-badge>
+                      </div>
+                      <div class="text-subtitle2 grey-txt">{{ item.distance.toFixed(2) }} Km</div>
+                    </div>
+                  </q-card-section>
+                </q-card>
+                <div class="q-gutter-y-sm" v-if="listLoader">
+                  <q-skeleton type="QToggle" width="50%" />
+                  <q-skeleton type="rect" width="30%" />
+                  <q-skeleton type="text" width="20%" />
+                </div>
+              </div>
+            </q-scroll-area>
+          </div>
+          <div class="col-md-6 pl-16">
+            <q-card class="my-card p-20 br-20px" v-if="!help.isObjectEmpty(workshopById.defaultData) && !detailWorkshopLoader">
+              <q-card-section>
+                <div>
+                  <div class="d-flex a-start j-sp-between">
+                    <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+                    <div class="soft-badge-primary">
+                      <span>Rating</span>
+                      <div>
+                        <i class="fas fa-star fs-10"></i>
+                        <span>{{ workshopById.defaultData.rating }}</span>
                       </div>
                     </div>
                   </div>
-                  <div class="d-flex flex-dir-col a-end j-sp-between">
-                    <div>
-                      <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
-                        {{ item.statusHr == 'tutup' ? 'Closed' : 'Open' }}
-                      </q-badge>
-                      <q-badge color="orange-6" v-else>
-                        24 Hr
-                      </q-badge>
+                  <div class="text-subtitle2 grey-txt my-6">{{ workshopById.defaultData.district }}, {{ workshopById.defaultData.city }}, {{ workshopById.defaultData.province }}</div>
+                  <div class="text-h6 mb-6">{{ workshopById.defaultData.workshopName }}</div>
+                </div>
+                <q-separator class="br-5px" color="#605A5A" size="4px" />
+                <div class="my-12 row">
+                  <div class="col-md-6 w-45-i px-20">
+                    <div class="text-h6 mb-6">Operational Hours</div>
+                    <div v-for="item in workshopById.defaultData.operational_workshop" :key="item.id">
+                      <div :class="['d-flex a-center layout_txt', {'primary_bg_fade' : help.formatTodayFormatter(this.today) === item.operationalDate}]">
+                        <div>
+                          <span>
+                            {{
+                              item.operationalDate == '1' ? 'Monday' :
+                              item.operationalDate == '2' ? 'Tuesday' :
+                              item.operationalDate == '3' ? 'Wednesday' :
+                              item.operationalDate == '4' ? 'Thrusday' :
+                              item.operationalDate == '5' ? 'Friday' :
+                              item.operationalDate == '6' ? 'Saturday' :
+                              item.operationalDate == '0' ? 'Sunday' : '-'
+                            }}
+                          </span>
+                          <span>:</span>
+                        </div>
+                        <span>{{ help.formatTime(item.operationalOpenHour, help.data().time_2) }} - {{ help.formatTime(item.operationalCloseHour, help.data().time_2) }}</span>
+                      </div>
                     </div>
-                    <div class="text-subtitle2 grey-txt">{{ item.distance.toFixed(2) }} Km</div>
+                  </div>
+                  <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
+                  <div class="col-md-6 w-45-i px-20" v-if="!help.isObjectEmpty(workshopById.servisUmum) && !help.isObjectEmpty(workshopById.servisBerkala)">
+                    <div class="text-h6 mb-6">Services</div>
+                    <div v-if="!help.isObjectEmpty(workshopById.servisUmum)">
+                      <span class="fw-semibold">General :</span>
+                      <div class="layout_bullet">
+                        <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
+                          <div class="bullet"></div>
+                          <span class="text">{{ item.serviceDetail }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div v-if="!help.isObjectEmpty(workshopById.servisBerkala)">
+                      <span class="fw-semibold">Periodic :</span>
+                      <div class="layout_bullet">
+                        <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
+                          <div class="bullet"></div>
+                          <span class="text">{{ item.serviceDetail }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else>
+                    No Services
+                  </div>
+                </div>
+                <q-separator class="br-5px" color="#605A5A" size="4px" />
+              </q-card-section>
+              <q-card class="my-card border-card-i br-20px-i m-16">
+                <q-card-section>
+                  <div class="text-h6">Reviews</div>
+                  <q-scroll-area
+                    v-if="!help.isObjectEmpty(workshopById.defaultData.workshop_review)"
+                    :thumb-style="thumbStyle"
+                    :bar-style="barStyle"
+                    class="review-workshop-scrollbar"
+                    :style="{height: window.heightAlteredReview + 'px'}"
+                  >
+                    <q-card class="my-card review-card br-20px mb-20" v-for="review in workshopById.defaultData.workshop_review" :key="review.id">
+                      <q-card-section class="relative-position">
+                        <span class="review-date grey-5">{{ help.defaultFormat(review.reviewDate, help.data().dmy_6) }}</span>
+                        <div class="review-content">
+                          <div class="text-h6">{{ review.userName }}</div>
+                          <div class="line-clamp-3 text-subtitle2 fs-12">{{ review.description }}</div>
+                        </div>
+                        <q-rating
+                          class="review-rating"
+                          v-model="review.rating"
+                          readonly
+                          size="xs"
+                          color="yellow-14"
+                          icon="star_border"
+                          icon-selected="star"
+                        />
+                      </q-card-section>
+                    </q-card>
+                  </q-scroll-area>
+                  <div v-else>
+                    <span class="text-subtitle2">No Reviews</span>
                   </div>
                 </q-card-section>
               </q-card>
-              <div class="q-gutter-y-sm" v-if="listLoader">
-                <q-skeleton type="QToggle" width="50%" />
-                <q-skeleton type="rect" width="30%" />
-                <q-skeleton type="text" width="20%" />
-              </div>
-            </div>
-          </q-scroll-area>
-        </div>
-        <div class="col-md-6 pl-16">
-          <q-card class="my-card p-20 br-20px" v-if="!help.isObjectEmpty(workshopById.defaultData) && !detailWorkshopLoader">
-            <q-card-section>
-              <div>
-                <div class="d-flex a-start j-sp-between">
-                  <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
-                  <div class="soft-badge-primary">
-                    <span>Rating</span>
-                    <div>
-                      <i class="fas fa-star fs-10"></i>
-                      <span>{{ workshopById.defaultData.rating }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-subtitle2 grey-txt my-6">{{ workshopById.defaultData.district }}, {{ workshopById.defaultData.city }}, {{ workshopById.defaultData.province }}</div>
-                <div class="text-h6 mb-6">{{ workshopById.defaultData.workshopName }}</div>
-              </div>
-              <q-separator class="br-5px" color="#605A5A" size="4px" />
-              <div class="my-12 row">
-                <div class="col-md-6 w-45-i px-20">
-                  <div class="text-h6 mb-6">Operational Hours</div>
-                  <div v-for="item in workshopById.defaultData.operational_workshop" :key="item.id">
-                    <div :class="['d-flex a-center layout_txt', {'primary_bg_fade' : help.formatTodayFormatter(this.today) === item.operationalDate}]">
-                      <div>
-                        <span>
-                          {{
-                            item.operationalDate == '1' ? 'Monday' :
-                            item.operationalDate == '2' ? 'Tuesday' :
-                            item.operationalDate == '3' ? 'Wednesday' :
-                            item.operationalDate == '4' ? 'Thrusday' :
-                            item.operationalDate == '5' ? 'Friday' :
-                            item.operationalDate == '6' ? 'Saturday' :
-                            item.operationalDate == '0' ? 'Sunday' : '-'
-                          }}
-                        </span>
-                        <span>:</span>
-                      </div>
-                      <span>{{ help.formatTime(item.operationalOpenHour, help.data().time_2) }} - {{ help.formatTime(item.operationalCloseHour, help.data().time_2) }}</span>
-                    </div>
-                  </div>
-                </div>
-                <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
-                <div class="col-md-6 w-45-i px-20" v-if="!help.isObjectEmpty(workshopById.servisUmum) && !help.isObjectEmpty(workshopById.servisBerkala)">
-                  <div class="text-h6 mb-6">Services</div>
-                  <div v-if="!help.isObjectEmpty(workshopById.servisUmum)">
-                    <span class="fw-semibold">General :</span>
-                    <div class="layout_bullet">
-                      <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
-                        <div class="bullet"></div>
-                        <span class="text">{{ item.serviceDetail }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div v-if="!help.isObjectEmpty(workshopById.servisBerkala)">
-                    <span class="fw-semibold">Periodic :</span>
-                    <div class="layout_bullet">
-                      <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
-                        <div class="bullet"></div>
-                        <span class="text">{{ item.serviceDetail }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-else>
-                  No Services
-                </div>
-              </div>
-              <q-separator class="br-5px" color="#605A5A" size="4px" />
-            </q-card-section>
-            <q-card class="my-card border-card-i br-20px-i m-16">
-              <q-card-section>
-                <div class="text-h6">Reviews</div>
-                <q-scroll-area
-                  v-if="!help.isObjectEmpty(workshopById.defaultData.workshop_review)"
-                  :thumb-style="thumbStyle"
-                  :bar-style="barStyle"
-                  class="review-workshop-scrollbar"
-                  :style="{height: window.heightAlteredReview + 'px'}"
+              <div class="d-flex a-center j-end">
+                <q-btn
+                  @click="changePage('/workshop/detail/' + workshopById.defaultData.id)"
+                  color="primary" rounded unelevated padding="4px 24px"
+                  label="See Full Profile"
+                  class="tf-capitalize"
                 >
-                  <q-card class="my-card review-card br-20px mb-20" v-for="review in workshopById.defaultData.workshop_review" :key="review.id">
-                    <q-card-section class="relative-position">
-                      <span class="review-date grey-5">{{ help.defaultFormat(review.reviewDate, help.data().dmy_6) }}</span>
-                      <div class="review-content">
-                        <div class="text-h6">{{ review.userName }}</div>
-                        <div class="line-clamp-3 text-subtitle2 fs-12">{{ review.description }}</div>
-                      </div>
-                      <q-rating
-                        class="review-rating"
-                        v-model="review.rating"
-                        readonly
-                        size="xs"
-                        color="yellow-14"
-                        icon="star_border"
-                        icon-selected="star"
-                      />
-                    </q-card-section>
-                  </q-card>
-                </q-scroll-area>
-                <div v-else>
-                  <span class="text-subtitle2">No Reviews</span>
-                </div>
-              </q-card-section>
+                </q-btn>
+              </div>
             </q-card>
-            <div class="d-flex a-center j-end">
-              <q-btn
-                @click="changePage('/workshop/detail/' + workshopById.defaultData.id)"
-                color="primary" rounded unelevated padding="4px 24px"
-                label="See Full Profile"
-                class="tf-capitalize"
-              >
-              </q-btn>
-            </div>
-          </q-card>
-          <q-card class="my-card p-20 br-20px bg-transparent" v-else>
-            <q-card-section>
-              <div>
-                <div class="d-flex a-start j-sp-between">
-                  <q-skeleton width="120px" height="90px" />
-                  <q-skeleton type="QChip" width="100px" />
-                </div>
-                <q-skeleton type="text" width="150px" />
-                <q-skeleton type="text" width="90px" />
-              </div>
-              <q-skeleton type="text" width="100%" />
-              <div class="my-12 row">
-                <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
-                  <q-skeleton class="mb-6" type="text" width="200px" />
-                  <q-skeleton type="text" width="150px" v-for="n in 3" :key="'a-' + n" />
-                  <q-skeleton type="text" width="130px" />
-                  <q-skeleton type="text" width="100px" />
-                </div>
+            <q-card class="my-card p-20 br-20px bg-transparent" v-else>
+              <q-card-section>
                 <div>
-                  <q-skeleton width="5px" height="100%" />
+                  <div class="d-flex a-start j-sp-between">
+                    <q-skeleton width="120px" height="90px" />
+                    <q-skeleton type="QChip" width="100px" />
+                  </div>
+                  <q-skeleton type="text" width="150px" />
+                  <q-skeleton type="text" width="90px" />
                 </div>
-                <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
-                  <q-skeleton class="mb-6" type="text" width="200px" />
-                  <q-skeleton type="text" width="150px" v-for="n in 3" :key="'b-' + n" />
-                  <q-skeleton type="text" width="130px" />
-                  <q-skeleton type="text" width="100px" />
+                <q-skeleton type="text" width="100%" />
+                <div class="my-12 row">
+                  <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                    <q-skeleton class="mb-6" type="text" width="200px" />
+                    <q-skeleton type="text" width="150px" v-for="n in 3" :key="'a-' + n" />
+                    <q-skeleton type="text" width="130px" />
+                    <q-skeleton type="text" width="100px" />
+                  </div>
+                  <div>
+                    <q-skeleton width="5px" height="100%" />
+                  </div>
+                  <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                    <q-skeleton class="mb-6" type="text" width="200px" />
+                    <q-skeleton type="text" width="150px" v-for="n in 3" :key="'b-' + n" />
+                    <q-skeleton type="text" width="130px" />
+                    <q-skeleton type="text" width="100px" />
+                  </div>
+                </div>
+                <q-skeleton type="text" width="100%" />
+              </q-card-section>
+              <q-skeleton class="br-20px-i mx-auto" width="95%" height="80px" />
+              <div class="d-flex a-center j-end mt-20">
+                <q-skeleton type="QChip" width="150px" />
+              </div>
+            </q-card>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="my-20">
+          <q-skeleton type="rect" width="200px" />
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <q-scroll-area
+              :thumb-style="thumbStyle"
+              :bar-style="barStyle"
+              class="list-workshop-scrollbar"
+              :style="{height: window.heightAltered + 'px'}"
+            >
+              <div>
+                <q-card class="my-card mb-20 br-20px p-20 bg-transparent" v-for="n in 3" :key="'load-l-' + n">
+                  <q-card-section class="d-flex a-start">
+                    <div>
+                      <q-skeleton width="100px" height="80px" />
+                    </div>
+                    <div class="ml-20">
+                      <q-skeleton width="220px" type="text" />
+                      <q-skeleton width="300px" type="rect" />
+                      <q-skeleton width="60px" type="text" />
+                      <q-skeleton width="280px" type="text" />
+                    </div>
+                  </q-card-section>
+                </q-card>
+                <div class="q-gutter-y-sm">
+                  <q-skeleton type="QToggle" width="50%" />
+                  <q-skeleton type="rect" width="30%" />
+                  <q-skeleton type="text" width="20%" />
                 </div>
               </div>
-              <q-skeleton type="text" width="100%" />
-            </q-card-section>
-            <q-skeleton class="br-20px-i mx-auto" width="95%" height="80px" />
-            <div class="d-flex a-center j-end mt-20">
-              <q-skeleton type="QChip" width="150px" />
-            </div>
-          </q-card>
+            </q-scroll-area>
+          </div>
+          <div class="col-md-6 pl-16">
+            <q-card class="my-card p-20 br-20px bg-transparent">
+              <q-card-section>
+                <div>
+                  <div class="d-flex a-start j-sp-between">
+                    <q-skeleton width="120px" height="90px" />
+                    <q-skeleton type="QChip" width="100px" />
+                  </div>
+                  <q-skeleton type="text" width="150px" />
+                  <q-skeleton type="text" width="90px" />
+                </div>
+                <q-skeleton type="text" width="100%" />
+                <div class="my-12 row">
+                  <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                    <q-skeleton class="mb-6" type="text" width="200px" />
+                    <q-skeleton type="text" width="150px" v-for="n in 3" :key="'a-' + n" />
+                    <q-skeleton type="text" width="130px" />
+                    <q-skeleton type="text" width="100px" />
+                  </div>
+                  <div>
+                    <q-skeleton width="5px" height="100%" />
+                  </div>
+                  <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                    <q-skeleton class="mb-6" type="text" width="200px" />
+                    <q-skeleton type="text" width="150px" v-for="n in 3" :key="'b-' + n" />
+                    <q-skeleton type="text" width="130px" />
+                    <q-skeleton type="text" width="100px" />
+                  </div>
+                </div>
+                <q-skeleton type="text" width="100%" />
+              </q-card-section>
+              <q-skeleton class="br-20px-i mx-auto" width="95%" height="80px" />
+              <div class="d-flex a-center j-end mt-20">
+                <q-skeleton type="QChip" width="150px" />
+              </div>
+            </q-card>
+          </div>
         </div>
       </div>
     </q-page>
-    <q-page v-else-if="loader">
+    <q-page v-else-if="pageLoader">
       <q-card class="my-card br-20px bg-transparent">
         <q-card-section class="p-35 pb-20">
           <q-skeleton type="rect" width="100px" />
@@ -267,34 +342,25 @@
         <q-skeleton type="rect" width="200px" />
       </div>
       <div class="row">
-        <div class="col-md-6">
-          <q-scroll-area
-            :thumb-style="thumbStyle"
-            :bar-style="barStyle"
-            class="list-workshop-scrollbar"
-            :style="{height: window.heightAltered + 'px'}"
-          >
-            <div>
-              <q-card class="my-card mb-20 br-20px p-20 bg-transparent" v-for="n in 3" :key="'load-l-' + n">
-                <q-card-section class="d-flex a-start">
-                  <div>
-                    <q-skeleton width="100px" height="80px" />
-                  </div>
-                  <div class="ml-20">
-                    <q-skeleton width="220px" type="text" />
-                    <q-skeleton width="300px" type="rect" />
-                    <q-skeleton width="60px" type="text" />
-                    <q-skeleton width="280px" type="text" />
-                  </div>
-                </q-card-section>
-              </q-card>
-              <div class="q-gutter-y-sm">
-                <q-skeleton type="QToggle" width="50%" />
-                <q-skeleton type="rect" width="30%" />
-                <q-skeleton type="text" width="20%" />
+        <div class="col-md-6 pr-20">
+          <q-card class="my-card mb-20 br-20px p-20 bg-transparent" v-for="n in 3" :key="'load-l-' + n">
+            <q-card-section class="d-flex a-start">
+              <div>
+                <q-skeleton width="100px" height="80px" />
               </div>
-            </div>
-          </q-scroll-area>
+              <div class="ml-20">
+                <q-skeleton width="220px" type="text" />
+                <q-skeleton width="300px" type="rect" />
+                <q-skeleton width="60px" type="text" />
+                <q-skeleton width="280px" type="text" />
+              </div>
+            </q-card-section>
+          </q-card>
+          <div class="q-gutter-y-sm">
+            <q-skeleton type="QToggle" width="50%" />
+            <q-skeleton type="rect" width="30%" />
+            <q-skeleton type="text" width="20%" />
+          </div>
         </div>
         <div class="col-md-6 pl-16">
           <q-card class="my-card p-20 br-20px bg-transparent">
@@ -399,7 +465,8 @@ export default {
         heightAltered: 0,
         heightAlteredReview: 0
       },
-      loader: false,
+      pageLoader: false,
+      filterLoader: false,
       listLoader: false,
       errorMessage: false,
       errGeolocationCode: null,
@@ -441,7 +508,7 @@ export default {
   },
   mounted () {
     this.today = help.formatToday(this.help.data().d_1).toLowerCase()
-    if(!this.loader){
+    if(!this.pageLoader){
       document.querySelector('.q-scrollarea__container').addEventListener('scroll', () => {
         this.loadNextPage()
       })
@@ -520,6 +587,9 @@ export default {
     },
     doGetWorkshopApi (validator, searching) {
       let _this = this
+      if(searching) {
+        _this.filterLoader = true
+      }
       if(!help.isDataEmpty(_this.searchFromLP)){
         _this.jsonDataParam.workshopName = _this.searchFromLP
       }
@@ -552,11 +622,14 @@ export default {
         if(_this.clickedId != null && validator || searching){
           _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
         }
-        _this.loader = false
-        // _this.workshops = []
+        _this.pageLoader = false
+        _this.filterLoader = false
+        _this.listLoader = false
       }) .catch((err) =>{
         console.log(err)
-        _this.loader = false
+        _this.pageLoader = false
+        _this.filterLoader = false
+        _this.listLoader = false
       })
     },
     doGetWorkshopById (clicking, clickId, id) {
@@ -590,7 +663,7 @@ export default {
       
     },
     doGetCurrentPosition() {
-      this.loader = true
+      this.pageLoader = true
       if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           this.jsonDataParam.lat = pos.coords.latitude
@@ -601,15 +674,15 @@ export default {
             this.doGetAllWorkshopsForAutocomplete()
           } else {
             this.errorMessage = true
-            this.loader = false
+            this.pageLoader = false
           }
         }, error => {
           this.errGeolocationCode = error.code
-          this.loader = false
+          this.pageLoader = false
         })
       } else { 
         this.errorMessage = true
-        this.loader = false
+        this.pageLoader = false
       }
     },
     doConsole(a){
