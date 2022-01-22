@@ -2,7 +2,9 @@
 .p-bg{
     background: $dark-theme-bg;
 }
-
+.bg-transparent{
+    background-color: transparent;
+}
 .primary-bg{
     background: $primary;
 }
@@ -12,19 +14,15 @@
 .accent-bg{
     background: $accent;
 }
-
 .card_bg_black_2{
     background-color: $black_2;
 }
-
 .primary_bg_fade{
     background-color: rgba(33, 161, 123, .3);
 }
-
 .white-bg{
     background: #ffffff;
 }
-
 .lightGrey-bg{
     background: #F2F0F0;
 }
