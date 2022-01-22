@@ -5,7 +5,7 @@
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
                         <div class="text-h5 fw-semibold">{{ item.workshopName }}</div>
-                        <div class="">
+                        <div>
                             <q-badge class="tf-capitalize mr-10 p-5" color="yellow" text-color="#ffffff" :label="item.scheduleStatus" />
                             <!-- <q-badge class="tf-capitalize p-5" text-color="#ffffff" label="New" /> -->
                         </div>
@@ -61,7 +61,7 @@
                                     flat round color="primary"
                                 />
                                 <q-btn
-                                    @click="changePage('/member/home-message/room-message/' + this.user.tokenChat + '-' + item.tokenChat)"
+                                    @click="doCheckForMakeChatRoom(item)"
                                     icon="fas fa-comment-dots"
                                     flat round color="primary"
                                 />
@@ -164,6 +164,8 @@ import { getWorkshopById, getUserWorkshopByWorkshopId } from '../../api/workshop
 import { LocalStorage } from 'quasar'
 import help from '../../js/help'
 import ValidationFunction from '../../js/ValidationFunction'
+import Swal from 'sweetalert2'
+import main from '../../main'
 
 export default {
     data(){
@@ -223,7 +225,8 @@ export default {
                             },
                             lon: null,
                             lat: null,
-                            tokenChat: null
+                            tokenChat: null,
+                            workshopUserName: null
                         }
                         tempScheduleDetails.forEach(el2 => {
                             if(el2.scheduleID === el1.id){
@@ -236,7 +239,6 @@ export default {
                         })
                         tempObject = {...tempObject, ...el1}
                         _this.doGetWorkshopById(tempObject.workshopID, tempObject)
-                        _this.doGetUserWorkshopByWorkshopId(tempObject.workshopID, tempObject)
                         _this.scheduleList.push(tempObject)
                     })
                 }
@@ -260,6 +262,7 @@ export default {
             let _this = this
             getUserWorkshopByWorkshopId(id).then(response => {
                 obj.tokenChat = response.data.tokenChat
+                obj.workshopUserName = response.data.fullName
                 _this.loader = false
             }).catch((err) =>{
                 console.log(err)
@@ -270,6 +273,47 @@ export default {
             if(!help.isDataEmpty(lat) && !help.isDataEmpty(lon)){
                 var url = "https://maps.google.com/?q=" + lat + "," + lon
                 window.open(url, '_blank')
+            }
+        },
+        doCheckForMakeChatRoom (userWorkshop) {
+            let user_1 = ''
+            let user_2 = ''
+            var userTokenChat = LocalStorage.getItem('autoRepairUser').data.user.tokenChat
+            if(LocalStorage.has('autoRepairUser')){
+                user_1 = LocalStorage.getItem('autoRepairUser').data.user.fullName
+                user_2 = userWorkshop.workshopUserName
+                var roomId = LocalStorage.getItem('autoRepairUser').data.user.tokenChat + '-' + userWorkshop.tokenChat
+            }
+            if(!help.isDataEmpty(roomId)){
+                main
+                    .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                    .ref("chatRoom/" + roomId + "/user-1")
+                    .set(user_1)
+                main
+                    .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                    .ref("chatRoom/" + roomId + "/user-2")
+                    .set(user_2)
+                if(help.isDataEmpty(userTokenChat)){
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Please contact website admin.'
+                    })
+                } else {
+                    this.changePage('/member/home-message/room-message/' + userTokenChat + '-' + userWorkshop.tokenChat)
+                }
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Please login first.',
+                    confirmButtonText: 'Login',
+                    confirmButtonColor: '#21a17b',
+                    showCancelButton: true,
+                    cancelButtonText: 'Back',
+                }) .then((result) => {
+                    if(result.isConfirmed){
+                        this.changePage('/session/login')
+                    }
+                })
             }
         },
         changePage (url) {
