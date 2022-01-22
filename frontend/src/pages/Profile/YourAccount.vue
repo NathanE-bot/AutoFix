@@ -215,7 +215,7 @@ export default {
                 _this.doInsertUserDisplay(false)
                 _this.pageLoader = false
                 _this.$q.loading.hide()
-                // _this.$router.go()
+                _this.$router.go()
             }) .catch(function (error) {
                 console.log(error.response)
                 Swal.fire({

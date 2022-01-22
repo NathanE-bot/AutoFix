@@ -1,10 +1,10 @@
 <template>
     <q-page>
-        <div v-if="!help.isObjectEmpty(scheduleList) && !loader">
-            <q-card v-for="item in scheduleList" :key="'sl' + item.id" class="my-card w-80 mx-auto mt-20-i">
+        <div v-if="!help.isObjectEmpty(scheduleList) && !loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg">
+            <q-card v-for="item in scheduleList" :key="'sl' + item.id" class="my-card w-70">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
-                        <div class="text-h6">{{ item.workshopName }}</div>
+                        <div class="text-h5 fw-semibold">{{ item.workshopName }}</div>
                         <div class="">
                             <q-badge class="tf-capitalize mr-10 p-5" color="yellow" text-color="#ffffff" :label="item.scheduleStatus" />
                             <!-- <q-badge class="tf-capitalize p-5" text-color="#ffffff" label="New" /> -->
@@ -26,13 +26,13 @@
                         <div class="col-md-5">
                             <span class="fw-semibold">Services</span>
                             <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.generalServices)">
-                                <span style="min-width:120px; max-width:120px; width:120px">General Services:&nbsp;</span>
+                                <span class="w3-120px">General Services:&nbsp;</span>
                                 <div class="d-flex flex-dir-col">
                                     <span v-for="gn in item.serviceDetail.generalServices" :key="'gn'+gn.id">{{ gn.serviceDetail }}</span>
                                 </div>
                             </div>
                             <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.periodicSerivce)">
-                                <span style="min-width:120px; max-width:120px; width:120px">Periodic Services:&nbsp;</span>
+                                <span class="w3-120px">Periodic Services:&nbsp;</span>
                                 <div class="d-flex flex-dir-col">
                                     <span>{{ item.serviceDetail.periodicSerivce.serviceDetail }}</span>
                                 </div>
