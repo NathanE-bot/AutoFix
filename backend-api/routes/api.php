@@ -102,6 +102,9 @@ Route::get('getScheduleAcceptedByAdmin','Api\AdminWorkshopController@getSchedule
 Route::post('cancelScheduleByAdmin','Api\AdminWorkshopController@cancelScheduleByAdmin');
 Route::post('doneScheduleByAdmin','Api\AdminWorkshopController@doneScheduleByAdmin');
 
-
+//ADMIN INSURANCE
+Route::get('getDataIncomingInsuranceRequestByAdminID','Api\AdminInsuranceController@getDataIncomingInsuranceRequestByAdminID');
+Route::post('uploadPDFInsurance','Api\AdminInsuranceController@uploadPDFInsurance');
+Route::post('acceptInsuranceClaim','Api\AdminInsuranceController@acceptInsuranceClaim');
 
 

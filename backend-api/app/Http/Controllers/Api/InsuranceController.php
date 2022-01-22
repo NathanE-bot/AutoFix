@@ -128,6 +128,43 @@ class InsuranceController extends Controller
         }
     }
 
+    // public function uploadImageInsuranceClaim(Request $req){
+    //     try {
+
+    //     $validator = Validator::make($req->all(), [
+    //         'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
+    //     ]);
+
+    //     if ($req->has('documentationPicture'))
+    //     {
+    //         $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
+    //         foreach ($req->file('documentationPicture') as $key => $file)
+    //         {
+    //             foreach ($dataDocumentInsurance as $key => $value) {
+    //                 $fullNameTemp = str_replace(' ', '', $value->documentationInsuranceName);
+    //                 $ext = $file->getClientOriginalExtension();
+    //                 $path = $file->storeAs('avatar', strtolower($fullNameTemp.$value->id.$key.'.'.$ext), 'public');
+    //                 $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+
+    //                 $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
+    //                 ->update(['profilePicture' => $imagePath]);
+    //             }
+    //         }
+    //     }
+    //     else
+    //     {
+    //         return response()->json('image not found', 400);
+    //     }
+
+    //     $data = [
+    //         'objectReturner'=>'Berhasil'
+    //     ];
+    //     return response()->json($data, 200);
+    // } catch (Exception $err){
+    //     return response()->json($err, 500);
+    // }
+    // }
+
 
     public function getInsuranceStatusApi (Request $req){
         try{
