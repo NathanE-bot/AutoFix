@@ -1,5 +1,6 @@
 <template>
-    <q-page class="p-30 lightGrey-bg">
+  <q-page-container class="p-30-i lightGrey-bg">
+    <q-page v-if="!help.isObjectEmpty(workshops) && !loader">
       <q-card class="my-card br-20px">
         <q-card-section class="p-35 pb-20">
           <span class="fw-bold fs-20">Workshop</span>
@@ -60,7 +61,7 @@
             class="list-workshop-scrollbar"
             :style="{height: window.heightAltered + 'px'}"
           >
-            <div v-if="!help.isObjectEmpty(workshops)">
+            <div>
               <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="doGetWorkshopById(true, clickedId, item.userID)">
                 <q-card-section class="d-flex j-sp-between">
                   <div class="d-flex a-center">
@@ -91,22 +92,11 @@
                   </div>
                 </q-card-section>
               </q-card>
-              <q-card class="my-card mb-20 br-20px p-20" style="background-color:transparent" v-if="listLoader">
-                <q-card-section class="d-flex a-start">
-                  <div>
-                    <q-skeleton width="100px" height="80px" />
-                  </div>
-                  <div class="ml-20">
-                    <q-skeleton width="220px" type="text" />
-                    <q-skeleton width="300px" type="rect" />
-                    <q-skeleton width="60px" type="text" />
-                    <q-skeleton width="280px" type="text" />
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-            <div v-else>
-              No Data
+              <div class="q-gutter-y-sm" v-if="listLoader">
+                <q-skeleton type="QToggle" width="50%" />
+                <q-skeleton type="rect" width="30%" />
+                <q-skeleton type="text" width="20%" />
+              </div>
             </div>
           </q-scroll-area>
         </div>
@@ -223,37 +213,156 @@
               </q-btn>
             </div>
           </q-card>
-          <q-card class="my-card p-20 br-20px" style="background-color:transparent" v-else>
+          <q-card class="my-card p-20 br-20px bg-transparent" v-else>
             <q-card-section>
               <div>
                 <div class="d-flex a-start j-sp-between">
-                  <q-skeleton width="100px" height="90px" />
-                  <q-skeleton type="QChip" />
+                  <q-skeleton width="120px" height="90px" />
+                  <q-skeleton type="QChip" width="100px" />
                 </div>
-                <q-skeleton type="text" width="200px" />
-                <q-skeleton type="rect" width="80px" />
+                <q-skeleton type="text" width="150px" />
+                <q-skeleton type="text" width="90px" />
               </div>
+              <q-skeleton type="text" width="100%" />
               <div class="my-12 row">
-                <div class="col-md-6 w-45-i px-20 q-gutter-y-xs">
-                  <q-skeleton type="rect" width="140px" />
-                  <q-skeleton type="rect" width="130px" />
-                  <q-skeleton type="rect" width="120px" />
+                <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                  <q-skeleton class="mb-6" type="text" width="200px" />
+                  <q-skeleton type="text" width="150px" v-for="n in 3" :key="'a-' + n" />
+                  <q-skeleton type="text" width="130px" />
+                  <q-skeleton type="text" width="100px" />
                 </div>
-                <div class="col-md-6 w-45-i px-20 q-gutter-y-xs">
-                  <q-skeleton type="rect" width="140px" />
-                  <q-skeleton type="rect" width="130px" />
-                  <q-skeleton type="rect" width="120px" />
+                <div>
+                  <q-skeleton width="5px" height="100%" />
+                </div>
+                <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                  <q-skeleton class="mb-6" type="text" width="200px" />
+                  <q-skeleton type="text" width="150px" v-for="n in 3" :key="'b-' + n" />
+                  <q-skeleton type="text" width="130px" />
+                  <q-skeleton type="text" width="100px" />
                 </div>
               </div>
+              <q-skeleton type="text" width="100%" />
             </q-card-section>
-            <div class="p-30 q-gutter-y-md">
-              <q-skeleton type="rect" width="80px" />
-              <q-skeleton height="90px" />
+            <q-skeleton class="br-20px-i mx-auto" width="95%" height="80px" />
+            <div class="d-flex a-center j-end mt-20">
+              <q-skeleton type="QChip" width="150px" />
             </div>
           </q-card>
         </div>
       </div>
     </q-page>
+    <q-page v-else-if="loader">
+      <q-card class="my-card br-20px bg-transparent">
+        <q-card-section class="p-35 pb-20">
+          <q-skeleton type="rect" width="100px" />
+        </q-card-section>
+        <q-card-section class="p-35 pt-0 d-flex row">
+          <q-skeleton class="col-md-3 mr-auto br-10px" type="QInput" height="56px" />
+          <q-skeleton class="col-md-3 mx-auto br-10px" type="QInput" height="56px" />
+          <q-skeleton class="col-md-3 ml-auto br-10px" type="QInput" height="56px" />
+          <q-skeleton class="ml-auto br-10px" type="QBtn" width="80px" height="56px" />
+        </q-card-section>
+      </q-card>
+      <div class="my-20">
+        <q-skeleton type="rect" width="200px" />
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <q-scroll-area
+            :thumb-style="thumbStyle"
+            :bar-style="barStyle"
+            class="list-workshop-scrollbar"
+            :style="{height: window.heightAltered + 'px'}"
+          >
+            <div>
+              <q-card class="my-card mb-20 br-20px p-20 bg-transparent" v-for="n in 3" :key="'load-l-' + n">
+                <q-card-section class="d-flex a-start">
+                  <div>
+                    <q-skeleton width="100px" height="80px" />
+                  </div>
+                  <div class="ml-20">
+                    <q-skeleton width="220px" type="text" />
+                    <q-skeleton width="300px" type="rect" />
+                    <q-skeleton width="60px" type="text" />
+                    <q-skeleton width="280px" type="text" />
+                  </div>
+                </q-card-section>
+              </q-card>
+              <div class="q-gutter-y-sm">
+                <q-skeleton type="QToggle" width="50%" />
+                <q-skeleton type="rect" width="30%" />
+                <q-skeleton type="text" width="20%" />
+              </div>
+            </div>
+          </q-scroll-area>
+        </div>
+        <div class="col-md-6 pl-16">
+          <q-card class="my-card p-20 br-20px bg-transparent">
+            <q-card-section>
+              <div>
+                <div class="d-flex a-start j-sp-between">
+                  <q-skeleton width="120px" height="90px" />
+                  <q-skeleton type="QChip" width="100px" />
+                </div>
+                <q-skeleton type="text" width="150px" />
+                <q-skeleton type="text" width="90px" />
+              </div>
+              <q-skeleton type="text" width="100%" />
+              <div class="my-12 row">
+                <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                  <q-skeleton class="mb-6" type="text" width="200px" />
+                  <q-skeleton type="text" width="150px" v-for="n in 3" :key="'a-' + n" />
+                  <q-skeleton type="text" width="130px" />
+                  <q-skeleton type="text" width="100px" />
+                </div>
+                <div>
+                  <q-skeleton width="5px" height="100%" />
+                </div>
+                <div class="col-md-6 w-45-i px-20 q-gutter-y-md">
+                  <q-skeleton class="mb-6" type="text" width="200px" />
+                  <q-skeleton type="text" width="150px" v-for="n in 3" :key="'b-' + n" />
+                  <q-skeleton type="text" width="130px" />
+                  <q-skeleton type="text" width="100px" />
+                </div>
+              </div>
+              <q-skeleton type="text" width="100%" />
+            </q-card-section>
+            <q-skeleton class="br-20px-i mx-auto" width="95%" height="80px" />
+            <div class="d-flex a-center j-end mt-20">
+              <q-skeleton type="QChip" width="150px" />
+            </div>
+          </q-card>
+        </div>
+      </div>
+    </q-page>
+    <q-page class="flex flex-center" v-else>
+      <div>
+        <div class="d-flex flex-dir-col" v-if="errorMessage || errGeolocationCode == 1 && help.isObjectEmpty(workshops)">
+          <figure class="d-flex flex-dir-col">
+            <img class="responsive_img w-50 m-auto" src="~assets/images/preset/no_location_bg.png" alt="">
+            <caption class="mt-20 d-flex flex-dir-col">
+              <span class="text-h5">No Location Detected</span>
+              <div>
+                <span>Looks like you have not turn your location settings, </span>
+                <span>
+                  <a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Click Here</a> to learn more.
+                </span>
+              </div>
+            </caption>
+          </figure>
+        </div>
+        <div v-else-if="!errorMessage && help.isObjectEmpty(workshops)">
+          <figure class="d-flex flex-dir-col">
+            <img class="responsive_img w-50 m-auto" src="~assets/images/preset/no_workshop_bg.png" alt="">
+            <caption class="mt-20">No Data Available.</caption>
+          </figure>
+        </div>
+        <div v-else>
+          Error, please contact our admin.
+        </div>
+      </div>
+    </q-page>
+  </q-page-container>
 </template>
 
 <script>
@@ -292,6 +401,8 @@ export default {
       },
       loader: false,
       listLoader: false,
+      errorMessage: false,
+      errGeolocationCode: null,
       detailWorkshopLoader: false,
       allWorkshops: [],
       tempWorkshops: [],
@@ -327,14 +438,14 @@ export default {
     this.searchFromLP = ValidationFunction.getQueryVariableForURL('search', '')
     this.setDefaultFilter()
     this.doGetCurrentPosition()
-    this.doGetAllWorkshopsForAutocomplete()
   },
   mounted () {
     this.today = help.formatToday(this.help.data().d_1).toLowerCase()
-    document.querySelector('.q-scrollarea__container').addEventListener('scroll', () => {
-      this.loadNextPage()
-      console.log('scrolling')
-    })
+    if(!this.loader){
+      document.querySelector('.q-scrollarea__container').addEventListener('scroll', () => {
+        this.loadNextPage()
+      })
+    }
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   },
@@ -402,7 +513,7 @@ export default {
           _this.locationOptions.push(el1.district)
           _this.tempLocationOptions.push(el1.district)
         })
-
+        _this.doGetWorkshopApi(true)
       }) .catch((err) =>{
         console.log(err)
       })
@@ -442,12 +553,12 @@ export default {
           _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
         }
         _this.loader = false
+        // _this.workshops = []
       }) .catch((err) =>{
         console.log(err)
         _this.loader = false
       })
     },
-
     doGetWorkshopById (clicking, clickId, id) {
       let _this = this
       console.log(_this.clickedId , id)
@@ -484,14 +595,21 @@ export default {
         navigator.geolocation.getCurrentPosition(pos => {
           this.jsonDataParam.lat = pos.coords.latitude
           this.jsonDataParam.lon = pos.coords.longitude
+          // this.jsonDataParam.lat = ''
+          // this.jsonDataParam.lon = ''
           if(!help.isDataEmpty(this.jsonDataParam.lat) && !help.isDataEmpty(this.jsonDataParam.lon)){
-            this.doGetWorkshopApi(true)
+            this.doGetAllWorkshopsForAutocomplete()
+          } else {
+            this.errorMessage = true
+            this.loader = false
           }
         }, error => {
-          console.log(error)
+          this.errGeolocationCode = error.code
+          this.loader = false
         })
       } else { 
-        console.log('no')
+        this.errorMessage = true
+        this.loader = false
       }
     },
     doConsole(a){
