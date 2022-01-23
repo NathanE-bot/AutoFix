@@ -66,8 +66,11 @@
                 <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="doGetWorkshopById(true, clickedId, item.userID)">
                   <q-card-section class="d-flex j-sp-between">
                     <div class="d-flex a-center">
-                      <div>
-                        <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
+                      <div v-if="!help.isDataEmpty(item.workshopLogo)">
+                        <img class="responsive_img" width="100" :src="item.workshopLogo" alt="">
+                      </div>
+                      <div class="no-logo-layout-1" v-else>
+                        No Logo
                       </div>
                       <div class="ml-20">
                         <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
@@ -85,9 +88,7 @@
                         <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
                           {{ item.statusHr == 'tutup' ? 'Closed' : 'Open' }}
                         </q-badge>
-                        <q-badge color="orange-6" v-else>
-                          24 Hr
-                        </q-badge>
+                        <q-badge color="orange-6" v-else>24 Hr</q-badge>
                       </div>
                       <div class="text-subtitle2 grey-txt">{{ item.distance.toFixed(2) }} Km</div>
                     </div>
@@ -106,21 +107,36 @@
               <q-card-section>
                 <div>
                   <div class="d-flex a-start j-sp-between">
-                    <img class="responsive_img" width="100" src="~assets/images/logo/workshop/honda.png" alt="">
-                    <div class="soft-badge-primary">
+                    <div v-if="!help.isDataEmpty(workshopById.defaultData.workshopLogo)">
+                      <img class="responsive_img" width="100" :src="workshopById.defaultData.workshopLogo" alt="">
+                    </div>
+                    <div class="no-logo-layout-2" v-else>
+                      No Logo
+                    </div>
+                    <q-badge style="padding:5px 10px" color="primary">
                       <span>Rating</span>
-                      <div>
-                        <i class="fas fa-star fs-10"></i>
+                      <div class="ml-8">
+                        <i class="fas fa-star fs-10 mr-5"></i>
                         <span>{{ workshopById.defaultData.rating }}</span>
                       </div>
-                    </div>
+                    </q-badge>
                   </div>
                   <div class="text-subtitle2 grey-txt my-6">{{ workshopById.defaultData.district }}, {{ workshopById.defaultData.city }}, {{ workshopById.defaultData.province }}</div>
-                  <div class="text-h6 mb-6">{{ workshopById.defaultData.workshopName }}</div>
+                  <div class="d-flex a-center j-sp-between">
+                    <div class="text-h6 mb-6 fw-semibold">{{ workshopById.defaultData.workshopName }}</div>
+                    <div class="d-flex a-center">
+                      <span class="text-subtitle2">Add to favorite</span>
+                      <q-btn
+                        @click="!workshopById.defaultData.favoriteToggle ? doAddFavoriteToUser(workshopById.defaultData) : doRemoveFavoriteFromUser(workshopById.defaultData)"
+                        :icon="workshopById.defaultData.favoriteToggle ? 'fas fa-heart' : 'far fa-heart'"
+                        flat round color="negative"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <q-separator class="br-5px" color="#605A5A" size="4px" />
                 <div class="my-12 row">
-                  <div class="col-md-6 w-45-i px-20">
+                  <div class="col-md-6 w-49-i px-20 min-max-h-241">
                     <div class="text-h6 mb-6">Operational Hours</div>
                     <div v-for="item in workshopById.defaultData.operational_workshop" :key="item.id">
                       <div :class="['d-flex a-center layout_txt', {'primary_bg_fade' : help.formatTodayFormatter(this.today) === item.operationalDate}]">
@@ -138,35 +154,42 @@
                           </span>
                           <span>:</span>
                         </div>
-                        <span>{{ help.formatTime(item.operationalOpenHour, help.data().time_2) }} - {{ help.formatTime(item.operationalCloseHour, help.data().time_2) }}</span>
+                        <span v-if="workshopById.defaultData.status24Hr == '0'">{{ help.formatTime(item.operationalOpenHour, help.data().time_2) }} - {{ help.formatTime(item.operationalCloseHour, help.data().time_2) }}</span>
+                        <span v-else>Open</span>
                       </div>
                     </div>
                   </div>
                   <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
-                  <div class="col-md-6 w-45-i px-20" v-if="!help.isObjectEmpty(workshopById.servisUmum) && !help.isObjectEmpty(workshopById.servisBerkala)">
-                    <div class="text-h6 mb-6">Services</div>
-                    <div v-if="!help.isObjectEmpty(workshopById.servisUmum)">
-                      <span class="fw-semibold">General :</span>
-                      <div class="layout_bullet">
-                        <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
-                          <div class="bullet"></div>
-                          <span class="text">{{ item.serviceDetail }}</span>
+                  <q-scroll-area
+                    :thumb-style="thumbStyle"
+                    :bar-style="barStyle"
+                    class="col-md-6 w-49-i px-20 min-max-h-241"
+                  >
+                    <div v-if="!help.isObjectEmpty(workshopById.servisUmum) && !help.isObjectEmpty(workshopById.servisBerkala)">
+                      <div class="text-h6 mb-6 sticky-top">Services</div>
+                      <div v-if="!help.isObjectEmpty(workshopById.servisUmum)">
+                        <span class="fw-semibold">General :</span>
+                        <div class="layout_bullet">
+                          <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
+                            <div class="bullet"></div>
+                            <span class="text">{{ item.serviceDetail }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-if="!help.isObjectEmpty(workshopById.servisBerkala)">
+                        <span class="fw-semibold">Periodic :</span>
+                        <div class="layout_bullet">
+                          <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
+                            <div class="bullet"></div>
+                            <span class="text">{{ item.serviceDetail }}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div v-if="!help.isObjectEmpty(workshopById.servisBerkala)">
-                      <span class="fw-semibold">Periodic :</span>
-                      <div class="layout_bullet">
-                        <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
-                          <div class="bullet"></div>
-                          <span class="text">{{ item.serviceDetail }}</span>
-                        </div>
-                      </div>
+                    <div v-else>
+                      <div class="text-h6 mb-6">No Services</div>
                     </div>
-                  </div>
-                  <div v-else>
-                    No Services
-                  </div>
+                  </q-scroll-area>
                 </div>
                 <q-separator class="br-5px" color="#605A5A" size="4px" />
               </q-card-section>
@@ -219,7 +242,10 @@
                     <q-skeleton type="QChip" width="100px" />
                   </div>
                   <q-skeleton type="text" width="150px" />
-                  <q-skeleton type="text" width="90px" />
+                  <div class="d-flex a-center j-sp-between">
+                    <q-skeleton type="text" width="90px" />
+                    <q-skeleton type="rect" width="90px" />
+                  </div>
                 </div>
                 <q-skeleton type="text" width="100%" />
                 <div class="my-12 row">
@@ -368,7 +394,10 @@
                   <q-skeleton type="QChip" width="100px" />
                 </div>
                 <q-skeleton type="text" width="150px" />
-                <q-skeleton type="text" width="90px" />
+                <div class="d-flex a-center j-sp-between">
+                  <q-skeleton type="text" width="90px" />
+                  <q-skeleton type="rect" width="90px" />
+                </div>
               </div>
               <q-skeleton type="text" width="100%" />
               <div class="my-12 row">
@@ -431,12 +460,16 @@
 <script>
 /* eslint-disable */
 import { getWorkshopApi, getWorkshopById, getAllWorkshops } from '../../api/workshopService'
+import { addFavoriteToUser, removeFavoriteFromUser, getFavoritesByUserID } from '../../api/FavoriteService'
 import help from '../../js/help'
+import Auth from '../../js/AuthValidation'
 import ValidationFunction from '../../js/ValidationFunction'
+import { LocalStorage } from 'quasar'
 
 export default {
   components: {
-    ValidationFunction
+    ValidationFunction,
+    Auth
   },
   data () {
     return {
@@ -484,7 +517,9 @@ export default {
       },
       clickedId: null,
       workshopById: {
-        defaultData: [],
+        defaultData: {
+          favoriteToggle: false
+        },
         servisBerkala: [],
         servisUmum: []
       },
@@ -495,11 +530,17 @@ export default {
       tempLocationOptions: [],
       statusOptions: ['Semua', 'Buka', 'Tutup', '24 Jam'],
       tempDistance: [],
-      today: null
+      today: null,
+      user: {},
+      userToken: null
     }
   },
   created () {
     this.searchFromLP = ValidationFunction.getQueryVariableForURL('search', '')
+    if(Auth.isUserLogin()){
+      this.user = LocalStorage.getItem('autoRepairUser').data.user
+      this.userToken = LocalStorage.getItem('autoRepairUser').data.access_token
+    }
     this.setDefaultFilter()
     this.doGetCurrentPosition()
   },
@@ -610,7 +651,7 @@ export default {
           _this.workshops = []
         }
         if(_this.totalWorkshop == 0){
-          this.workshopById.defaultData = []
+          this.workshopById.defaultData = {}
         }
         _this.tempWorkshops.data.forEach(item => {
           _this.workshops.push(item)
@@ -648,13 +689,64 @@ export default {
           })
           _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
           _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
-          _this.detailWorkshopLoader = false
+        }) .finally(() => {
+          if(Auth.isUserLogin()){
+            _this.doGetFavoritesByUserID()
+          } else {
+            _this.detailWorkshopLoader = false
+          }
         }) .catch((err) =>{ 
           console.log(err)
           _this.detailWorkshopLoader = false
         })
       }
-      
+    },
+    doAddFavoriteToUser (item) {
+      let _this = this
+      addFavoriteToUser(_this.user.id, item.id, _this.userToken).then(response => {
+        console.log(response.data.message)
+        item.favoriteToggle = !item.favoriteToggle
+        this.$q.notify({
+          type: 'positive',
+          message: 'Added to favorite!',
+          color: 'primary',
+          timeout: 1000
+        })
+      }) .catch((err) =>{
+        console.log(err)
+        _this.loader = false
+      })
+    },
+    doRemoveFavoriteFromUser (item) {
+      let _this = this
+      removeFavoriteFromUser(_this.user.id, item.userID, _this.userToken).then(response => {
+        console.log(response.data.message)
+        item.favoriteToggle = !item.favoriteToggle
+        this.$q.notify({
+          type: 'positive',
+          message: 'Removed to favorite!',
+          color: 'negative',
+          timeout: 1000
+        })
+      }) .catch((err) =>{
+        console.log(err)
+        _this.loader = false
+      })
+    },
+    doGetFavoritesByUserID () {
+      let _this = this
+      let favoriteList = []
+      getFavoritesByUserID(_this.user.id, _this.userToken).then(response => {
+        favoriteList = response.data.objectReturn
+        favoriteList = favoriteList.filter(item => item.workshopID === _this.workshopById.defaultData.id)[0]
+        if(favoriteList.customerID == _this.user.id && favoriteList.workshopID == _this.workshopById.defaultData.id){
+          _this.workshopById.defaultData.favoriteToggle = true
+        }
+        _this.detailWorkshopLoader = false
+      }) .catch((err) =>{
+        console.log(err)
+        _this.detailWorkshopLoader = false
+      })
     },
     doGetCurrentPosition() {
       this.pageLoader = true
