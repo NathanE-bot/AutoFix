@@ -172,7 +172,7 @@
               </q-card-section>
               <q-card class="my-card border-card-i br-20px-i m-16">
                 <q-card-section>
-                  <div class="text-h6">Reviews</div>
+                  <div class="text-h6">{{ !help.isObjectEmpty(workshopById.defaultData.workshop_review) ? 'Reviews' : 'No Review'}}</div>
                   <q-scroll-area
                     v-if="!help.isObjectEmpty(workshopById.defaultData.workshop_review)"
                     :thumb-style="thumbStyle"
@@ -199,9 +199,6 @@
                       </q-card-section>
                     </q-card>
                   </q-scroll-area>
-                  <div v-else>
-                    <span class="text-subtitle2">No Reviews</span>
-                  </div>
                 </q-card-section>
               </q-card>
               <div class="d-flex a-center j-end">

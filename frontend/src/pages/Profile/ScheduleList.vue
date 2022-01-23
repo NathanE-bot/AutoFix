@@ -6,7 +6,7 @@
                     <div class="d-flex a-center j-sp-between mb-10">
                         <div class="text-h5 fw-semibold">{{ item.workshopName }}</div>
                         <div>
-                            <q-badge class="tf-capitalize mr-10 p-5" color="yellow" text-color="#ffffff" :label="item.scheduleStatus" />
+                            <q-badge class="tf-capitalize mr-10 p-5" :color="item.scheduleStatus == 'waiting confirmation' ? 'orange-5' : 'accent'" text-color="#ffffff" :label="item.scheduleStatus" />
                             <!-- <q-badge class="tf-capitalize p-5" text-color="#ffffff" label="New" /> -->
                         </div>
                     </div>
@@ -76,8 +76,8 @@
                 </q-card-section>
             </q-card>
         </div>
-        <div v-else-if="loader">
-            <q-card class="my-card w-80 mx-auto mt-20-i">
+        <div v-else-if="loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg">
+            <q-card class="my-card w-70">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
                         <q-skeleton type="rect" width="80px" />
@@ -137,7 +137,7 @@
                     </div>
                 </q-card-section>
             </q-card>
-            <div class="w-80 mx-auto mt-20-i q-gutter-y-sm">
+            <div class="w-70 q-gutter-y-sm">
                 <q-skeleton class="black-bg-loader" type="QToggle" width="50%" />
                 <q-skeleton class="black-bg-loader" type="rect" width="30%" />
                 <q-skeleton class="black-bg-loader" type="text" width="20%" />
