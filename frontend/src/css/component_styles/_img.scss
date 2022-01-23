@@ -1,3 +1,22 @@
+%no-logo-layout{
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
+    color: #B3B3B3;
+}
+.no-logo-layout-1{
+    @extend %no-logo-layout;
+    width: 100px;
+}
+.no-logo-layout-2{
+    @extend %no-logo-layout;
+    width: 100px;
+    height: 100px;
+}
+
 .responsive-img{
     width: 100%;
     height: 100%;

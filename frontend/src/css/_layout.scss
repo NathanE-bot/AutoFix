@@ -169,6 +169,11 @@
         left: 10px;
     }
 }
+.sticky-top{
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
 
 // width & height
 @for $i from 0 to 101 {
@@ -234,6 +239,9 @@
 // misc
 .maxw-240{
     max-width: 240px;
+}
+.min-max-h-241{
+    @include min_max_height(241px);
 }
 .w3-120px{
     @include width_preset(120px);

@@ -20,6 +20,11 @@
     min-height: $min_h;
 }
 
+@mixin min_max_height ($value) {
+    min-height: $value;
+    max-height: $value;
+}
+
 @mixin width_preset($width) {
     width: $width;
     max-width: $width;

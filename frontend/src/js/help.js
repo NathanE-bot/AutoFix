@@ -86,9 +86,5 @@ export default {
     },
     isValidImageType (fileType) {
         return fileType.substring(fileType.indexOf("/")+1) == "png" || fileType.substring(fileType.indexOf("/")+1) == "jpg" || fileType.substring(fileType.indexOf("/")+1) == "jpeg"
-    },
-    getNoPhotoURL (imageURL) {
-        if(this.isDataEmpty(imageURL)) return '@/img/no_user.png'
-        return imageURL
     }
 }
