@@ -248,17 +248,13 @@ export default {
             getUserWorkshopByWorkshopId(id).then(response => {
                 obj.tokenChat = response.data.tokenChat
                 obj.workshopUserName = response.data.fullName
-                let counter = 0
                 _this.favoriteList.forEach(el1 => {
-                    counter++
                     if(el1.customerID == obj.userID && el1.workshopID == obj.workshopID){
                         obj.favoriteToggle = true
-                    } 
-                    if(counter == _this.favoriteList.length){
-                        _this.scheduleList.push(obj)
-                        _this.loader = false
                     }
                 })
+                _this.scheduleList.push(obj)
+                _this.loader = false
             }) .catch((err) =>{
                 console.log(err)
                 _this.loader = false
@@ -316,6 +312,12 @@ export default {
             addFavoriteToUser(item.userID, item.workshopID, _this.userToken).then(response => {
                 console.log(response.data.message)
                 item.favoriteToggle = !item.favoriteToggle
+                this.$q.notify({
+                    type: 'positive',
+                    message: 'Added to favorite!',
+                    color: 'primary',
+                    timeout: 1000
+                })
             }) .catch((err) =>{
                 console.log(err)
                 _this.loader = false
@@ -326,6 +328,12 @@ export default {
             removeFavoriteFromUser(item.userID, item.workshopID, _this.userToken).then(response => {
                 console.log(response.data.message)
                 item.favoriteToggle = !item.favoriteToggle
+                this.$q.notify({
+                    type: 'positive',
+                    message: 'Removed to favorite!',
+                    color: 'negative',
+                    timeout: 1000
+                })
             }) .catch((err) =>{
                 console.log(err)
                 _this.loader = false
