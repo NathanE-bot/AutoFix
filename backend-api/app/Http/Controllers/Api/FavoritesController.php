@@ -15,11 +15,16 @@ class FavoritesController extends Controller
 
     public function makeFavoritesByWorkshopAndUserID(Request $req){
         try {
-            $dataFavorites = new Favorites;
-            $dataFavorites->userID = $req->userID;
-            $dataFavorites->workshopID = $req->workshopID;
-            $dataFavorites->save();
-
+            if(Favorites::where('userID', $req->userID)->where('workshopID', $req->workshopID)->exists()){
+                return response()->json([
+                    'message' => 'Already your favorite'
+                ], 401);
+            } else {
+                $dataFavorites = new Favorites;
+                $dataFavorites->userID = $req->userID;
+                $dataFavorites->workshopID = $req->workshopID;
+                $dataFavorites->save();
+            }
         }catch (Exception $error) {
             return response()->json($error, 500);
         }
@@ -33,8 +38,7 @@ class FavoritesController extends Controller
         $date = Carbon::now();
         $dateweek = $date->dayOfWeek;
         try {
-            $data = [
-                $favorite=DB::table('favorites')
+            $data = DB::table('favorites')
                 ->join('users','users.id','=','favorites.userID')
                 ->join('workshops','workshops.id','=','favorites.workshopID')
                 ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
@@ -45,10 +49,8 @@ class FavoritesController extends Controller
                 ,'operational_workshops.operationalCloseHour')
                 ->where('favorites.userID','=',$req->userID)
                 ->where('operationalDate','=',$dateweek)
-                ->get()
-            ];
-            
-        }catch (Exception $error) {
+                ->get();
+        } catch (Exception $error) {
             return response()->json($error, 500);
         }
         return response()->json([
@@ -58,13 +60,22 @@ class FavoritesController extends Controller
 
     public function deletFavoritesData(Request $req){
         try {
-            $findDataFavorites = Favorites::find($req->id);
-            $findDataFavorites->delete();
-            
+            $data = Favorites::where('userID', $req->userID)->where('workshopID', $req->workshopID);
+            if($data->exists()){
+                try {
+                    $data->delete();
+                } catch (Exception $error) {
+                    return response()->json($error, 500);
+                }
+            } else {
+                return response()->json([
+                    'message' => 'Favorite data does not exist'
+                ], 401);
+            }
         }catch (Exception $error) {
             return response()->json($error, 500);
         }
-
+        
         return response()->json([
             'message' => 'Removed from favorite'
         ], 200);
