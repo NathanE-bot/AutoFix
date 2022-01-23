@@ -212,9 +212,6 @@ class WorkshopController extends Controller
         }
     }
 
-
-
-
     public function countDistance(Request $request)
     {
         // dd($request->all());

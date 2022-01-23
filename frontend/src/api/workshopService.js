@@ -12,8 +12,8 @@ export default
 //   return axios.get(localURL + '/api/workshop', authorization)
 // }
 
-export function getRecommendWorkshop() {
-  return axios.get(localURL + '/api/getRecommendationWorkshop')
+export function getRecommendWorkshop(lat, lon) {
+  return axios.get(localURL + '/api/getRecommendationWorkshop?lat=' + lat + '&lon=' + lon)
 }
 
 export function getAllWorkshops() {

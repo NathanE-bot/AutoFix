@@ -17,7 +17,12 @@
     <div class="bg-white">
       <div class="m-auto w-80 relative-position">
         <div  class="flex flex-center flex-start" style="position:relative; bottom:70px;">
-            <img class="responsive_img detail-workshop-bg" width="120" src="~assets/images/logo/workshop/honda.png" alt="">
+          <div v-if="!help.isDataEmpty(workshopDetail.workshopLogo)">
+            <img class="responsive_img detail-workshop-bg" width="120" :src="workshopDetail.workshopLogo" alt="">
+          </div>
+          <div class="detail-workshop-bg d-flex a-center j-center" v-else>
+            No Logo
+          </div>
         </div>
         <div class="d-flex flex-dir-col a-center flex-center content-logo mt-10">
           <div class="text-h4 fw-semibold">
@@ -43,13 +48,13 @@
           <div class="mr-15" v-if="!help.isObjectEmpty(tempDistance)">
             <span class="text-subtitle2 grey-txt">{{ tempDistance.distance.toFixed(2) }} Km</span>
           </div>
-          <div class="soft-badge-primary">
+          <q-badge style="padding:5px 10px" color="primary">
             <span>Rating</span>
-            <div>
-              <i class="fas fa-star fs-10"></i>
+            <div class="ml-8">
+              <i class="fas fa-star fs-10 mr-5"></i>
               <span>{{ workshopDetail.rating }}</span>
             </div>
-          </div>
+          </q-badge>
         </div>
         <div class="text-subtitle2 w-description">
           {{ workshopDetail.workshopDescription }}

@@ -1,5 +1,5 @@
 // font-size (px)
-@for $i from 0 to 50 {
+@for $i from 0 to 101 {
     .fs-#{$i}{
         font-size: #{$i}px;
     }

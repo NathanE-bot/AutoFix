@@ -40,7 +40,7 @@
             <div class="mt-20">
               <img class="responsive-img" src="~assets/images/car_stock_img.png" alt="">
             </div>
-            <div class="scrolldown-animation m-auto cursor-pointer" @click="test()">
+            <div class="scrolldown-animation m-auto cursor-pointer" @click="doScrollIntoAboutUs()">
               <q-tooltip
                 class="bg-primary text-body2"
                 transition-show="scale"
@@ -53,7 +53,7 @@
                 <div class="chevrondown"></div>
               </div>
             </div>
-            <!-- <h4 class="m-auto txt-white cursor-pointer" @click="test()">About Us</h4> -->
+            <!-- <h4 class="m-auto txt-white cursor-pointer" @click="doScrollIntoAboutUs()">About Us</h4> -->
             <!-- <div class="d-flex a-center j-center">
               <div class="d-flex a-center mr-30">
                 <q-btn class="relative-position mr-16" unelevated round color="secondary">
@@ -79,11 +79,11 @@
       </div>
     </q-parallax>
     <div class="white-bg bottom-section black-1">
-      <div class="text-center">
+      <div class="text-center" v-if="!help.isObjectEmpty(workshopRecommendation) && !loader">
         <h4 class="m-0 primary_color">Recommendation For You</h4>
         <span class="fs-16">Get the best service experience from us</span>
       </div>
-      <div class="py-30">
+      <div :class="['py-30', { 'flex flex-center' : help.isObjectEmpty(workshopRecommendation) && !loader}]" style="min-height: 516px">
         <swiper
           :slidesPerView="window.width < 500 ? 1 : 3"
           :spaceBetween="30"
@@ -92,12 +92,19 @@
             "clickable": true
           }'
           class="mySwiper lp-swiper"
+          v-if="!help.isObjectEmpty(workshopRecommendation) && !loader"
         >
-          <swiper-slide v-for="(item) in workshopRecommendation" :key="item.id" @click="changePage('/workshop/detail/' + item.workshopID)">
-            <q-card class="my-card cursor-pointer">
+          <swiper-slide v-for="item in workshopRecommendation" :key="item.id" @click="changePage('/workshop/detail/' + item.workshopID)">
+            <q-card class="my-card cursor-pointer rec-card">
               <img src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
-                <div class="text-h6 primary_color mb-8">{{ item.workshopName }}</div>
+                <div class="d-flex a-start j-sp-between">
+                  <div class="text-h6 primary_color mb-8">{{ item.workshopName }}</div>
+                  <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
+                    {{ item.statusHr == 'tutup' ? 'Closed' : 'Open' }}
+                  </q-badge>
+                  <q-badge color="orange-6" v-else>24 Hr</q-badge>
+                </div>
                 <div class="text-subtitle2 w-85">
                   {{ item.workshopAddress }}
                 </div>
@@ -121,6 +128,39 @@
             </q-card>
           </swiper-slide>
         </swiper>
+        <div v-else-if="loader" class="row j-sp-between">
+          <q-card class="col-md-4" style="max-width: 436px" v-for="n in 3" :key="'rec-' + n">
+            <q-skeleton height="267px" square />
+            <q-card-section>
+              <div class="d-flex a-start j-sp-between">
+                <q-skeleton type="rect" width="80px" />
+                <q-skeleton type="text" width="40px" />
+              </div>
+              <div class="w-85">
+                <q-skeleton type="text" />
+                <q-skeleton type="text" width="80%" />
+                <q-skeleton type="text" width="75%" />
+              </div>
+              <q-skeleton type="text" width="40%" />
+              <div class="d-flex a-center j-sp-between">
+                <q-skeleton type="text" width="5%" />
+                <q-skeleton type="text" width="10%" />
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div v-else class="maxh-inherit">
+          <div class="d-flex flex-dir-col text-align-center q-gutter-y-md">
+            <q-icon name="fas fa-map-marker-alt" class="fs-100 mb-20 ps-center" color="grey-4" />
+            <span class="text-h5">No Location Detected</span>
+            <div>
+              <span>Looks like you have not turn your location settings, </span>
+              <span>
+                <a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Click Here</a> to learn more.
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="mt-50">
         <div class="text-center">
@@ -229,6 +269,8 @@ export default ({
   data () {
     return {
       help,
+      loader: false,
+      errorMessage: false,
       token: '',
       workShop: null,
       window: {
@@ -237,11 +279,17 @@ export default ({
         alteredWidth: 0
       },
       search: '',
-      workshopRecommendation: []
+      workshopRecommendation: [],
+      location: {
+        lon: null,
+        lat: null
+      }
     }
   },
+  created () {
+    this.doGetCurrentPosition()
+  },
   mounted () {
-    this.doGetRecommendationWorkshop()
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   },
@@ -249,7 +297,7 @@ export default ({
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
-    test () {
+    doScrollIntoAboutUs () {
       document.getElementById('about-us').scrollIntoView()
     },
     doSearchWorkshop () {
@@ -258,7 +306,39 @@ export default ({
     handleResize () {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
-      this.window.alteredHeight = window.innerHeight - (window.innerHeight * (10/100))
+    },
+    doGetRecommendationWorkshop(){
+      let _this = this
+      getRecommendWorkshop(_this.location.lat, _this.location.lon).then(response => {
+        this.workshopRecommendation = response.data.objectReturn
+        _this.loader = false
+      }) .catch((err) =>{
+        console.log(err)
+        _this.loader = false
+      })
+    },
+    doGetCurrentPosition() {
+      this.loader = true
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          this.location.lat = pos.coords.latitude
+          this.location.lon = pos.coords.longitude
+          // this.jsonDataParam.lat = ''
+          // this.jsonDataParam.lon = ''
+          if(!help.isDataEmpty(this.location.lat) && !help.isDataEmpty(this.location.lon)){
+            this.doGetRecommendationWorkshop()
+          } else {
+            this.errorMessage = true
+            this.loader = false
+          }
+        }, error => {
+          this.errGeolocationCode = error.code
+          this.loader = false
+        })
+      } else { 
+        this.errorMessage = true
+        this.loader = false
+      }
     },
     doConsole (a) {
       console.log(a)
@@ -266,17 +346,6 @@ export default ({
     changePage (url) {
       this.$router.push(url)
     },
-    doGetRecommendationWorkshop(){
-      let _this = this
-      // if(!help.isObjectEmpty(LocalStorage.getItem('autoRepairUser'))){
-      //   _this.token = LocalStorage.getItem('autoRepairUser').data.token
-      // } 
-      getRecommendWorkshop().then(response => {
-        this.workshopRecommendation = response.data.objectReturn
-      }) .catch((err) =>{
-        console.log(err)
-      })
-    }
   }
 })
 </script>
