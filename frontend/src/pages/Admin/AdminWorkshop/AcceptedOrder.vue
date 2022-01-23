@@ -123,7 +123,7 @@ export default {
       return {
         help,
         validationFunction,
-        user: [],
+        user: {},
         listAccepted: [],
         tempManageScheduleID: null,
         cancelReason: '',

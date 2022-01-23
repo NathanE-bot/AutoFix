@@ -115,7 +115,7 @@ export default {
   data () {
     return {
       help,
-      user: [],
+      user: {},
       initialTab: null,
       isLogin: false
     }

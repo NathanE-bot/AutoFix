@@ -210,7 +210,7 @@ export default {
         width: '15px',
         opacity: 0.2
       },
-      user: [],
+      user: {},
       leftDrawerOpen: true,
       link: ''
     }

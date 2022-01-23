@@ -173,7 +173,7 @@ export default {
             help,
             ValidationFunction,
             loader: false,
-            user: [],
+            user: {},
             scheduleList: [],
             test: false,
             workshopById: {

@@ -189,7 +189,7 @@ export default {
             ValidationFunction,
             loader: false,
             reviewScheduleDialog: false,
-            user: [],
+            user: {},
             historyList: [],
             tempHistorySchedule: {},
             workshopById: {
