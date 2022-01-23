@@ -134,9 +134,9 @@
                 <q-skeleton class="black-bg-loader" type="text" width="20%" />
             </div>
         </div>
-        <div v-else class="flex flex-dir-col flex-center" :style="{minHeight: window.alteredHeight + 'px'}">
-            <img class="responsive_img" width="450" src="~assets/images/preset/no_schedule_bg.png" alt="">
-            <span class="fs-30 txt-white fw-semibold mt-10">No History</span>
+        <div v-else class="flex flex-dir-col flex-center">
+            <img class="responsive_img" width="400" src="~assets/images/preset/no_schedule_bg.png" alt="">
+            <span class="fs-25 txt-white fw-semibold mt-10">No History</span>
         </div>
         <q-dialog v-model="reviewScheduleDialog">
             <q-card class="my-card card-size-m">
@@ -189,11 +189,6 @@ export default {
             ValidationFunction,
             loader: false,
             reviewScheduleDialog: false,
-            window: {
-                width: 0,
-                height: 0,
-                alteredWidth: 0
-            },
             user: [],
             historyList: [],
             tempHistorySchedule: {},
@@ -214,13 +209,6 @@ export default {
     created () {
         this.user = LocalStorage.getItem('autoRepairUser').data.user
         this.doGetScheduleList()
-    },
-    mounted () {
-        window.addEventListener('resize', this.handleResize)
-        this.handleResize()
-    },
-     unmounted () {
-        window.removeEventListener('resize', this.handleResize)
     },
     methods: {
         doOpenReviewDialog (selectedSchedule) {
@@ -271,11 +259,6 @@ export default {
                 }
                 _this.reviewLoader = false
             })
-        },
-        handleResize () {
-            this.window.width = window.innerWidth
-            this.window.height = window.innerHeight
-            this.window.alteredHeight = window.innerHeight - (window.innerHeight * (13/100))
         },
         doGetScheduleList () {
             let _this = this

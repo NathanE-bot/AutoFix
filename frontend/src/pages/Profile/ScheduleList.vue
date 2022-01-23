@@ -180,11 +180,6 @@ export default {
                 defaultData: [],
                 servisBerkala: [],
                 servisUmum: []
-            },
-            window: {
-                width: 0,
-                height: 0,
-                alteredWidth: 0
             }
         }
     },
@@ -192,19 +187,7 @@ export default {
         this.user = LocalStorage.getItem('autoRepairUser').data.user
         this.doGetScheduleList()
     },
-    mounted () {
-        window.addEventListener('resize', this.handleResize)
-        this.handleResize()
-    },
-     unmounted () {
-        window.removeEventListener('resize', this.handleResize)
-    },
     methods: {
-        handleResize () {
-            this.window.width = window.innerWidth
-            this.window.height = window.innerHeight
-            this.window.alteredHeight = window.innerHeight - (window.innerHeight * (13/100))
-        },
         doGetScheduleList () {
             let _this = this
             _this.loader = true
