@@ -34,9 +34,10 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
         }
 
         $dataUser = DB::table('users')->where('id','=',$req->id)->where('role','=','1')
@@ -56,9 +57,10 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
         }
 
         $dataUpdatedUser = DB::table('users')->where('id','=',$req->id)->first();

@@ -20,7 +20,7 @@ class Schedule extends Model
         'scheduleStatus',
         'serviceDescription',
         'description',
-        'isReviewd'
+        'isReviewed'
     ];
 
     public function Workshop(){

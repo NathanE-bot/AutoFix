@@ -240,9 +240,7 @@ export default {
         lat: null,
         lon: null
       },
-      tempDistance: [],
-      isCopied: false,
-      isCopiedClick: false
+      tempDistance: []
     }
   },
   created () {
@@ -343,17 +341,15 @@ export default {
       }
     },
     copyPhoneNum () {
-      this.isCopied = true
       var copyLink = document.getElementById("copyPhoneNum")
       copyLink.select()
       navigator.clipboard.writeText(copyLink.value)
-      setTimeout(() => {
-        this.isCopied = false
-      }, 2000)
       this.$q.notify({
         badgeStyle: "opacity: 0",
-        message: 'Copied',
-        color: 'primary'
+        type: 'positive',
+        message: 'Copied to clipboard!',
+        color: 'primary',
+        timeout: 1000
       })
     },
     doGetCurrentPosition() {

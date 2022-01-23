@@ -59,7 +59,7 @@
                                 <b>Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
                             </div>
                             <div class="col-md-6 q-gutter-x-lg j-end">
-                                <q-btn v-if="item.scheduleStatus == 'done'" class="tf-capitalize" rounded unelevated color="warning" label="Review" @click="doOpenReviewDialog(item)" />
+                                <q-btn v-if="item.scheduleStatus == 'done' && item.isReviewed == 0" class="tf-capitalize" rounded unelevated color="warning" label="Review" @click="doOpenReviewDialog(item)" />
                                 <q-btn class="tf-capitalize" rounded unelevated color="primary" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
                             </div>
                         </div>
@@ -221,7 +221,6 @@ export default {
             this.review.reviewDate = null
             this.review.rating = null
             this.review.description = ''
-            console.log(this.tempHistorySchedule, this.review)
             this.reviewScheduleDialog = false
         },
         doReviewSchedule () {
@@ -231,17 +230,20 @@ export default {
             _this.review.userName = _this.user.fullName
             _this.review.reviewDate = help.formatToday(help.data().dmy_9)
             let token = LocalStorage.getItem('autoRepairUser').data.access_token
-            console.log(_this.tempHistorySchedule, _this.review)
             reviewSchedule(_this.review, token).then(response => {
+                _this.historyList.forEach(el1 => {
+                    if(_this.tempHistorySchedule.id == el1.id){
+                        el1.isReviewed = 1
+                    }
+                })
                 _this.doCloseReviewDialog()
+                _this.reviewLoader = false
                 Swal.fire({
                     icon: 'success',
                     title: response.data.messageTitle,
                     text: response.data.messageSubtitle
                 })
-                _this.reviewLoader = false
             }) .catch(function (error) {
-                console.log(error)
                 _this.doCloseReviewDialog()
                 if(error.response.data.errId == 1){
                     Swal.fire({

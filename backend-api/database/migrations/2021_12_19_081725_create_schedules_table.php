@@ -32,7 +32,7 @@ class CreateSchedulesTable extends Migration
             $table->string('scheduleStatus');
             $table->text('serviceDescription')->nullable();
             $table->text('description')->nullable();
-            $table->boolean('isReviewd')->nullable()->default(false);
+            $table->boolean('isReviewed')->nullable()->default(false);
             $table->timestamps();
         });
     }

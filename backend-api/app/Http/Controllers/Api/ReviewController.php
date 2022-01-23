@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Workshop;
 use App\OperationalWorkshop;
+use App\Review;
+use App\Schedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -13,7 +15,6 @@ use DateTime;
 use Illuminate\Support\ServceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Review;
 class ReviewController extends Controller
 {
     public function formReviewAPI(Request $req){
@@ -32,14 +33,21 @@ class ReviewController extends Controller
             }
             
             try{
-                $review = new Review;
-                $review->scheduleID=$req->scheduleID;
-                $review->userName=$req->userName;
-                $review->reviewDate=$req->reviewDate;
-                $review->description=$req->description;
-                $review->rating=$req->rating;
-                $review->save();
-
+                if(Review::where('scheduleID', $req->scheduleID)->exists()){
+                    return response()->json([
+                        'message' => 'Review already exist'
+                    ], 401);
+                } else {
+                    $review = new Review;
+                    $review->scheduleID=$req->scheduleID;
+                    $review->userName=$req->userName;
+                    $review->reviewDate=$req->reviewDate;
+                    $review->description=$req->description;
+                    $review->rating=$req->rating;
+                    $review->save();
+                    Schedule::where('id', $req->scheduleID)->update(['isReviewed'=>true]);
+                    
+                }
             } catch (Exception $err){
                 return response()->json([
                     'errId'=> 5,
