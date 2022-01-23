@@ -149,8 +149,13 @@ class ScheduleController extends Controller
     public function ShowDataScheduleByUserID(Request $req){
         try{
             $schedule= DB::table('schedules')
+            ->join('workshops','workshops.id','=','schedules.workshopID')
             // ->join('schedule_details','schedule_details.scheduleID','=','schedules.id')
-            ->where('userID','=',$req->userID)
+            ->select('schedules.userID','schedules.workshopID','schedules.workshopName','schedules.workshopAddress',
+            'schedules.workshopPhoneNumber','schedules.workshopEmail','schedules.scheduleDate','schedules.scheduleTime',
+            'schedules.carModel','schedules.carType','schedules.timeEstimation','schedules.priceEstimation','schedules.scheduleStatus',
+            'schedules.serviceDescription','workshops.latitude','workshops.longitude',DB::raw('(SELECT tokenChat FROM users WHERE users.id = workshops.userID LIMIT 1) AS adminToken'))
+            ->where('schedules.userID','=',$req->userID)
             ->where('scheduleStatus','=','waiting confirmation')
             ->orWhere('scheduleStatus','=','accepted')
             ->get()->toArray();
