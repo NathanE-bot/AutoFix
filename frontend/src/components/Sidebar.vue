@@ -97,15 +97,16 @@
           <q-item
             clickable
             v-ripple
-            :active="link === 'favourites'"
+            :active="link === 'favorite'"
+            @click="changePage('/member/favorite-list')"
             active-class="my-menu-link"
             class="mb-20"
           >
             <q-item-section avatar>
-              <is-favourite />
+              <is-favorite />
             </q-item-section>
 
-            <q-item-section>Favourites</q-item-section>
+            <q-item-section>favorites</q-item-section>
           </q-item>
 
           <!-- <q-item
@@ -169,7 +170,7 @@ import isvgHistory from './IconSVG/isvg_history'
 import isvgSchedule from './IconSVG/isvg_schedule'
 import isvgAccount from './IconSVG/isvg_account'
 import isvgLogout from './IconSVG/isvg_logout'
-import isvgFavourite from './IconSVG/isvg_favourite'
+import isvgFavorite from './IconSVG/isvg_favorite'
 // End of SVGs
 import help from '../js/help'
 import { LocalStorage } from 'quasar'
@@ -183,7 +184,7 @@ export default {
     isSchedule: isvgSchedule,
     isAccount: isvgAccount,
     isLogout: isvgLogout,
-    isFavourite: isvgFavourite,
+    isFavorite: isvgFavorite,
     // End of SVGs
     help
   },
@@ -246,6 +247,9 @@ export default {
       }
       else if(url.includes('/history-list')){
         this.link = 'history'
+      }
+      else if(url.includes('/favorite-list')){
+        this.link = 'favorite'
       }
     },
     deep: true,

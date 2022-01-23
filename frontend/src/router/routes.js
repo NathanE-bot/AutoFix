@@ -24,7 +24,7 @@ const testing = () => import("pages/Testing");
 const yourAccount = () => import("pages/Profile/YourAccount");
 const scheduleList = () => import("pages/Profile/ScheduleList");
 const historyList = () => import("pages/Profile/HistoryList");
-const favouriteList = () => import("pages/Profile/FavouriteList");
+const favoriteList = () => import("pages/Profile/FavoriteList");
 
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
@@ -155,11 +155,11 @@ const routes = [
     component: MemberLayout,
     children: [
       {
-        path: "/member/favourite-list",
-        component: favouriteList,
+        path: "/member/favorite-list",
+        component: favoriteList,
         meta: {
-          title: 'Favourite List',
-          breadcrumb: 'Favourite List'
+          title: 'Favorite List',
+          breadcrumb: 'Favorite List'
         }
       },
       {
