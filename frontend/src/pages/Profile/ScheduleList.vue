@@ -1,6 +1,6 @@
 <template>
     <q-page>
-        <div v-if="!help.isObjectEmpty(scheduleList) && !loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg">
+        <div v-if="!help.isObjectEmpty(scheduleList) && !loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg q-page-height">
             <q-card v-for="item in scheduleList" :key="'sl' + item.id" class="my-card w-70">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
@@ -76,7 +76,7 @@
                 </q-card-section>
             </q-card>
         </div>
-        <div v-else-if="loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg">
+        <div v-else-if="loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg q-page-height">
             <q-card class="my-card w-70">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
@@ -143,7 +143,7 @@
                 <q-skeleton class="black-bg-loader" type="text" width="20%" />
             </div>
         </div>
-        <div v-else class="flex flex-dir-col flex-center" :style="{minHeight: window.alteredHeight + 'px'}">
+        <div v-else class="flex flex-dir-col flex-center q-page-height">
             <img class="responsive_img" width="450" src="~assets/images/preset/no_schedule_bg.png" alt="">
             <span class="fs-30 txt-white fw-semibold mt-10">No Schedule Yet</span>
             <q-btn

@@ -1,8 +1,7 @@
 <template>
   <q-page class="landing-page">
     <q-parallax
-      class="parallax-lp"
-      :height="window.height"
+      class="parallax-lp q-page-height"
     >
       <template v-slot:media>
         <img src="~assets/images/bg_9.png">
@@ -199,12 +198,6 @@
     </div>
   </q-page>
 </template>
-
-<style>
-  html{
-    scroll-behavior: smooth;
-  }
-</style>
 
 <script>
 /* eslint-disable */
