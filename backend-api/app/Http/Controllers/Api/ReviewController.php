@@ -17,13 +17,21 @@ use App\Review;
 class ReviewController extends Controller
 {
     public function formReviewAPI(Request $req){
-        try{
-            $dataSchedule=DB::table('schedules')->find($req->scheduleID);
-            if ($dataSchedule->scheduleStatus == 'done') {
-                $validator = Validator::make($req->all(), [
-                    'description'=>['required', 'string', 'max:255'],
-                ]);
+        
+        $dataSchedule=DB::table('schedules')->find($req->scheduleID);
+        if ($dataSchedule->scheduleStatus == 'done') {
+            $validator = Validator::make($req->all(), [
+                'description'=>['required', 'string', 'max:255'],
+            ]);
 
+            if ($validator->fails()) {
+                return response()->json([
+                    'errId'=> 1,
+                    'message'=>$validator->errors()
+                ], 401);
+            }
+            
+            try{
                 $review = new Review;
                 $review->scheduleID=$req->scheduleID;
                 $review->userName=$req->userName;
@@ -31,15 +39,19 @@ class ReviewController extends Controller
                 $review->description=$req->description;
                 $review->rating=$req->rating;
                 $review->save();
-            }
-                $data = [
-                    'objectReturner' =>$review
-                ];
 
-            return response()->json($data, 200);
-        } catch (Exception $err){
-            return response()->json($err, 500);
-        }
+            } catch (Exception $err){
+                return response()->json([
+                    'errId'=> 5,
+                    'err'=> $err
+                ], 500);
+            }
+
+            return response()->json([
+                'messageTitle'=>'Review successfully made',
+                'messageSubtitle'=>'Thankyou for your feedback'
+            ], 200);
+        }        
     }
 
     // public function viewReviewAPI(Request $req){

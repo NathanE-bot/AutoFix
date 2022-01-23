@@ -152,6 +152,7 @@ class ScheduleController extends Controller
             // ->join('schedule_details','schedule_details.scheduleID','=','schedules.id')
             ->where('userID','=',$req->userID)
             ->where('scheduleStatus','=','waiting confirmation')
+            ->orWhere('scheduleStatus','=','accepted')
             ->get()->toArray();
 
             // foreach ($schedule as $key => $value) {

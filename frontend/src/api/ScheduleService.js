@@ -16,3 +16,13 @@ export function getScheduleList(userID, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
   return axios.get(localURL + '/api/getScheduleByUserID?userID=' + userID, authorization)
 }
+
+export function getHistoryScheduleList(userID, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.get(localURL + '/api/getHistoryByScheduleStatusAndUserID?userID=' + userID, authorization)
+}
+
+export function reviewSchedule(formReview, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/formReviewAPI', formReview, authorization)
+}
