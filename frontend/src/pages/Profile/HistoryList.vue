@@ -229,7 +229,7 @@ export default {
             _this.reviewLoader = true
             _this.review.scheduleID = _this.tempHistorySchedule.id
             _this.review.userName = _this.user.fullName
-            _this.review.reviewDate = help.formatToday(help.data().dmy_2)
+            _this.review.reviewDate = help.formatToday(help.data().dmy_9)
             let token = LocalStorage.getItem('autoRepairUser').data.access_token
             console.log(_this.tempHistorySchedule, _this.review)
             reviewSchedule(_this.review, token).then(response => {

@@ -17,6 +17,7 @@ export default {
             dmy_6: 'DD/MM/YYYY', // 2019-02-01
             dmy_7: 'DD-MMMM-YYYY', // 24-October-2000
             dmy_8: 'DD MMMM YYYY', // 24 October 2000
+            dmy_9: 'Y-M-D', // 2021-11-28 (backend-format)
             // Day
             d_1: 'dddd', //Sunday
             // Hour

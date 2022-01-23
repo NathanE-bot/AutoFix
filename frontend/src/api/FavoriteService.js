@@ -14,7 +14,7 @@ export function addFavoriteToUser (userID, workshopID, userToken) {
 
 export function getFavoritesByUserID (userID, userToken) {
     const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-    return axios.post(localURL + '/api/getFavoritesByUserID?userID='+ userID, authorization)
+    return axios.get(localURL + '/api/getFavoritesByUserID?userID='+ userID, authorization)
 }
 
 export function removeFavoriteFromUser (id, userToken) {
