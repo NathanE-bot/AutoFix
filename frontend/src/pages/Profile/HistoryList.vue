@@ -176,7 +176,6 @@
 <script>
 /* eslint-disable */
 import { getHistoryScheduleList, reviewSchedule } from '../../api/ScheduleService'
-import { getWorkshopById, getUserWorkshopByWorkshopId } from '../../api/workshopService'
 import { LocalStorage } from 'quasar'
 import help from '../../js/help'
 import ValidationFunction from '../../js/ValidationFunction'
@@ -272,15 +271,14 @@ export default {
                 if(help.isObjectEmpty(tempScheduleList) && help.isObjectEmpty(tempScheduleDetails)) {
                     _this.loader = false
                 } else {
+                    var counter = 0
                     tempScheduleList.forEach(el1 => {
+                        counter++
                         let tempObject = {
                             serviceDetail: {
                                 periodicSerivce: {},
                                 generalServices: []
-                            },
-                            lon: null,
-                            lat: null,
-                            tokenChat: null
+                            }
                         }
                         tempScheduleDetails.forEach(el2 => {
                             if(el2.scheduleID === el1.id){
@@ -292,41 +290,16 @@ export default {
                             }
                         })
                         tempObject = {...tempObject, ...el1}
-                        _this.doGetWorkshopById(tempObject.workshopID, tempObject)
+                        _this.historyList.push(tempObject)
+                        if(counter == tempScheduleList.length){
+                            _this.loader = false
+                        }
                     })
                 }
             }) .catch((err) =>{ 
                 console.log(err)
                 _this.loader = false
             })
-        },
-        doGetWorkshopById (id, obj) {
-            let _this = this
-            getWorkshopById(id).then(response => {
-                obj.lon = response.data.longitude
-                obj.lat = response.data.latitude
-                _this.doGetUserWorkshopByWorkshopId(id, obj)
-            }) .catch((err) =>{ 
-                console.log(err)
-                _this.loader = false
-            })
-        },
-        doGetUserWorkshopByWorkshopId (id, obj) {
-            let _this = this
-            getUserWorkshopByWorkshopId(id).then(response => {
-                obj.tokenChat = response.data.tokenChat
-                _this.historyList.push(obj)
-                _this.loader = false
-            }).catch((err) =>{
-                console.log(err)
-                _this.loader = false
-            })
-        },
-        openGoogleMapsWithCoords (lat, lon) {
-            if(!help.isDataEmpty(lat) && !help.isDataEmpty(lon)){
-                var url = "https://maps.google.com/?q=" + lat + "," + lon
-                window.open(url, '_blank')
-            }
         },
         changePage (url) {
             this.$router.push(url)

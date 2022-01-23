@@ -631,7 +631,6 @@ export default {
     },
     doGetWorkshopById (clicking, clickId, id) {
       let _this = this
-      console.log(_this.clickedId , id)
       if(clicking && _this.clickedId == id){} 
       else {
         _this.detailWorkshopLoader = true
@@ -650,8 +649,6 @@ export default {
           _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
           _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
           _this.detailWorkshopLoader = false
-          console.log(_this.workshopById.defaultData)
-          console.log(_this.workshopById.servisBerkala, _this.workshopById.servisUmum)
         }) .catch((err) =>{ 
           console.log(err)
           _this.detailWorkshopLoader = false
