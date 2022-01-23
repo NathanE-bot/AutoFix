@@ -19,7 +19,8 @@ class Schedule extends Model
         'priceEstimation',
         'scheduleStatus',
         'serviceDescription',
-        'description'
+        'description',
+        'isReviewd'
     ];
 
     public function Workshop(){

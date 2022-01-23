@@ -56,9 +56,9 @@
                             </div>
                             <div class="col-md-5 q-gutter-x-lg j-end">
                                 <q-btn
-                                    @click="test = !test"
-                                    :icon="test ? 'fas fa-heart' : 'far fa-heart'"
-                                    flat round color="primary"
+                                    @click="!item.favoriteToggle ? doAddFavoriteToUser(item) : doRemoveFavoriteFromUser(item)"
+                                    :icon="item.favoriteToggle ? 'fas fa-heart' : 'far fa-heart'"
+                                    flat round color="negative"
                                 />
                                 <q-btn
                                     @click="doCheckForMakeChatRoom(item)"
@@ -161,6 +161,7 @@
 /* eslint-disable */
 import { getScheduleList } from '../../api/ScheduleService'
 import { getWorkshopById, getUserWorkshopByWorkshopId } from '../../api/workshopService'
+import { addFavoriteToUser, removeFavoriteFromUser, getFavoritesByUserID } from '../../api/FavoriteService'
 import { LocalStorage } from 'quasar'
 import help from '../../js/help'
 import ValidationFunction from '../../js/ValidationFunction'
@@ -174,8 +175,9 @@ export default {
             ValidationFunction,
             loader: false,
             user: {},
+            userToken: null,
             scheduleList: [],
-            test: false,
+            favoriteList: [],
             workshopById: {
                 defaultData: [],
                 servisBerkala: [],
@@ -185,12 +187,12 @@ export default {
     },
     created () {
         this.user = LocalStorage.getItem('autoRepairUser').data.user
-        this.doGetScheduleList()
+        this.userToken = LocalStorage.getItem('autoRepairUser').data.access_token
+        this.doGetFavoritesByUserID()
     },
     methods: {
         doGetScheduleList () {
             let _this = this
-            _this.loader = true
             let token = LocalStorage.getItem('autoRepairUser').data.access_token
             getScheduleList(_this.user.id, token).then(response => {
                 let tempScheduleList = []
@@ -209,7 +211,8 @@ export default {
                             lon: null,
                             lat: null,
                             tokenChat: null,
-                            workshopUserName: null
+                            workshopUserName: null,
+                            favoriteToggle: false
                         }
                         tempScheduleDetails.forEach(el2 => {
                             if(el2.scheduleID === el1.id){
@@ -245,9 +248,18 @@ export default {
             getUserWorkshopByWorkshopId(id).then(response => {
                 obj.tokenChat = response.data.tokenChat
                 obj.workshopUserName = response.data.fullName
-                _this.scheduleList.push(obj)
-                _this.loader = false
-            }).catch((err) =>{
+                let counter = 0
+                _this.favoriteList.forEach(el1 => {
+                    counter++
+                    if(el1.customerID == obj.userID && el1.workshopID == obj.workshopID){
+                        obj.favoriteToggle = true
+                    } 
+                    if(counter == _this.favoriteList.length){
+                        _this.scheduleList.push(obj)
+                        _this.loader = false
+                    }
+                })
+            }) .catch((err) =>{
                 console.log(err)
                 _this.loader = false
             })
@@ -298,6 +310,38 @@ export default {
                     }
                 })
             }
+        },
+        doAddFavoriteToUser (item) {
+            let _this = this
+            addFavoriteToUser(item.userID, item.workshopID, _this.userToken).then(response => {
+                console.log(response.data.message)
+                item.favoriteToggle = !item.favoriteToggle
+            }) .catch((err) =>{
+                console.log(err)
+                _this.loader = false
+            })
+        },
+        doRemoveFavoriteFromUser (item) {
+            let _this = this
+            removeFavoriteFromUser(item.userID, item.workshopID, _this.userToken).then(response => {
+                console.log(response.data.message)
+                item.favoriteToggle = !item.favoriteToggle
+            }) .catch((err) =>{
+                console.log(err)
+                _this.loader = false
+            })
+        },
+        doGetFavoritesByUserID () {
+            let _this = this
+            _this.loader = true
+            _this.favoriteList = []
+            getFavoritesByUserID(_this.user.id, _this.userToken).then(response => {
+                _this.favoriteList = response.data.objectReturn
+                _this.doGetScheduleList()
+            }) .catch((err) =>{
+                console.log(err)
+                _this.loader = false
+            })
         },
         changePage (url) {
             this.$router.push(url)

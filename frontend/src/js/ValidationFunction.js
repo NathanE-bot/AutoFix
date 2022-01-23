@@ -29,10 +29,10 @@ export default {
     )
     return array
   },
-  arrayFilterWName (array) {
+  arrayFilterDistrict (array) {
     array = array.filter((value, index, self) =>
       index === self.findIndex((t) => (
-        t.workshopName === value.workshopName
+        t.district === value.district
       ))
     )
     return array
