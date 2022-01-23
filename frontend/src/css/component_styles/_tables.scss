@@ -1,0 +1,18 @@
+.table-sticky{
+    position: relative;
+}
+
+.sticky{
+    position: sticky;
+    top: 0;
+    background: #FFFFFF;
+    z-index: 1;
+}
+
+.table-yeet{
+    .q-table{
+        th, td{
+            text-align: center;
+        }
+    }
+}

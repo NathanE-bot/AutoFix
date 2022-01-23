@@ -125,7 +125,7 @@ const routes = [
       },
       {
         path: "/admin/insurance/home",
-        component: AdminWorkshopHome,
+        component: AdminInsuranceHome,
         meta: {
           title: 'Admin Insurance Home',
           breadcrumb: 'Admin Insurance Home'
@@ -133,7 +133,7 @@ const routes = [
       },
       {
         path: "/admin/insurance/incoming-claim-request",
-        component: AdminWorkshopHome,
+        component: AdminIncomingClaimRequest,
         meta: {
           title: 'Incoming Claim Request',
           breadcrumb: 'Incoming Claim Request'
@@ -141,7 +141,7 @@ const routes = [
       },
       {
         path: "/admin/insurance/insurance-claim-history",
-        component: AdminWorkshopHome,
+        component: AdminInsuranceClaimHistory,
         meta: {
           title: 'Insurance Claim History',
           breadcrumb: 'Insurance Claim History'
