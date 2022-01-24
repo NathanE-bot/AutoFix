@@ -93,7 +93,7 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '085813600655',
                 'address'=> 'jl puri indah no 50',
                 'role' => '1',
-                'profilePicture'=>'',
+                'profilePicture'=>'http://127.0.0.1:8000/storage/avatar/kenny2022-01-24_14-24-226.jpg',
                 'tokenChat'=>'2321f23w12'
             ]
         );

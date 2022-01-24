@@ -18,7 +18,7 @@ class CreateInsuranceDetailsTable extends Migration
             $table->unsignedBigInteger('insuranceID');
             $table->foreign('insuranceID')->references('id')->on('insurances');
             $table->string('filePDF')->nullable();
-            $table->date('claimInsuranceDate');
+            $table->date('claimedInsuranceDate')->nullable();
             $table->string('insuranceStatus')->nullable();
             $table->string('insuranceDescription')->nullable();
             $table->timestamps();
