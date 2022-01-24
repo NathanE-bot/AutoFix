@@ -29,7 +29,9 @@
         .swiper-pagination-bullet-active{
             @extend %transition_default;
             background-color: #21A17B !important;
-            padding: 0 10px;
+            @media (min-width:500px) {
+                padding: 0 10px;
+            }
             border-radius: 5px;
         }
     }

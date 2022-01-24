@@ -10,7 +10,16 @@
     &:hover{
         text-decoration: underline;
     }
+    &_transition{
+        cursor: pointer;
+        @extend %transition_default;
+        &:hover{
+            @extend %transition_default;
+            text-decoration: underline;
+        }
+    }
 }
+
 .cursor-pointer{
     cursor: pointer;
 }
