@@ -17,6 +17,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Schedule;
 use App\ScheduleDetail;
+use Illuminate\Support\Facades\Storage;
+
 class AdminInsuranceController extends Controller
 {
     // try {
@@ -31,11 +33,11 @@ class AdminInsuranceController extends Controller
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
             ->join('users','users.id','=','insurance_vendors.userID')
-            ->select('insurances.id','insurances.userID AS customerID',DB::raw('(SELECT phoneNumber FROM users WHERE users.id = insurances.userID LIMIT 1) AS phoneNumber'),'insurance_vendors.userID as adminID','insurances.vendorInsuranceID',
-            'insurance_vendors.insuranceName','insurance_details.insuranceStatus','insurance_details.claimInsuranceDate',
-            'insurances.polisNumber')
+            ->select('insurances.id as insuranceID','insurances.userID AS customerID','insurances.phoneNumberClaimer','insurances.emailClaimer',
+            'insurances.insuredName','insurance_vendors.insuranceName','insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
+            'insurances.polisNumber','insurances.licensePlateNumber','insurances.submiteDate')
             ->where('insurance_vendors.userID','=',$req->adminID)
-            ->where('insurance_details.insuranceStatus','=','waiting confirmation')
+            ->where('insurance_details.insuranceStatus','=','on progress')
             ->get();
             return response()->json($scheduleDetail, 200);
         } catch (Exception $err){
@@ -46,19 +48,16 @@ class AdminInsuranceController extends Controller
     public function acceptInsuranceClaim(Request $req){
         try {
             $validator = Validator::make($req->all(), [
-                'insuranceDescription'=>['required|string|max:500']
+                'insuranceDescription'=>['required|string|max:500'],
             ]);
             if ($validator->fails()) {
                 return $validator->errors();
             }
 
-            if (condition) {
-                # code...
-            }
-
+   
 
             $dataInsuranceDetails = DB::table('insuranceDetails')
-            ->where('id','=',$req->id)->where('insuranceID','=',$req->insuranceID)
+            ->where('insuranceID','=',$req->insuranceID)
             ->update(['insuranceDescription'=>$req->insuranceDescription]);
 
 
@@ -71,60 +70,58 @@ class AdminInsuranceController extends Controller
     public function uploadPDFInsurance(Request $req){
         try {
             $validator = Validator::make($req->all(), [
-                'filePDF'=> ['required|image|mimes:pdf|max:2048'],
+                'filePDF'=> 'required|mimes:pdf|max:10000',
             ]);
             if ($validator->fails()) {
                 return $validator->errors();
             }
 
-            $dataInsuranceDetails = DB::table('insuranceDetails')
-            ->where('id','=',$req->id)->where('insuranceID','=',$req->insuranceID)->first();
+            $dataInsuranceDetails = DB::table('insurance_details')
+            ->select('id','filePDF',
+            DB::raw('(SELECT insuredName FROM insurances WHERE insurances.id = insurance_details.insuranceID LIMIT 1) AS insuredName'),
+            DB::raw('(SELECT submiteDate FROM insurances WHERE insurances.id = insurance_details.insuranceID LIMIT 1) AS submiteDate'))
+            ->where('insuranceID','=',$req->insuranceID)->first();
             if (!is_null($req->filePDF))
             {
                 if (!isset($dataInsuranceDetails->filePDF)) {
-                    $dataPDF= DB::table('insuranceDetails')
+                    $dataPDF= DB::table('insurance_details')
                     ->select(DB::raw('SUBSTRING(filePDF,30,100) AS path'))
-                    ->where('id','=',$req->id)->first();
+                    ->where('insuranceID','=',$req->insuranceID)
+                    ->first();
                     Storage::delete('/public/'.$dataPDF->path);
 
-                    $dateNow = carbon::now()->format("Y-m-d_H-i-s");
-                    $date = str_replace(' ', '', $dataInsuranceDetails->claimInsuranceDate);
-                    $ext = $req->image->getClientOriginalExtension();
-                    $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$dateNow.$dataInsuranceDetails->id.'.'.$ext), 'public');
+                    // $dateNow = carbon::now()->format("Y-m-d_H-i-s");
+                    $insuredName = str_replace(' ', '', $dataInsuranceDetails->insuredName);
+                    $ext = $req->filePDF->getClientOriginalExtension();
+                    $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submiteDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
                     $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-                    $dataInsuranceDetails = DB::table('insuranceDetails')
-                    ->where('id','=',$req->id)->where('insuranceID','=',$req->insuranceID)
-                    ->update(['filePDF'=>$req->filePDF]);
+                    $dataInsuranceDetails = DB::table('insurance_details')
+                    ->where('insuranceID','=',$req->insuranceID)
+                    ->update(['filePDF'=>$imagePath]);
 
                 }
                 else{
 
-                    $dateNow = carbon::now()->format("Y-m-d_H-i-s");
-                    $date = str_replace(' ', '', $dataInsuranceDetails->claimInsuranceDate);
-                    $ext = $req->image->getClientOriginalExtension();
-                    $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$dateNow.$dataInsuranceDetails->id.'.'.$ext), 'public');
+                    // $dateNow = carbon::now()->format("Y-m-d_H-i-s");
+                    $insuredName = str_replace(' ', '', $dataInsuranceDetails->insuredName);
+                    $ext = $req->filePDF->getClientOriginalExtension();
+                    $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submiteDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
                     $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-                    $dataInsuranceDetails = DB::table('insuranceDetails')
-                    ->where('id','=',$req->id)->where('insuranceID','=',$req->insuranceID)
-                    ->update(['filePDF'=>$req->filePDF]);
+                    $dataInsuranceDetails = DB::table('insurance_details')
+                    ->where('insuranceID','=',$req->insuranceID)
+                    ->update(['filePDF'=>$imagePath]);
+
                 }
 
             }
             else{
-                $dataInsuranceDetails = DB::table('insuranceDetails')
-                ->where('id','=',$req->id)->where('insuranceID','=',$req->insuranceID)
+                $dataInsuranceDetails = DB::table('insurance_details')
+                ->where('insuranceID','=',$req->insuranceID)
                 ->update(['filePDF'=>'null']);
             }
-
-
-            $dataInsuranceDetails = DB::table('insuranceDetails')
-            ->where('id','=',$req->id)->where('insuranceID','=',$req->insuranceID)
-            ->update(['filePDF'=>$req->filePDF]);
-
-
-            return response()->json($scheduleDetail, 200);
+            return response()->json(['Message'=>'Berhasil'], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
