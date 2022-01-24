@@ -160,7 +160,6 @@
 <script>
 /* eslint-disable */
 import { getScheduleList } from '../../api/ScheduleService'
-import { getWorkshopById, getUserWorkshopByWorkshopId } from '../../api/workshopService'
 import { addFavoriteToUser, removeFavoriteFromUser, getFavoritesByUserID } from '../../api/FavoriteService'
 import { LocalStorage } from 'quasar'
 import help from '../../js/help'
@@ -191,6 +190,18 @@ export default {
         this.doGetFavoritesByUserID()
     },
     methods: {
+        doGetFavoritesByUserID () {
+            let _this = this
+            _this.loader = true
+            _this.favoriteList = []
+            getFavoritesByUserID(_this.user.id, _this.userToken).then(response => {
+                _this.favoriteList = response.data.objectReturn
+                _this.doGetScheduleList()
+            }) .catch((err) =>{
+                console.log(err)
+                _this.loader = false
+            })
+        },
         doGetScheduleList () {
             let _this = this
             let token = LocalStorage.getItem('autoRepairUser').data.access_token
@@ -208,12 +219,9 @@ export default {
                                 periodicSerivce: {},
                                 generalServices: []
                             },
-                            lon: null,
-                            lat: null,
-                            tokenChat: null,
-                            workshopUserName: null,
                             favoriteToggle: false
                         }
+                        
                         tempScheduleDetails.forEach(el2 => {
                             if(el2.scheduleID === el1.id){
                                 if(el2.serviceType == 'service umum'){
@@ -224,38 +232,17 @@ export default {
                             }
                         })
                         tempObject = {...tempObject, ...el1}
-                        _this.doGetWorkshopById(tempObject.workshopID, tempObject)
+                        _this.favoriteList.forEach(el3 => {
+                            if(el3.customerID == tempObject.userID && el3.workshopID == tempObject.workshopID){
+                                tempObject.favoriteToggle = true
+                                _this.scheduleList.push(tempObject)
+                            }
+                        })
                     })
                 }
+            }) .finally(() => {
+                _this.loader = false
             }) .catch((err) =>{ 
-                console.log(err)
-                _this.loader = false
-            })
-        },
-        doGetWorkshopById (id, obj) {
-            let _this = this
-            getWorkshopById(id).then(response => {
-                obj.lon = response.data.longitude
-                obj.lat = response.data.latitude
-                _this.doGetUserWorkshopByWorkshopId(id, obj)
-            }) .catch((err) =>{ 
-                console.log(err)
-                _this.loader = false
-            })
-        },
-        doGetUserWorkshopByWorkshopId (id, obj) {
-            let _this = this
-            getUserWorkshopByWorkshopId(id).then(response => {
-                obj.tokenChat = response.data.tokenChat
-                obj.workshopUserName = response.data.fullName
-                _this.favoriteList.forEach(el1 => {
-                    if(el1.customerID == obj.userID && el1.workshopID == obj.workshopID){
-                        obj.favoriteToggle = true
-                    }
-                })
-                _this.scheduleList.push(obj)
-                _this.loader = false
-            }) .catch((err) =>{
                 console.log(err)
                 _this.loader = false
             })
@@ -272,7 +259,7 @@ export default {
             var userTokenChat = LocalStorage.getItem('autoRepairUser').data.user.tokenChat
             if(LocalStorage.has('autoRepairUser')){
                 user_1 = LocalStorage.getItem('autoRepairUser').data.user.fullName
-                user_2 = userWorkshop.workshopUserName
+                user_2 = userWorkshop.workshopName
                 var roomId = LocalStorage.getItem('autoRepairUser').data.user.tokenChat + '-' + userWorkshop.tokenChat
             }
             if(!help.isDataEmpty(roomId)){
@@ -334,18 +321,6 @@ export default {
                     color: 'negative',
                     timeout: 1000
                 })
-            }) .catch((err) =>{
-                console.log(err)
-                _this.loader = false
-            })
-        },
-        doGetFavoritesByUserID () {
-            let _this = this
-            _this.loader = true
-            _this.favoriteList = []
-            getFavoritesByUserID(_this.user.id, _this.userToken).then(response => {
-                _this.favoriteList = response.data.objectReturn
-                _this.doGetScheduleList()
             }) .catch((err) =>{
                 console.log(err)
                 _this.loader = false

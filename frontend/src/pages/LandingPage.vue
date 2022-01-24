@@ -94,12 +94,14 @@
           class="mySwiper lp-swiper"
           v-if="!help.isObjectEmpty(workshopRecommendation) && !loader"
         >
-          <swiper-slide v-for="item in workshopRecommendation" :key="item.id" @click="changePage('/workshop/detail/' + item.workshopID)">
-            <q-card class="my-card cursor-pointer rec-card">
+          <swiper-slide v-for="item in workshopRecommendation" :key="item.id">
+            <q-card class="my-card rec-card">
               <img src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
                 <div class="d-flex a-start j-sp-between">
-                  <div class="text-h6 primary_color mb-8">{{ item.workshopName }}</div>
+                  <div class="text-h6 primary_color mb-8 link_txt_transition" @click="changePage('/workshop/detail/' + item.workshopID)">
+                    {{ item.workshopName }}
+                  </div>
                   <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
                     {{ item.statusHr == 'tutup' ? 'Closed' : 'Open' }}
                   </q-badge>
