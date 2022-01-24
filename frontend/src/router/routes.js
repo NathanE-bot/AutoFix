@@ -44,6 +44,7 @@ const roomMessage = () => import("pages/Chats/RoomMessage");
 const AdminWorkshopHome = () => import("pages/Admin/AdminWorkshop/AdminWorkshopHome");
 const AdminAcceptedOrder = () => import("pages/Admin/AdminWorkshop/AcceptedOrder");
 const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
+const AdminManageWorkshop = () => import("pages/Admin/AdminWorkshop/ManageWorkshop");
 
 //Admin Insurance
 const AdminInsuranceHome = () => import("pages/Admin/AdminInsurance/AdminInsuranceHome");
@@ -100,6 +101,13 @@ const routes = [
     component: MemberLayout,
     children: [
       {
+        path: "/admin/workshop/manage-workshop",
+        component: AdminManageWorkshop,
+        meta: {
+          title: 'Manage Workshop',
+          breadcrumb: 'Manage Workshop'
+        }
+      },{
         path: "/admin/workshop/accepted-order",
         component: AdminAcceptedOrder,
         meta: {
