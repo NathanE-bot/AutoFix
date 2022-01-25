@@ -221,13 +221,6 @@ export default {
                             },
                             favoriteToggle: false
                         }
-                        if(!help.isObjectEmpty(_this.favoriteList)){
-                            _this.favoriteList.forEach(el3 => {
-                                if(el3.customerID == tempObject.userID && el3.workshopID == tempObject.workshopID){
-                                    tempObject.favoriteToggle = true
-                                }
-                            })
-                        }
                         tempScheduleDetails.forEach(el2 => {
                             if(el2.scheduleID === el1.id){
                                 if(el2.serviceType == 'service umum'){
@@ -239,6 +232,13 @@ export default {
                         })
                         tempObject = {...tempObject, ...el1}
                         _this.scheduleList.push(tempObject)
+                        if(!help.isObjectEmpty(_this.favoriteList)){
+                            _this.favoriteList.forEach(el3 => {
+                                if(el3.customerID == tempObject.userID && el3.workshopID == tempObject.workshopID){
+                                    tempObject.favoriteToggle = true
+                                }
+                            })
+                        }
                     })
                 }
             }) .finally(() => {

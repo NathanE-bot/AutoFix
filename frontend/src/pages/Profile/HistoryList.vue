@@ -198,6 +198,7 @@ export default {
             },
             review: {
                 scheduleID: null,
+                workshopID: null,
                 userName: null,
                 reviewDate: null,
                 rating: null,
@@ -217,6 +218,7 @@ export default {
         doCloseReviewDialog () {
             this.tempHistorySchedule = {}
             this.review.scheduleID = null
+            this.review.workshopID = null
             this.review.userName = null
             this.review.reviewDate = null
             this.review.rating = null
@@ -227,6 +229,7 @@ export default {
             let _this = this
             _this.reviewLoader = true
             _this.review.scheduleID = _this.tempHistorySchedule.id
+            _this.review.scheduleID = _this.tempHistorySchedule.workshopID
             _this.review.userName = _this.user.fullName
             _this.review.reviewDate = help.formatToday(help.data().dmy_9)
             let token = LocalStorage.getItem('autoRepairUser').data.access_token
