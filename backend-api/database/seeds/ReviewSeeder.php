@@ -11,14 +11,14 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        Review::Create(
-            [
-            'scheduleID'=>'1',
-            'userName'=>'kenny',
-            'reviewDate'=>'2022-10-22',
-            'description'=>'sampah anjing',
-            'rating'=>'5'
-            ]
-        );
+        // Review::Create(
+        //     [
+        //         'scheduleID'=>'1',
+        //         'userName'=>'kenny',
+        //         'reviewDate'=>'2022-10-22',
+        //         'description'=>'sampah anjing',
+        //         'rating'=>'5'
+        //     ]
+        // );
     }
 }

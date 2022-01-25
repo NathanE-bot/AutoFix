@@ -22,7 +22,7 @@ class CreateWorkshopsTable extends Migration
             $table->string('workshopPhoneNumber');
             $table->string('workshopEmail');
             $table->string('workshopDescription');
-            $table->float('rating',2,1);
+            $table->float('rating',2,1)->default('0')->nullable();
             $table->string('workshopLogo')->nullable();
             $table->string('city');
             $table->string('district');
