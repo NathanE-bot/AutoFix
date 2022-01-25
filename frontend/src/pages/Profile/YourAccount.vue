@@ -117,7 +117,6 @@ export default {
         doClearImage () {
             this.userDisplay.image = null
             document.getElementById('uploadDPUser').value = ''
-            this.doSaveImage()
         },
         doUploadProfilePicture (event) {
             var inputFile = event.target.files || event.dataTransfer.files
