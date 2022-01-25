@@ -214,12 +214,19 @@ export default {
                     _this.loader = false
                 } else {
                     tempScheduleList.forEach(el1 => {
-                        let tempObject = {
+                        var tempObject = {
                             serviceDetail: {
                                 periodicSerivce: {},
                                 generalServices: []
                             },
                             favoriteToggle: false
+                        }
+                        if(!help.isObjectEmpty(_this.favoriteList)){
+                            _this.favoriteList.forEach(el3 => {
+                                if(el3.customerID == tempObject.userID && el3.workshopID == tempObject.workshopID){
+                                    tempObject.favoriteToggle = true
+                                }
+                            })
                         }
                         tempScheduleDetails.forEach(el2 => {
                             if(el2.scheduleID === el1.id){
@@ -231,12 +238,7 @@ export default {
                             }
                         })
                         tempObject = {...tempObject, ...el1}
-                        _this.favoriteList.forEach(el3 => {
-                            if(el3.customerID == tempObject.userID && el3.workshopID == tempObject.workshopID){
-                                tempObject.favoriteToggle = true
-                                _this.scheduleList.push(tempObject)
-                            }
-                        })
+                        _this.scheduleList.push(tempObject)
                     })
                 }
             }) .finally(() => {
