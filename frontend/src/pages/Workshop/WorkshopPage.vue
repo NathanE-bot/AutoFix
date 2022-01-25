@@ -213,8 +213,7 @@
                         <q-rating
                           class="review-rating"
                           v-model="review.rating"
-                          readonly
-                          size="xs"
+                          readonly size="xs"
                           color="yellow-14"
                           icon="star_border"
                           icon-selected="star"

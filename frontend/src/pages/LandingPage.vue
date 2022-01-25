@@ -83,7 +83,7 @@
         <h4 class="m-0 primary_color">Recommendation For You</h4>
         <span class="fs-16">Get the best service experience from us</span>
       </div>
-      <div :class="['py-30', { 'flex flex-center' : help.isObjectEmpty(workshopRecommendation) && !loader}]" style="min-height: 516px">
+      <div :class="['py-30', {'flex flex-center' : help.isObjectEmpty(workshopRecommendation) && !loader}]" style="min-height: 516px">
         <swiper
           :slidesPerView="window.width < 500 ? 1 : 3"
           :spaceBetween="30"

@@ -72,7 +72,8 @@
                       rounded unelevated
                       type="submit"
                       label="Login"
-                      color="primary"/>
+                      color="primary"
+                    />
                     <q-btn
                       @click="changePage('/session/register')"
                       class="tf-capitalize q-ml-sm"
@@ -80,7 +81,7 @@
                       rounded outline
                       label="Create Account"
                       color="primary"
-                      />
+                    />
                   </div>
                   <!-- <div class="d-flex a-center q-ml-lg q-mt-lg">
                     <span>Don't have an account?&nbsp;</span>

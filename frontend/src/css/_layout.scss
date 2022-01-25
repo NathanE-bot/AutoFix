@@ -21,17 +21,21 @@
     }
 
     .my-#{$i}{
-        margin: #{$i}px 0;
+        margin-top: #{$i}px;
+        margin-bottom: #{$i}px;
 
         &-i{
-            margin: #{$i}px 0 !important;
+            margin-top: #{$i}px !important;
+            margin-bottom: #{$i}px !important;
         }
     }
     .mx-#{$i}{
-        margin: 0 #{$i}px;
+        margin-left: #{$i}px;
+        margin-right: #{$i}px;
 
         &-i{
-            margin: 0 #{$i}px !important;
+            margin-left: #{$i}px !important;
+            margin-right: #{$i}px !important;
         }
     }
 }
@@ -87,18 +91,22 @@
     }
 
     .py-#{$i}{
-        padding: #{$i}px 0;
+        padding-top: #{$i}px;
+        padding-bottom: #{$i}px;
 
         &-i{
-            padding: #{$i}px 0 !important;
+            padding-top: #{$i}px !important;
+            padding-bottom: #{$i}px !important;
         }
     }
 
     .px-#{$i}{
-        padding: 0 #{$i}px;
+        padding-left: #{$i}px;
+        padding-right: #{$i}px;
 
         &-i{
-            padding: 0 #{$i}px !important;
+            padding-left: #{$i}px !important;
+            padding-right: #{$i}px !important;
         }
     }
 }
@@ -139,10 +147,12 @@
     margin: auto;
 }
 .my-auto{
-    margin: auto 0;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 .mx-auto{
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 .mt-auto{
     margin-top: auto;
