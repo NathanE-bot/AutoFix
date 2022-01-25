@@ -23,6 +23,12 @@
     height: 50px;
 }
 
+.no-logo-layout-4{
+    @extend %no-logo-layout;
+    width: 12.5rem;
+    height: 12.5rem;
+}
+
 .responsive-img{
     width: 100%;
     height: 100%;

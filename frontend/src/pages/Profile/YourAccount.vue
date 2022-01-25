@@ -20,7 +20,7 @@
                 </div>
                 <div v-if="isEditable">
                     <i class="fas fa-pen fs-20 edit-icon" @click="isEditable = !isEditable"></i>
-                    <q-tooltip class="bg-primary text-body2 txt-white" self="center right" :offset="[10, 10]">
+                    <q-tooltip class="bg-primary text-body2 txt-white" self="center right" :offset="[10, 15]">
                         Edit Profile
                     </q-tooltip>
                 </div>

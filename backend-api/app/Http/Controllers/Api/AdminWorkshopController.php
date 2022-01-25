@@ -147,13 +147,8 @@ class AdminWorkshopController extends Controller
         {
             DB::table('operational_workshops')->where('workshopID','=',$req->workshopID)
             ->where('operationalDate','=',$req->operationalWorkshop[$key]['operationalDate'])
-            ->update(['operationalOpenHour'=>$req->operationalOpenHour[$key]['operationalOpenHour'],
-            'operationalCloseHour'=>$req->operationalCloseHour[$key]['operationalCloseHour']]);
-
-            $data=DB::table('operational_workshops')->where('workshopID','=',$req->workshopID)
-            ->where('operationalDate','=',$req->operationalDate[$key])
-            ->get();
-            dd($data);
+            ->update(['operationalOpenHour'=>$req->operationalWorkshop[$key]['operationalOpenHour'],
+            'operationalCloseHour'=>$req->operationalWorkshop[$key]['operationalCloseHour']]);
         }
         foreach ($req->workshop_details as $key => $value)
         {
@@ -167,7 +162,7 @@ class AdminWorkshopController extends Controller
         {
             DB::table('workshop_services')
             ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
-            ->where('id','=',$req->workshop_services[$key]['workshop_servicesID'])
+            ->where('workshop_services.id','=',$req->workshop_services[$key]['id'])
             ->where('workshop_details.workshopID','=',$req->workshopID)
             ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
             ->update(['serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
@@ -324,8 +319,8 @@ class AdminWorkshopController extends Controller
             ->get()->toArray();
 
             foreach ($workshops as $key=>$value) {
-            $operational_workshops =  DB::table('operational_workshops')
-            ->orWhere('operational_workshops    .workshopID','=',$value->id)
+            $operationalWorkshop =  DB::table('operational_workshops')
+            ->orWhere('operational_workshops.workshopID','=',$value->id)
             ->get()->toArray();
 
             $workshop_details =  DB::table('workshop_details')
@@ -347,8 +342,8 @@ class AdminWorkshopController extends Controller
 
             foreach($workshops as &$value)
             {
-                $value->operational_workshop = array_filter($operational_workshops, function($operational_workshops) use ($value) {
-                    return $operational_workshops->workshopID === $value->id;
+                $value->operationalWorkshop = array_filter($operationalWorkshop, function($operationalWorkshop) use ($value) {
+                    return $operationalWorkshop->workshopID === $value->id;
                 });
                 $value->workshop_details = array_filter($workshop_details, function($workshop_details) use ($value) {
                     return $workshop_details->workshopID === $value->id;

@@ -84,3 +84,10 @@
     }
     cursor: pointer;
 }
+
+.ta-r-none-200{
+    textarea{
+        min-height: 8rem !important;
+        max-height: 8rem !important;
+    }
+}

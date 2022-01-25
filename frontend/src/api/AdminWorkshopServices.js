@@ -19,6 +19,14 @@ export function doRejectScheduleByAdmin(dataReject) {
   return axios.post(localURL + '/api/rejectedScheduleByAdmin', dataReject)
 }
 
+export function getWorkshopDetailByUserID(adminID) {
+  return axios.get(localURL + '/api/getWorkshopDetailByUserID?adminID=' + adminID)
+}
+
+export function doUpdateWorkshopForAdminBengkel(dataUpdate) {
+  return axios.post(localURL + '/api/updateWorkshopForAdminBengkel', dataUpdate)
+}
+
 export function getScheduleAcceptedByAdmin(adminID) {
   return axios.get(localURL + '/api/getScheduleAcceptedByAdmin?adminID=' + adminID)
 }
