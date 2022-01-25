@@ -221,7 +221,6 @@ export default {
                             },
                             favoriteToggle: false
                         }
-                        
                         tempScheduleDetails.forEach(el2 => {
                             if(el2.scheduleID === el1.id){
                                 if(el2.serviceType == 'service umum'){
@@ -257,10 +256,11 @@ export default {
             let user_1 = ''
             let user_2 = ''
             var userTokenChat = LocalStorage.getItem('autoRepairUser').data.user.tokenChat
+            console.log(userWorkshop)
             if(LocalStorage.has('autoRepairUser')){
                 user_1 = LocalStorage.getItem('autoRepairUser').data.user.fullName
                 user_2 = userWorkshop.workshopName
-                var roomId = LocalStorage.getItem('autoRepairUser').data.user.tokenChat + '-' + userWorkshop.tokenChat
+                var roomId = LocalStorage.getItem('autoRepairUser').data.user.tokenChat + '-' + userWorkshop.adminToken
             }
             if(!help.isDataEmpty(roomId)){
                 main
@@ -277,7 +277,7 @@ export default {
                         text: 'Please contact website admin.'
                     })
                 } else {
-                    this.changePage('/member/home-message/room-message/' + userTokenChat + '-' + userWorkshop.tokenChat)
+                    this.changePage('/member/home-message/room-message/' + userTokenChat + '-' + userWorkshop.adminToken)
                 }
             } else {
                 Swal.fire({
