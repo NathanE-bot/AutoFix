@@ -44,7 +44,7 @@ class FavoritesController extends Controller
                 ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
                 ->select('favorites.id as favoritesID','favorites.userID as customerID'
                 ,'favorites.workshopID','workshops.workshopName','workshops.workshopAddress'
-                ,'workshops.rating','workshops.city','workshops.district','workshops.province','workshops.statusHr','workshops.status24Hr', 'workshop.workshopLogo'
+                ,'workshops.rating','workshops.city','workshops.district','workshops.province','workshops.statusHr','workshops.status24Hr', 'workshops.workshopLogo'
                 ,'operational_workshops.operationalDate','operational_workshops.operationalOpenHour'
                 ,'operational_workshops.operationalCloseHour','users.tokenChat as customerTokenChat',
                 'workshops.longitude','workshops.latitude',DB::raw('(SELECT tokenChat FROM users WHERE users.id = workshops.userID LIMIT 1) AS adminTokenChat'))
