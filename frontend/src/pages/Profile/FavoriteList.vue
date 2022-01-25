@@ -59,7 +59,13 @@
                                     @click="!item.favoriteToggle ? doAddFavoriteToUser(item) : doRemoveFavoriteFromUser(item)"
                                     :icon="item.favoriteToggle ? 'fas fa-heart' : 'far fa-heart'"
                                     flat round color="negative"
-                                />
+                                >
+                                    <q-tooltip
+                                        class="bg-primary text-body3"
+                                    >
+                                        {{ item.favoriteToggle ? 'Remove from favorite' : 'Add to favorite' }}
+                                    </q-tooltip>
+                                </q-btn>
                                 <q-btn
                                     @click="doCheckForMakeChatRoom(item)"
                                     icon="fas fa-comment-dots"
@@ -76,8 +82,8 @@
                 </q-card>
             </div>
         </div>
-        <div v-else-if="loader">
-            halo
+        <div v-else-if="loader" class="w-90 m-auto">
+            <span class="text-white">Loading...</span>
         </div>
         <div v-else class="flex flex-dir-col flex-center q-page-height">
             <img class="responsive_img" width="400" src="~assets/images/preset/no_schedule_bg.png" alt="">
@@ -100,7 +106,7 @@ export default {
         return{
             help,
             ValidationFunction,
-            pageLoader: false,
+            loader: false,
             userToken: null,
             user: {},
             favoriteList: []
