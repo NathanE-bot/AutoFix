@@ -296,11 +296,11 @@ export default {
                         })
                         tempObject = {...tempObject, ...el1}
                         _this.historyList.push(tempObject)
-                        if(counter == tempScheduleList.length){
-                            _this.loader = false
-                        }
                     })
                 }
+            }) .finally(() => {
+                _this.historyList.reverse()
+                _this.loader = false
             }) .catch((err) =>{ 
                 console.log(err)
                 _this.loader = false
