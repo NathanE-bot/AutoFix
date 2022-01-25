@@ -54,11 +54,12 @@ class AdminInsuranceController extends Controller
                 return $validator->errors();
             }
 
-   
+
 
             $dataInsuranceDetails = DB::table('insuranceDetails')
             ->where('insuranceID','=',$req->insuranceID)
-            ->update(['insuranceDescription'=>$req->insuranceDescription]);
+            ->update(['insuranceDescription'=>$req->insuranceDescription,
+                    'insuranceStatus','=','accepted']);
 
 
             return response()->json($scheduleDetail, 200);
@@ -127,4 +128,29 @@ class AdminInsuranceController extends Controller
         }
 
     }
+
+    public function rejectInsuranceClaim(Request $req){
+        try {
+            $validator = Validator::make($req->all(), [
+                'insuranceDescription'=>['required|string|max:500'],
+            ]);
+            if ($validator->fails()) {
+                return $validator->errors();
+            }
+
+
+
+            $dataInsuranceDetails = DB::table('insuranceDetails')
+            ->where('insuranceID','=',$req->insuranceID)
+            ->update(['insuranceDescription'=>$req->insuranceDescription,
+                    'insuranceStatus','=','rejected']);
+
+
+            return response()->json($scheduleDetail, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+
 }

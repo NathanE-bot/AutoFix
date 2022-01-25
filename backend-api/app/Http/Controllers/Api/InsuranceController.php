@@ -58,10 +58,10 @@ class InsuranceController extends Controller
                     'chronology'=>['required', 'string', 'max:255'],
                     'incidentStatus'=>['required', 'string'],
                     'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'string', 'max:255'],
-                    'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
+                    // 'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
                     'documentationInsuranceName.*'=> ['required|string|max:255'],
             ]);
-
+            $dateNow = carbon::now()->format("Y-m-d");
             $dataInsurance = new Insurance;
             $dataInsurance->vendorInsuranceID = $req->vendorInsuranceID;
             $dataInsurance->userID = $req-> userID;
@@ -85,8 +85,8 @@ class InsuranceController extends Controller
             $dataInsurance->chronology = $req->chronology;
             $dataInsurance->incidentStatus = $req->incidentStatus;
             $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
-            $dataInsurance->insuranceStatus = $req->insuranceStatus;
-            $dataInsurance->submiteDate = $req->submiteDate;
+            $dataInsurance->insuranceStatus = 'on progress';
+            $dataInsurance->submiteDate = $dateNow;
             $dataInsurance->save();
 
 
