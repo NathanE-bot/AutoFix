@@ -229,7 +229,7 @@ export default {
             let _this = this
             _this.reviewLoader = true
             _this.review.scheduleID = _this.tempHistorySchedule.id
-            _this.review.scheduleID = _this.tempHistorySchedule.workshopID
+            _this.review.workshopID = _this.tempHistorySchedule.workshopID
             _this.review.userName = _this.user.fullName
             _this.review.reviewDate = help.formatToday(help.data().dmy_9)
             let token = LocalStorage.getItem('autoRepairUser').data.access_token
