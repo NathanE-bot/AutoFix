@@ -737,9 +737,11 @@ export default {
       let favoriteList = []
       getFavoritesByUserID(_this.user.id, _this.userToken).then(response => {
         favoriteList = response.data.objectReturn
-        favoriteList = favoriteList.filter(item => item.workshopID === _this.workshopById.defaultData.id)[0]
-        if(favoriteList.customerID == _this.user.id && favoriteList.workshopID == _this.workshopById.defaultData.id){
-          _this.workshopById.defaultData.favoriteToggle = true
+        if(!help.isObjectEmpty(favoriteList)){
+          favoriteList = favoriteList.filter(item => item.workshopID === _this.workshopById.defaultData.id)[0]
+          if(favoriteList.customerID == _this.user.id && favoriteList.workshopID == _this.workshopById.defaultData.id){
+            _this.workshopById.defaultData.favoriteToggle = true
+          }
         }
         _this.detailWorkshopLoader = false
       }) .catch((err) =>{
