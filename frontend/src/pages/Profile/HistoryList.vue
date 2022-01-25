@@ -60,7 +60,7 @@
                             </div>
                             <div class="col-md-6 q-gutter-x-lg j-end">
                                 <q-btn v-if="item.scheduleStatus == 'done' && item.isReviewed == 0" class="tf-capitalize" rounded unelevated color="warning" label="Review" @click="doOpenReviewDialog(item)" />
-                                <q-btn class="tf-capitalize" rounded unelevated color="primary" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
+                                <q-btn v-if="item.isReviewed == 1" class="tf-capitalize" rounded unelevated color="primary" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
                             </div>
                         </div>
                     </div>
