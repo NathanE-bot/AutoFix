@@ -109,10 +109,10 @@ class AdminWorkshopController extends Controller
     public function updateWorkshopForAdminBengkel (Request $req){
         $validator = Validator::make($req->all(), [
             'workshopName'=>['required', 'string', 'max:255'],
-            'workshopAddress'=>['required', 'string', 'max:12'],
+            'workshopAddress'=>['required', 'string', 'max:255'],
             'workshopPhoneNumber'=>['required', 'string', 'max:255'],
             'workshopEmail'=>['required', 'string', 'max:255'],
-            'workshopDescription'=>['required', 'string', 'max:255'],
+            'workshopDescription'=>['required', 'string', 'max:500'],
             // 'workshopLogo'=>['required', 'image', 'file','max:2048'],
             'city'=>['required', 'string', 'max:255'],
             'district'=>['required', 'string', 'max:255'],

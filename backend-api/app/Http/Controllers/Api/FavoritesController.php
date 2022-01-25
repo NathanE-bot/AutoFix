@@ -46,7 +46,8 @@ class FavoritesController extends Controller
                 ,'favorites.workshopID','workshops.workshopName','workshops.workshopAddress'
                 ,'workshops.rating','workshops.city','workshops.district','workshops.province','workshops.statusHr','workshops.status24Hr'
                 ,'operational_workshops.operationalDate','operational_workshops.operationalOpenHour'
-                ,'operational_workshops.operationalCloseHour')
+                ,'operational_workshops.operationalCloseHour','users.tokenChat as customerTokenChat',
+                'workshops.longitude','workshops.latitude',DB::raw('(SELECT tokenChat FROM users WHERE users.id = workshops.userID LIMIT 1) AS adminTokenChat'))
                 ->where('favorites.userID','=',$req->userID)
                 ->where('operationalDate','=',$dateweek)
                 ->get();
@@ -75,7 +76,7 @@ class FavoritesController extends Controller
         }catch (Exception $error) {
             return response()->json($error, 500);
         }
-        
+
         return response()->json([
             'message' => 'Removed from favorite'
         ], 200);
