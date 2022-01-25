@@ -72,7 +72,8 @@ Route::get('downloadInsurancePDF', 'Api\InsuranceController@downloadPDFInsurance
 
 //API review
 Route::post('formReviewAPI','Api\ReviewController@formReviewAPI');
-// Route::post('viewReviewAPI','Api\ReviewController@viewReviewAPI');
+Route::post('viewReviewAPI','Api\ReviewController@viewReviewAPI');
+Route::post('countRatingForWorkshopByUserID','Api\ReviewController@countRatingForWorkshopByUserID');
 
 //favorites
 Route::post('makeFavoritesByWorkshopAndUserID','Api\FavoritesController@makeFavoritesByWorkshopAndUserID');
