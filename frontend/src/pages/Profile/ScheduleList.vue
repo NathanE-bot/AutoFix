@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-md-5 flex-dir-col">
                             <span class="fw-semibold">Description</span>
-                            <span>{{ item.description }}</span>
+                            <span>{{ item.serviceDescription }}</span>
                         </div>
                         <div class="col-md-12 row mt-30 a-center">
                             <div class="col-md-6 primary_color">
