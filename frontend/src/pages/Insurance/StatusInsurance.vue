@@ -41,9 +41,15 @@
 </template>
 
 <script>
+/* eslint-disable */
+import Swal from 'sweetalert2'
+import Auth from '../../js/AuthValidation'
+import help from '../../js/help'
+
 export default {
   data () {
     return {
+      help,
       dummyDatas: [
         { No: '1', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Waiting', view: 'a' },
         { No: '2', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Rejected', view: 'a' },
@@ -91,6 +97,35 @@ export default {
         { no: '6', nama_asuransi: 'asuransi6', tanggal_pembuatan: '17-12-2021', nomor_polis: '0123456789', status: 'Accepted', view: 'f' },
         { no: '7', nama_asuransi: 'asuransi7', tanggal_pembuatan: '18-12-2021', nomor_polis: '0123456789', status: 'Accepted', view: 'g' }
       ]
+    }
+  },
+  mounted () {
+    if(!Auth.isUserLogin()){
+      this.forLoad = false
+      document.getElementsByClassName("q-layout")[0].style.display = "none"
+      Swal.fire({
+        title: 'Error',
+        text: 'Please login first.',
+        confirmButtonText: 'Login',
+        confirmButtonColor: '#21a17b',
+        showCancelButton: true,
+        cancelButtonText: 'Back',
+      }) .then((result) => {
+        if(result.isConfirmed){
+          this.changePage('/session/login')
+          document.getElementsByClassName("q-layout")[0].style.display = "unset"
+        } else {
+          this.changePage('/')
+          setTimeout(() => {
+            document.getElementsByClassName("q-layout")[0].style.display = "unset"
+          }, 500)
+        }
+      })
+    }
+  },
+  methods: {
+    changePage (url) {
+      this.$router.push(url)
     }
   }
 }

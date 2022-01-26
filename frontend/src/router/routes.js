@@ -205,14 +205,6 @@ const routes = [
       },
       // Insurance
       {
-        path: "/member/insurance/status-insurance",
-        component: statusInsurance,
-        meta: {
-          title: 'Status Insurance',
-          breadcrumb: 'Status Insurance'
-        }
-      },
-      {
         path: "/member/insurance/form",
         component: formInsurance,
         meta: {
@@ -267,6 +259,14 @@ const routes = [
         meta: {
           title: 'Claim Insurance',
           breadcrumb: 'Claim Insurance'
+        }
+      },
+      {
+        path: "/insurance/status-insurance",
+        component: statusInsurance,
+        meta: {
+          title: 'Status Insurance',
+          breadcrumb: 'Status Insurance'
         }
       },
       {

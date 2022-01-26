@@ -227,36 +227,6 @@
                 </div>
             </q-step>
 
-            <!-- <q-step
-                :name="4"
-                :style="{
-                    height: window.heightAltered + 'px',
-                    maxHeight: window.heightAltered + 'px'
-                }"
-            >
-                <div class="row q-col-gutter-md">
-                    <div class="col-12">
-                        <div>
-                            <div class="text-h6">Choose the type of workshop you want</div>
-                            <div class="text-subtitle2 red-txt">*If there is a workshop of your choice, please include it in the chronology</div>
-                        </div>
-                        <q-select
-                            outlined class="default-select-2 w-30"
-                        >
-                        </q-select>
-                    </div>
-                    <div class="col-6">
-                        <span class="text-h6">Explain the chronology of events</span>
-                        <q-input
-                            outlined counter maxlength="500"
-                            type="textarea" placeholder="Explain the chronology.."
-                            class="fix-txt-field default-textarea-1"
-                        >
-                        </q-input>
-                    </div>
-                </div>
-            </q-step> -->
-
             <q-step
                 :name="4"
                 :style="{

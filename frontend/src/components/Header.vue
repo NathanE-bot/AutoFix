@@ -28,7 +28,7 @@
                   <q-item-section>Claim Insurance</q-item-section>
                 </q-item>
 
-                <q-item clickable @click="initialTab = 'insurance'">
+                <q-item clickable @click="changePage('/insurance/status-insurance')">
                   <q-item-section>Insurance List</q-item-section>
                 </q-item>
               </q-list>

@@ -1,26 +1,29 @@
 .input-outline-profile{
     input{
         color: #fff;
-        font-size: 18px;
+        font-size: 14px;
     }
     > div {
+        position: relative;
         > span {
             padding: 2px 8px;
-            position: relative;
-            top: 15px;
+            position: absolute;
+            top: -18px;
             z-index: 1;
             background: #212121;
             left: 8px;
+            font-size: 18px;
+            color: $primary;
         }
         > label {
             .q-field__control::before{
-                border: 2px solid #fff !important;
+                border: 1px solid #fff !important;
             }
         }
     }
     textarea{
         color: #fff;
-        font-size: 18px;
+        font-size: 14px;
     }
 }
 .edit-icon{

@@ -116,3 +116,8 @@
     overflow: hidden;
     border-radius: 0 0 10px 10px;
 }
+
+.fit-content{
+    object-fit: cover;
+    object-position: 50% 50%;
+}
