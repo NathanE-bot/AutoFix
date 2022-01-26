@@ -17,7 +17,12 @@
           class="d-flex a-center"
         >
           <q-avatar class="mr-30 user-img-sidebar" size="50px">
-            <img v-if="!help.isDataEmpty(user.profilePicture)" :src="user.profilePicture">
+            <q-img
+              v-if="!help.isDataEmpty(user.profilePicture)"
+              :src="user.profilePicture"
+              :ratio="1"
+              class="responsive_img"
+            />
             <i v-else class="fas fa-user grey-5"></i>
           </q-avatar>
           <span class="text-subtitle1 fw-semibold">{{ user.fullName }}</span>

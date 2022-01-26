@@ -73,7 +73,12 @@
                   size="md"
                 >
                   <q-avatar size="50px" class="bg-white">
-                    <img v-if="!help.isDataEmpty(user.profilePicture)" :src="user.profilePicture">
+                    <q-img
+                      v-if="!help.isDataEmpty(user.profilePicture)"
+                      :src="user.profilePicture"
+                      :ratio="1"
+                      class="responsive_img"
+                    />
                     <i v-else class="fas fa-user grey-5"></i>
                   </q-avatar>
                   <q-menu
