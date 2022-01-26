@@ -335,7 +335,7 @@ export default {
 
           let tempObject = {
             id: el1.id,
-            workshopId: el1.workshopId,
+            workshopId: el1.workshopID,
             carModel: el1.carModel,
             carType: el1.carType,
             workshop_services: tempArr,

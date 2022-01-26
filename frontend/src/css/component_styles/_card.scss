@@ -11,7 +11,7 @@
     
     .logo-img-form{
         position: absolute;
-        right: 35px;
+        right: 24px;
         // top: 35px;
         width: 120px;
     }
@@ -31,6 +31,9 @@
     .hitter-form-container{
         border: 1px solid $primary;
         border-radius: 20px;
+    }
+    .q-stepper__nav{
+        padding: 14px 24px;
     }
 }
 
