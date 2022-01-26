@@ -234,7 +234,7 @@
                     maxHeight: window.heightAltered + 'px'
                 }"
             >
-                <div>
+                <div class="pb-20">
                     <div class="text-h6 mb-20">Upload photo of the car's condition</div>
                     <div class="row q-gutter-lg">
                         <div class="col-4 upload-photo-box" v-for="(i, index) in imageForm" :key="'UP' + index">
@@ -247,12 +247,12 @@
                         </div>
                         <div class="d-flex a-center j-center">
                             <q-btn
-                                v-if="imageForm.length < 5"
-                                @click="addUploadPhoto()"
+                                v-if="imageForm.length < 10"
+                                @click="addUploadPhoto(false)"
                                 icon="fas fa-plus"
                                 flat round color="grey-5"
                             />
-                            <div v-else-if="imageForm.length == 5">
+                            <div v-else-if="imageForm.length == 10">
                                 Max 5 total photo
                             </div>
                         </div>
@@ -307,7 +307,7 @@ export default {
     data () {
         return{
             help,
-            step: 3,
+            step: 1,
             window: {
                 width: 0,
                 height: 0,
@@ -364,7 +364,7 @@ export default {
         }
     },
     created () {
-        this.addUploadPhoto()
+        this.addUploadPhoto(true)
     },
     mounted () {
         window.addEventListener('resize', this.handleResize)
@@ -410,12 +410,14 @@ export default {
             item.imageFile = formData
         },
         addUploadPhoto () {
-            const tempObj = {
-                name: '',
-                imageFile: [],
-                uploaded: false
+            for (let i = 0; i < 7; i++) {
+                const tempObj = {
+                    name: '',
+                    imageFile: [],
+                    uploaded: false
+                }
+                this.imageForm.push(tempObj)
             }
-            this.imageForm.push(tempObj)
         },
         handleResize () {
             this.window.width = window.innerWidth
