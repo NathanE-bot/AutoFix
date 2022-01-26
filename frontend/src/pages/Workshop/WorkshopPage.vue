@@ -165,7 +165,7 @@
                     :bar-style="barStyle"
                     class="col-md-6 w-49-i px-20 min-max-h-241"
                   >
-                    <div v-if="!help.isObjectEmpty(workshopById.servisUmum) && !help.isObjectEmpty(workshopById.servisBerkala)">
+                    <div v-if="!help.isObjectEmpty(workshopById.servisUmum) || !help.isObjectEmpty(workshopById.servisBerkala)">
                       <div class="text-h6 mb-6 sticky-top">Services</div>
                       <div v-if="!help.isObjectEmpty(workshopById.servisUmum)">
                         <span class="fw-semibold">General :</span>
@@ -682,12 +682,18 @@ export default {
           _this.workshopById.defaultData.workshop_services.forEach(el1 => {
             if(el1.serviceType == 'Servis Berkala'){
               _this.workshopById.servisBerkala.push(el1)
-            } else {
+            } else if (el1.serviceType == 'Servis umum') {
               _this.workshopById.servisUmum.push(el1)
             }
           })
-          _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
-          _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
+
+          if(!help.isObjectEmpty(_this.workshopById.servisBerkala)){
+            _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
+          }
+          if(_this.workshopById.servisUmum){
+            _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
+          }
+
         }) .finally(() => {
           if(Auth.isUserLogin()){
             _this.doGetFavoritesByUserID()
@@ -703,7 +709,6 @@ export default {
     doAddFavoriteToUser (item) {
       let _this = this
       addFavoriteToUser(_this.user.id, item.id, _this.userToken).then(response => {
-        console.log(response.data.message)
         item.favoriteToggle = !item.favoriteToggle
         this.$q.notify({
           type: 'positive',
@@ -719,7 +724,6 @@ export default {
     doRemoveFavoriteFromUser (item) {
       let _this = this
       removeFavoriteFromUser(_this.user.id, item.userID, _this.userToken).then(response => {
-        console.log(response.data.message)
         item.favoriteToggle = !item.favoriteToggle
         this.$q.notify({
           type: 'positive',
@@ -739,8 +743,10 @@ export default {
         favoriteList = response.data.objectReturn
         if(!help.isObjectEmpty(favoriteList)){
           favoriteList = favoriteList.filter(item => item.workshopID === _this.workshopById.defaultData.id)[0]
-          if(favoriteList.customerID == _this.user.id && favoriteList.workshopID == _this.workshopById.defaultData.id){
-            _this.workshopById.defaultData.favoriteToggle = true
+          if(!help.isDataEmpty(favoriteList)){
+            if(favoriteList.customerID == _this.user.id && favoriteList.workshopID == _this.workshopById.defaultData.id){
+              _this.workshopById.defaultData.favoriteToggle = true
+            }
           }
         }
         _this.detailWorkshopLoader = false

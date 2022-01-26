@@ -235,7 +235,11 @@
                 }"
             >
                 <div class="pb-20">
-                    <div class="text-h6 mb-20">Upload photo of the car's condition</div>
+                    <div class="text-h6 mb-8">Upload photo of the car's condition</div>
+                    <div class="mb-20 red-txt">
+                        <b>IMPORTANT NOTE: </b>
+                        <span>Photos that needed to be included such as view of the car front, rear, left, right, dashboard, car engine frame number</span>
+                    </div>
                     <div class="row q-gutter-lg">
                         <div class="col-4 upload-photo-box" v-for="(i, index) in imageForm" :key="'UP' + index">
                             <q-input class="upload-photo-name" borderless dense v-model="i.name" placeholder="Input your photo's name" />

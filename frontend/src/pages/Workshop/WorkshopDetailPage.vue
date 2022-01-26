@@ -92,7 +92,11 @@
             </div>
           </div>
           <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
-          <div class="col-md-6 w-49-i px-20">
+          <q-scroll-area
+            :thumb-style="thumbStyle"
+            :bar-style="barStyle"
+            class="col-md-6 w-49-i px-20 min-max-h-241"
+          >
             <div class="text-h6 fw-bold mb-6">Services</div>
               <div class="row" v-if="!help.isObjectEmpty(workshop_details)">
                 <div v-for="item in workshop_details" :key="item.id" class="col-md-6 py-12">
@@ -117,7 +121,7 @@
                   </div>
                 </div>
             </div>
-          </div>
+          </q-scroll-area>
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
         <div class="py-20">
@@ -232,6 +236,20 @@ export default {
       help,
       ValidationFunction,
       LocalStorage,
+      thumbStyle: {
+        right: '2px',
+        borderRadius: '10px',
+        backgroundColor: '#21a17b',
+        width: '10px',
+        opacity: 0.75
+      },
+      barStyle: {
+        right: '2px',
+        borderRadius: '10px',
+        backgroundColor: '#21a17b',
+        width: '10px',
+        opacity: 0.2
+      },
       loader: false,
       userTokenChat: null,
       workshopId: null,
