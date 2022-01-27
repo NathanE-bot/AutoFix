@@ -23,8 +23,7 @@ class HomeController extends Controller
             $currentLat = $request->lat;
             $currentLng = $request->lon;
             $distanceKmLu = 50;
-            $data = [
-                'objectReturn' => DB::table('workshops')
+            $data = DB::table('workshops')
                 ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
                 ->selectRaw('operational_workshops.operationalDate,operational_workshops.operationalOpenHour,operational_workshops.operationalCloseHour,workshops.id,workshops.userID,workshops.workshopName,workshops.workshopAddress,workshops.workshopPhoneNumber,workshops.workshopEmail,
                 workshops.workshopDescription,workshops.rating,workshops.workshopLogo,workshops.city,workshops.district,workshops.province,workshops.statusHr,workshops.status24Hr,
@@ -33,12 +32,14 @@ class HomeController extends Controller
                 ->where('workshops.rating','>',3)
                 ->where('operational_workshops.operationalDate','=',$dateweek)
                 ->orderByRaw('distance asc')
-                ->get()
-            ];
-            return response()->json($data, 200);
+                ->get();
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+
+        return response()->json([
+            'objectReturn' => $data
+        ], 200);
     }
     public function searchdata(Request $req)
     {
