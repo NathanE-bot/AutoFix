@@ -1,15 +1,9 @@
 <template>
   <q-page class="flex flex-center insurance_layout_3">
-    <div class="flex a-end flex-dir-col w-90 m-auto">
-      <q-markup-table class="fw">
+    <div class="flex flex-dir-col w-80 m-auto">
+      <div class="text-h5 fw-semibold text-white mb-40">Insurance List</div>
+      <q-markup-table class="fw br-10px insurance-status-table" wrap-cells>
         <thead>
-          <tr>
-            <th colspan="6" class="no-border">
-              <div class="row no-wrap items-center">
-                <div class="text-h6">Insurance List</div>
-              </div>
-            </th>
-          </tr>
           <tr>
             <th class="text-center" v-for="(header, index) in tableHeader" :key="'iList' + index">
               <span class="fw-semibold text-subtitle2">{{ header }}</span>
@@ -32,11 +26,12 @@
           </tr>
         </tbody>
       </q-markup-table>
-      <q-pagination
-      class="p-10"
-        v-model="iPage"
-        :max="5"
-      />
+      <div class="p-15 flex j-end">
+        <q-pagination
+          v-model="iPage"
+          :max="5"
+        />
+      </div>
     </div>
   </q-page>
 </template>
