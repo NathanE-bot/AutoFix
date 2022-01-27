@@ -63,18 +63,21 @@ export default {
         let tempLastMessage = tempRoomObj[key]
         let last = Object.keys(tempLastMessage)[Object.keys(tempLastMessage).length-3]
         if(key.includes(_this.user.tokenChat)){
-          tempRoom.push({
-            roomSecureId: key,
-            user_1: tempLastMessage['user-1'],
-            user_2: tempLastMessage['user-2'],
-            lastMessage: tempLastMessage[last]
-          })
+          console.log(tempLastMessage[last])
+          if(!help.isDataEmpty(tempLastMessage[last])){
+            tempRoom.push({
+              roomSecureId: key,
+              user_1: tempLastMessage['user-1'],
+              user_2: tempLastMessage['user-2'],
+              lastMessage: tempLastMessage[last]
+            })
+          }
         }
       })
       _this.room = tempRoom
       _this.loader = false
     })
-    
+    console.log(_this.room)
   },
   methods: {
     changePage (url) {
