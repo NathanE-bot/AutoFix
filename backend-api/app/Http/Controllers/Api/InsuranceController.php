@@ -176,13 +176,14 @@ class InsuranceController extends Controller
             ->where('insurances.userID','=',$req->userID)
             // ->where('users.role','=','1')
             ->get();
-            $data = [
-                'objectReturner'=>$scheduleDetail
-            ];
-            return response()->json($data, 200);
+            
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+        
+        return response()->json([
+            'objectReturn' => $scheduleDetail
+        ], 200);
     }
 
 

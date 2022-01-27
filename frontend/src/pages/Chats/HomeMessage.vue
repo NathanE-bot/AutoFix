@@ -77,7 +77,6 @@ export default {
       _this.room = tempRoom
       _this.loader = false
     })
-    console.log(_this.room)
   },
   methods: {
     changePage (url) {
