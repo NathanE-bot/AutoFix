@@ -2,6 +2,8 @@
 import MainLayout from "layouts/MainLayout";
 import LoginRegisterLayout from "layouts/LoginRegisterLayout";
 import MemberLayout from "layouts/MemberLayout";
+import AdminWorkshopLayout from "layouts/AdminWorkshopLayout";
+import AdminInsuranceLayout from "layouts/AdminInsuranceLayout";
 
 // LandingPage
 const landingPage = () => import("pages/LandingPage");
@@ -96,9 +98,10 @@ const routes = [
       }
     ]
   },
+  // ForAdminWorkshopUsers
   {
-    path: '/admin',
-    component: MemberLayout,
+    path: '/admin/workshop',
+    component: AdminWorkshopLayout,
     children: [
       {
         path: "/admin/workshop/manage-workshop",
@@ -130,7 +133,14 @@ const routes = [
           title: 'Admin Workshop Home',
           breadcrumb: 'Admin Workshop Home'
         }
-      },
+      }
+    ]
+  },
+  // ForAdminInsuranceUsers
+  {
+    path: '/admin/insurance',
+    component: AdminInsuranceLayout,
+    children: [
       {
         path: "/admin/insurance/home",
         component: AdminInsuranceHome,
@@ -222,6 +232,14 @@ const routes = [
         }
       },
       {
+        path: "/member/your-account",
+        component: yourAccount,
+        meta: {
+          title: 'Your Account',
+          breadcrumb: 'Your Account'
+        }
+      },
+      {
         path: "/member/create",
         component: createWorkshop,
         meta: {
@@ -237,14 +255,6 @@ const routes = [
           breadcrumb: ''
         }
       },
-      {
-        path: "/member/your-account",
-        component: yourAccount,
-        meta: {
-          title: 'Your Account',
-          breadcrumb: 'Your Account'
-        }
-      }
     ]
   },
   // For not authenticated
@@ -277,14 +287,14 @@ const routes = [
           breadcrumb: 'Landing Page'
         }
       },
-      {
-        path: "/testing",
-        component: testing,
-        meta: {
-          title: 'Testing',
-          breadcrumb: 'Testing'
-        }
-      },
+      // {
+      //   path: "/testing",
+      //   component: testing,
+      //   meta: {
+      //     title: 'Testing',
+      //     breadcrumb: 'Testing'
+      //   }
+      // },
       {
         path: "/workshop",
         component: workshop,

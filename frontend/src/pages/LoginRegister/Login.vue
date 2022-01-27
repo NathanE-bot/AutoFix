@@ -166,7 +166,14 @@ export default {
         if (response.status === 200) {
           LocalStorage.set('autoRepairUser', response)
         }
-        this.changePage('/')
+        let user = LocalStorage.getItem('autoRepairUser').data.user
+        if(user.role == 1){
+          this.changePage('/')
+        } else if (user.role == 2) {
+          this.changePage('/admin/workshop/home')
+        } else {
+          this.changePage('/admin/insurance/home')
+        }
       }) .catch(function (error) {
           if(error.response.status === 401) {
             Swal.fire({

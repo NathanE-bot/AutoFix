@@ -93,17 +93,6 @@
 
 <script>
 /* eslint-disable */
-
-  // dummyDatas: [
-  //   { No: '1', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Waiting', view: 'a' },
-  //   { No: '2', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Rejected', view: 'a' },
-  //   { No: '3', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Accepted', view: 'a' },
-  //   { No: '4', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Accepted', view: 'a' },
-  //   { No: '5', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Accepted', view: 'a' },
-  //   { No: '6', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Rejected', view: 'a' },
-  //   { No: '7', nama_asuransi: 'asuransi1', tanggal_pembuatan: '12-12-2021', nomor_polis: '0123456789', status: 'Rejected', view: 'a' },
-  // ]
-
 import { getIncomingClaimRequest } from '../../../api/AdminInsuranceServices'
 import { LocalStorage } from 'quasar'
 
@@ -178,9 +167,9 @@ export default {
         { id: 39, name: 'Donut-3', created_date: '2%', iron: '22%' },
         { id: 40, name: 'KitKat-3', created_date: '12%', iron: '6%' }
       ],
-    promptDetail: false,
-    promptDetailAccept: false,
-    promptDetailReject: false
+      promptDetail: false,
+      promptDetailAccept: false,
+      promptDetailReject: false
     }
   },
   created() {
@@ -196,7 +185,6 @@ export default {
     })
   },
   methods: {
-
     doGetIncomingClaimRequest() {
       getIncomingClaimRequest(this.user.id).then(response =>{
         console.log('response', response)
@@ -235,7 +223,6 @@ export default {
         this.loading = false
       }, 1500)
     },
-
     // emulate ajax call
     // SELECT * FROM ... WHERE...LIMIT...
     fetchFromServer (startRow, count, filter, sortBy, descending) {
@@ -259,7 +246,6 @@ export default {
 
       return data.slice(startRow, startRow + count)
     },
-
     // emulate 'SELECT count(*) FROM ...WHERE...'
     getRowsNumberCount (filter) {
       if (!filter) {

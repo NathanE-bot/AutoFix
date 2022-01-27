@@ -68,41 +68,19 @@ export default {
     this.userToken = LocalStorage.getItem('autoRepairUser').data.access_token
     this.doGetInsuranceList()
   },
-  mounted () {
-    if(!Auth.isUserLogin()){
-      this.forLoad = false
-      document.getElementsByClassName("q-layout")[0].style.display = "none"
-      Swal.fire({
-        title: 'Error',
-        text: 'Please login first.',
-        confirmButtonText: 'Login',
-        confirmButtonColor: '#21a17b',
-        showCancelButton: true,
-        cancelButtonText: 'Back',
-      }) .then((result) => {
-        if(result.isConfirmed){
-          this.changePage('/session/login')
-          document.getElementsByClassName("q-layout")[0].style.display = "unset"
-        } else {
-          this.changePage('/')
-          setTimeout(() => {
-            document.getElementsByClassName("q-layout")[0].style.display = "unset"
-          }, 500)
-        }
-      })
-    }
-  },
   methods: {
     doGetInsuranceList () {
       let _this = this
       _this.loader = true
       getInsuranceStatusApi(_this.user.id, _this.userToken).then(response => {
-        console.log(response.data)
         _this.loader = true
       }) .catch((err) => {
         console.log(err)
         _this.loader = true
       })
+    },
+    changePage (url) {
+      this.$router.push(url)
     }
   }
 }

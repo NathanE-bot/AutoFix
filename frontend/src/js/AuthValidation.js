@@ -6,7 +6,7 @@ import help from '../js/help'
 export default {
     isUserLogin () {
         if(LocalStorage.has('autoRepairUser')){
-            if(LocalStorage.getItem('autoRepairUser').data.access_token){
+            if(!help.isDataEmpty(LocalStorage.getItem('autoRepairUser').data.access_token)){
                 // var expires_in = help.defaultFormat(LocalStorage.getItem('autoRepairUser').data.expires_in, help.data().dmyhms_1) 
                 // var now = help.formatToday(help.data().dmyhms_1)
                 // var expired = moment(now).diff(moment(expires_in)) >= 0
@@ -16,9 +16,19 @@ export default {
                 // } 
                 return true
             } 
-            else return false
+            return false
         } 
-        else return false
+        return false
+    },
+    userRoleType () {
+        const user = LocalStorage.getItem('autoRepairUser').data.user
+        if(user.role == 1){
+            return 'customer'
+        } else if (user.role == 2) {
+            return 'workshop admin'
+        } else {
+            return 'insurance admin'
+        }
     },
     doUserLogout () {
         LocalStorage.remove('autoRepairUser')

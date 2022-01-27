@@ -152,15 +152,21 @@
           </q-card>
         </div>
         <div v-else class="maxh-inherit">
-          <div class="d-flex flex-dir-col text-align-center q-gutter-y-md">
+          <div v-if="errorMessage || errGeolocationCode == 1 && help.isObjectEmpty(workshopRecommendation)" class="d-flex flex-dir-col text-align-center q-gutter-y-md">
             <q-icon name="fas fa-map-marker-alt" class="fs-100 mb-20 ps-center" color="grey-4" />
             <span class="text-h5">No Location Detected</span>
-            <div>
-              <span>Looks like you have not turn your location settings, </span>
-              <span>
-                <a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Click Here</a> to learn more.
-              </span>
+            <div class="d-flex flex-dir-col">
+              <div>
+                <span>Looks like you have not turn your location settings, </span>
+                <span>
+                  <a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Click Here</a> to learn more.
+                </span>
+              </div>
+              <span>Or <b>refresh</b> the page to automatically prompt request location popup from your browser.</span>
             </div>
+          </div>
+          <div v-else-if="!errorMessage && help.isObjectEmpty(workshopRecommendation)">
+            Oops, There is no <b>Workshop Available</b> near you
           </div>
         </div>
       </div>
@@ -285,7 +291,8 @@ export default ({
       location: {
         lon: null,
         lat: null
-      }
+      },
+      errGeolocationCode: null
     }
   },
   created () {

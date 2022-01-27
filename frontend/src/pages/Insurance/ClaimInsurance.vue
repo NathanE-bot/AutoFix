@@ -42,41 +42,6 @@ export default {
             ]
         }
     },
-    mounted () {
-        // if(Auth.isUserLogin() == 'session_expired'){
-        //     Swal.fire({
-        //         icon: 'warning',
-        //         title: 'Session expired',
-        //         text: 'Please re-login'
-        //     }) .then((result) => {
-        //         if(result.isConfirmed){
-        //             this.changePage('/session/login')
-        //         }
-        //     })
-        // }
-        if(!Auth.isUserLogin()){
-            this.forLoad = false
-            document.getElementsByClassName("q-layout")[0].style.display = "none"
-            Swal.fire({
-              title: 'Error',
-              text: 'Please login first.',
-              confirmButtonText: 'Login',
-              confirmButtonColor: '#21a17b',
-              showCancelButton: true,
-              cancelButtonText: 'Back',
-            }) .then((result) => {
-                if(result.isConfirmed){
-                    this.changePage('/session/login')
-                    document.getElementsByClassName("q-layout")[0].style.display = "unset"
-                } else {
-                    this.changePage('/')
-                    setTimeout(() => {
-                        document.getElementsByClassName("q-layout")[0].style.display = "unset"
-                    }, 500)
-                }
-            })
-        }
-    },
     methods: {
         changePage (url) {
             this.$router.push(url)

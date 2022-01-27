@@ -12,28 +12,48 @@
           indicator-color="primary"
           align="justify"
         >
-          <q-tab @click="changePage('/')" name="home" label="Home" />
-          <q-tab @click="changePage('/workshop')" name="workshop" label="Workshop" />
-          <div class="relative-position">
+          <q-tab @click="changePage('/admin/workshop/home')" name="home" label="Home" />
+          <div v-if="user.role == 2" class="relative-position">
+            <q-tab class="insurance-tab" name="schedule" />
+            <q-btn-dropdown
+              :color="initialTab == 'schedule' ? 'primary' : ''"
+              auto-close flat :ripple="false" :menu-offset="[25, 15]"
+              transition-show="jump-down" transition-hide="jump-up" label="Schedule"
+              class="tf-capitalize fs-16 dropdown-btn-tab"
+              content-class="dropdown-tab text-white"
+            >
+              <q-list class="dropdown-g">
+                <q-item clickable @click="changePage('/admin/workshop/incoming-order')">
+                  <q-item-section>Incoming Order</q-item-section>
+                </q-item>
+
+                <q-item clickable @click="changePage('/admin/workshop/accepted-order')">
+                  <q-item-section>Accepted Order</q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
+          <div v-else class="relative-position">
             <q-tab class="insurance-tab" name="insurance" />
             <q-btn-dropdown
               :color="initialTab == 'insurance' ? 'primary' : ''"
-              auto-close flat :ripple="false" :menu-offset="[25, 15]"
+              auto-close flat :ripple="false" :menu-offset="[80, 15]"
               transition-show="jump-down" transition-hide="jump-up" label="Insurance"
               class="tf-capitalize fs-16 dropdown-btn-tab"
               content-class="dropdown-tab text-white"
             >
               <q-list class="dropdown-g">
-                <q-item clickable @click="changePage('/insurance/claim-insurance')">
-                  <q-item-section>Claim Insurance</q-item-section>
+                <q-item clickable @click="changePage('/admin/insurance/incoming-claim-request')">
+                  <q-item-section>Incoming Claim Request</q-item-section>
                 </q-item>
 
-                <q-item clickable @click="changePage('/insurance/status-insurance')">
-                  <q-item-section>Insurance List</q-item-section>
-                </q-item>
+                <!-- <q-item clickable @click="changePage('/admin/workshop/accepted-order')">
+                  <q-item-section>Accepted Order</q-item-section>
+                </q-item> -->
               </q-list>
             </q-btn-dropdown>
           </div>
+          <q-tab v-if="user.role == 2" @click="changePage('/admin/workshop/manage-workshop')" name="workshop" label="Workshop" />
         </q-tabs>
         <div class="relative-position">
           <div class="float-button">
@@ -87,12 +107,12 @@
                     :offset="[25, 15]"
                   >
                     <q-list style="min-width: 100px">
-                      <q-item
+                      <!-- <q-item
                         @click="changePage('/member/your-account')"
                         clickable v-close-popup
                       >
                         Profile
-                      </q-item>
+                      </q-item> -->
                       <q-item
                         @click="doLogout()"
                         clickable v-close-popup>
@@ -152,14 +172,17 @@ export default {
   watch: {
   '$route.path': {
     handler: function(url) {
-      if(url == '/'){
+      if(url.includes('/home')){
         this.initialTab = 'home'
       }
-      else if(url.includes('/workshop')){
-        this.initialTab = 'workshop'
-      }
-      else if(url.includes('/insurance')){
+      else if(url.includes('/incoming-claim-request')){
         this.initialTab = 'insurance'
+      }
+      else if(url.includes('/incoming-order') || url.includes('/accepted-order')){
+        this.initialTab = 'schedule'
+      }
+      else if(url.includes('/manage-workshop')){
+        this.initialTab = 'workshop'
       }
       else {
         this.initialTab = ''
