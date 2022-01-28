@@ -283,3 +283,18 @@
 .black-bg-loader::after{
     background: linear-gradient( 90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) );
 }
+
+.gap-1{
+    gap: 1rem;
+}
+
+.auto-3{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    flex-direction: column;
+}
+.auto-4{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    flex-direction: column;
+}

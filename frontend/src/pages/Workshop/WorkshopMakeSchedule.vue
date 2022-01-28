@@ -346,7 +346,7 @@ export default {
         })
         _this.carModelOptions = ValidationFunction.arrayFilterCarModel(_this.carModelOptions)
         _this.loader = false
-      }) .catch((err) =>{
+      }).catch((err) =>{
         console.log(err)
         _this.loader = false
       })
