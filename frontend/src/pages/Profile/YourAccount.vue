@@ -156,9 +156,7 @@ export default {
         },
         doUpdateUserData(){
             this.loader = true
-            const string = this.userDisplay.image.toString()
-            const substring = "http://127.0.0.1:8000/"
-            if(string.includes(substring)){
+            if(typeof this.userDisplay.image !== 'object'){
                 this.doUpdateDataUserProfile()
             } else {
                 saveImgTest(this.userDisplay.image, this.user.id).then(response => {
