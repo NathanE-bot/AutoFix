@@ -29,7 +29,7 @@ class AdminInsuranceController extends Controller
     // }
     public function getDataIncomingInsuranceRequestByAdminID(Request $req){
         try {
-            $scheduleDetail= DB::table('insurances')
+            $insurance= DB::table('insurances')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
             ->join('users','users.id','=','insurance_vendors.userID')
@@ -39,7 +39,7 @@ class AdminInsuranceController extends Controller
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','=','on progress')
             ->get();
-            return response()->json($scheduleDetail, 200);
+            return response()->json($insurance, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
@@ -152,5 +152,21 @@ class AdminInsuranceController extends Controller
         }
     }
 
+
+    public function getAdminInsuranceDetails(){
+        try {
+
+            $insuranceDetails= DB::table('insurances')
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
+            ->join('users','users.id','=','insurance_vendors.userID')
+            ->where('insurance_vendors.userID','=',$req->adminID)
+            ->where('insurance_details.insuranceStatus','=','on progress')
+            ->get();
+            return response()->json($insuranceDetails, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
 
 }

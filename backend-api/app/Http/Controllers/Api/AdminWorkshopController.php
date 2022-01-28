@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Workshop;
+use App\WorkshopDetail;
 use App\OperationalWorkshop;
 use App\WorkshopPicture;
 use Illuminate\Support\Facades\DB;
@@ -63,9 +64,10 @@ class AdminWorkshopController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
         }
         try {
             $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
@@ -89,15 +91,18 @@ class AdminWorkshopController extends Controller
                 'description' => 'string','required'
             ]);
 
+
             if ($validator->fails()) {
-                $return = [
-                    'error' => $validator->errors()
-                ];
+                return response()->json([
+                    'id' => 1,
+                    'message'=>$validator->errors()
+                ], 401);
+            }
 
             $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
             ->update(['scheduleStatus'=>'rejected',
             'description'=>$req->description]);
-        }
+
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
 
         return response()->json([
@@ -121,13 +126,22 @@ class AdminWorkshopController extends Controller
             'longitude'=>['required', 'string', 'max:255'],
             'statusHr'=>['required', 'string', 'max:255'],
             'status24Hr'=>['required', 'string', 'max:255'],
-            'operationalWorkshop.operationalCloseHour'=>['required', 'date_format:H:i:s'],
-            'operationalWorkshop.operationalOpenHour'=>['required', 'date_format:H:i:s'],
-            'workshop_details.carModel'=>['required', 'string', 'max:255'],
-            'workshop_details.carType'=>['required', 'string', 'max:255'],
-            'workshop_services.serviceType'=> ['required|string|max:255'],
-            'workshop_services.serviceDetail'=> ['required|string|max:255'],
+            'operationalWorkshop.operationalCloseHour.*'=>['required', 'date_format:H:i:s'],
+            'operationalWorkshop.operationalOpenHour.*'=>['required', 'date_format:H:i:s'],
+            'workshop_details.carModel.*'=>['required', 'string', 'max:255'],
+            'workshop_details.carType.*'=>['required', 'string', 'max:255'],
+            'workshop_services.serviceType.*'=> ['required|string|max:255'],
+            'workshop_services.serviceDetail.*'=> ['required|string|max:255'],
         ]);
+
+
+        if ($validator->fails()) {
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
+        }
+
         DB::table('workshops')->where('id','=',$req->workshopID)
         ->where('userID','=',$req->userID)
         ->update(['workshopName'=>$req->workshopName,
@@ -177,10 +191,12 @@ class AdminWorkshopController extends Controller
             'workshopLogo' => 'image|file|max:2048'
         ]);
 
+
         if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
         }
         $dataUpdatedUser = DB::table('workshops')->where('id','=',$req->workshopID)->first();
         if (!is_null($req->workshopLogo))
@@ -209,12 +225,13 @@ class AdminWorkshopController extends Controller
             'workshopPicture' => 'image|file|max:2048'
         ]);
 
-        if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
-        }
 
+        if ($validator->fails()) {
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
+        }
         if ($req->has('workshopPicture'))
         {
             $dataWorkshop =DB::table('workshops')->where('id','=',$req->workshopID)->first();
@@ -252,9 +269,10 @@ class AdminWorkshopController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
         }
 
         if ($req->has('workshopPicture'))
@@ -412,10 +430,12 @@ class AdminWorkshopController extends Controller
             'description' => 'string','required'
         ]);
 
+
         if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
         }
         $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
         ->update(['scheduleStatus'=>'cancelled',
@@ -432,10 +452,12 @@ class AdminWorkshopController extends Controller
             'description' => 'string','required'
         ]);
 
+
         if ($validator->fails()) {
-            $return = [
-                'error' => $validator->errors()
-            ];
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
         }
         $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
         ->update(['scheduleStatus'=>'done',
@@ -446,4 +468,51 @@ class AdminWorkshopController extends Controller
             'message' => 'Order Completed'
         ], 200);
     }
+
+    public function deleteCarType(Request $req){
+        try {
+            $dataWorkshopDetails=WorkshopDetail::find($req->id)->where('workhopID','=',$req->workshopID);
+            $dataWorkshopDetails->delete();
+            return response()->json(['message'=>'Your Cartype have been delete'], 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function deleteCarModel(Request $req){
+        try {
+            $dataWorkshopDetails=WorkshopDetail::find($req->carModel)->where('workhopID','=',$req->workshopID);
+            $dataWorkshopDetails->delete();
+            return response()->json(['message'=>'Your Cartype have been delete'], 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function addNewWorkshopDetail(Request $req){
+        try {
+            $validator = Validator::make($req->all(), [
+                'carModel' => 'string',
+                'carType' => 'string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'id' => 1,
+                    'message'=>$validator->errors()
+                ], 401);
+            }
+            $newAdminWorkshopDetail = new WorkshopDetail;
+            $newAdminWorkshopDetail->workshopID = $req->workshopID;
+            $newAdminWorkshopDetail->carModel = $req->carModel;
+            $newAdminWorkshopDetail->carType = $req->carType;
+
+            return response()->json(['message'=>'Your Cartype have been delete'], 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+
+
 }

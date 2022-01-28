@@ -103,6 +103,13 @@ Route::get('getAdminWorkshopProfile','Api\AdminWorkshopController@getAdminWorksh
 Route::get('getScheduleAcceptedByAdmin','Api\AdminWorkshopController@getScheduleAcceptedByAdmin');
 Route::post('cancelScheduleByAdmin','Api\AdminWorkshopController@cancelScheduleByAdmin');
 Route::post('doneScheduleByAdmin','Api\AdminWorkshopController@doneScheduleByAdmin');
+Route::post('addNewWorkshopDetail','Api\AdminWorkshopController@addNewWorkshopDetail');
+Route::post('deleteCarModel','Api\AdminWorkshopController@deleteCarModel');
+Route::post('deleteCarType','Api\AdminWorkshopController@deleteCarType');
+
+
+
+
 
 //ADMIN INSURANCE
 Route::get('getDataIncomingInsuranceRequestByAdminID','Api\AdminInsuranceController@getDataIncomingInsuranceRequestByAdminID');
