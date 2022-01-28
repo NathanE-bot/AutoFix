@@ -1,3 +1,59 @@
+// q-table
+%my-sticky-column-table{
+    thead tr:first-child th:first-child{
+      /* bg color is important for th; just specify one */
+      background-color: #fff;
+    }
+  
+    td:first-child{
+      background-color: #f5f5dc;
+    }
+  
+    th:first-child, td:first-child{
+      position: sticky;
+      left: 0;
+      z-index: 1;
+    }
+}
+
+%my-sticky-dynamic{
+  /* height or max-height is important */
+  padding-bottom: 7px;
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th{ /* bg color is important for th; just specify one */
+    background-color: #fff;
+  }
+  thead tr th{
+    position: sticky;
+    z-index: 1;
+  }
+  /* this will be the loading indicator */
+  thead tr:last-child th{
+    /* height of all previous header rows */
+    top: 48px;
+  }
+  thead tr:first-child th{
+    top: 0;
+  }
+}
+
+.incoming-claim-insurance-table-layout{
+    @extend %my-sticky-dynamic;
+
+    th:first-child, td:first-child{
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
+}
+
+.edit-car-spec-table{
+    @extend %my-sticky-dynamic;
+    max-height: 410px;
+}
+
 .table-sticky{
     position: relative;
 }
@@ -17,6 +73,30 @@
     }
 }
 
+%default-markup-table{
+    table{
+        tbody{
+            tr{
+                td{
+                    border: none;
+                }
+            }
+        }
+    }
+}
+
+.cmth-markup-table{
+    @extend %default-markup-table;
+    box-shadow: none;
+    tr{
+        .numbering{
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+    }
+}
+
 .insurance-status-table{
     border-radius: 10px;
     table{
@@ -29,22 +109,4 @@
             }
         }
     }
-}
-
-.my-sticky-column-table{
-
-  thead tr:first-child th:first-child{
-    /* bg color is important for th; just specify one */
-    background-color: #fff;
-  }
-
-  td:first-child{
-    background-color: #f5f5dc;
-  }
-
-  th:first-child, td:first-child{
-    position: sticky;
-    left: 0;
-    z-index: 1;
-  }
 }

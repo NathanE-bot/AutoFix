@@ -184,6 +184,11 @@
     top: 0;
     background-color: white;
 }
+.sticky-bot{
+    position: sticky;
+    bottom: 0;
+    background-color: inherit;
+}
 
 // width & height
 @for $i from 0 to 101 {
