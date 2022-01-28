@@ -40,11 +40,11 @@ export default {
     watch: {
         '$route.path': {
             handler: function(url) {
-                if(url.includes('/workshop/')){
+                if(url.includes('/workshop/') || url.includes('/insurance/')){
                     this.isOnDetailSchedule = false
                 } 
                 else if(url.includes('/member')){
-                    this.isOnDetailSchedule = true 
+                    this.isOnDetailSchedule = true
                     if(!Auth.isUserLogin()){
                         this.forLoad = false
                         Swal.fire({
