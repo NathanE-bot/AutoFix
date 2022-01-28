@@ -62,6 +62,7 @@ Route::get('getDataFormMakeScheduleById', 'Api\ScheduleController@getDataFormMak
 
 //insurance
 Route::get('getVendorInsuranceList','Api\InsuranceController@getVendorInsuranceList');
+Route::get('getVendorInsuranceByID','Api\InsuranceController@getVendorInsuranceByID');
 Route::post('makeInsuranceClaimApi', 'Api\InsuranceController@makeInsuranceClaimApi');
 Route::get('getInsuranceStatusApi', 'Api\InsuranceController@getInsuranceStatusApi');
 Route::get('getInsuranceDetailByStatusAccepted', 'Api\InsuranceController@getInsuranceDetailByStatusAccepted');

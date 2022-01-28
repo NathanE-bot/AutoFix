@@ -23,109 +23,134 @@ class InsuranceController extends Controller
 
     public function getVendorInsuranceList(){
         try{
-            $data = [
-                'objectReturner' => DB::table('insurance_vendors')
-                ->get()
-            ];
-            return response()->json($data, 200);
+
+            $data = DB::table('insurance_vendors')->get();
+
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+
+        return response()->json([
+            'objectReturn' => $data
+        ], 200);
+    }
+
+    public function getVendorInsuranceByID (Request $req) {
+        try {
+            $data = DB::table('insurance_vendors')
+            ->where('id','=',$req->id)
+            ->first();
+        } catch (Exception $err) {
+            return response()->json($err, 500);
+        }
+
+        return response()->json([
+            'objectReturn' => $data
+        ], 200);
     }
 
 
     public function makeInsuranceClaimApi (Request $req){
     try {
+        $validator = Validator::make($req->all(), [
+            'insuredName'=>['required', 'string', 'max:255'],
+            'phoneNumber'=>['required', 'string', 'max:12'],
+            'email'=>['required', 'string', 'max:255'],
+            'addressClaimer'=>['required', 'string', 'max:255'],
+            'carTypeAndBrand'=>['required', 'string', 'max:255'],
+            'chassisNumber'=>['required', 'string', 'max:255'],
+            'polisNumber'=>['required', 'string', 'max:255'],
+            'licensePlateNumber'=>['required', 'string', 'max:255'],
+            'driverName'=>['required', 'string', 'max:255'],
+            'driverSpeed'=>['required', 'string', 'max:255'],
+            'driverRelation'=>['required', 'string', 'max:255'],
+            'incidentLocation'=>['required', 'string', 'max:255'],
+            'vehicleDescription'=>['required', 'string', 'max:255'],
+            'incidentDate'=>['required', 'date_format:Y-M-D'],
+            'incidentTime'=>['required', 'date_format:H:i:s'],
+            'taxiOnlineStatus'=>['required', 'string', 'max:255'],
+            'workshopType'=>['required', 'exists:insurance_workshops,insuranceWorkshopName'],
+            'chronology'=>['required', 'string', 'max:255'],
+            'incidentStatus'=>['required', 'string'],
+            'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'string', 'max:255'],
+            // 'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
+            'documentationInsuranceName.*'=> ['required|string|max:255'],
+        ]);
 
-                $validator = Validator::make($req->all(), [
-                    'insuredName'=>['required', 'string', 'max:255'],
-                    'phoneNumberClaimer'=>['required', 'string', 'max:12'],
-                    'emailClaimer'=>['required', 'string', 'max:255'],
-                    'addressClaimer'=>['required', 'string', 'max:255'],
-                    'carTypeAndBrand'=>['required', 'string', 'max:255'],
-                    'chassisNumber'=>['required', 'string', 'max:255'],
-                    'polisNumber'=>['required', 'string', 'max:255'],
-                    'licensePlateNumber'=>['required', 'string', 'max:255'],
-                    'driverName'=>['required', 'string', 'max:255'],
-                    'driverSpeed'=>['required', 'string', 'max:255'],
-                    'driverRelation'=>['required', 'string', 'max:255'],
-                    'incidentLocation'=>['required', 'string', 'max:255'],
-                    'vehicleDescription'=>['required', 'string', 'max:255'],
-                    'incidentDate'=>['required', 'date_format:Y-m-d'],
-                    'incidentTime'=>['required', 'date_format:H:i:s'],
-                    'taxiOnlineStatus'=>['required', 'string', 'max:255'],
-                    'workshopType'=>['required', 'exists:insurance_workshops,insuranceWorkshopName'],
-                    'chronology'=>['required', 'string', 'max:255'],
-                    'incidentStatus'=>['required', 'string'],
-                    'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'string', 'max:255'],
-                    // 'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
-                    'documentationInsuranceName.*'=> ['required|string|max:255'],
-            ]);
-            $dateNow = carbon::now()->format("Y-m-d");
-            $dataInsurance = new Insurance;
-            $dataInsurance->vendorInsuranceID = $req->vendorInsuranceID;
-            $dataInsurance->userID = $req-> userID;
-            $dataInsurance->insuredName = $req-> insuredName;
-            $dataInsurance->phoneNumberClaimer = $req->phoneNumberClaimer;
-            $dataInsurance->emailClaimer = $req->emailClaimer;
-            $dataInsurance->addressClaimer = $req->addressClaimer;
-            $dataInsurance->carTypeAndBrand = $req->carTypeAndBrand;
-            $dataInsurance->chassisNumber = $req->chassisNumber;
-            $dataInsurance->polisNumber = $req->polisNumber;
-            $dataInsurance->licensePlateNumber = $req->licensePlateNumber;
-            $dataInsurance->driverName = $req->driverName;
-            $dataInsurance->driverSpeed = $req->driverSpeed;
-            $dataInsurance->driverRelation = $req->driverRelation;
-            $dataInsurance->incidentLocation = $req->incidentLocation;
-            $dataInsurance->vehicleDescription = $req->vehicleDescription;
-            $dataInsurance->incidentDate = $req->incidentDate;
-            $dataInsurance->incidentTime = $req->incidentTime;
-            $dataInsurance->taxiOnlineStatus = $req->taxiOnlineStatus;
-            $dataInsurance->workshopType = $req->workshopType;
-            $dataInsurance->chronology = $req->chronology;
-            $dataInsurance->incidentStatus = $req->incidentStatus;
-            $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
-            $dataInsurance->insuranceStatus = 'on progress';
-            $dataInsurance->submiteDate = $dateNow;
-            $dataInsurance->save();
+        if ($validator->fails()) {
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
+        }
 
+        $dateNow = carbon::now()->format("Y-m-d");
+        $dataInsurance = new Insurance;
+        $dataInsurance->vendorInsuranceID = $req->vendorInsuranceID;
+        $dataInsurance->userID = $req-> userID;
+        $dataInsurance->insuredName = $req-> insuredName;
+        $dataInsurance->phoneNumberClaimer = $req->phoneNumber;
+        $dataInsurance->emailClaimer = $req->email;
+        $dataInsurance->addressClaimer = $req->addressClaimer;
+        $dataInsurance->carTypeAndBrand = $req->carTypeAndBrand;
+        $dataInsurance->chassisNumber = $req->chassisNumber;
+        $dataInsurance->polisNumber = $req->polisNumber;
+        $dataInsurance->licensePlateNumber = $req->licensePlateNumber;
+        $dataInsurance->driverName = $req->driverName;
+        $dataInsurance->driverSpeed = $req->driverSpeed;
+        $dataInsurance->driverRelation = $req->driverRelation;
+        $dataInsurance->incidentLocation = $req->incidentLocation;
+        $dataInsurance->vehicleDescription = $req->vehicleDescription;
+        $dataInsurance->incidentDate = $req->incidentDate;
+        $dataInsurance->incidentTime = $req->incidentTime;
+        $dataInsurance->taxiOnlineStatus = $req->taxiOnlineStatus;
+        $dataInsurance->workshopType = $req->workshopType;
+        $dataInsurance->chronology = $req->chronology;
+        $dataInsurance->incidentStatus = $req->incidentStatus;
+        $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
+        $dataInsurance->insuranceStatus = 'on progress';
+        $dataInsurance->submiteDate = $dateNow;
+        $dataInsurance->save();
 
-            if ($req->has('documentationPicture'))
+        if ($req->has('documentationPicture'))
+        {
+            foreach ($req->file('documentationPicture') as $key => $file)
             {
-                foreach ($req->file('documentationPicture') as $key => $file)
-                {
-                    $ext = strtolower($file->getClientOriginalExtension());
-                    $image = \Storage::dics('public')->put($req->documentationInsuranceName[$key]+$req->userID+'.'+$ext, $file); // your image path
-                    $path = '\public\$req->documentationInsuranceName[$key]+$req->userID+'.'+$ext';
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image = \Storage::dics('public')->put($req->documentationInsuranceName[$key]+$req->userID+'.'+$ext, $file); // your image path
+                $path = '\public\$req->documentationInsuranceName[$key]+$req->userID+'.'+$ext';
 
-                    $insuranceDocumentation = new DocumentationInsurance;
-                    $insuranceDocumentation->insuranceID = $dataInsurance->id;
-                    $insuranceDocumentation->documentationPicture = $path;
-                    $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
-                    $insuranceDocumentation->save();
-                }
+                $insuranceDocumentation = new DocumentationInsurance;
+                $insuranceDocumentation->insuranceID = $dataInsurance->id;
+                $insuranceDocumentation->documentationPicture = $path;
+                $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
+                $insuranceDocumentation->save();
+            }
 
-                // $fileNameToStore = serialize($documentationPicture);
-            }
-            else
-            {
-                return response()->json('image not found', 400);
-            }
-            date_default_timezone_set('Asia/Jakarta');
-            $mytime = new DateTime('now');
-            $dateNow = $mytime->format("Y-m-d");
-            $dataInsuranceDetail = new InsuranceDetail;
-            $dataInsuranceDetail->insuranceID=$dataInsurance->id;
-            $dataInsuranceDetail->claimInsuranceDate=$dateNow;
-            $dataInsuranceDetail->insuranceStatus='waiting confirmation';
-            $dataInsuranceDetail->save();
-            $data = [
-                'objectReturner'=>[$dataInsurance,$dataInsuranceDetail]
-            ];
-            return response()->json($data, 200);
+            // $fileNameToStore = serialize($documentationPicture);
+        }
+        else
+        {
+            return response()->json([
+                'message' => 'Image not found'
+            ], 401);
+        }
+        date_default_timezone_set('Asia/Jakarta');
+        $mytime = new DateTime('now');
+        $dateNow = $mytime->format("Y-m-d");
+        $dataInsuranceDetail = new InsuranceDetail;
+        $dataInsuranceDetail->insuranceID=$dataInsurance->id;
+        $dataInsuranceDetail->claimInsuranceDate=$dateNow;
+        $dataInsuranceDetail->insuranceStatus='waiting confirmation';
+        $dataInsuranceDetail->save();
+            
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+
+        return response()->json([
+            'objectReturn' => $dataInsurance,$dataInsuranceDetails
+        ], 200);
     }
 
     // public function uploadImageInsuranceClaim(Request $req){

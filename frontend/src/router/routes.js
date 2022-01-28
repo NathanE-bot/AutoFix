@@ -215,7 +215,7 @@ const routes = [
       },
       // Insurance
       {
-        path: "/member/insurance/form",
+        path: "/member/insurance/form/:id",
         component: formInsurance,
         meta: {
           title: 'Form Insurance',

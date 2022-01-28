@@ -8,6 +8,16 @@ export default
 }
 
 export function getInsuranceStatusApi (userID, userToken) {
-    const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-    return axios.get(localURL + '/api/getInsuranceStatusApi?userID='+ userID, authorization)
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.get(localURL + '/api/getInsuranceStatusApi?userID='+ userID, authorization)
+}
+
+export function getVendorInsuranceList (userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.get(localURL + '/api/getVendorInsuranceList', authorization)
+}
+
+export function getVendorInsuranceByID (id, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.get(localURL + '/api/getVendorInsuranceByID?id=' + id, authorization)
 }

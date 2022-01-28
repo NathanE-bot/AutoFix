@@ -30,6 +30,18 @@ export default {
             return 'insurance admin'
         }
     },
+    getAccessToken () {
+        if(LocalStorage.has('autoRepairUser') && !help.isDataEmpty(LocalStorage.getItem('autoRepairUser').data.access_token)){
+            return LocalStorage.getItem('autoRepairUser').data.access_token
+        }
+        return null
+    },
+    getUserDetails () {
+        if(LocalStorage.has('autoRepairUser') && !help.isDataEmpty(LocalStorage.getItem('autoRepairUser').data.user)){
+            return LocalStorage.getItem('autoRepairUser').data.user
+        }
+        return {}
+    },
     doUserLogout () {
         LocalStorage.remove('autoRepairUser')
         return LocalStorage.has('autoRepairUser')

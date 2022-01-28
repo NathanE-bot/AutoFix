@@ -25,6 +25,7 @@ export default {
             time_2: 'HH:mm', // 21:20
             time_3: 'HH:mm A', // 21:20 PM
             time_4: 'HH:mm a', // 21:20 pm
+            time_5: 'H:i:s', // 21:20:28 (backend-format)
             // Scrollbar Style
             thumbStyle: {
                 right: '4px',
