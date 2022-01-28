@@ -4,15 +4,15 @@
             <div class="q-pa-md fw">
               <q-table
                 title="Incoming Claim Insurance"
-                :rows="data"
+                :rows="dataIncomingClaim"
                 :columns="columns"
-                row-key="id"
+                row-key="insuranceID"
                 v-model:pagination="pagination"
                 :loading="loading"
                 :filter="filter"
                 @request="onRequest"
                 binary-state-sort
-                class="table-yeet"
+                class="table-yeet my-sticky-column-table"
               >
                 <template v-slot:top-right>
                   <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
@@ -23,14 +23,29 @@
                 </template>
                 <template v-slot:body="props">
                   <q-tr :props="props">
-                    <q-td key="nama" :props="props">
-                      {{ props.row.name }}
+                    <q-td key="insuredName" :props="props">
+                      {{ props.row.insuredName }}
                     </q-td>
-                    <q-td key="created_date" :props="props">
-                      {{ props.row.created_date }}
+                    <q-td key="insuredStatus" :props="props" class="tf-capitalize">
+                      {{ props.row.insuranceStatus }}
                     </q-td>
-                    <q-td key="polis_number" :props="props">
-                      {{ props.row.iron }}
+                    <q-td key="polisNumber" :props="props">
+                      {{ props.row.polisNumber }}
+                    </q-td>
+                    <q-td key="emailClaimer" :props="props">
+                      {{ props.row.emailClaimer }}
+                    </q-td>
+                    <q-td key="phoneNumberClaimer" :props="props">
+                      {{ props.row.phoneNumberClaimer }}
+                    </q-td>
+                    <q-td key="licensePlateNumber" :props="props">
+                      {{ props.row.licensePlateNumber }}
+                    </q-td>
+                    <q-td key="submiteDate" :props="props">
+                      {{ props.row.submiteDate }}
+                    </q-td>
+                    <q-td key="claimedInsuranceDate" :props="props">
+                      {{ props.row.claimedInsuranceDate }}
                     </q-td>
                     <q-td key="detail" :props="props" class="">
                       <q-btn
@@ -110,63 +125,18 @@ export default {
         rowsNumber: 10
       },
       columns: [
-        {
-          name: 'nama',
-          required: true,
-          label: 'Claimer Name',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-
-        { name: 'created_date', label: 'Created Date', field: 'created_date', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'polis_number', label: 'Polis Number', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'insuredName', label: 'Insured Name', field: 'insuredName', required: true, align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
+        { name: 'insuredStatus', label: 'Status', field: 'insuranceStatus', required: true, align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
+        { name: 'polisNumber', label: 'Polis Number', field: 'polisNumber', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'emailClaimer', label: 'Email', field: 'emailClaimer' },
+        { name: 'phoneNumberClaimer', label: 'Phone Number', field: 'phoneNumberClaimer', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'licensePlateNumber', label: 'License Plater', field: 'licensePlateNumber'},
+        { name: 'submiteDate', label: 'Submit Date', field: 'submiteDate', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'claimedInsuranceDate', label: 'Claimed Insurance Date', field: 'claimedInsuranceDate', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'detail', label: 'View Detail', field: 'detail' }
       ],
       data: [],
-      original: [
-        { id: 1, name: 'Frozen Yogurt', created_date: '14%', iron: '1%' },
-        { id: 2, name: 'Ice cream sandwich', created_date: '8%', iron: '1%' },
-        { id: 3, name: 'Eclair', created_date: '6%', iron: '7%' },
-        { id: 4, name: 'Cupcake', created_date: '3%', iron: '8%' },
-        { id: 5, name: 'Gingerbread', created_date: '7%', iron: '16%' },
-        { id: 6, name: 'Jelly bean', created_date: '0%', iron: '0%' },
-        { id: 7, name: 'Lollipop', created_date: '0%', iron: '2%' },
-        { id: 8, name: 'Honeycomb', created_date: '0%', iron: '45%' },
-        { id: 9, name: 'Donut', created_date: '2%', iron: '22%' },
-        { id: 10, name: 'KitKat', created_date: '12%', iron: '6%' },
-        { id: 11, name: 'Frozen Yogurt-1', created_date: '14%', iron: '1%' },
-        { id: 12, name: 'Ice cream sandwich-1', created_date: '8%', iron: '1%' },
-        { id: 13, name: 'Eclair-1', created_date: '6%', iron: '7%' },
-        { id: 14, name: 'Cupcake-1', created_date: '3%', iron: '8%' },
-        { id: 15, name: 'Gingerbread-1', created_date: '7%', iron: '16%' },
-        { id: 16, name: 'Jelly bean-1', created_date: '0%', iron: '0%' },
-        { id: 17, name: 'Lollipop-1', created_date: '0%', iron: '2%' },
-        { id: 18, name: 'Honeycomb-1', created_date: '0%', iron: '45%' },
-        { id: 19, name: 'Donut-1', created_date: '2%', iron: '22%' },
-        { id: 20, name: 'KitKat-1',  created_date: '12%', iron: '6%' },
-        { id: 21, name: 'Frozen Yogurt-2', created_date: '14%', iron: '1%' },
-        { id: 22, name: 'Ice cream sandwich-2', created_date: '8%', iron: '1%' },
-        { id: 23, name: 'Eclair-2', created_date: '6%', iron: '7%' },
-        { id: 24, name: 'Cupcake-2', created_date: '3%', iron: '8%' },
-        { id: 25, name: 'Gingerbread-2', created_date: '7%', iron: '16%' },
-        { id: 26, name: 'Jelly bean-2', created_date: '0%', iron: '0%' },
-        { id: 27, name: 'Lollipop-2', created_date: '0%', iron: '2%' },
-        { id: 28, name: 'Honeycomb-2', created_date: '0%', iron: '45%' },
-        { id: 29, name: 'Donut-2', created_date: '2%', iron: '22%' },
-        { id: 30, name: 'KitKat-2', created_date: '12%', iron: '6%' },
-        { id: 31, name: 'Frozen Yogurt-3', created_date: '14%', iron: '1%' },
-        { id: 32, name: 'Ice cream sandwich-3', created_date: '8%', iron: '1%' },
-        { id: 33, name: 'Eclair-3', created_date: '6%', iron: '7%' },
-        { id: 34, name: 'Cupcake-3', created_date: '3%', iron: '8%' },
-        { id: 35, name: 'Gingerbread-3', created_date: '7%', iron: '16%' },
-        { id: 36, name: 'Jelly bean-3', created_date: '0%', iron: '0%' },
-        { id: 37, name: 'Lollipop-3', created_date: '0%', iron: '2%' },
-        { id: 38, name: 'Honeycomb-3', created_date: '0%', iron: '45%' },
-        { id: 39, name: 'Donut-3', created_date: '2%', iron: '22%' },
-        { id: 40, name: 'KitKat-3', created_date: '12%', iron: '6%' }
-      ],
+      dataIncomingClaim: [],
       promptDetail: false,
       promptDetailAccept: false,
       promptDetailReject: false
@@ -188,6 +158,21 @@ export default {
     doGetIncomingClaimRequest() {
       getIncomingClaimRequest(this.user.id).then(response =>{
         console.log('response', response)
+        response.data.forEach(el1 => {
+          let templateDataIncoming = {
+                insuranceID: el1.insuranceID,
+                insuranceStatus: el1.insuranceStatus,
+                insuredName: el1.insuredName,
+                polisNumber: el1.polisNumber,
+                emailClaimer: el1.emailClaimer,
+                phoneNumberClaimer: el1.phoneNumberClaimer,
+                licensePlateNumber: el1.licensePlateNumber,
+                submiteDate: el1.submiteDate,
+                claimedInsuranceDate: el1.claimedInsuranceDate || '',
+              }
+          this.dataIncomingClaim.push(templateDataIncoming)
+        })
+        console.log('dataIncomingClaim', this.dataIncomingClaim)
       })
     },
     onRequest (props) {
@@ -227,8 +212,8 @@ export default {
     // SELECT * FROM ... WHERE...LIMIT...
     fetchFromServer (startRow, count, filter, sortBy, descending) {
       const data = filter
-        ? this.original.filter(row => row.name.includes(filter))
-        : this.original.slice()
+        ? this.dataIncomingClaim.filter(row => row.name.includes(filter))
+        : this.dataIncomingClaim.slice()
 
       // handle sortBy
       if (sortBy) {
@@ -249,10 +234,10 @@ export default {
     // emulate 'SELECT count(*) FROM ...WHERE...'
     getRowsNumberCount (filter) {
       if (!filter) {
-        return this.original.length
+        return this.dataIncomingClaim.length
       }
       let count = 0
-      this.original.forEach((treat) => {
+      this.dataIncomingClaim.forEach((treat) => {
         if (treat.name.includes(filter)) {
           ++count
         }
