@@ -139,7 +139,7 @@ class AdminWorkshopController extends Controller
                 'message'=>$validator->errors()
             ], 401);
         }
-        
+
         DB::table('workshops')->where('id','=',$req->id)
         ->where('userID','=',$req->userID)
         ->update(['workshopName'=>$req->workshopName,
@@ -494,8 +494,8 @@ class AdminWorkshopController extends Controller
     public function addNewWorkshopDetail(Request $req){
         try {
             $validator = Validator::make($req->all(), [
-                'carModel' => 'string',
-                'carType' => 'string',
+                'workshopDetail.carModel.*' => 'required', 'string', 'max:255',
+                'workshopDetail.carType.*' => 'required', 'string', 'max:255',
             ]);
 
             if ($validator->fails()) {
@@ -505,11 +505,13 @@ class AdminWorkshopController extends Controller
                 ], 401);
             }
 
-            $newAdminWorkshopDetail = new WorkshopDetail;
-            $newAdminWorkshopDetail->workshopID = $req->workshopID;
-            $newAdminWorkshopDetail->carModel = $req->carModel;
-            $newAdminWorkshopDetail->carType = $req->carType;
-
+            foreach ($req->workshop_services as $key => $value)
+            {
+                $newAdminWorkshopDetail = new WorkshopDetail;
+                $newAdminWorkshopDetail->workshopID = $req->workshopID;
+                $newAdminWorkshopDetail->carModel = $req->workshopDetail[$key]['carModel'];
+                $newAdminWorkshopDetail->carType = $req->workshopDetail[$key]['carType'];
+            }
         } catch (Exception $err){
             return response()->json($err, 500);
         }
