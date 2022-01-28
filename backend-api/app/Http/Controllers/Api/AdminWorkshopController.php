@@ -87,21 +87,20 @@ class AdminWorkshopController extends Controller
 
     public function rejectedScheduleByAdmin(Request $req){
 
-            $validator = Validator::make($req->all(), [
-                'description' => 'string','required'
-            ]);
+        $validator = Validator::make($req->all(), [
+            'description' => 'string','required'
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
+        }
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'id' => 1,
-                    'message'=>$validator->errors()
-                ], 401);
-            }
-
-            $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
-            ->update(['scheduleStatus'=>'rejected',
-            'description'=>$req->description]);
+        $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
+        ->update(['scheduleStatus'=>'rejected',
+        'description'=>$req->description]);
 
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
 
@@ -134,15 +133,14 @@ class AdminWorkshopController extends Controller
             'workshop_services.serviceDetail.*'=> ['required|string|max:255'],
         ]);
 
-
         if ($validator->fails()) {
             return response()->json([
                 'id' => 1,
                 'message'=>$validator->errors()
             ], 401);
         }
-
-        DB::table('workshops')->where('id','=',$req->workshopID)
+        
+        DB::table('workshops')->where('id','=',$req->id)
         ->where('userID','=',$req->userID)
         ->update(['workshopName'=>$req->workshopName,
         'workshopAddress'=>$req->workshopAddress,
@@ -159,14 +157,14 @@ class AdminWorkshopController extends Controller
 
         foreach ($req->operationalWorkshop as $key => $value)
         {
-            DB::table('operational_workshops')->where('workshopID','=',$req->workshopID)
+            DB::table('operational_workshops')->where('workshopID','=',$req->id)
             ->where('operationalDate','=',$req->operationalWorkshop[$key]['operationalDate'])
             ->update(['operationalOpenHour'=>$req->operationalWorkshop[$key]['operationalOpenHour'],
             'operationalCloseHour'=>$req->operationalWorkshop[$key]['operationalCloseHour']]);
         }
         foreach ($req->workshop_details as $key => $value)
         {
-            DB::table('workshop_details')->where('workshopID','=',$req->workshopID)
+            DB::table('workshop_details')->where('workshopID','=',$req->id)
             ->where('id','=',$req->workshop_details[$key]['id'])
             ->update(['carModel'=>$req->workshop_details[$key]['carModel'],
             'carType'=>$req->workshop_details[$key]['carType']]);
@@ -177,12 +175,13 @@ class AdminWorkshopController extends Controller
             DB::table('workshop_services')
             ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
             ->where('workshop_services.id','=',$req->workshop_services[$key]['id'])
-            ->where('workshop_details.workshopID','=',$req->workshopID)
+            ->where('workshop_details.workshopID','=',$req->id)
             ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
             ->update(['serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
         }
-        return response()->json(['message'=>'berhasil'], 200);
-
+        return response()->json([
+            'message'=>'Success'
+        ], 200);
     }
 
 
@@ -337,19 +336,19 @@ class AdminWorkshopController extends Controller
             ->get()->toArray();
 
             foreach ($workshops as $key=>$value) {
-            $operationalWorkshop =  DB::table('operational_workshops')
-            ->orWhere('operational_workshops.workshopID','=',$value->id)
-            ->get()->toArray();
+                $operationalWorkshop =  DB::table('operational_workshops')
+                ->orWhere('operational_workshops.workshopID','=',$value->id)
+                ->get()->toArray();
 
-            $workshop_details =  DB::table('workshop_details')
-            ->orWhere('workshop_details.workshopID','=',$value->id)
-            ->get()->toArray();
+                $workshop_details =  DB::table('workshop_details')
+                ->orWhere('workshop_details.workshopID','=',$value->id)
+                ->get()->toArray();
 
-            $workshop_services =  DB::table('workshop_services')
-            ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
-            ->select('workshop_services.id','workshop_details.workshopID','workshopDetailID','serviceType','serviceDetail','price','time')
-            ->orWhere('workshop_details.workshopID','=',$value->id)
-            ->get()->toArray();
+                $workshop_services =  DB::table('workshop_services')
+                ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
+                ->select('workshop_services.id','workshop_details.workshopID','workshopDetailID','serviceType','serviceDetail','price','time')
+                ->orWhere('workshop_details.workshopID','=',$value->id)
+                ->get()->toArray();
             }
             $workshop_review = DB::table('reviews')
             ->join('schedules','schedules.id','=','reviews.scheduleID')
@@ -372,10 +371,13 @@ class AdminWorkshopController extends Controller
                 });
             }
 
-            return response()->json($workshops[0], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+
+        return response()->json([
+            'objectReturn' => $workshops[0]
+        ], 200);
     }
 
     public function getAdminWorkshopProfile(Request $req){
@@ -502,15 +504,19 @@ class AdminWorkshopController extends Controller
                     'message'=>$validator->errors()
                 ], 401);
             }
+
             $newAdminWorkshopDetail = new WorkshopDetail;
             $newAdminWorkshopDetail->workshopID = $req->workshopID;
             $newAdminWorkshopDetail->carModel = $req->carModel;
             $newAdminWorkshopDetail->carType = $req->carType;
 
-            return response()->json(['message'=>'Your Cartype have been delete'], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+
+        return response()->json([
+            'message'=>'Successfully add new car model and type'
+        ], 200);
     }
 
 
