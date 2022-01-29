@@ -43,6 +43,12 @@
 .accent_color{
     color: $accent;
 }
+.info_color{
+    color: $info;
+    &_i{
+        color: $info !important;
+    }
+}
 
 .black-1{
     color: $black_1;
