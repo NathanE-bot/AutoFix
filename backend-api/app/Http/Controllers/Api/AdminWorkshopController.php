@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Workshop;
 use App\WorkshopDetail;
+use App\WorkshopService;
+
 use App\OperationalWorkshop;
 use App\WorkshopPicture;
 use Illuminate\Support\Facades\DB;
@@ -563,10 +565,10 @@ class AdminWorkshopController extends Controller
         ], 200);
     }
 
-    public function updateWorkshopService(Request $req){
+    public function addWorkshopService(Request $req){
         $validator = Validator::make($req->all(), [
-            'workshopService.serviceUmum.*' => ['required', 'string', 'max:255'],
-            'workshopService.service.*' => ['required', 'string', 'max:255'],
+            'serviceTypeUmum.*' => ['required', 'string', 'max:255'],
+            'serviceTypeBerkala.*' => ['required', 'string', 'max:255'],
         ]);
 
         if ($validator->fails()) {
@@ -575,7 +577,69 @@ class AdminWorkshopController extends Controller
                 'message'=>$validator->errors()
             ], 401);
         }
+        foreach ($req->workshopService as $key => $value)
+        {
+            if(!isset($req->workshopService[$key]['serviceUmum']) || !isset($req->workshopService[$key]['servisBerkala'])){
+                return response()->json([
+                    'messageGeneralService'=>'GeneralService is required',
+                    'messagePeriodicService'=>'PeriodicService is required',
+                    'message'=>'Field input is required',
+                ], 401);
+            }
+            if ($req->has('serviceTypeUmum')) {
+                foreach($req->serviceTypeUmum as $key=>$value){
+                $newscheduledetail = new ScheduleDetail;
+                $newscheduledetail ->workshopDetailID = $req->workshopDetailID;
+                $newscheduledetail ->serviceType = 'service umum';
+                $newscheduledetail ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
+                $newscheduledetail->save();
+                // kolo pake jobs
+                // array_push($newscheduledetail,$array);
+                }
+            }
+            if ($req->has('serviceTypeBerkala')) {
+                foreach($req->serviceTypeUmum as $key=>$value){
+                $newscheduledetail = new ScheduleDetail;
+                $newscheduledetail ->workshopDetailID = $req->workshopDetailID;
+                $newscheduledetail ->serviceType = 'service umum';
+                $newscheduledetail ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
+                $newscheduledetail->save();
+                // kolo pake jobs
+                // array_push($newscheduledetail,$array);
+                }
+            }
+        }
     }
 
+    public function deleteWorkshopServiceByID(Request $req){
+        try {
+            $dataServic = DB::table('workshop_services')
+            ->where('id','=',$req->id)
+            ->where('workshopDetailID','=',$req->workshopDetailID)
+            ->delete();
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+
+        return response()->json([
+            'message'=>'Car type deleted'
+        ], 200);
+    }
+
+    public function deleteWorkshopServiceByStatusAndID(Request $req){
+        try {
+            $dataServic = DB::table('workshop_services')
+            ->where('serviceType','=',$req->serviceType)
+            ->where('id','=',$req->id)
+            ->where('workshopDetailID','=',$req->workshopDetailID)
+            ->delete();
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+
+        return response()->json([
+            'message'=>'Car type deleted'
+        ], 200);
+    }
 
 }
