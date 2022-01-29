@@ -15,7 +15,14 @@ class InsuranceDetailSeeder extends Seeder
             'insuranceID'=>'1',
             'filePDF'=>'NULL',
             'claimedInsuranceDate'=>'2021/01/02',
-            'insuranceStatus' => 'on progress',
+            'insuranceStatus' => 'Rejected',
+            'insuranceDescription'=>'NULL',
+        ]);
+        InsuranceDetail::create([
+            'insuranceID'=>'2',
+            'filePDF'=>'NULL',
+            'claimedInsuranceDate'=>'2021/02/28',
+            'insuranceStatus' => 'Approved',
             'insuranceDescription'=>'NULL',
         ]);
     }

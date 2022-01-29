@@ -37,6 +37,7 @@ const WorkshopDetail = () => import("pages/Workshop/WorkshopDetailPage");
 const claimInsurance = () => import("pages/Insurance/ClaimInsurance");
 const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
 const statusInsurance = () => import("pages/Insurance/StatusInsurance");
+const statusInsuranceDetail = () => import("pages/Insurance/StatusInsuranceDetail");
 
 //chat
 const homeMessage = () => import("pages/Chats/HomeMessage");
@@ -277,6 +278,14 @@ const routes = [
         meta: {
           title: 'Status Insurance',
           breadcrumb: 'Status Insurance'
+        }
+      },
+      {
+        path: "/insurance/status-insurance/detail/:insuranceStatus/:insuranceID",
+        component: statusInsuranceDetail,
+        meta: {
+          title: 'Status Insurance Detail',
+          breadcrumb: 'Status Insurance Detail'
         }
       },
       {

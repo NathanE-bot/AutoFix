@@ -7,12 +7,11 @@
                 :rows="dataIncomingClaim"
                 :columns="columns"
                 row-key="insuranceID"
-                v-model:pagination="pagination"
                 :loading="loading"
                 :filter="filter"
                 @request="onRequest"
-                binary-state-sort
-                class="table-yeet my-sticky-column-table"
+                binary-state-sort hide-pagination
+                class="incoming-claim-insurance-table-layout"
               >
                 <template v-slot:top-right>
                   <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
@@ -41,8 +40,8 @@
                     <q-td key="licensePlateNumber" :props="props">
                       {{ props.row.licensePlateNumber }}
                     </q-td>
-                    <q-td key="submiteDate" :props="props">
-                      {{ props.row.submiteDate }}
+                    <q-td key="submitDate" :props="props">
+                      {{ props.row.submitDate }}
                     </q-td>
                     <q-td key="claimedInsuranceDate" :props="props">
                       {{ props.row.claimedInsuranceDate }}
@@ -125,15 +124,15 @@ export default {
         rowsNumber: 10
       },
       columns: [
-        { name: 'insuredName', label: 'Insured Name', field: 'insuredName', required: true, align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
-        { name: 'insuredStatus', label: 'Status', field: 'insuranceStatus', required: true, align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
+        { name: 'insuredName', label: 'Insured Name', field: 'insuredName', required: true, align: 'center', field: row => row.name, format: val => `${val}`, sortable: true },
+        { name: 'insuredStatus', label: 'Status', field: 'insuranceStatus', required: true, align: 'center', field: row => row.name, format: val => `${val}`, sortable: true },
         { name: 'polisNumber', label: 'Polis Number', field: 'polisNumber', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'emailClaimer', label: 'Email', field: 'emailClaimer' },
-        { name: 'phoneNumberClaimer', label: 'Phone Number', field: 'phoneNumberClaimer', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'licensePlateNumber', label: 'License Plater', field: 'licensePlateNumber'},
-        { name: 'submiteDate', label: 'Submit Date', field: 'submiteDate', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'claimedInsuranceDate', label: 'Claimed Insurance Date', field: 'claimedInsuranceDate', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'detail', label: 'View Detail', field: 'detail' }
+        { name: 'emailClaimer', label: 'Email', field: 'emailClaimer', align: 'center' },
+        { name: 'phoneNumberClaimer', label: 'Phone Number', field: 'phoneNumberClaimer', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'licensePlateNumber', label: 'License Plater', field: 'licensePlateNumber', align: 'center' },
+        { name: 'submitDate', label: 'Submit Date', field: 'submitDate', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'claimedInsuranceDate', label: 'Claimed Insurance Date', field: 'claimedInsuranceDate', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'detail', label: 'View Detail', field: 'detail', align: 'center' }
       ],
       data: [],
       dataIncomingClaim: [],
@@ -167,7 +166,7 @@ export default {
                 emailClaimer: el1.emailClaimer,
                 phoneNumberClaimer: el1.phoneNumberClaimer,
                 licensePlateNumber: el1.licensePlateNumber,
-                submiteDate: el1.submiteDate,
+                submitDate: el1.submitDate,
                 claimedInsuranceDate: el1.claimedInsuranceDate || '',
               }
           this.dataIncomingClaim.push(templateDataIncoming)
