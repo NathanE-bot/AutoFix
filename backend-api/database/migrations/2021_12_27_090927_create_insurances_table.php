@@ -39,7 +39,7 @@ class CreateInsurancesTable extends Migration
             $table->string('chronology');
             $table->string('incidentStatus');
             $table->string('incidentStatusDescription')->nullable();
-            $table->date('submiteDate');
+            $table->date('submitDate');
             $table->timestamps();
         });
     }

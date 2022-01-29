@@ -34,7 +34,7 @@ class InsuranceSeeder extends Seeder
             'chronology'=>'Sya mengantuk dan nabrak di tol',
             'incidentStatus'=>'no',
             'incidentStatusDescription' => 'NULL',
-            'submiteDate' => '2022/01/24',
+            'submitDate' => '2022/01/24',
         ]);
     }
 }

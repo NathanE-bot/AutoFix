@@ -109,7 +109,7 @@ class InsuranceController extends Controller
         $dataInsurance->incidentStatus = $req->incidentStatus;
         $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
         $dataInsurance->insuranceStatus = 'on progress';
-        $dataInsurance->submiteDate = $dateNow;
+        $dataInsurance->submitDate = $dateNow;
         $dataInsurance->save();
 
         if ($req->has('documentationPicture'))
@@ -143,7 +143,7 @@ class InsuranceController extends Controller
         $dataInsuranceDetail->claimInsuranceDate=$dateNow;
         $dataInsuranceDetail->insuranceStatus='waiting confirmation';
         $dataInsuranceDetail->save();
-            
+
         } catch (Exception $err){
             return response()->json($err, 500);
         }
@@ -222,11 +222,11 @@ class InsuranceController extends Controller
             ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
             'insurance_vendors.insuranceName',
             'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
-            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF')
+            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF','insurances.submitDate')
             ->where('insurances.userID','=',$req->userID)
             ->where('insurance_details.insuranceID','=',$req->insuranceID)
             ->where('insurance_details.insuranceStatus','=','Approved')
-            // ->where('users.role','=','1')
+            ->orderBy('insurances.submitDate','desc')
             ->get();
 
             return response()->json($dataAccepted, 200);
@@ -244,10 +244,11 @@ class InsuranceController extends Controller
             ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
             'insurance_vendors.insuranceName',
             'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
-            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF')
+            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF','insurances.submitDate')
             ->where('insurances.userID','=',$req->userID)
             ->where('insurance_details.insuranceID','=',$req->insuranceID)
             ->where('insurance_details.insuranceStatus','=','Rejected')
+            ->orderBy('insurances.submitDate','desc')
             // ->where('users.role','=','1')
             ->get();
 

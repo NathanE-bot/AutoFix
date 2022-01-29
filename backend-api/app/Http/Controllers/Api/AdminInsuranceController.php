@@ -35,7 +35,7 @@ class AdminInsuranceController extends Controller
             ->join('users','users.id','=','insurance_vendors.userID')
             ->select('insurances.id as insuranceID','insurances.userID AS customerID','insurances.phoneNumberClaimer','insurances.emailClaimer',
             'insurances.insuredName','insurance_vendors.insuranceName','insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
-            'insurances.polisNumber','insurances.licensePlateNumber','insurances.submiteDate')
+            'insurances.polisNumber','insurances.licensePlateNumber','insurances.submitDate')
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','=','on progress')
             ->get();
@@ -80,7 +80,7 @@ class AdminInsuranceController extends Controller
             $dataInsuranceDetails = DB::table('insurance_details')
             ->select('id','filePDF',
             DB::raw('(SELECT insuredName FROM insurances WHERE insurances.id = insurance_details.insuranceID LIMIT 1) AS insuredName'),
-            DB::raw('(SELECT submiteDate FROM insurances WHERE insurances.id = insurance_details.insuranceID LIMIT 1) AS submiteDate'))
+            DB::raw('(SELECT submitDate FROM insurances WHERE insurances.id = insurance_details.insuranceID LIMIT 1) AS submitDate'))
             ->where('insuranceID','=',$req->insuranceID)->first();
             if (!is_null($req->filePDF))
             {
@@ -94,7 +94,7 @@ class AdminInsuranceController extends Controller
                     // $dateNow = carbon::now()->format("Y-m-d_H-i-s");
                     $insuredName = str_replace(' ', '', $dataInsuranceDetails->insuredName);
                     $ext = $req->filePDF->getClientOriginalExtension();
-                    $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submiteDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
+                    $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submitDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
                     $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
                     $dataInsuranceDetails = DB::table('insurance_details')
@@ -107,7 +107,7 @@ class AdminInsuranceController extends Controller
                     // $dateNow = carbon::now()->format("Y-m-d_H-i-s");
                     $insuredName = str_replace(' ', '', $dataInsuranceDetails->insuredName);
                     $ext = $req->filePDF->getClientOriginalExtension();
-                    $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submiteDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
+                    $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submitDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
                     $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
                     $dataInsuranceDetails = DB::table('insurance_details')
@@ -153,7 +153,7 @@ class AdminInsuranceController extends Controller
     }
 
 
-    public function getAdminInsuranceDetails(){
+    public function getAdminInsuranceDetails(Request $req){
         try {
 
             $insuranceDetails= DB::table('insurances')
