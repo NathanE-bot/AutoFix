@@ -84,68 +84,74 @@
 }
 
 .incoming-claim-insurance-table-layout{
-    @extend %my-sticky-header-column-table;
-    height: 393px;
+  @extend %my-sticky-header-column-table;
+  height: 393px;
 }
 
 .edit-car-spec-table{
-    @extend %my-sticky-dynamic;
-    max-height: 410px;
+  @extend %my-sticky-dynamic;
+  max-height: 410px;
+  .q-table{
+    th{
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
 }
 
 .table-sticky{
-    position: relative;
+  position: relative;
 }
 
 .sticky{
-    position: sticky;
-    top: 0;
-    background: #FFFFFF;
-    z-index: 5;
+  position: sticky;
+  top: 0;
+  background: #FFFFFF;
+  z-index: 5;
 }
 
 .table-yeet{
-    .q-table{
-        th, td{
-            text-align: center;
-        }
+  .q-table{
+    th, td{
+      text-align: center;
     }
+  }
 }
 
 %default-markup-table{
-    table{
-        tbody{
-            tr{
-                td{
-                    border: none;
-                }
-            }
+  table{
+    tbody{
+      tr{
+        td{
+          border: none;
         }
+      }
     }
+  }
 }
 
 .cmth-markup-table{
-    @extend %default-markup-table;
-    box-shadow: none;
-    tr{
-        .numbering{
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
+  @extend %default-markup-table;
+  box-shadow: none;
+  tr{
+    .numbering{
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
     }
+  }
 }
 
 .insurance-status-table{
-    border-radius: 10px;
-    table{
-        padding: 40px 20px;
-        tbody{
-            tr{
-                td{
-                    border: none;
-                }
-            }
+  border-radius: 10px;
+  table{
+    padding: 40px 20px;
+    tbody{
+      tr{
+        td{
+          border: none;
         }
+      }
     }
+  }
 }

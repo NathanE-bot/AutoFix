@@ -179,6 +179,7 @@
         left: 10px;
     }
 }
+// sticky
 .sticky-top{
     position: sticky;
     top: 0;
@@ -188,6 +189,12 @@
     position: sticky;
     bottom: 0;
     background-color: inherit;
+}
+// absolute
+.absolute-right-1rem{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
 }
 
 // width & height
