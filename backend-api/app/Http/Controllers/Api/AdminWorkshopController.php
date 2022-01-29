@@ -588,22 +588,22 @@ class AdminWorkshopController extends Controller
             }
             if ($req->has('serviceTypeUmum')) {
                 foreach($req->serviceTypeUmum as $key=>$value){
-                $newscheduledetail = new ScheduleDetail;
-                $newscheduledetail ->workshopDetailID = $req->workshopDetailID;
-                $newscheduledetail ->serviceType = 'service umum';
-                $newscheduledetail ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
-                $newscheduledetail->save();
+                $addServiceUmum = new ScheduleDetail;
+                $addServiceUmum ->workshopDetailID = $req->workshopDetailID;
+                $addServiceUmum ->serviceType = 'service umum';
+                $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
+                $addServiceUmum->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);
                 }
             }
             if ($req->has('serviceTypeBerkala')) {
                 foreach($req->serviceTypeUmum as $key=>$value){
-                $newscheduledetail = new ScheduleDetail;
-                $newscheduledetail ->workshopDetailID = $req->workshopDetailID;
-                $newscheduledetail ->serviceType = 'service umum';
-                $newscheduledetail ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
-                $newscheduledetail->save();
+                $addServiceBerkala = new ScheduleDetail;
+                $addServiceBerkala ->workshopDetailID = $req->workshopDetailID;
+                $addServiceBerkala ->serviceType = 'service umum';
+                $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
+                $addServiceBerkala->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);
                 }
