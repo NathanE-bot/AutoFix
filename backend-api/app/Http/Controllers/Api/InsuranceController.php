@@ -197,8 +197,8 @@ class InsuranceController extends Controller
             ->join('users','users.id','=','insurances.userID')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
-            ->select('insurances.id','insurances.userID','insurances.vendorInsuranceID','insurance_vendors.insuranceName','insurance_details.insuranceStatus',
-            'insurance_details.claimedInsuranceDate','insurances.polisNumber')
+            ->select('insurances.id','insurances.userID','insurances.vendorInsuranceID','insurance_vendors.insuranceName',
+            'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate','insurances.polisNumber')
             ->where('insurances.userID','=',$req->userID)
             // ->where('users.role','=','1')
             ->get();
@@ -222,7 +222,7 @@ class InsuranceController extends Controller
             ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
             'insurance_vendors.insuranceName',
             'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
-            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF','insurances.submitDate')
+            'insurances.polisNumber','insurance_details.insuranceDescription','insurances.submitDate','insurance_details.filePDF')
             ->where('insurances.userID','=',$req->userID)
             ->where('insurance_details.insuranceID','=',$req->insuranceID)
             ->where('insurance_details.insuranceStatus','=','Approved')
@@ -244,7 +244,7 @@ class InsuranceController extends Controller
             ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
             'insurance_vendors.insuranceName',
             'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
-            'insurances.polisNumber','insurance_details.insuranceDescription','insurance_details.filePDF','insurances.submitDate')
+            'insurances.polisNumber','insurance_details.insuranceDescription','insurances.submitDate')
             ->where('insurances.userID','=',$req->userID)
             ->where('insurance_details.insuranceID','=',$req->insuranceID)
             ->where('insurance_details.insuranceStatus','=','Rejected')
