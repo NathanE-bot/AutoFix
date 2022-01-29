@@ -52,6 +52,7 @@ const AdminManageWorkshop = () => import("pages/Admin/AdminWorkshop/ManageWorksh
 //Admin Insurance
 const AdminInsuranceHome = () => import("pages/Admin/AdminInsurance/AdminInsuranceHome");
 const AdminIncomingClaimRequest = () => import("pages/Admin/AdminInsurance/IncomingClaimRequest");
+const AdminIncomingClaimRequestDetail = () => import("pages/Admin/AdminInsurance/IncomingClaimRequestDetail")
 const AdminInsuranceClaimHistory = () => import("pages/Admin/AdminInsurance/InsuranceClaimHistory");
 
 // const insuranceAdmin = () => import("pages/Admin/AdminInsurance");
@@ -156,6 +157,14 @@ const routes = [
         meta: {
           title: 'Incoming Claim Request',
           breadcrumb: 'Incoming Claim Request'
+        }
+      },
+      {
+        path: "/admin/insurance/incoming-claim-request/detail/:insuranceID",
+        component: AdminIncomingClaimRequestDetail,
+        meta: {
+          title: 'Incoming Claim Request Detail',
+          breadcrumb: 'Incoming Claim Request Detail'
         }
       },
       {

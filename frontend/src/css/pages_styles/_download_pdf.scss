@@ -1,0 +1,12 @@
+.screen-for-print{
+    @media screen {
+        width: 755px;
+        margin: 60px auto 0 auto;
+    }
+}
+
+@media print{
+    header{
+        display: none;
+    }
+}

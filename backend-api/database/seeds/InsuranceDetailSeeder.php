@@ -16,13 +16,20 @@ class InsuranceDetailSeeder extends Seeder
             'filePDF'=>'NULL',
             'claimedInsuranceDate'=>'2021/01/02',
             'insuranceStatus' => 'Rejected',
-            'insuranceDescription'=>'NULL',
+            'insuranceDescription'=>'Foto yang diberikan kurang jelas',
         ]);
         InsuranceDetail::create([
             'insuranceID'=>'2',
             'filePDF'=>'NULL',
             'claimedInsuranceDate'=>'2021/02/28',
             'insuranceStatus' => 'Approved',
+            'insuranceDescription'=>'Silahkan tunjukkan file PDF kepada pihak bengkel',
+        ]);
+        InsuranceDetail::create([
+            'insuranceID'=>'2',
+            'filePDF'=>'NULL',
+            'claimedInsuranceDate'=>'2021/02/28',
+            'insuranceStatus' => 'on progress',
             'insuranceDescription'=>'NULL',
         ]);
     }
