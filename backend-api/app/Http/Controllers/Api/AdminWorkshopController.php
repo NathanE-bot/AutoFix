@@ -447,6 +447,15 @@ class AdminWorkshopController extends Controller
         }
         foreach ($req->workshop_details as $key => $value)
         {
+            if(!isset($req->workshop_details[$key]['carType']) || !isset($req->workshop_details[$key]['carModel'])){
+                return response()->json([
+                    'errorCarType' => !isset($req->workshop_details[$key]['carType']),
+                    'errorCarModel' => !isset($req->workshop_details[$key]['carModel']),
+                    'messageCarType'=>'Car type is required',
+                    'messageCarModel'=>'Car model is required',
+                    'message'=>'Field input is required',
+                ], 401);
+            }
             DB::table('workshop_details')->where('workshopID','=',$req->id)
             ->where('id','=',$req->workshop_details[$key]['id'])
             ->update(['carModel'=>$req->workshop_details[$key]['carModel'],
@@ -463,14 +472,14 @@ class AdminWorkshopController extends Controller
             ->update(['serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
         }
         return response()->json([
-            'messageAll' => 'Successfully updated car specification',
+            'messageAll' => 'Successfully update car specification',
             'message'=>'Success'
         ], 200);
     }
 
     public function deleteCarType(Request $req){
         try {
-            $dataWorkshopDetails=WorkshopDetail::find($req->id)->where('workhopID','=',$req->workshopID);
+            $dataWorkshopDetails=WorkshopDetail::find($req->id)->where('workshopID','=',$req->workshopID);
             $dataWorkshopDetails->delete();
         } catch (Exception $err){
             return response()->json($err, 500);
@@ -483,7 +492,7 @@ class AdminWorkshopController extends Controller
 
     public function deleteCarModel(Request $req){
         try {
-            $dataWorkshopDetails=WorkshopDetail::find($req->carModel)->where('workhopID','=',$req->workshopID);
+            $dataWorkshopDetails=WorkshopDetail::find($req->carModel)->where('workshopID','=',$req->workshopID);
             $dataWorkshopDetails->delete();
             
         } catch (Exception $err){
@@ -510,6 +519,15 @@ class AdminWorkshopController extends Controller
 
             foreach ($req->workshopDetail as $key => $value)
             {
+                if(!isset($req->workshopDetail[$key]['carType']) || !isset($req->workshopDetail[$key]['carModel'])){
+                    return response()->json([
+                        'errorCarType' => !isset($req->workshopDetail[$key]['carType']),
+                        'errorCarModel' => !isset($req->workshopDetail[$key]['carModel']),
+                        'messageCarType'=>'Car type is required',
+                        'messageCarModel'=>'Car model is required',
+                        'message'=>'Field input is required',
+                    ], 401);
+                }
                 $newAdminWorkshopDetail = new WorkshopDetail;
                 $newAdminWorkshopDetail->workshopID = $req->workshopID;
                 $newAdminWorkshopDetail->carModel = $req->workshopDetail[$key]['carModel'];
@@ -522,7 +540,7 @@ class AdminWorkshopController extends Controller
         }
 
         return response()->json([
-            'messageAll' => 'Successfully updated car specification',
+            'messageAll' => 'Successfully update car specification',
             'message'=>'Successfully add new car model and type'
         ], 200);
     }
