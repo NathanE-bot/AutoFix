@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Operationalworkshop;
+use App\OperationalWorkshop;
 class OperationalWorkshopSeeder extends Seeder
 {
     /**
