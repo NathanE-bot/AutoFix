@@ -6,13 +6,9 @@
   box-shadow: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
-  /* specifying max-width so the example can
-    highlight the sticky column on any browser window */
-  max-width: 600px;
-
   td:first-child{
     /* bg color is important for td; just specify one */
-    background-color: #c1f4cd !important;
+    background-color: $primary !important;
   }
   tr th{
     position: sticky;
@@ -89,6 +85,7 @@
 
 .incoming-claim-insurance-table-layout{
     @extend %my-sticky-header-column-table;
+    height: 393px;
 }
 
 .edit-car-spec-table{

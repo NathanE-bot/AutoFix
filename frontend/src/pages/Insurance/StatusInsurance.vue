@@ -11,16 +11,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in tableBody" :key="'insurance-' + index">
+          <tr v-for="(item, index) in dataInsuranceList" :key="'insurance-' + index">
             <td class="text-center">{{index + 1}}</td>
-            <td class="text-center">{{item.insuranceName}}</td>
-            <td class="text-center">{{item.createdDate}}</td>
-            <td class="text-center">{{item.policeNumber}}</td>
-            <td class="text-center">{{item.status}}</td>
+            <td class="text-center tf-capitalize">{{item.insuranceName}}</td>
+            <td class="text-center">{{item.submitDate}}</td>
+            <td class="text-center">{{item.polisNumber}}</td>
+            <td class="text-center tf-capitalize">{{item.insuranceStatus}}</td>
             <td class="text-center">
               <q-btn
                 icon="far fa-file"
-                flat round :color="item.status == 'Accepted' ? 'primary' : 'grey'"
+                flat round :color="item.insuranceStatus === 'Approved' || item.insuranceStatus === 'Rejected' ? 'primary' : 'grey'"
+                @click="doOpenMenuList(index+1, item.insuranceStatus, item.id)"
               />
             </td>
           </tr>
@@ -32,6 +33,27 @@
           :max="5"
         />
       </div>
+      <q-dialog v-model="promptDetail">
+        <q-card style="min-width: 480px" class="py-20 m-auto text-align-center">
+          <q-card-section>
+            <div class="black-1 m-auto fw-semibold text-align-center fs-18">Menu List</div>
+          </q-card-section>
+          <div class="w-90 j-sp-around flex m-auto">
+            <q-btn
+              rounded color="primary"
+              :disable="openDetail.filePDF === 'NULL' ? true : false"
+              class="tf-capitalize w-30">
+              Download PDF
+            </q-btn>
+            <q-btn
+              rounded color="primary"
+              @click="doChangePage()"
+              class="tf-capitalize w-30">
+              View Detail
+            </q-btn>
+          </div>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
@@ -52,7 +74,7 @@ export default {
       filter: '',
       loader: false,
       iPage: 1,
-      tableHeader: ['No', 'Insurance Name', 'Created Date', 'Police Number', 'Status', 'View'],
+      tableHeader: ['No', 'Insurance Name', 'Created Date', 'Polis Number', 'Status', 'View'],
       tableBody: [
         {insuranceName: 'Astra', createdDate: '20/11/2021', policeNumber: '40239402934', status: 'Accepted'},
         {insuranceName: 'Garda', createdDate: '28/12/2021', policeNumber: '09420934234', status: 'Waiting Confirmation'},
@@ -60,7 +82,15 @@ export default {
         {insuranceName: 'BCA', createdDate: '12/1/2022', policeNumber: '2380392422', status: 'Rejected'},
         {insuranceName: 'Prudential', createdDate: '14/1/2022', policeNumber: '2341287310923', status: 'Done'},
         {insuranceName: 'HA', createdDate: '14/1/2022', policeNumber: '345902384', status: 'Accepted'}
-      ]
+      ],
+      dataInsuranceList: [],
+      promptDetail: false,
+      openDetail: {
+        index: null,
+        insuranceStatus: null,
+        insuranceID: null
+      },
+
     }
   },
   created() {
@@ -73,6 +103,8 @@ export default {
       let _this = this
       _this.loader = true
       getInsuranceStatusApi(_this.user.id, _this.userToken).then(response => {
+        this.dataInsuranceList = response.data.objectReturn
+        console.log(this.dataInsuranceList)
         _this.loader = true
       }) .catch((err) => {
         console.log(err)
@@ -81,6 +113,17 @@ export default {
     },
     changePage (url) {
       this.$router.push(url)
+    },
+    doOpenMenuList (index, insuranceStatus1, insuranceID1) {
+      console.log('insuranceStatus', insuranceStatus1)
+      this.promptDetail = true;
+      this.openDetail.insuranceStatus = insuranceStatus1
+      this.openDetail.insuranceID = insuranceID1
+      this.openDetail.filePDF = this.dataInsuranceList[index].filePDF || null
+      console.log('menu', this.openDetail)
+    },
+    doChangePage () {
+      this.changePage('/insurance/status-insurance/detail/' + this.openDetail.insuranceStatus + '/' + this.openDetail.insuranceID)
     }
   }
 }

@@ -197,10 +197,10 @@ class InsuranceController extends Controller
             ->join('users','users.id','=','insurances.userID')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
-            ->select('insurances.id','insurances.userID','insurances.vendorInsuranceID','insurance_vendors.insuranceName',
-            'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate','insurances.polisNumber')
+            ->select('insurances.id','insurances.userID','insurances.vendorInsuranceID','insurance_vendors.insuranceName','insurance_details.insuranceStatus',
+            'insurance_details.claimedInsuranceDate','insurances.polisNumber','insurances.submitDate', 'insurance_details..filePDF')
             ->where('insurances.userID','=',$req->userID)
-            // ->where('users.role','=','1')
+            ->orderBy('submitDate','desc')
             ->get();
 
         } catch (Exception $err){
@@ -229,10 +229,10 @@ class InsuranceController extends Controller
             ->orderBy('insurances.submitDate','desc')
             ->get();
 
-            return response()->json($dataAccepted, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+        return response()->json($dataAccepted, 200);
     }
 
     public function getInsuranceDetailByStatusRejected (Request $req){
@@ -252,10 +252,10 @@ class InsuranceController extends Controller
             // ->where('users.role','=','1')
             ->get();
 
-            return response()->json($dataRejected, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+        return response()->json($dataRejected, 200);
     }
 
     public function downloadPDFInsurance (Request $req){
