@@ -39,6 +39,9 @@ class AdminInsuranceController extends Controller
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','=','on progress')
             ->get();
+            if(empty($insurance)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
             return response()->json($insurance, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
@@ -138,8 +141,6 @@ class AdminInsuranceController extends Controller
                 return $validator->errors();
             }
 
-
-
             $dataInsuranceDetails = DB::table('insuranceDetails')
             ->where('insuranceID','=',$req->insuranceID)
             ->update(['insuranceDescription'=>$req->insuranceDescription,
@@ -163,6 +164,9 @@ class AdminInsuranceController extends Controller
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','=','on progress')
             ->get();
+            if(empty($insuranceDetails)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
             return response()->json($insuranceDetails, 200);
         } catch (Exception $err){
             return response()->json($err, 500);

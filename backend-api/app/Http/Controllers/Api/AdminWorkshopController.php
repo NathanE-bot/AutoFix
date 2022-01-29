@@ -50,7 +50,9 @@ class AdminWorkshopController extends Controller
         ->get();
 
 
-
+        if(empty($IncomingSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
+            return response()->json(['Message'=>'No data'], 200);
+        }
         return response()->json([
             'listSchedule' => $IncomingSchedule,
             'listDetails' => $dataDetailsSchedule,
@@ -138,7 +140,9 @@ class AdminWorkshopController extends Controller
         ->select('users.id as customerID','users.fullName','users.phoneNumber')
         ->where('users.role','=','1')
         ->get();
-
+        if(empty($acceptedSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
+            return response()->json(['Message'=>'No data'], 200);
+        }
         return response()->json([
             'listSchedule' => $acceptedSchedule,
             'listDetails' => $dataDetailsSchedule,
@@ -372,14 +376,17 @@ class AdminWorkshopController extends Controller
                     return $workshop_services->workshopID === $value->id;
                 });
             }
-
+            if(empty($workshops)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
+            return response()->json([
+                'objectReturn' => $workshops[0]
+            ], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
 
-        return response()->json([
-            'objectReturn' => $workshops[0]
-        ], 200);
+
     }
 
     public function getAdminWorkshopProfile(Request $req){
@@ -387,6 +394,9 @@ class AdminWorkshopController extends Controller
             $dataProfileAdmin= DB::table('users')->where('id','=',$req->adminID)
             ->where('role','=','2')->get();
 
+            if(empty($dataProfileAdmin)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
             return response()->json($dataProfileAdmin, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
@@ -554,4 +564,10 @@ class AdminWorkshopController extends Controller
             'message'=>'Successfully add new car model and type'
         ], 200);
     }
+
+    public function updateWorkshopService(Request $req){
+
+    }
+
+
 }

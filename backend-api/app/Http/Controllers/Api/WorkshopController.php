@@ -55,7 +55,9 @@ class WorkshopController extends Controller
                     });
                 }
             }
-
+            if(empty($workshops)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
             $data = [
                 'objectReturn'=>$workshops
             ];
@@ -133,6 +135,9 @@ class WorkshopController extends Controller
             //         });
             //     }
             // }
+            if(empty($workshops)){
+                return response()->json(['Message'=>'No data'], 300);
+            }
 
             $data = [
                 'objectReturn'=>$workshops
@@ -205,7 +210,9 @@ class WorkshopController extends Controller
                     return $workshop_review->workshopID === $value->id;
                 });
             }
-
+            if(empty($workshops)){
+                return response()->json(['Message'=>'No data'], 300);
+            }
             return response()->json($workshops[0], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
@@ -265,6 +272,9 @@ class WorkshopController extends Controller
             $user = DB::table('users')
             ->where('id','=',$req->userID)
             ->first();
+            if(empty($user)){
+                return response()->json(['Message'=>'No data'], 300);
+            }
             return response()->json($user, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
