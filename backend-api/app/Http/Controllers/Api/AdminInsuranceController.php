@@ -59,7 +59,7 @@ class AdminInsuranceController extends Controller
             $dataInsuranceDetails = DB::table('insuranceDetails')
             ->where('insuranceID','=',$req->insuranceID)
             ->update(['insuranceDescription'=>$req->insuranceDescription,
-                    'insuranceStatus','=','accepted']);
+                    'insuranceStatus','=','Approved']);
 
 
             return response()->json($scheduleDetail, 200);
@@ -143,7 +143,7 @@ class AdminInsuranceController extends Controller
             $dataInsuranceDetails = DB::table('insuranceDetails')
             ->where('insuranceID','=',$req->insuranceID)
             ->update(['insuranceDescription'=>$req->insuranceDescription,
-                    'insuranceStatus','=','rejected']);
+                    'insuranceStatus','=','Rejected']);
 
 
             return response()->json($scheduleDetail, 200);
