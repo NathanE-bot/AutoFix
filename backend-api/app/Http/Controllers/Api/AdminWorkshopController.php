@@ -479,7 +479,7 @@ class AdminWorkshopController extends Controller
 
     public function deleteCarType(Request $req){
         try {
-            $dataServic = DB::table('workshop_services')->where('workshopDetailID','=',$req->id)->delete();
+            $dataServic = DB::table('workshop_services')->where('workshopDetailID','=',$req->workshopID)->delete();
             $dataWorkshopDetails=WorkshopDetail::find($req->id)->where('workshopID','=',$req->workshopID)->delete();
         } catch (Exception $err){
             return response()->json($err, 500);
