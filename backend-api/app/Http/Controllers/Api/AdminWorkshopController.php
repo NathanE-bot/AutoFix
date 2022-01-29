@@ -422,7 +422,7 @@ class AdminWorkshopController extends Controller
                 'message'=>$validator->errors()
             ], 401);
         }
-        
+
         DB::table('workshops')->where('id','=',$req->id)
         ->where('userID','=',$req->userID)
         ->update(['workshopName'=>$req->workshopName,
@@ -479,6 +479,8 @@ class AdminWorkshopController extends Controller
 
     public function deleteCarType(Request $req){
         try {
+            $dataServic = DB::table('workshop_services')->where('workshopDetailID','=',$req->id)->get();
+            $dataServic->delete();
             $dataWorkshopDetails=WorkshopDetail::find($req->id)->where('workshopID','=',$req->workshopID);
             $dataWorkshopDetails->delete();
         } catch (Exception $err){
@@ -492,9 +494,13 @@ class AdminWorkshopController extends Controller
 
     public function deleteCarModel(Request $req){
         try {
-            $dataWorkshopDetails=WorkshopDetail::find($req->carModel)->where('workshopID','=',$req->workshopID);
+            $dataWorkshopDetails = DB::table('workshop_services')
+            ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
+            ->where('workshopID.id','=',$req->workshopID)
+            ->where('workshopID.carModel','=',$req->carModel)
+            ->get();
             $dataWorkshopDetails->delete();
-            
+
         } catch (Exception $err){
             return response()->json($err, 500);
         }
