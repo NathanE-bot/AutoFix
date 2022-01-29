@@ -220,7 +220,7 @@ class InsuranceController extends Controller
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
             ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
-            'insurance_vendors.insuranceName',
+            'insurance_vendors.insuranceName','insurances.insuredName',
             'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
             'insurances.polisNumber','insurance_details.insuranceDescription','insurances.submitDate','insurance_details.filePDF')
             ->where('insurances.userID','=',$req->userID)
@@ -242,7 +242,7 @@ class InsuranceController extends Controller
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
             ->select('insurance_details.insuranceID','insurances.id','insurances.userID','insurances.vendorInsuranceID',
-            'insurance_vendors.insuranceName',
+            'insurance_vendors.insuranceName','insurances.insuredName',
             'insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
             'insurances.polisNumber','insurance_details.insuranceDescription','insurances.submitDate')
             ->where('insurances.userID','=',$req->userID)
