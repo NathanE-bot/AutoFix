@@ -622,7 +622,7 @@ class AdminWorkshopController extends Controller
         }
 
         return response()->json([
-            'message'=>'Car type deleted'
+            'message'=>'servieDetail deleted'
         ], 200);
     }
 
@@ -630,7 +630,6 @@ class AdminWorkshopController extends Controller
         try {
             $dataServic = DB::table('workshop_services')
             ->where('serviceType','=',$req->serviceType)
-            ->where('id','=',$req->id)
             ->where('workshopDetailID','=',$req->workshopDetailID)
             ->delete();
         } catch (Exception $err){
@@ -638,7 +637,7 @@ class AdminWorkshopController extends Controller
         }
 
         return response()->json([
-            'message'=>'Car type deleted'
+            'message'=>'Data deleted'
         ], 200);
     }
 

@@ -107,7 +107,7 @@ Route::post('addNewWorkshopDetail','Api\AdminWorkshopController@addNewWorkshopDe
 Route::post('deleteCarModel','Api\AdminWorkshopController@deleteCarModel');
 Route::post('deleteCarType','Api\AdminWorkshopController@deleteCarType');
 Route::post('addWorkshopService','Api\AdminWorkshopController@addWorkshopService');
-Route::post('deleteWorkshopServiceByStatusAndID','Api\AdminWorkshopController@deleteWorkshopServiceByStatusAndID');
+Route::post('deleteWorkshopServiceByID','Api\AdminWorkshopController@deleteWorkshopServiceByID');
 Route::post('deleteWorkshopServiceByStatusAndID','Api\AdminWorkshopController@deleteWorkshopServiceByStatusAndID');
 
 
