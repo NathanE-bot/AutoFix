@@ -29,6 +29,7 @@ class CreateInsurancesTable extends Migration
             $table->string('licensePlateNumber');
             $table->string('driverName');
             $table->string('driverSpeed');
+            $table->string('driverLicense');
             $table->string('driverRelation');
             $table->string('incidentLocation');
             $table->string('vehicleDescription');

@@ -385,8 +385,6 @@ class AdminWorkshopController extends Controller
         } catch (Exception $err){
             return response()->json($err, 500);
         }
-
-
     }
 
     public function getAdminWorkshopProfile(Request $req){
@@ -566,7 +564,17 @@ class AdminWorkshopController extends Controller
     }
 
     public function updateWorkshopService(Request $req){
+        $validator = Validator::make($req->all(), [
+            'workshopService.serviceUmum.*' => ['required', 'string', 'max:255'],
+            'workshopService.service.*' => ['required', 'string', 'max:255'],
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'id' => 1,
+                'message'=>$validator->errors()
+            ], 401);
+        }
     }
 
 
