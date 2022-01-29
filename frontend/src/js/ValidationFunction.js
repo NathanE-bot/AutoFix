@@ -13,45 +13,12 @@ export default {
       return ''
     }
   },
-  arrayFilter (array) {
-    array = array.filter((value, index, self) =>
-      index === self.findIndex((t) => (
-        t.serviceDetail === value.serviceDetail
-      ))
-    )
-    return array
-  },
-  arrayFilterWName (array) {
-    array = array.filter((value, index, self) =>
-      index === self.findIndex((t) => (
-        t.workshopName === value.workshopName
-      ))
-    )
-    return array
-  },
-  arrayFilterDistrict (array) {
-    array = array.filter((value, index, self) =>
-      index === self.findIndex((t) => (
-        t.district === value.district
-      ))
-    )
-    return array
-  },
-  arrayFilterDistrict (array) {
-    array = array.filter((value, index, self) =>
-      index === self.findIndex((t) => (
-        t.district === value.district
-      ))
-    )
-    return array
-  },
-  arrayFilterCarModel (array) {
-    array = array.filter((value, index, self) =>
-      index === self.findIndex((t) => (
-        t[index] === value[index]
-      ))
-    )
-    return array
+  arrayFilterWithSet (array) {
+    if(!help.isObjectEmpty(array)){
+      let uniqueChars = [...new Set(array)]
+      return uniqueChars
+    }
+    return null
   },
   getQueryVariableForURL (variable, defaultValue, asd='') {
     var querys = !help.isObjectEmpty(asd) ? asd : window.location.href

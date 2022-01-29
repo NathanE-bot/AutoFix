@@ -219,7 +219,6 @@
 import isvgEstHour from '../../components/IconSVG/isvg_estimated_hour'
 import isvgEstPrice from '../../components/IconSVG/isvg_estimated_price'
 // End Of SVGs
-import dateValidation from '../../js/dateValidation'
 import ValidationFunction from '../../js/ValidationFunction'
 import help from '../../js/help'
 import { getWorkshopById } from '../../api/workshopService'
@@ -237,7 +236,6 @@ export default {
     return {
       help,
       ValidationFunction,
-      dateValidation,
       secondPage: false,
       workshopId: null,
       tempPeriodicService: null,
@@ -261,19 +259,8 @@ export default {
         scheduleDate: help.formatTommorow(help.data().dmy_3),
         scheduleTime: null
       },
-      detail: {
-        namaBengkel: '',
-        kabupaten: '',
-        rating: 0,
-        deskripsiBengkel: ''
-      },
-      isShown: false,
-      checkbox1: false,
-      checkbox2: false,
-      disablePage2: false,
       periodic: false,
-      general: false,
-      today: help.formatToday(help.data().d_1).toLowerCase()
+      general: false
     }
   },
   created () {
@@ -282,37 +269,12 @@ export default {
       this.doGetWorkshopById()
     }
   },
-  // setup () {
-  //   return {
-  //     timeValidation(hr, min, sec) {
-  //       this.workshopDetail.operational_workshop.forEach(el1 => {
-  //       if(help.formatTodayFormatter(this.today) === el1.operationalDate){
-  //         console.log(el1.operationalOpenHour, el1.operationalCloseHour)
-  //         var tempArrTime = []
-  //         tempArrOpenTime = el1.operationalOpenHour.toString().split(':')
-  //         tempArrCloseTime = el1.operationalCloseHour.toString().split(':')
-  //         if(hr !== null && hr >= tempArrOpenTime || hr <= operationalCloseHour){
-
-  //         }
-  //       }
-  //     })
-  //     }
-  //   }
-  // },
   methods: {
-    // doCheckValidTime (hr, min, sec) {
-    //   console.log(hr, min, sec)
-      
-    // },
     doGetWorkshopById () {
       let _this = this
       getWorkshopById(_this.workshopId).then(response => {
         _this.loader = true
         _this.workshopDetail = response.data
-        // forCheckTime
-        // _this.doCheckValidTime()
-        // _this.doGetUserWorkshopByWorkshopId(_this.workshopDetail.userID)
-        // _this.doGetCurrentPosition()
         // loopingan data servis
         _this.workshopDetail.workshop_details.forEach(el1 => {
             let tempArr = []
@@ -344,7 +306,7 @@ export default {
           }
           _this.workshop_details.push(tempObject)
         })
-        _this.carModelOptions = ValidationFunction.arrayFilterCarModel(_this.carModelOptions)
+        _this.carModelOptions = ValidationFunction.arrayFilterWithSet(_this.carModelOptions)
         _this.loader = false
       }).catch((err) =>{
         console.log(err)

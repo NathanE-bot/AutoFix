@@ -170,18 +170,18 @@
                       <div v-if="!help.isObjectEmpty(workshopById.servisUmum)">
                         <span class="fw-semibold">General :</span>
                         <div class="layout_bullet">
-                          <div class="wrapper" v-for="item in workshopById.servisUmum" :key="item.id">
+                          <div class="wrapper" v-for="(item, index) in workshopById.servisUmum" :key="'g-'+ index">
                             <div class="bullet"></div>
-                            <span class="text">{{ item.serviceDetail }}</span>
+                            <span class="text">{{ item }}</span>
                           </div>
                         </div>
                       </div>
                       <div v-if="!help.isObjectEmpty(workshopById.servisBerkala)">
                         <span class="fw-semibold">Periodic :</span>
                         <div class="layout_bullet">
-                          <div class="wrapper" v-for="item in workshopById.servisBerkala" :key="item.id">
+                          <div class="wrapper" v-for="(item, index) in workshopById.servisBerkala" :key="'p-'+ index">
                             <div class="bullet"></div>
-                            <span class="text">{{ item.serviceDetail }}</span>
+                            <span class="text">{{ item }}</span>
                           </div>
                         </div>
                       </div>
@@ -603,20 +603,18 @@ export default {
     doGetAllWorkshopsForAutocomplete () {
       let _this = this
       getAllWorkshops().then(response => {
-        let forWorkshopName = response.data.objectReturn
-        let forDistrict = response.data.objectReturn
-        forWorkshopName = ValidationFunction.arrayFilterWName(forWorkshopName)
-        forDistrict = ValidationFunction.arrayFilterDistrict(forDistrict)
-
-        forWorkshopName.forEach(el1 => {
-          _this.tempWorkshopNameOptions.push(el1.workshopName)
-          _this.workshopNameOptions.push(el1.workshopName)
+        let tempArrResponse = response.data.objectReturn
+        var tempArrWorkshopName = []
+        var tempArrDistrict = []
+        tempArrResponse.forEach(el1 => {
+          tempArrWorkshopName.push(el1.workshopName)
+          tempArrDistrict.push(el1.district)
         })
+        _this.tempWorkshopNameOptions = ValidationFunction.arrayFilterWithSet(tempArrWorkshopName)
+        _this.workshopNameOptions = _this.tempWorkshopNameOptions
+        _this.tempLocationOptions = ValidationFunction.arrayFilterWithSet(tempArrDistrict)
+        _this.locationOptions = _this.tempLocationOptions
 
-        forDistrict.forEach(el1 => {
-          _this.locationOptions.push(el1.district)
-          _this.tempLocationOptions.push(el1.district)
-        })
         _this.doGetWorkshopApi(true)
       }) .catch((err) =>{
         console.log(err)
@@ -688,10 +686,18 @@ export default {
           })
 
           if(!help.isObjectEmpty(_this.workshopById.servisBerkala)){
-            _this.workshopById.servisBerkala = ValidationFunction.arrayFilter(_this.workshopById.servisBerkala)
+            let tempArr = []
+            _this.workshopById.servisBerkala.forEach(el1 => {
+              tempArr.push(el1.serviceDetail)
+            })
+            _this.workshopById.servisBerkala = ValidationFunction.arrayFilterWithSet(tempArr)
           }
           if(_this.workshopById.servisUmum){
-            _this.workshopById.servisUmum = ValidationFunction.arrayFilter(_this.workshopById.servisUmum)
+            let tempArr = []
+            _this.workshopById.servisUmum.forEach(el1 => {
+              tempArr.push(el1.serviceDetail)
+            })
+            _this.workshopById.servisUmum = ValidationFunction.arrayFilterWithSet(tempArr)
           }
 
         }) .finally(() => {
