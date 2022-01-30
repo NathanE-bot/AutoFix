@@ -594,17 +594,16 @@ class AdminWorkshopController extends Controller
                     'message'=>$validator->errors()
                 ], 401);
             }
-            if(!isset($req->serviceTypeUmum[$key]['serviceDetail']) || !isset($req->serviceTypeUmum[$key]['price'])
-            ||!isset($req->serviceTypeUmum[$key]['time']) || !isset($req->serviceTypeBerkala[$key]['serviceDetail'])
-            ||!isset($req->serviceTypeBerkala[$key]['price']) || !isset($req->serviceTypeBerkala[$key]['time'])){
-                return response()->json([
-                    'messageGeneralService'=>'GeneralService is required',
-                    'messagePeriodicService'=>'PeriodicService is required',
-                    'message'=>'Field input is required',
-                ], 401);
-            }
+
             if ($req->has('serviceTypeUmum')) {
                 foreach($req->serviceTypeUmum as $key=>$value){
+                if(!isset($req->serviceTypeUmum[$key]['serviceDetail']) || !isset($req->serviceTypeUmum[$key]['price'])
+                ||!isset($req->serviceTypeUmum[$key]['time'])){
+                    return response()->json([
+                        'messageGeneralService'=>'GeneralService is required',
+                        'message'=>'Field input is required',
+                    ], 401);
+                }
                 $addServiceUmum = new ScheduleDetail;
                 $addServiceUmum ->workshopDetailID = $req->workshopDetailID;
                 $addServiceUmum ->workshopID = $req->workshopID;
@@ -617,8 +616,17 @@ class AdminWorkshopController extends Controller
                 // array_push($newscheduledetail,$array);
                 }
             }
+
+
             if ($req->has('serviceTypeBerkala')) {
                 foreach($req->serviceTypeBerkala as $key=>$value){
+                if(!isset($req->serviceTypeBerkala[$key]['serviceDetail'])
+                ||!isset($req->serviceTypeBerkala[$key]['price']) || !isset($req->serviceTypeBerkala[$key]['time'])){
+                    return response()->json([
+                        'messagePeriodicService'=>'PeriodicService is required',
+                        'message'=>'Field input is required',
+                    ], 401);
+                }
                 $addServiceBerkala = new ScheduleDetail;
                 $addServiceBerkala ->workshopDetailID = $req->workshopDetailID;
                 $addServiceBerkala ->workshopID = $req->workshopID;
