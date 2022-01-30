@@ -607,7 +607,6 @@ class AdminWorkshopController extends Controller
                 }
                 $addServiceUmum = new WorkshopService;
                 $addServiceUmum ->workshopDetailID = $req->serviceTypeUmum[$key]['workshopDetailID'];
-                $addServiceUmum ->workshopID = $req->serviceTypeUmum[$key]['workshopID'];
                 $addServiceUmum ->serviceType = 'service umum';
                 $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
                 $addServiceUmum ->price = $req->serviceTypeUmum[$key]['price'];
@@ -630,7 +629,6 @@ class AdminWorkshopController extends Controller
                 }
                 $addServiceBerkala = new WorkshopService;
                 $addServiceBerkala ->workshopDetailID = $req->serviceTypeBerkala[$key]['workshopDetailID'];
-                $addServiceBerkala ->workshopID = $req->serviceTypeBerkala[$key]['workshopID'];
                 $addServiceBerkala ->serviceType = 'service berkala';
                 $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
                 $addServiceBerkala ->price = $req->serviceTypeBerkala[$key]['price'];
