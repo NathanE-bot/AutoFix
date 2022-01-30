@@ -330,12 +330,11 @@
                   <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
+                  <q-input class="input-bold" placeholder="1 - 10" suffix="Hour" dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
                     @click="doDeleteWorkshopServices(props.row, props.row.index)"
-                    :disabled="periodicServicesForms.length == 1 && props.row.index == 0"
                     label="Remove" flat rounded color="negative"
                     class="tf-capitalize"
                   />
@@ -354,12 +353,11 @@
                   <q-input dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
+                  <q-input dense placeholder="1 - 10" suffix="Hour" :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
                     @click="doDeleteWorkshopServices(props.row, props.row.index)"
-                    :disabled="periodicServicesForms.length == 1 && props.row.index == 0"
                     label="Remove" flat rounded color="negative"
                     class="tf-capitalize col"
                   />
@@ -377,24 +375,47 @@
             :rows-per-page-options="[0]"
           >
             <template v-slot:body="props">
-              <q-tr class="vertical-top">
+              <q-tr v-if="help.isDataEmpty(props.row.id) && props.row.id !== '#1'" class="vertical-top">
                 <q-td key="index" :props="props">
                   <div class="d-flex a-center j-start ml-10" style="min-height:40px">
                     <span class="fw-semibold">{{ props.row.index + 1 }}</span>
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input dense v-model="props.row.serviceDetail" :error="help.isDataEmpty(props.row.serviceDetail) && showError" />
+                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input dense v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError" />
+                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input dense v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError" />
+                  <q-input class="input-bold" placeholder="1 - 10" suffix="Hour" dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
-                    :disabled="generalServicesForms.length == 1 && props.row.index == 0"
+                    @click="doDeleteWorkshopServices(props.row, props.row.index)"
+                    label="Remove" flat rounded color="negative"
+                    class="tf-capitalize"
+                  />
+                </q-td>
+              </q-tr>
+              <q-tr v-else class="vertical-top">
+                <q-td key="index" :props="props">
+                  <div class="d-flex a-center j-start ml-10" style="min-height:40px">
+                    <span>{{ props.row.index + 1 }}</span>
+                  </div>
+                </q-td>
+                <q-td key="servicedetail" :props="props">
+                  <q-input dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
+                </q-td>
+                <q-td key="price" :props="props">
+                  <q-input dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
+                </q-td>
+                <q-td key="time" :props="props">
+                  <q-input dense placeholder="1 - 10" suffix="Hour" :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
+                </q-td>
+                <q-td key="action" :props="props">
+                  <q-btn
+                    @click="doDeleteWorkshopServices(props.row, props.row.index)"
                     label="Remove" flat rounded color="negative"
                     class="tf-capitalize col"
                   />
@@ -413,9 +434,19 @@
             />
             <q-btn
               class="tf-capitalize icon-resize"
+              color="negative" rounded label="Remove All Periodic Services"
+              @click="doDeleteAllWorkshopServicesByType(periodicServicesForms)"
+            />
+            <q-btn
+              class="tf-capitalize icon-resize"
               color="primary" icon="fas fa-plus"
               rounded label="New General Service"
               @click="doAddNewCarGeneralService()"
+            />
+            <q-btn
+              class="tf-capitalize icon-resize"
+              color="negative" rounded label="Remove All General Services"
+              @click="doDeleteAllWorkshopServicesByType(generalServicesForms)"
             />
           </div>
           <div class="q-gutter-x-sm">
@@ -437,7 +468,8 @@ import {
   deleteCarType, 
   deleteCarModel,
   addWorkshopService,
-  deleteWorkshopServiceByID
+  deleteWorkshopServiceByID,
+  deleteWorkshopServiceByStatusAndID
 } from '../../../api/AdminWorkshopServices'
 import help from '../../../js/help'
 import ValidationFunction from '../../../js/ValidationFunction'
@@ -944,13 +976,14 @@ export default {
           tempBackendFormat.serviceTypeUmum.push(el1)
         }
       })
+      console.log(tempBackendFormat)
       // if(help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala)){
       //   delete tempBackendFormat.serviceTypeBerkala
       // }
       // if(help.isObjectEmpty(tempBackendFormat.serviceTypeUmum)){
       //   delete tempBackendFormat.serviceTypeUmum
       // }
-      if(!help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala) || !help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala)){
+      if(!help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala) || !help.isObjectEmpty(tempBackendFormat.serviceTypeUmum)){
         console.log('masuk')
         addWorkshopService(tempBackendFormat, _this.accessToken).then(response => {
           Swal.fire({
@@ -1001,6 +1034,7 @@ export default {
           title: 'Success',
           text: response.data.message
         }) .then(() => {
+          _this.showError = false
           _this.editCarServiceLoader = false
           _this.doGetWorkshopDetailByUserID(false, true)
         })
@@ -1011,6 +1045,32 @@ export default {
           title: 'Error',
           text: 'Please contact our admin'
         }) .then(() => {
+          _this.showError = true
+          _this.editCarServiceLoader = false
+        })
+      })
+    },
+    doDeleteAllWorkshopServicesByType (item) {
+      let _this = this
+      let firstItem = item[0]
+      deleteWorkshopServiceByStatusAndID(firstItem.workshopDetailID, firstItem.serviceType, _this.accessToken).then(response => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.data.message
+        }) .then(() => {
+          _this.showError = false
+          _this.editCarServiceLoader = false
+          _this.doGetWorkshopDetailByUserID(false, true)
+        })
+      }) .catch((error) => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Please contact our admin'
+        }) .then(() => {
+          _this.showError = true
           _this.editCarServiceLoader = false
         })
       })
