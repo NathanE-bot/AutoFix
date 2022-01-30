@@ -227,10 +227,10 @@ class AdminWorkshopController extends Controller
         $dataUpdatedUser = DB::table('workshops')->where('id','=',$req->workshopID)->first();
         if (!is_null($req->workshopLogo))
         {
-
+            $dateTimeNow = carbon::now();
             $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->workshopName);
             $ext = $req->workshopLogo->getClientOriginalExtension();
-            $path = $req->file('workshopLogo')->storeAs('avatar', strtolower($fullNameTemp.$dataUpdatedUser->id.'.'.$ext), 'public');
+            $path = $req->file('workshopLogo')->storeAs('workshopDocumentation', strtolower($fullNameTemp.$dataUpdatedUser->id.$dateTimeNow.'.'.$ext), 'public');
             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
             $dataUser = DB::table('workshops')->where('id','=',$req->workshopID)
