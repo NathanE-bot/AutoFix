@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Workshop;
 use App\WorkshopDetail;
 use App\WorkshopService;
-
+use App\Notification;
 use App\OperationalWorkshop;
 use App\WorkshopPicture;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +79,9 @@ class AdminWorkshopController extends Controller
             'description'=>'Your schedule have been accept. Please Call Customer Service if you have any question']);
 
             $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
+
+            $newNotification = new Notification;
+            $newNotification->userID = $req->userID;
         }catch (Exception $err) {
             return response()->json($err, 500);
         }
@@ -478,8 +481,8 @@ class AdminWorkshopController extends Controller
             ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
             ->where('workshop_services.id','=',$req->workshop_services[$key]['id'])
             ->where('workshop_details.workshopID','=',$req->id)
-            ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
-            ->update(['serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
+            // ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
+            ->update(['serviceType'=>$req->workshop_services[$key]['serviceType'],'serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
         }
         return response()->json([
             'messageAll' => 'Successfully update car specification',
@@ -569,6 +572,7 @@ class AdminWorkshopController extends Controller
         $validator = Validator::make($req->all(), [
             'serviceTypeUmum.*' => ['required', 'string', 'max:255'],
             'serviceTypeBerkala.*' => ['required', 'string', 'max:255'],
+
         ]);
 
         if ($validator->fails()) {
@@ -592,6 +596,8 @@ class AdminWorkshopController extends Controller
                 $addServiceUmum ->workshopDetailID = $req->workshopDetailID;
                 $addServiceUmum ->serviceType = 'service umum';
                 $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
+                $addServiceUmum ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
+                $addServiceUmum ->time = $req->serviceTypeUmum[$key]['estimasiWaktu'];
                 $addServiceUmum->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);
@@ -603,6 +609,8 @@ class AdminWorkshopController extends Controller
                 $addServiceBerkala ->workshopDetailID = $req->workshopDetailID;
                 $addServiceBerkala ->serviceType = 'service umum';
                 $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
+                $addServiceBerkala ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
+                $addServiceBerkala ->time = $req->serviceTypeUmum[$key]['estimasiWaktu'];
                 $addServiceBerkala->save();
                 // kolo pake jobs
                 // array_push($newscheduledetail,$array);

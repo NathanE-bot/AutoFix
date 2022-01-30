@@ -26,7 +26,7 @@ class InsuranceDetailSeeder extends Seeder
             'insuranceDescription'=>'Silahkan tunjukkan file PDF kepada pihak bengkel',
         ]);
         InsuranceDetail::create([
-            'insuranceID'=>'2',
+            'insuranceID'=>'3',
             'filePDF'=>'NULL',
             'claimedInsuranceDate'=>'2021/02/28',
             'insuranceStatus' => 'on progress',

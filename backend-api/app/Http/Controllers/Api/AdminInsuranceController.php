@@ -169,7 +169,7 @@ class AdminInsuranceController extends Controller
             'insurances.incidentDate','insurances.incidentTime','insurances.taxiOnlineStatus','insurances.workshopType',
             'insurances.chronology','insurances.incidentStatus','insurances.incidentStatusDescription','insurances.submitDate','insurance_vendors.logo',
             'insurance_vendors.insuranceName','insurance_details.claimedInsuranceDate','insurance_details.insuranceStatus','insurance_details.insuranceDescription')
-            ->where('insurances.id','=',$req->id)
+            ->where('insurances.id','=',$req->insuranceID)
             ->get();
             // dd($insuranceDetails);
             $documentInsurance = DB::table('documentation_Insurances')
@@ -178,7 +178,11 @@ class AdminInsuranceController extends Controller
             if(empty($insuranceDetails)){
                 return response()->json(['Message'=>'No data'], 200);
             }
-            return response()->json([$insuranceDetails,$documentInsurance], 200);
+            $data=[
+                'objectReturnerDataDetail'=>$insuranceDetails,
+                'objectReturnerDocumentation'=>$documentInsurance
+            ];
+            return response()->json($data, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
