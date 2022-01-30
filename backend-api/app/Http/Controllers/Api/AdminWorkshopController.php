@@ -80,8 +80,14 @@ class AdminWorkshopController extends Controller
 
             $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
 
+            $dataUserID=DB::table('schedules')->where('id','=',$req->scheduleID)->first();
             $newNotification = new Notification;
-            $newNotification->userID = $req->userID;
+            $newNotification->userID = $dataUserID->userID;
+            $newNotification->senderName = 'System';
+            $newNotification->description = 'Your Schedule Have Been Accept By'.$dataUserID->workshopName.'please see you schedule in profile menu or Contact The admin If you have any question.';
+            $newNotification->notificationTime = Carbon::now();
+            $newNotification->save();
+
         }catch (Exception $err) {
             return response()->json($err, 500);
         }
@@ -110,7 +116,13 @@ class AdminWorkshopController extends Controller
         'description'=>$req->description]);
 
         $dataUpdatedSchedule = DB::table('schedules')->where('id','=',$req->scheduleID)->get();
-
+        $dataUserID=DB::table('schedules')->where('id','=',$req->scheduleID)->first();
+        $newNotification = new Notification;
+        $newNotification->userID = $dataUserID->userID;
+        $newNotification->senderName = 'System';
+        $newNotification->description = 'Your Schedule Have Been Reject By'.$dataUserID->workshopName.'please see you history in profile menu or Contact The admin If you have any question.';
+        $newNotification->notificationTime = Carbon::now();
+        $newNotification->save();
         return response()->json([
             'scheduleID' => $req->scheduleID,
             'message' => 'Incoming Order Rejected'
@@ -569,56 +581,64 @@ class AdminWorkshopController extends Controller
     }
 
     public function addWorkshopService(Request $req){
-        $validator = Validator::make($req->all(), [
-            'serviceTypeUmum.serviceDetail.*' => ['required', 'string', 'max:255'],
-            'serviceTypeBerkala.serviceDetail.*' => ['required', 'string', 'max:255'],
+        try {
+            $validator = Validator::make($req->all(), [
+                'serviceTypeUmum.serviceDetail.*' => ['required', 'string', 'max:255'],
+                'serviceTypeBerkala.serviceDetail.*' => ['required', 'string', 'max:255'],
 
-        ]);
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'id' => 1,
-                'message'=>$validator->errors()
-            ], 401);
-        }
-        foreach ($req->workshopService as $key => $value)
-        {
-            if(!isset($req->workshopService[$key]['serviceUmum']) || !isset($req->workshopService[$key]['servisBerkala'])){
+            if ($validator->fails()) {
                 return response()->json([
-                    'messageGeneralService'=>'GeneralService is required',
-                    'messagePeriodicService'=>'PeriodicService is required',
-                    'message'=>'Field input is required',
+                    'id' => 1,
+                    'message'=>$validator->errors()
                 ], 401);
             }
-            if ($req->has('serviceTypeUmum')) {
-                foreach($req->serviceTypeUmum as $key=>$value){
-                $addServiceUmum = new ScheduleDetail;
-                $addServiceUmum ->workshopDetailID = $req->workshopDetailID;
-                $addServiceUmum ->workshopID = $req->workshopID;
-                $addServiceUmum ->serviceType = 'service umum';
-                $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
-                $addServiceUmum ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
-                $addServiceUmum ->time = $req->serviceTypeUmum[$key]['estimasiWaktu'];
-                $addServiceUmum->save();
-                // kolo pake jobs
-                // array_push($newscheduledetail,$array);
+            foreach ($req->workshopService as $key => $value)
+            {
+                if(!isset($req->workshopService[$key]['serviceUmum']) || !isset($req->workshopService[$key]['servisBerkala'])){
+                    return response()->json([
+                        'messageGeneralService'=>'GeneralService is required',
+                        'messagePeriodicService'=>'PeriodicService is required',
+                        'message'=>'Field input is required',
+                    ], 401);
+                }
+                if ($req->has('serviceTypeUmum')) {
+                    foreach($req->serviceTypeUmum as $key=>$value){
+                    $addServiceUmum = new ScheduleDetail;
+                    $addServiceUmum ->workshopDetailID = $req->workshopDetailID;
+                    $addServiceUmum ->workshopID = $req->workshopID;
+                    $addServiceUmum ->serviceType = 'service umum';
+                    $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
+                    $addServiceUmum ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
+                    $addServiceUmum ->time = $req->serviceTypeUmum[$key]['estimasiWaktu'];
+                    $addServiceUmum->save();
+                    // kolo pake jobs
+                    // array_push($newscheduledetail,$array);
+                    }
+                }
+                if ($req->has('serviceTypeBerkala')) {
+                    foreach($req->serviceTypeUmum as $key=>$value){
+                    $addServiceBerkala = new ScheduleDetail;
+                    $addServiceBerkala ->workshopDetailID = $req->workshopDetailID;
+                    $addServiceBerkala ->workshopID = $req->workshopID;
+                    $addServiceBerkala ->serviceType = 'service umum';
+                    $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
+                    $addServiceBerkala ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
+                    $addServiceBerkala ->time = $req->serviceTypeUmum[$key]['estimasiWaktu'];
+                    $addServiceBerkala->save();
+                    // kolo pake jobs
+                    // array_push($newscheduledetail,$array);
+                    }
                 }
             }
-            if ($req->has('serviceTypeBerkala')) {
-                foreach($req->serviceTypeUmum as $key=>$value){
-                $addServiceBerkala = new ScheduleDetail;
-                $addServiceBerkala ->workshopDetailID = $req->workshopDetailID;
-                $addServiceBerkala ->workshopID = $req->workshopID;
-                $addServiceBerkala ->serviceType = 'service umum';
-                $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
-                $addServiceBerkala ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
-                $addServiceBerkala ->time = $req->serviceTypeUmum[$key]['estimasiWaktu'];
-                $addServiceBerkala->save();
-                // kolo pake jobs
-                // array_push($newscheduledetail,$array);
-                }
-            }
+        } catch (Exception $err){
+            return response()->json($err, 500);
         }
+
+        return response()->json([
+            'messageAll' => 'Successfully add Service specification',
+        ], 200);
     }
 
     public function deleteWorkshopServiceByID(Request $req){
