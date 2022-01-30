@@ -76,6 +76,11 @@
         cursor: pointer;
     }
 }
+.edit-logo-btn{
+    @extend .edit-img-btn;
+    bottom: -10px;
+    right: -10px;
+}
 
 .back-btn_topRight{
     position: absolute;
