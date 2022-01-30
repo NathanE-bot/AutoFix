@@ -439,14 +439,12 @@ class AdminWorkshopController extends Controller
             'longitude'=>['required', 'string', 'max:255'],
             'statusHr'=>['required', 'string', 'max:255'],
             'status24Hr'=>['required', 'string', 'max:255'],
-            'operationalWorkshop.operationalCloseHour.*'=>['required', 'date_format:H:i:s'],
-            'operationalWorkshop.operationalOpenHour.*'=>['required', 'date_format:H:i:s'],
+            'operationalWorkshop.*.operationalCloseHour'=>['required', 'date_format:H:i:s'],
+            'operationalWorkshop.*.operationalOpenHour'=>['required', 'date_format:H:i:s'],
             'workshop_details.*.carModel'=>['required', 'string', 'max:255'],
             'workshop_details.*.carType'=>['required', 'string', 'max:255'],
-            'workshop_services.*.serviceType'=> ['required|string|max:255'],
-            'workshop_services.*.serviceDetail'=> ['required|string|max:255'],
-            'operational_workshops.*.operationalOpenHour'=> ['required|date_format:H:i:s'],
-            'operational_workshops.*.operationalCloseHour'=> ['required|date_format:H:i:s'],
+            'workshop_services.*.serviceType'=> ['required', 'string', 'max:255'],
+            'workshop_services.*.serviceDetail'=> ['required', 'string', 'max:255'],
         ]);
 
         if ($validator->fails()) {
@@ -480,15 +478,15 @@ class AdminWorkshopController extends Controller
         }
         foreach ($req->workshop_details as $key => $value)
         {
-            if(!isset($req->workshop_details[$key]['carType']) || !isset($req->workshop_details[$key]['carModel'])){
-                return response()->json([
-                    'errorCarType' => !isset($req->workshop_details[$key]['carType']),
-                    'errorCarModel' => !isset($req->workshop_details[$key]['carModel']),
-                    'messageCarType'=>'Car type is required',
-                    'messageCarModel'=>'Car model is required',
-                    'message'=>'Field input is required',
-                ], 401);
-            }
+            // if(!isset($req->workshop_details[$key]['carType']) || !isset($req->workshop_details[$key]['carModel'])){
+            //     return response()->json([
+            //         'errorCarType' => !isset($req->workshop_details[$key]['carType']),
+            //         'errorCarModel' => !isset($req->workshop_details[$key]['carModel']),
+            //         'messageCarType'=>'Car type is required',
+            //         'messageCarModel'=>'Car model is required',
+            //         'message'=>'Field input is required',
+            //     ], 401);
+            // }
             DB::table('workshop_details')->where('workshopID','=',$req->id)
             ->where('id','=',$req->workshop_details[$key]['id'])
             ->update(['carModel'=>$req->workshop_details[$key]['carModel'],
@@ -502,15 +500,8 @@ class AdminWorkshopController extends Controller
             ->where('workshop_services.id','=',$req->workshop_services[$key]['id'])
             ->where('workshop_details.workshopID','=',$req->id)
             // ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
-            ->update(['serviceType'=>$req->workshop_services[$key]['serviceType'],'serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
-        }
-
-        foreach ($req->operational_workshops as $key => $value)
-        {
-            DB::table('operational_workshops')
-            ->where('id','=',$req->operational_workshops[$key]['id'])
-            ->where('workshopID','=',$req->id)
-            ->update(['operationalOpenHour'=>$req->operational_workshops[$key]['operationalOpenHour'],'operationalCloseHour'=>$req->operational_workshops[$key]['operationalCloseHour']]);
+            ->update(['serviceType'=>$req->workshop_services[$key]['serviceType'],
+            'serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
         }
 
         return response()->json([
