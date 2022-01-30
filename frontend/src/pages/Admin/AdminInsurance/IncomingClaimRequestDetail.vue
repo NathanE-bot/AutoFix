@@ -97,7 +97,7 @@
               <span>Address</span>
               <span>:</span>
             </div>
-            <span>{{ insuranceData.addressClaimer }}{{ insuranceData.addressClaimer }}{{ insuranceData.addressClaimer }}</span>
+            <span>{{ insuranceData.addressClaimer }}</span>
           </div>
         </div>
       </div>
