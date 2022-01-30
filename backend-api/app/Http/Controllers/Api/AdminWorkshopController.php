@@ -169,7 +169,7 @@ class AdminWorkshopController extends Controller
 
     public function cancelScheduleByAdmin(Request $req){
         $validator = Validator::make($req->all(), [
-            'description' => 'string','required'
+            'description' => ['required','string']
         ]);
 
 
@@ -183,12 +183,7 @@ class AdminWorkshopController extends Controller
         ->update(['scheduleStatus'=>'cancelled',
         'description'=>$req->description]);
         $dataUserID=DB::table('schedules')->where('id','=',$req->scheduleID)->first();
-        $newNotification = new Notification;
-        $newNotification->userID = $dataUserID->userID;
-        $newNotification->senderName = 'System';
-        $newNotification->description = 'Your Schedule Have Been Cancle By'.$dataUserID->workshopName.'please see you history in profile menu or Contact The admin If you have any question.';
-        $newNotification->notificationTime = Carbon::now();
-        $newNotification->save();
+
         return response()->json([
             'scheduleID' => $req->scheduleID,
             'message' => 'Order Cancelled'
