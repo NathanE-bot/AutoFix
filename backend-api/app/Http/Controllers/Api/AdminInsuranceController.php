@@ -59,6 +59,7 @@ class AdminInsuranceController extends Controller
             }
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
+            ->where('insuranceStatus','=','on progress')
             ->update(['insuranceDescription'=>$req->insuranceDescription],
                     ['insuranceStatus','=','Approved']);
 
@@ -149,6 +150,7 @@ class AdminInsuranceController extends Controller
 
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
+            ->where('insuranceStatus','=','on progress')
             ->update(['insuranceDescription'=>$req->insuranceDescription],
                     ['insuranceStatus','=','Rejected']);
 
