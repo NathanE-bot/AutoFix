@@ -669,7 +669,7 @@ export default {
     },
     doGetWorkshopById (clicking, clickId, id) {
       let _this = this
-      if(clicking && _this.clickedId == id){} 
+      if(clicking && _this.clickedId == id){}
       else {
         _this.detailWorkshopLoader = true
         _this.workshopById.servisBerkala = []
