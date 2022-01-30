@@ -183,8 +183,8 @@ class AdminInsuranceController extends Controller
             'insurances.polisNumber','insurances.licensePlateNumber','insurances.driverName',
             'insurances.driverSpeed','insurances.driverRelation','insurances.driverLicense','insurances.incidentLocation','insurances.vehicleDescription',
             'insurances.incidentDate','insurances.incidentTime','insurances.taxiOnlineStatus','insurances.workshopType',
-            'insurances.chronology','insurances.incidentStatus','insurances.incidentStatusDescription','insurances.submitDate','insurance_vendors.logo',
-            'insurance_vendors.insuranceName','insurance_details.claimedInsuranceDate','insurance_details.insuranceStatus','insurance_details.insuranceDescription')
+            'insurances.chronology','insurances.incidentStatus','insurances.incidentStatusDescription','insurances.submitDate','insurance_vendors.logo','insurance_vendors.email',
+            'insurance_vendors.insuranceName','insurance_vendors.phoneNumber','insurance_vendors.address','insurance_details.claimedInsuranceDate','insurance_details.insuranceStatus','insurance_details.insuranceDescription')
             ->where('insurances.id','=',$req->insuranceID)
             ->get();
             // dd($insuranceDetails);

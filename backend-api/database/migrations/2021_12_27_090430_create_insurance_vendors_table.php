@@ -19,6 +19,7 @@ class CreateInsuranceVendorsTable extends Migration
             $table->foreign('userID')->references('id')->on('users');
             $table->string('insuranceName');
             $table->string('phoneNumber');
+            $table->string('address');
             $table->string('email');
             $table->string('logo');
             $table->timestamps();

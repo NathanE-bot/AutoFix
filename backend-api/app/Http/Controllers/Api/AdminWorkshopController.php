@@ -441,10 +441,12 @@ class AdminWorkshopController extends Controller
             'status24Hr'=>['required', 'string', 'max:255'],
             'operationalWorkshop.operationalCloseHour.*'=>['required', 'date_format:H:i:s'],
             'operationalWorkshop.operationalOpenHour.*'=>['required', 'date_format:H:i:s'],
-            'workshop_details.carModel.*'=>['required', 'string', 'max:255'],
-            'workshop_details.carType.*'=>['required', 'string', 'max:255'],
-            'workshop_services.serviceType.*'=> ['required|string|max:255'],
-            'workshop_services.serviceDetail.*'=> ['required|string|max:255'],
+            'workshop_details.*.carModel'=>['required', 'string', 'max:255'],
+            'workshop_details.*.carType'=>['required', 'string', 'max:255'],
+            'workshop_services.*.serviceType'=> ['required|string|max:255'],
+            'workshop_services.*.serviceDetail'=> ['required|string|max:255'],
+            'operational_workshops.*.operationalOpenHour'=> ['required|date_format:H:i:s'],
+            'operational_workshops.*.operationalCloseHour'=> ['required|date_format:H:i:s'],
         ]);
 
         if ($validator->fails()) {
@@ -502,6 +504,15 @@ class AdminWorkshopController extends Controller
             // ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
             ->update(['serviceType'=>$req->workshop_services[$key]['serviceType'],'serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
         }
+
+        foreach ($req->operational_workshops as $key => $value)
+        {
+            DB::table('operational_workshops')
+            ->where('id','=',$req->operational_workshops[$key]['id'])
+            ->where('workshopID','=',$req->id)
+            ->update(['operationalOpenHour'=>$req->operational_workshops[$key]['operationalOpenHour'],'operationalCloseHour'=>$req->operational_workshops[$key]['operationalCloseHour']]);
+        }
+
         return response()->json([
             'messageAll' => 'Successfully update car specification',
             'message'=>'Success'
@@ -697,5 +708,6 @@ class AdminWorkshopController extends Controller
             'message'=>'Services deleted'
         ], 200);
     }
+
 
 }
