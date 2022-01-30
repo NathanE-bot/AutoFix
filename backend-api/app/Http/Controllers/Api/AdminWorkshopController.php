@@ -499,7 +499,7 @@ class AdminWorkshopController extends Controller
             ->join('workshop_details','workshop_details.id','=','workshop_services.workshopDetailID')
             ->where('workshop_services.id','=',$req->workshop_services[$key]['id'])
             ->where('workshop_details.workshopID','=',$req->id)
-            // ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
+            ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
             ->update(['serviceType'=>$req->workshop_services[$key]['serviceType'],
             'serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
         }

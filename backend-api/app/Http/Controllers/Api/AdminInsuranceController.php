@@ -51,7 +51,7 @@ class AdminInsuranceController extends Controller
     public function acceptInsuranceClaim(Request $req){
         try {
             $validator = Validator::make($req->all(), [
-                'insuranceDescription'=>['required|string|max:500'],
+                'insuranceDescription'=>['required,string,max:500'],
             ]);
             if ($validator->fails()) {
                 return $validator->errors();
@@ -143,7 +143,7 @@ class AdminInsuranceController extends Controller
     public function rejectInsuranceClaim(Request $req){
         try {
             $validator = Validator::make($req->all(), [
-                'insuranceDescription'=>['required|string|max:500'],
+                'insuranceDescription'=>['required,string,max:500'],
             ]);
             if ($validator->fails()) {
                 return $validator->errors();
