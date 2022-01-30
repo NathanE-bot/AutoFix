@@ -19,6 +19,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Schedule;
 use App\ScheduleDetail;
+use Illuminate\Support\Facades\Storage;
 
 class AdminWorkshopController extends Controller
 {
@@ -214,7 +215,7 @@ class AdminWorkshopController extends Controller
 
     public function updateLogoWorkshop(Request $req){
         $validator = Validator::make($req->all(), [
-            'workshopLogo' => 'image|file|max:2048'
+            'workshopLogo' => 'image|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
 
@@ -227,10 +228,15 @@ class AdminWorkshopController extends Controller
         $dataUpdatedUser = DB::table('workshops')->where('id','=',$req->workshopID)->first();
         if (!is_null($req->workshopLogo))
         {
-            $dateTimeNow = carbon::now();
+            $dataImageWorkshops = DB::table('workshops')
+            ->select(DB::raw('SUBSTRING(workshopLogo,30,100) AS path'))
+            ->where('id','=',$req->workshopID)->first();
+            Storage::delete('/public/'.$dataImageWorkshops->path);
+
+            $dateTimeNow = carbon::now()->format("Y-m-d_H-i-s");
             $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->workshopName);
             $ext = $req->workshopLogo->getClientOriginalExtension();
-            $path = $req->file('workshopLogo')->storeAs('workshopDocumentation', strtolower($fullNameTemp.$dataUpdatedUser->id.$dateTimeNow.'.'.$ext), 'public');
+            $path = $req->file('workshopLogo')->storeAs('avatar', strtolower('LOGO-'.$fullNameTemp.$dataUpdatedUser->id.$dateTimeNow.'.'.$ext), 'public');
             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
             $dataUser = DB::table('workshops')->where('id','=',$req->workshopID)
@@ -289,7 +295,7 @@ class AdminWorkshopController extends Controller
         // ]);
         $validator = Validator::make($req->all(), [
             'workshop_pictures.*.idWorkshopPicture'=>'required',
-            'workshop_pictures.*.workshopPicture' => 'image|file|max:2048'
+            'workshop_pictures.*.workshopPicture' => 'image|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validator->fails()) {

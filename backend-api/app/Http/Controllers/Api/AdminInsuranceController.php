@@ -103,7 +103,7 @@ class AdminInsuranceController extends Controller
                     // $dateNow = carbon::now()->format("Y-m-d_H-i-s");
                     $insuredName = str_replace(' ', '', $dataInsuranceDetails->insuredName);
                     $ext = $req->filePDF->getClientOriginalExtension();
-                    $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submitDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
+                    $path = $req->file('filePDF')->storeAs('avatar', strtolower('PDF-'.$insuredName.$dataInsuranceDetails->submitDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
                     $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
                     $dataInsuranceDetails = DB::table('insurance_details')

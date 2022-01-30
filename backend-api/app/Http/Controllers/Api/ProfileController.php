@@ -53,7 +53,7 @@ class ProfileController extends Controller
 
     public function uploadImage (Request $req) {
         $validator = Validator::make($req->all(), [
-            'image' => 'image|file|max:2048'
+            'image' => 'image|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validator->fails()) {
