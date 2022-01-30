@@ -5,11 +5,11 @@
         v-model="initialTab"
         align="justify"
       >
-        <!-- <q-tab name="editWorkshop" label="Edit Workshop" class="tf-capitalize"/> -->
+        <q-tab name="editWorkshop" label="Edit Workshop" class="tf-capitalize"/>
         <q-tab name="editServices" label="Edit Services" class="tf-capitalize"/>
       </q-tabs>
       <q-separator/>
-      <!-- <div v-if="initialTab === 'editWorkshop'" class="col-md-12 p-20">
+      <div v-if="initialTab === 'editWorkshop'" class="col-md-12 p-20">
         <div class="row j-end px-20 pt-10">
           <div v-if="isEditableWorkshop === false" style="height: 31px">
             <i class="fas fa-pen fs-20 edit-icon" @click="isEditableWorkshop = !isEditableWorkshop"></i>
@@ -20,55 +20,55 @@
           <div v-else>
             <q-btn
               v-if="isEditableWorkshop"
-              @click="doCancelEdit(); isEditableWorkshop = !isEditableWorkshop" :loading="loader" unelevated rounded color="negative" label="Cancel Edit" class="tf-capitalize ml-20 fs-12"/>
+              @click="isEditableWorkshop = !isEditableWorkshop" :loading="loader" unelevated rounded color="negative" label="Cancel Edit" class="tf-capitalize ml-20 fs-12"/>
             <q-btn
               v-if="isEditableWorkshop"
-              @click="doUpdateProfile(true)" :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
+              :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
           </div>
         </div>
         <div class="row">
           <div class="col-md-3">
-            <div :class="['no-logo-layout-4 m-auto', { 'm-auto' : help.isDataEmpty(this.dataWorkshop.workshopLogo) && loader === false }]">
-              <img  v-if="!help.isDataEmpty(this.dataWorkshop.workshopLogo)" class="m-auto" src="https://cdn.quasar.dev/img/mountains.jpg" alt="">
+            <div :class="['no-logo-layout-4 m-auto', { 'm-auto' : help.isDataEmpty(this.workshopDetail.workshopLogo) && loader === false }]">
+              <img  v-if="!help.isDataEmpty(this.workshopDetail.workshopLogo)" class="m-auto" src="https://cdn.quasar.dev/img/mountains.jpg" alt="">
               <span>No Logo</span>
             </div>
           </div>
           <div class="col-md-3 px-10 q-col-gutter-y-sm">
             <div class="fs-12">
               <span class="">Workshop Name :</span>
-              <q-input  v-model="this.dataWorkshop.workshopName" dense outlined :disable="isEditableWorkshop === false"/>
+              <q-input  v-model="this.workshopDetail.workshopName" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
             <div class="fs-12">
               <span class="">Workshop Email :</span>
-              <q-input v-model="this.dataWorkshop.workshopEmail" dense outlined disable/>
+              <q-input v-model="this.workshopDetail.workshopEmail" dense outlined :disable="isEditableWorkshop === false" />
             </div>
             <div class="fs-12">
               <span class="">Workshop Phone Number :</span>
-              <q-input v-model="this.dataWorkshop.workshopPhoneNumber" dense outlined :disable="isEditableWorkshop === false"/>
+              <q-input v-model="this.workshopDetail.workshopPhoneNumber" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
           </div>
           <div class="col-md-3 px-10 q-col-gutter-y-sm">
             <div class="fs-12">
               <span class="">District :</span>
-              <q-input  v-model="this.dataWorkshop.district" dense outlined :disable="isEditableWorkshop === false"/>
+              <q-input  v-model="this.workshopDetail.district" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
             <div class="fs-12">
               <span class="">City :</span>
-              <q-input v-model="this.dataWorkshop.city" dense outlined :disable="isEditableWorkshop === false"/>
+              <q-input v-model="this.workshopDetail.city" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
             <div class="fs-12">
               <span class="">Province :</span>
-              <q-input v-model="this.dataWorkshop.province" dense outlined :disable="isEditableWorkshop === false"/>
+              <q-input v-model="this.workshopDetail.province" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
           </div>
           <div class="col-md-3 px-10 q-col-gutter-y-sm">
             <div class="fs-12">
               <span class="">Latitude :</span>
-              <q-input v-model="this.dataWorkshop.latitude" dense outlined :disable="isEditableWorkshop === false"/>
+              <q-input v-model="this.workshopDetail.latitude" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
             <div class="fs-12">
               <span class="">Longitude :</span>
-              <q-input v-model="this.dataWorkshop.longitude" dense outlined :disable="isEditableWorkshop === false"/>
+              <q-input v-model="this.workshopDetail.longitude" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
           </div>
         </div>
@@ -77,17 +77,17 @@
           <div class="col-md-6 pr-10">
             <div class="fs-12">
               <span class="">Workshop Address :</span>
-              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.dataWorkshop.workshopAddress" outlined type="textarea" :disable="isEditableWorkshop === false"/>
+              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.workshopDetail.workshopAddress" outlined type="textarea" :disable="isEditableWorkshop === false"/>
             </div>
           </div>
           <div class="col-md-6 pl-10">
             <div class="fs-12">
               <span class="">Workshop Description :</span>
-              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.dataWorkshop.workshopDescription" outlined type="textarea" :disable="isEditableWorkshop === false"/>
+              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.workshopDetail.workshopDescription" outlined type="textarea" :disable="isEditableWorkshop === false"/>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
       <div v-if="initialTab === 'editServices'" class="col-md-12">
         <div class="row">
           <div class="col-md-4 p-20">
@@ -481,7 +481,7 @@ export default {
     return {
       help,
       ValidationFunction,
-      initialTab: 'editServices',
+      initialTab: 'editWorkshop',
       thumbStyle: {
         right: '2px',
         borderRadius: '10px',
@@ -515,7 +515,8 @@ export default {
       dialogEditCarTypeAndModel: false,
       editCarLoader: false,
       editCarServiceLoader: false,
-      workshopDetail: [],
+      isEditableWorkshop: false,
+      workshopDetail: {},
       workshop_details: [],
       carModelOptions: [],
       carTypeOptions: [],
@@ -967,36 +968,37 @@ export default {
       _this.workshopDetail.workshop_services.forEach(el1 => { // for update data
         _this.periodicServicesForms.forEach(el2 => {
           if(el2.serviceID == el1.id){
-            let tempObj = {
-              id: el2.serviceID,
-              price: el2.price,
-              serviceDetail: el2.serviceDetail,
-              serviceType: el2.serviceType,
-              time: el2.time,
-              workshopDetailID: el2.workshopDetailID,
-              workshopID: el2.workshopID
+            if(el2.serviceDetail !== el1.serviceDetail){
+              el1.serviceDetail = el2.serviceDetail
+              edited = true
             }
-            el1 = tempObj
-            edited = true
+            if(el2.price !== el1.price){
+              el1.price = el2.price
+              edited = true
+            }
+            if(el2.time !== el1.time){
+              el1.time = el2.time
+              edited = true
+            }
           }
         })
         _this.generalServicesForms.forEach(el2 => {
           if(el2.serviceID == el1.id){
-            let tempObj = {
-              id: el2.serviceID,
-              price: el2.price,
-              serviceDetail: el2.serviceDetail,
-              serviceType: el2.serviceType,
-              time: el2.time,
-              workshopDetailID: el2.workshopDetailID,
-              workshopID: el2.workshopID
+            if(el2.serviceDetail !== el1.serviceDetail){
+              el1.serviceDetail = el2.serviceDetail
+              edited = true
             }
-            el1 = tempObj
-            edited = true
+            if(el2.price !== el1.price){
+              el1.price = el2.price
+              edited = true
+            }
+            if(el2.time !== el1.time){
+              el1.time = el2.time
+              edited = true
+            }
           }
         })
       })
-
       _this.periodicServicesForms.forEach(el1 => {
         if(!help.isDataEmpty(el1.id) && el1.id == '#1'){
           tempBackendFormat.serviceTypeBerkala.push(el1)
