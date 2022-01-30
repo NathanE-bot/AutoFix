@@ -925,8 +925,7 @@ export default {
       })
       console.log('halo mas', _this.periodicServicesForms)
     },
-    // PERIODIC SERVICES
-    doAddNewCarPeriodicService () { // buat tampilan
+    doAddNewCarPeriodicService () { // Buat tampilan PERIODIC SERVICES
       let tempObj = {
         index: this.periodicServicesForms.length,
         serviceID: null,
@@ -942,8 +941,7 @@ export default {
       console.log(this.periodicServicesForms)
       this.periodicServicesForms.push(tempObj)
     },
-    // GENERAL SERVICES
-    doAddNewCarGeneralService () { // buat tampilan
+    doAddNewCarGeneralService () { // Buat tampilan GENERAL SERVICES
       let tempObj = {
         index: this.generalServicesForms.length,
         serviceID: null,
@@ -959,13 +957,46 @@ export default {
       console.log(this.generalServicesForms)
       this.generalServicesForms.push(tempObj)
     },
-    doUpdateWorkshopServices () {
+    doUpdateWorkshopServices () { // Update Workshop Services 
       let _this = this
-      let edited = false
+      var edited = false
       let tempBackendFormat = {
         serviceTypeBerkala: [],
         serviceTypeUmum: []
       }
+      _this.workshopDetail.workshop_services.forEach(el1 => { // for update data
+        _this.periodicServicesForms.forEach(el2 => {
+          if(el2.serviceID == el1.id){
+            let tempObj = {
+              id: el2.serviceID,
+              price: el2.price,
+              serviceDetail: el2.serviceDetail,
+              serviceType: el2.serviceType,
+              time: el2.time,
+              workshopDetailID: el2.workshopDetailID,
+              workshopID: el2.workshopID
+            }
+            el1 = tempObj
+            edited = true
+          }
+        })
+        _this.generalServicesForms.forEach(el2 => {
+          if(el2.serviceID == el1.id){
+            let tempObj = {
+              id: el2.serviceID,
+              price: el2.price,
+              serviceDetail: el2.serviceDetail,
+              serviceType: el2.serviceType,
+              time: el2.time,
+              workshopDetailID: el2.workshopDetailID,
+              workshopID: el2.workshopID
+            }
+            el1 = tempObj
+            edited = true
+          }
+        })
+      })
+
       _this.periodicServicesForms.forEach(el1 => {
         if(!help.isDataEmpty(el1.id) && el1.id == '#1'){
           tempBackendFormat.serviceTypeBerkala.push(el1)
@@ -983,6 +1014,33 @@ export default {
       // if(help.isObjectEmpty(tempBackendFormat.serviceTypeUmum)){
       //   delete tempBackendFormat.serviceTypeUmum
       // }
+      if(edited){
+        doUpdateWorkshopForAdminBengkel(_this.workshopDetail, this.accessToken).then(response => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.data.messageAll
+          }) .then(() => {
+            _this.showError = false
+            // _this.dialogEditCarTypeAndModel = false
+            if(!help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala) || !help.isObjectEmpty(tempBackendFormat.serviceTypeUmum)){
+              _this.doGetWorkshopDetailByUserID(false, true)
+            } else {
+              _this.doGetWorkshopDetailByUserID(false, true)
+            }
+          })
+        }) .catch((error) => {
+          if(error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.response.data.message
+            }) .then(() => {
+              _this.showError = true
+            })
+          }
+        })
+      }
       if(!help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala) || !help.isObjectEmpty(tempBackendFormat.serviceTypeUmum)){
         console.log('masuk')
         addWorkshopService(tempBackendFormat, _this.accessToken).then(response => {
