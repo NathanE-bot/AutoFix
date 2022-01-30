@@ -54,3 +54,9 @@ export function deleteCarModel(workshopID, carModel, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
   return axios.post(localURL + '/api/deleteCarModel?workshopID=' + workshopID + '&carModel=' + carModel, authorization)
 }
+
+// PERIODIC SERVICES
+export function addWorkshopService(carServices, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/addWorkshopService', carServices, authorization)
+}
