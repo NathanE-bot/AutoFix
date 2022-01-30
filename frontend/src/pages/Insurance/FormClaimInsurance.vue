@@ -77,7 +77,8 @@
                                     :rules="rules.polisiNumber_r"
                                     lazy-rules="ondemand"
                                     class="col-md-5" filled
-                                    label="Police Number / Vehicle Registration Number" />
+                                    label="Vehicle Registration Number"
+                                    placeholder="Ex. B 1234 CDE"/>
                             </div>
                         </div>
                     </div>
@@ -107,7 +108,7 @@
                             v-model="form.hubunganDenganTertanggung"
                             lazy-rules="ondemand"
                             class="col-md-12" filled bottom-slots
-                            label="Relationship with the insured" />
+                            label="Relation with the insured" />
                         <q-input
                             v-model="form.tempatKejadian"
                             lazy-rules="ondemand"
@@ -119,7 +120,8 @@
                             v-model="form.kecepatanKendaraan"
                             lazy-rules="ondemand"
                             class="col-md-12" filled bottom-slots
-                            label="Speed on incident" />
+                            label="Speed during incident"
+                            suffix="Km/h" mask="###"/>
                         <q-input
                             v-model="form.tanggalKejadian"
                             class="col-md-5 mr-auto icon-hover-input" filled bottom-slots
@@ -160,6 +162,7 @@
                             type="textarea"
                             class="col-md-12 fix-txt-field" filled bottom-slots
                             label="Usage of the vehicle"
+                            placeholder="Ex. Used for transportation during incident"
                         />
                     </div>
                 </div>

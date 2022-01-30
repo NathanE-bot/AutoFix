@@ -8,5 +8,9 @@ export default
 }
 
 export function getIncomingClaimRequest(adminID) {
-    return axios.get(localURL + '/api/getDataIncomingInsuranceRequestByAdminID?adminID=' + adminID)
-  }
+  return axios.get(localURL + '/api/getDataIncomingInsuranceRequestByAdminID?adminID=' + adminID)
+}
+
+export function getAdminInsuranceDetails(insuranceID) {
+  return axios.get(localURL + '/api/getAdminInsuranceDetails?insuranceID=' + insuranceID)
+}
