@@ -286,6 +286,13 @@
     @include layout_bullet(8px, 8px);
 }
 
+@for $i from 1 to 1000{
+    .insurance_layout_txt-#{$i}{
+        @include layout_txt(#{$i}px);
+        align-items: flex-start !important;
+    }
+}
+
 .soft-badge-primary{
     @include layout_soft_badge($primary, #ffffff);
 }
