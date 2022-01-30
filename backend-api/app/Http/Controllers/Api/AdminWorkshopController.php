@@ -585,7 +585,8 @@ class AdminWorkshopController extends Controller
             $validator = Validator::make($req->all(), [
                 'serviceTypeUmum.serviceDetail.*' => ['required', 'string', 'max:255'],
                 'serviceTypeBerkala.serviceDetail.*' => ['required', 'string', 'max:255'],
-
+                'serviceTypeBerkala.price.*' => ['required', 'numeric', 'max:255'],
+                'serviceTypeBerkala.time.*' => ['required', 'numeric', 'max:10'],
             ]);
 
             if ($validator->fails()) {
@@ -605,8 +606,8 @@ class AdminWorkshopController extends Controller
                     ], 401);
                 }
                 $addServiceUmum = new ScheduleDetail;
-                $addServiceUmum ->workshopDetailID = $req->workshopDetailID;
-                $addServiceUmum ->workshopID = $req->workshopID;
+                $addServiceUmum ->workshopDetailID = $req->serviceTypeUmum[$key]['workshopDetailID'];
+                $addServiceUmum ->workshopID = $req->serviceTypeUmum[$key]['workshopID'];
                 $addServiceUmum ->serviceType = 'service umum';
                 $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
                 $addServiceUmum ->price = $req->serviceTypeUmum[$key]['price'];
@@ -628,8 +629,8 @@ class AdminWorkshopController extends Controller
                     ], 401);
                 }
                 $addServiceBerkala = new ScheduleDetail;
-                $addServiceBerkala ->workshopDetailID = $req->workshopDetailID;
-                $addServiceBerkala ->workshopID = $req->workshopID;
+                $addServiceBerkala ->workshopDetailID = $req->serviceTypeBerkala[$key]['workshopDetailID'];
+                $addServiceBerkala ->workshopID = $req->serviceTypeBerkala[$key]['workshopID'];
                 $addServiceBerkala ->serviceType = 'service berkala';
                 $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
                 $addServiceBerkala ->price = $req->serviceTypeBerkala[$key]['price'];
