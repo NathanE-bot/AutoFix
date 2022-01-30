@@ -1,202 +1,215 @@
 <template>
   <q-page class="w-90 m-auto p-20">
-    <div class="white-1bg fh br-20px">
+    <q-card class="br-10px">
       <q-tabs
-        v-model="initialTab"
+        v-model="workshopTab"
         align="justify"
       >
-        <q-tab name="editWorkshop" label="Edit Workshop" class="tf-capitalize"/>
-        <q-tab name="editServices" label="Edit Services" class="tf-capitalize"/>
+        <q-tab class="tf-capitalize" name="workshop" label="Edit Workshop" />
+        <q-tab class="tf-capitalize" name="services" label="Edit Services" />
       </q-tabs>
-      <q-separator/>
-      <div v-if="initialTab === 'editWorkshop'" class="col-md-12 p-20">
-        <div class="row j-end px-20 pt-10">
-          <div v-if="isEditableWorkshop === false" style="height: 31px">
-            <i class="fas fa-pen fs-20 edit-icon" @click="isEditableWorkshop = !isEditableWorkshop"></i>
-            <q-tooltip class="bg-primary text-body2 txt-white" self="center right" :offset="[10, 15]">
-              Edit Profile
-            </q-tooltip>
-          </div>
-          <div v-else>
+      <q-separator />
+      <q-tab-panels v-model="workshopTab" animated>
+        <q-tab-panel name="workshop">
+          <div class="text-h6 fw-semibold mb-20">Workshop Details</div>
+          <div class="row j-sp-between a-center" style="min-height: 42px">
+            <div class="text-subtitle2">Workshop Profile</div>
             <q-btn
-              v-if="isEditableWorkshop"
-              @click="isEditableWorkshop = !isEditableWorkshop" :loading="loader" unelevated rounded color="negative" label="Cancel Edit" class="tf-capitalize ml-20 fs-12"/>
-            <q-btn
-              v-if="isEditableWorkshop"
-              :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <div :class="['no-logo-layout-4 m-auto', { 'm-auto' : help.isDataEmpty(this.workshopDetail.workshopLogo) && loader === false }]">
-              <img  v-if="!help.isDataEmpty(this.workshopDetail.workshopLogo)" class="m-auto" src="https://cdn.quasar.dev/img/mountains.jpg" alt="">
-              <span>No Logo</span>
-            </div>
-          </div>
-          <div class="col-md-3 px-10 q-col-gutter-y-sm">
-            <div class="fs-12">
-              <span class="">Workshop Name :</span>
-              <q-input  v-model="this.workshopDetail.workshopName" dense outlined :disable="isEditableWorkshop === false"/>
-            </div>
-            <div class="fs-12">
-              <span class="">Workshop Email :</span>
-              <q-input v-model="this.workshopDetail.workshopEmail" dense outlined :disable="isEditableWorkshop === false" />
-            </div>
-            <div class="fs-12">
-              <span class="">Workshop Phone Number :</span>
-              <q-input v-model="this.workshopDetail.workshopPhoneNumber" dense outlined :disable="isEditableWorkshop === false"/>
-            </div>
-          </div>
-          <div class="col-md-3 px-10 q-col-gutter-y-sm">
-            <div class="fs-12">
-              <span class="">District :</span>
-              <q-input  v-model="this.workshopDetail.district" dense outlined :disable="isEditableWorkshop === false"/>
-            </div>
-            <div class="fs-12">
-              <span class="">City :</span>
-              <q-input v-model="this.workshopDetail.city" dense outlined :disable="isEditableWorkshop === false"/>
-            </div>
-            <div class="fs-12">
-              <span class="">Province :</span>
-              <q-input v-model="this.workshopDetail.province" dense outlined :disable="isEditableWorkshop === false"/>
-            </div>
-          </div>
-          <div class="col-md-3 px-10 q-col-gutter-y-sm">
-            <div class="fs-12">
-              <span class="">Latitude :</span>
-              <q-input v-model="this.workshopDetail.latitude" dense outlined :disable="isEditableWorkshop === false"/>
-            </div>
-            <div class="fs-12">
-              <span class="">Longitude :</span>
-              <q-input v-model="this.workshopDetail.longitude" dense outlined :disable="isEditableWorkshop === false"/>
-            </div>
-          </div>
-        </div>
-        <br/>
-        <div class="row">
-          <div class="col-md-6 pr-10">
-            <div class="fs-12">
-              <span class="">Workshop Address :</span>
-              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.workshopDetail.workshopAddress" outlined type="textarea" :disable="isEditableWorkshop === false"/>
-            </div>
-          </div>
-          <div class="col-md-6 pl-10">
-            <div class="fs-12">
-              <span class="">Workshop Description :</span>
-              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.workshopDetail.workshopDescription" outlined type="textarea" :disable="isEditableWorkshop === false"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-if="initialTab === 'editServices'" class="col-md-12">
-        <div class="row">
-          <div class="col-md-4 p-20">
-            <div class="col-12 j-end">
-              <q-btn
-                @click="doFilterCarModelAndType(true)"
-                icon="fas fa-pen" flat round
-                class="edit-pen-btn edit-pen-btn-active"
-              >
-                <q-tooltip
-                  class="text-body2 txt-white bg-primary"
-                  anchor="center left" self="center end" :offset="[10, 0]">
-                  Edit Car Model & Type
-                </q-tooltip>
-              </q-btn>
-            </div>
-            <br/>
-            <q-select
-              @update:model-value="doFilterCarType($event)"
-              v-model="jsonDataParam.carModel"
-              :options="carModelOptions"
-              outlined
-              class="br-10px default-select-2 w-80 mx-auto mb-20"
+               v-if="!isEditableWorkshop"
+              @click="isEditableWorkshop = true"
+              icon="fas fa-pen" flat round
+              class="edit-pen-btn edit-pen-btn-active"
             >
-              <template v-slot:selected>
-                <template v-if="jsonDataParam.carModel">
-                  {{ jsonDataParam.carModel }}
-                </template>
-                <template v-else>
-                  <span class="placeholder-text">Choose Car Model...</span>
-                </template>
-              </template>
-            </q-select>
-            <q-select
-              @update:model-value="doGetCarServices($event)"
-              v-model="jsonDataParam.carType"
-              :options="carTypeOptions"
-              outlined
-              class="br-10px default-select-2 w-80 mx-auto mb-20"
-            >
-              <template v-slot:selected>
-                <template v-if="jsonDataParam.carType">
-                  {{ jsonDataParam.carType }}
-                </template>
-                <template v-else>
-                  <span class="placeholder-text">Choose Car Type...</span>
-                </template>
-              </template>
-              <template v-slot:no-option>
-                <q-item>
-                  <q-item-section class="text-grey">
-                    Please choose car model first.
-                  </q-item-section>
-                </q-item>
-              </template>
-            </q-select>
-          </div>
-          <q-separator vertical size="1px" />
-          <div class="col-md-7 p-20">
-            <div class="col-12 j-end d-flex a-center">
+              <q-tooltip
+                class="text-body2 txt-white bg-primary"
+                anchor="center left" self="center end" :offset="[10, 0]">
+                Edit Profile
+              </q-tooltip>
+            </q-btn>
+            <div v-else class="d-flex a-center q-gutter-x-md">
               <q-btn
-                @click="!help.isDataEmpty(jsonDataParam.carType) ? doFilterCarServices(true) : doNothing()"
-                icon="fas fa-pen" flat round
-                :class="['edit-pen-btn', {'edit-pen-btn-active' : !help.isDataEmpty(jsonDataParam.carType)}]"
-              >
-                <q-tooltip
-                  :class="['text-body2 txt-white', {'bg-info' : help.isDataEmpty(jsonDataParam.carType)}, {'bg-primary' : !help.isDataEmpty(jsonDataParam.carType)}]"
-                  anchor="center left" self="center end" :offset="[10, 0]">
-                  <q-icon v-if="help.isDataEmpty(jsonDataParam.carType)" name="fas fa-info-circle" />
-                  {{ help.isDataEmpty(jsonDataParam.carType) ? 'Choose car model and type first' : 'Edit Periodic & General Services' }}
-                </q-tooltip>
-              </q-btn>
+                v-if="isEditableWorkshop"
+                @click="isEditableWorkshop = false; doConsole('a', jsonDataParam.editWorkshopObject, workshopDetail); jsonDataParam.editWorkshopObject = {}; doConsole('b', jsonDataParam.editWorkshopObject, workshopDetail); jsonDataParam.editWorkshopObject = workshopDetail; doConsole('c', jsonDataParam.editWorkshopObject, workshopDetail)"
+                :loading="loader" unelevated rounded color="negative" label="Cancel Edit"
+                class="tf-capitalize ml-20 fs-12"
+              />
+              <q-btn
+                v-if="isEditableWorkshop"
+                :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
             </div>
-            <br/>
-            <div class="row">
-              <q-checkbox v-model="periodic" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">
-                <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
-                  Choose car model and type first
-                </q-tooltip>
-              </q-checkbox>
-              <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic && periodicServicesOptions">
-                <div class="auto-3" v-for="(service, index) in periodicServicesOptions" :key="'periodic-' + index">
-                  <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div :class="['no-logo-layout-4 m-auto', { 'm-auto' : help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo) && loader === false }]">
+                <img  v-if="!help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo)" class="m-auto" src="https://cdn.quasar.dev/img/mountains.jpg" alt="">
+                <span>No Logo</span>
+              </div>
+            </div>
+            <div class="col-md-3 px-10 q-col-gutter-y-sm">
+              <div class="fs-12">
+                <span class="">Workshop Name :</span>
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopName" dense outlined :disable="!isEditableWorkshop"/>
+              </div>
+              <div class="fs-12">
+                <span class="">Workshop Email :</span>
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopEmail" dense outlined :disable="!isEditableWorkshop" />
+              </div>
+              <div class="fs-12">
+                <span class="">Workshop Phone Number :</span>
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopPhoneNumber" dense outlined :disable="!isEditableWorkshop"/>
+              </div>
+            </div>
+            <div class="col-md-3 px-10 q-col-gutter-y-sm">
+              <div class="fs-12">
+                <span class="">District :</span>
+                <q-input  v-model="jsonDataParam.editWorkshopObject.district" dense outlined :disable="!isEditableWorkshop"/>
+              </div>
+              <div class="fs-12">
+                <span class="">City :</span>
+                <q-input v-model="jsonDataParam.editWorkshopObject.city" dense outlined :disable="!isEditableWorkshop"/>
+              </div>
+              <div class="fs-12">
+                <span class="">Province :</span>
+                <q-input v-model="jsonDataParam.editWorkshopObject.province" dense outlined :disable="!isEditableWorkshop"/>
+              </div>
+            </div>
+            <div class="col-md-3 px-10 q-col-gutter-y-sm">
+              <div class="fs-12">
+                <span class="">Latitude :</span>
+                <q-input v-model="jsonDataParam.editWorkshopObject.latitude" dense outlined :disable="!isEditableWorkshop"/>
+              </div>
+              <div class="fs-12">
+                <span class="">Longitude :</span>
+                <q-input v-model="jsonDataParam.editWorkshopObject.longitude" dense outlined :disable="!isEditableWorkshop"/>
+              </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-6 pr-10">
+              <div class="fs-12">
+                <span class="">Workshop Address :</span>
+                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopAddress" outlined type="textarea" :disable="!isEditableWorkshop"/>
+              </div>
+            </div>
+            <div class="col-md-6 pl-10">
+              <div class="fs-12">
+                <span class="">Workshop Description :</span>
+                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopDescription" outlined type="textarea" :disable="!isEditableWorkshop"/>
+              </div>
+            </div>
+          </div>
+        </q-tab-panel>
+        <q-tab-panel name="services">
+          <div class="text-h6 fw-semibold">Car Specification and Services</div>
+          <div class="row">
+            <div class="row col-md-4 p-20">
+              <div class="col-12 j-sp-between a-center mb-20">
+                <div class="text-subtitle2">Car Model and Type</div>
+                <q-btn
+                  @click="doFilterCarModelAndType(true)"
+                  icon="fas fa-pen" flat round
+                  class="edit-pen-btn edit-pen-btn-active"
+                >
+                  <q-tooltip
+                    class="text-body2 txt-white bg-primary"
+                    anchor="center left" self="center end" :offset="[10, 0]">
+                    Edit Car Model & Type
+                  </q-tooltip>
+                </q-btn>
+              </div>
+              <q-select
+                @update:model-value="doFilterCarType($event)"
+                v-model="jsonDataParam.carModel"
+                :options="carModelOptions"
+                outlined
+                class="br-10px default-select-2 w-80 mr-auto mb-20"
+              >
+                <template v-slot:selected>
+                  <template v-if="jsonDataParam.carModel">
+                    {{ jsonDataParam.carModel }}
+                  </template>
+                  <template v-else>
+                    <span class="placeholder-text">Choose Car Model...</span>
+                  </template>
+                </template>
+              </q-select>
+              <q-select
+                @update:model-value="doGetCarServices($event)"
+                v-model="jsonDataParam.carType"
+                :options="carTypeOptions"
+                outlined
+                class="br-10px default-select-2 w-80 mr-auto mb-20"
+              >
+                <template v-slot:selected>
+                  <template v-if="jsonDataParam.carType">
+                    {{ jsonDataParam.carType }}
+                  </template>
+                  <template v-else>
+                    <span class="placeholder-text">Choose Car Type...</span>
+                  </template>
+                </template>
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey">
+                      Please choose car model first.
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <div class="col-md-8 p-20">
+              <div class="col-12 j-sp-between a-center mb-20">
+                <div class="text-subtitle2">Car Services</div>
+                <q-btn
+                  @click="!help.isDataEmpty(jsonDataParam.carType) ? doFilterCarServices(true) : doNothing()"
+                  icon="fas fa-pen" flat round
+                  :class="['edit-pen-btn', {'edit-pen-btn-active' : !help.isDataEmpty(jsonDataParam.carType)}]"
+                >
+                  <q-tooltip
+                    :class="['text-body2 txt-white', {'bg-info' : help.isDataEmpty(jsonDataParam.carType)}, {'bg-primary' : !help.isDataEmpty(jsonDataParam.carType)}]"
+                    anchor="center left" self="center end" :offset="[10, 0]">
+                    <q-icon v-if="help.isDataEmpty(jsonDataParam.carType)" name="fas fa-info-circle" />
+                    {{ help.isDataEmpty(jsonDataParam.carType) ? 'Choose car model and type first' : 'Edit Periodic & General Services' }}
+                  </q-tooltip>
+                </q-btn>
+              </div>
+              <div class="row">
+                <q-checkbox v-model="periodic" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">
+                  <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
+                    Choose car model and type first
+                  </q-tooltip>
+                </q-checkbox>
+                <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic && periodicServicesOptions">
+                  <div class="auto-3" v-for="(service, index) in periodicServicesOptions" :key="'periodic-' + index">
+                    <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
+                  </div>
+                </div>
+                <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="periodic && help.isObjectEmpty(periodicServicesOptions)">
+                  No periodic service listed
                 </div>
               </div>
-              <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="periodic && help.isObjectEmpty(periodicServicesOptions)">
-                No periodic service listed
-              </div>
-            </div>
-            <br/>
-            <div class="row">
-              <q-checkbox v-model="general" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="General Services" :class="['fw-lightbold fs-20']">
-                <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
-                  Choose car model and type first
-                </q-tooltip>
-              </q-checkbox>
-              <div class="row col-12 ml-40 mt-10 gap-1" v-if="general && !help.isObjectEmpty(generalServicesOptions)">
-                <div class="auto-3" v-for="(service, index) in generalServicesOptions" :key="'general-' + index">
-                  <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
+              <br/>
+              <div class="row">
+                <q-checkbox v-model="general" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="General Services" :class="['fw-lightbold fs-20']">
+                  <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
+                    Choose car model and type first
+                  </q-tooltip>
+                </q-checkbox>
+                <div class="row col-12 ml-40 mt-10 gap-1" v-if="general && !help.isObjectEmpty(generalServicesOptions)">
+                  <div class="auto-3" v-for="(service, index) in generalServicesOptions" :key="'general-' + index">
+                    <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="general && help.isObjectEmpty(generalServicesOptions)">
-                No general service listed
+                <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="general && help.isObjectEmpty(generalServicesOptions)">
+                  No general service listed
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </q-tab-panel>
+      </q-tab-panels>
+    </q-card>
     <q-dialog v-model="dialogEditCarTypeAndModel" persistent class="edit-car-typemodel-dialog">
       <q-card>
         <q-card-section class="p-0">
@@ -510,6 +523,8 @@ export default {
       ],
       user: {},
       showError: false,
+      loader: false,
+      workshopTab: 'workshop',
       accessToken: null,
       dialogEditCarServices: false,
       dialogEditCarTypeAndModel: false,
@@ -536,6 +551,7 @@ export default {
         serviceTypeBerkala: [],
         serviceTypeUmum: [],
         carTypeValue: null,
+        editWorkshopObject: {}
       },
       jsonDataParamTable: {
         iPage: 1,
@@ -559,6 +575,7 @@ export default {
         _this.workshopDetail = response.data.objectReturn
         // loopingan data servis
         _this.doClearDataV2()
+        _this.jsonDataParam.editWorkshopObject = _this.workshopDetail
         _this.workshopDetail.workshop_details.forEach(el1 => {
             let tempArr = []
             //for car model option
@@ -602,6 +619,14 @@ export default {
         console.log(err)
         _this.loader = false
       })
+    },
+    doFilterEditWorkshop () {
+      let _this = this
+      _this.isEditableWorkshop = false
+      _this.jsonDataParam.editWorkshopObject = {}
+      // _this.workshopDetail = _this.jsonDataParam.editWorkshopObject
+      _this.jsonDataParam.editWorkshopObject = _this.workshopDetail
+      console.log(_this.jsonDataParam.editWorkshopObject, _this.workshopDetail)
     },
     doFilterCarType (val) {
       this.doClearData()
@@ -1140,6 +1165,7 @@ export default {
       this.carModelAndType = []
       this.tempCarTypeOptions = []
       this.newCarModelAndType = []
+      this.jsonDataParam.editWorkshopObject = {}
     },
     doClearData () {
       this.carTypeOptions = []
