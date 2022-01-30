@@ -117,7 +117,7 @@ class ScheduleController extends Controller
                 foreach($req->serviceTypeUmum as $key=>$value){
                 $newscheduledetail = new ScheduleDetail;
                 $newscheduledetail -> scheduleID = $idSchedule;
-                $newscheduledetail ->serviceType = 'service umum';
+                $newscheduledetail ->serviceType = 'servis umum';
                 $newscheduledetail ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
                 $newscheduledetail->save();
                 // kolo pake jobs
@@ -128,7 +128,7 @@ class ScheduleController extends Controller
                 foreach($req->serviceTypeBerkala as $key => $value){
                     $newscheduledetail = new ScheduleDetail;
                     $newscheduledetail -> scheduleID = $idSchedule;
-                    $newscheduledetail ->serviceType = 'service berkala';
+                    $newscheduledetail ->serviceType = 'servis berkala';
                     $newscheduledetail ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
                     $newscheduledetail->save();
                     //kolo pake jobs

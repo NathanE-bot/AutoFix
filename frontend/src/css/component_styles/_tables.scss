@@ -96,6 +96,21 @@
       font-size: 16px;
       font-weight: 600;
     }
+    th:not(:first-child){
+      text-align: left;
+    }
+  }
+}
+
+.edit-car-services-table{
+  @extend %my-sticky-dynamic;
+  min-height: 480px;
+  max-height: 480px;
+  .q-table{
+    th{
+      font-size: 16px;
+      font-weight: 600;
+    }
   }
 }
 

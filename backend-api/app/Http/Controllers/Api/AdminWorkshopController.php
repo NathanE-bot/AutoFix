@@ -607,7 +607,7 @@ class AdminWorkshopController extends Controller
                 }
                 $addServiceUmum = new WorkshopService;
                 $addServiceUmum ->workshopDetailID = $req->serviceTypeUmum[$key]['workshopDetailID'];
-                $addServiceUmum ->serviceType = 'service umum';
+                $addServiceUmum ->serviceType = 'servis umum';
                 $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
                 $addServiceUmum ->price = $req->serviceTypeUmum[$key]['price'];
                 $addServiceUmum ->time = $req->serviceTypeUmum[$key]['time'];
@@ -615,7 +615,7 @@ class AdminWorkshopController extends Controller
                 }
             }
             else{
-                return response()->json(['message'=>'data error'], 200, $headers);
+                return response()->json(['message'=>'data error'], 200);
             }
 
 
@@ -630,7 +630,7 @@ class AdminWorkshopController extends Controller
                 }
                 $addServiceBerkala = new WorkshopService;
                 $addServiceBerkala ->workshopDetailID = $req->serviceTypeBerkala[$key]['workshopDetailID'];
-                $addServiceBerkala ->serviceType = 'service berkala';
+                $addServiceBerkala ->serviceType = 'servis berkala';
                 $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
                 $addServiceBerkala ->price = $req->serviceTypeBerkala[$key]['price'];
                 $addServiceBerkala ->time = $req->serviceTypeBerkala[$key]['time'];
@@ -640,7 +640,7 @@ class AdminWorkshopController extends Controller
                 }
             }
             else{
-                return response()->json(['message'=>'data error'], 200, $headers);
+                return response()->json(['message'=>'data error'], 200);
             }
             return response()->json([
                 'messageAll' => 'Successfully add car services',

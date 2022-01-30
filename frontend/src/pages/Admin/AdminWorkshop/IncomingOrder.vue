@@ -189,7 +189,7 @@ export default {
 
                     tempListServiceDetails.forEach(el2 => {
                         if(el2.scheduleID === el1.scheduleID){
-                            if(el2.serviceType === 'service umum'){
+                            if(el2.serviceType === 'servis umum'){
                                 tempObject.serviceDetail.generalServices.push(el2)
                             }else{
                                 tempObject.serviceDetail.periodicService = el2

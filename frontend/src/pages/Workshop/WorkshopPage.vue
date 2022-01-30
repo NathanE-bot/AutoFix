@@ -678,9 +678,9 @@ export default {
         getWorkshopById(_this.clickedId).then(response => {
           _this.workshopById.defaultData = response.data
           _this.workshopById.defaultData.workshop_services.forEach(el1 => {
-            if(el1.serviceType == 'Servis Berkala'){
+            if(el1.serviceType == 'servis berkala'){
               _this.workshopById.servisBerkala.push(el1)
-            } else if (el1.serviceType == 'Servis umum') {
+            } else if (el1.serviceType == 'servis umum') {
               _this.workshopById.servisUmum.push(el1)
             }
           })
