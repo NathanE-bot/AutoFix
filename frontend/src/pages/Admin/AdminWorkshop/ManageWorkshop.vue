@@ -324,41 +324,41 @@
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input class="input-bold" dense readonly borderless v-model="props.row.serviceDetail" />
+                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input class="input-bold" dense readonly borderless v-model="props.row.price" />
+                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <div class="row">
-                    <q-input class="input-bold col" dense readonly borderless v-model="props.row.time" />
-                  </div>
+                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
+                    @click="doDeleteWorkshopServices(props.row, props.row.index)"
                     :disabled="periodicServicesForms.length == 1 && props.row.index == 0"
                     label="Remove" flat rounded color="negative"
-                    class="tf-capitalize col"
+                    class="tf-capitalize"
                   />
                 </q-td>
               </q-tr>
               <q-tr v-else class="vertical-top">
                 <q-td key="index" :props="props">
                   <div class="d-flex a-center j-start ml-10" style="min-height:40px">
-                    <span class="fw-semibold">{{ props.row.index + 1 }}</span>
+                    <span>{{ props.row.index + 1 }}</span>
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input class="input-bold" dense v-model="props.row.serviceDetail" />
+                  <q-input dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input class="input-bold" dense v-model="props.row.price" />
+                  <q-input dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input class="input-bold" dense v-model="props.row.time" />
+                  <q-input dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
+                    @click="doDeleteWorkshopServices(props.row, props.row.index)"
                     :disabled="periodicServicesForms.length == 1 && props.row.index == 0"
                     label="Remove" flat rounded color="negative"
                     class="tf-capitalize col"
@@ -384,13 +384,13 @@
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input dense v-model="props.row.serviceDetail" />
+                  <q-input dense v-model="props.row.serviceDetail" :error="help.isDataEmpty(props.row.serviceDetail) && showError" />
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input dense v-model="props.row.price" />
+                  <q-input dense v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError" />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input dense v-model="props.row.time" />
+                  <q-input dense v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError" />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
@@ -436,7 +436,8 @@ import {
   addNewWorkshopDetail, 
   deleteCarType, 
   deleteCarModel,
-  addWorkshopService
+  addWorkshopService,
+  deleteWorkshopServiceByID
 } from '../../../api/AdminWorkshopServices'
 import help from '../../../js/help'
 import ValidationFunction from '../../../js/ValidationFunction'
@@ -498,7 +499,8 @@ export default {
         carType: null,
         workshopDetailID: null,
         serviceTypeBerkala: [],
-        serviceTypeUmum: []
+        serviceTypeUmum: [],
+        carTypeValue: null,
       },
       jsonDataParamTable: {
         iPage: 1,
@@ -511,10 +513,10 @@ export default {
   created () {
     this.user = Auth.getUserDetails()
     this.accessToken = Auth.getAccessToken()
-    this.doGetWorkshopDetailByUserID()
+    this.doGetWorkshopDetailByUserID(false, false)
   },
   methods: {
-    doGetWorkshopDetailByUserID (fromDelete) {
+    doGetWorkshopDetailByUserID (deleteCarSpec, deleteCarServ) {
       let _this = this
       this.loader = true
       getWorkshopDetailByUserID(_this.user.id).then(response => {
@@ -556,8 +558,10 @@ export default {
         _this.carModelOptions = ValidationFunction.arrayFilterWithSet(_this.carModelOptions)
         _this.loader = false
       }) .finally(() => {
-        if(fromDelete){
+        if(deleteCarSpec){
           _this.doFilterCarModelAndType(false)
+        } else if (deleteCarServ){
+          _this.doGetCarServices(_this.jsonDataParam.carTypeValue, true)
         }
       }) .catch((err) =>{
         console.log(err)
@@ -575,10 +579,12 @@ export default {
         this.carTypeOptions.push(tempString)
       })
     },
-    doGetCarServices(val){
+    doGetCarServices(val, fromRemove){
       // get car model n type id
       this.generalServicesOptions = []
+      this.periodicServicesOptions = []
       let selectedCarType = []
+      this.jsonDataParam.carTypeValue = val
       const needle1 = val.toLocaleLowerCase()
       selectedCarType = this.workshopDetail.workshop_details.filter(v => v.carType.toLocaleLowerCase().indexOf(needle1) > -1)[0]
       this.jsonDataParam.workshopID = selectedCarType.workshopID
@@ -593,7 +599,10 @@ export default {
       // Periodic
       tempArrPeriodic = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis berkala') > -1)
       tempArrPeriodic.forEach(el1 => {
+        console.log(el1)
         let tempObj = {
+          serviceID: el1.id,
+          serviceType: el1.serviceType,
           workshopID: el1.workshopID,
           workshopDetailID: el1.workshopDetailID,
           serviceDetail: el1.serviceDetail,
@@ -607,6 +616,8 @@ export default {
       tempArrGeneral = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis umum') > -1)
       tempArrGeneral.forEach(el1 => {
         let tempObj1 = {
+          serviceID: el1.id,
+          serviceType: el1.serviceType,
           workshopID: el1.workshopID,
           workshopDetailID: el1.workshopDetailID,
           serviceDetail: el1.serviceDetail,
@@ -616,11 +627,14 @@ export default {
         this.generalServicesOptions.push(tempObj1)
       })
       console.log(this.periodicServicesOptions, this.generalServicesOptions)
+      if(fromRemove){
+        this.doFilterCarServices(false)
+      }
     },
     doFilterCarModelAndType (fromButton) {
       let _this = this
       if(fromButton){
-         _this.dialogEditCarTypeAndModel = true
+        _this.dialogEditCarTypeAndModel = true
         _this.editCarLoader = true
       }
       _this.carModelAndType = []
@@ -704,9 +718,9 @@ export default {
             _this.showError = false
             // _this.dialogEditCarTypeAndModel = false
             if(!help.isObjectEmpty(tempArrBackendFormat)){
-              _this.doGetWorkshopDetailByUserID(true)
+              _this.doGetWorkshopDetailByUserID(true, false)
             } else {
-              _this.doGetWorkshopDetailByUserID(true)
+              _this.doGetWorkshopDetailByUserID(true, false)
             }
           })
         }) .catch((error) => {
@@ -735,7 +749,7 @@ export default {
             _this.showError = false
             // _this.dialogEditCarTypeAndModel = false
             if(!edited){
-              _this.doGetWorkshopDetailByUserID(true)
+              _this.doGetWorkshopDetailByUserID(true, false)
             }
           })
         }) .catch((error) => {
@@ -801,7 +815,7 @@ export default {
           title: 'Success',
           text: response.data.message
         }) .then(() => {
-          _this.doGetWorkshopDetailByUserID(true)
+          _this.doGetWorkshopDetailByUserID(true, false)
           _this.editCarLoader = false
         })
       }) .catch((error) => {
@@ -826,7 +840,7 @@ export default {
           title: 'Success',
           text: response.data.message
         }) .then(() => {
-          _this.doGetWorkshopDetailByUserID(true)
+          _this.doGetWorkshopDetailByUserID(true, false)
           _this.editCarLoader = false
         })
       }) .catch((error) => {
@@ -847,13 +861,14 @@ export default {
       }
       _this.periodicServicesForms = []
       _this.generalServicesForms = []
-      console.log(_this.periodicServicesOptions)
       _this.periodicServicesOptions.forEach((el1, index) => { // Periodic services
         let tempObj = {
           index: index,
+          serviceID: el1.serviceID,
           workshopID: el1.workshopID,
           workshopDetailID: el1.workshopDetailID,
           serviceDetail: el1.serviceDetail,
+          serviceType: el1.serviceType,
           price: el1.price,
           time: el1.time,
           action: null
@@ -863,22 +878,27 @@ export default {
       _this.generalServicesOptions.forEach((el1, index) => { // General services
         let tempObj = {
           index: index,
+          serviceID: el1.serviceID,
           workshopID: el1.workshopID,
           workshopDetailID: el1.workshopDetailID,
           serviceDetail: el1.serviceDetail,
+          serviceType: el1.serviceType,
           price: el1.price,
           time: el1.time,
           action: null
         }
         _this.generalServicesForms.push(tempObj)
       })
+      console.log('halo mas', _this.periodicServicesForms)
     },
     // PERIODIC SERVICES
     doAddNewCarPeriodicService () { // buat tampilan
       let tempObj = {
         index: this.periodicServicesForms.length,
+        serviceID: null,
         workshopID: this.jsonDataParam.workshopID,
         workshopDetailID: this.jsonDataParam.workshopDetailID,
+        serviceType: 'servis berkala',
         id: '#1',
         serviceDetail: null,
         price: null,
@@ -892,8 +912,10 @@ export default {
     doAddNewCarGeneralService () { // buat tampilan
       let tempObj = {
         index: this.generalServicesForms.length,
+        serviceID: null,
         workshopID: this.jsonDataParam.workshopID,
         workshopDetailID: this.jsonDataParam.workshopDetailID,
+        serviceType: 'servis umum',
         id: '#1',
         serviceDetail: null,
         price: null,
@@ -904,7 +926,6 @@ export default {
       this.generalServicesForms.push(tempObj)
     },
     doUpdateWorkshopServices () {
-      console.log('here')
       let _this = this
       let edited = false
       let tempBackendFormat = {
@@ -928,7 +949,7 @@ export default {
       //   delete tempBackendFormat.serviceTypeUmum
       // }
       console.log(tempBackendFormat)
-      if(!help.isObjectEmpty(tempBackendFormat)){
+      if(!help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala) || !help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala)){
         console.log('masuk')
         addWorkshopService(tempBackendFormat, _this.accessToken).then(response => {
           Swal.fire({
@@ -939,7 +960,7 @@ export default {
             _this.showError = false
             // _this.dialogEditCarTypeAndModel = false
             if(!edited){
-              _this.doGetWorkshopDetailByUserID(true)
+              _this.doGetWorkshopDetailByUserID(false, true)
             }
           })
         }) .catch((error) => {
@@ -953,7 +974,27 @@ export default {
             })
           }
         })
+      } else {
+        console.log('gaada')
       }
+    },
+    doDeleteWorkshopServices (item, index) {
+      if(item.id == '#1' && item.serviceType == 'servis berkala'){
+        this.periodicServicesForms.splice(index, 1)
+        this.periodicServicesForms.forEach((el1, index) => { // buat sort ulang index q-table
+          el1.index = index
+        })
+      } else if (item.id == '#1' && item.serviceType == 'servis umum') {
+        this.generalServicesForms.splice(index, 1)
+        this.generalServicesForms.forEach((el1, index) => { // buat sort ulang index q-table
+          el1.index = index
+        })
+      } else if (help.isDataEmpty(item.id)){
+        this.doDeleteWorkshopServiceByID(item)
+      }
+    },
+    doDeleteWorkshopServiceByID (item) {
+      console.log('yeet', item)
     },
     doClearDataV2 () {
       this.carModelOptions = []
@@ -968,6 +1009,7 @@ export default {
       this.jsonDataParam.carType = null
       this.jsonDataParam.workshopDetailID = null
       this.jsonDataParam.workshopID = null
+      this.jsonDataParam.carTypeValue = null
       this.generalServicesOptions = []
       this.periodicServicesOptions = []
       this.generalServicesForms = []
