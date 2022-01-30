@@ -64,8 +64,16 @@ class AdminInsuranceController extends Controller
             ->update(['insuranceDescription'=>$req->insuranceDescription,
                     'insuranceStatus','=','Approved']);
 
-
-            return response()->json($scheduleDetail, 200);
+            $dataUserID=DB::table('insurances')
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->where('id','=',$req->insuranceID)->first();
+            $newNotification = new Notification;
+            $newNotification->userID = $dataUserID->userID;
+            $newNotification->senderName = 'System';
+            $newNotification->description = 'Your Schedule Have Been Accepted By'.$dataUserID->InsuranceName.'please see you history in profile menu or Contact The admin If you have any question.';
+            $newNotification->notificationTime = Carbon::now();
+            $newNotification->save();
+            return response()->json(['message'=>'berhasil'], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
@@ -146,7 +154,15 @@ class AdminInsuranceController extends Controller
             ->update(['insuranceDescription'=>$req->insuranceDescription,
                     'insuranceStatus','=','Rejected']);
 
-
+            $dataUserID=DB::table('insurances')
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->where('id','=',$req->insuranceID)->first();
+            $newNotification = new Notification;
+            $newNotification->userID = $dataUserID->userID;
+            $newNotification->senderName = 'System';
+            $newNotification->description = 'Your Schedule Have Been Rejected By'.$dataUserID->InsuranceName.'please see you history in profile menu or Contact The admin If you have any question.';
+            $newNotification->notificationTime = Carbon::now();
+            $newNotification->save();
             return response()->json($scheduleDetail, 200);
         } catch (Exception $err){
             return response()->json($err, 500);

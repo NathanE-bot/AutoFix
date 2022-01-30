@@ -182,7 +182,13 @@ class AdminWorkshopController extends Controller
         $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','accepted')
         ->update(['scheduleStatus'=>'cancelled',
         'description'=>$req->description]);
-
+        $dataUserID=DB::table('schedules')->where('id','=',$req->scheduleID)->first();
+        $newNotification = new Notification;
+        $newNotification->userID = $dataUserID->userID;
+        $newNotification->senderName = 'System';
+        $newNotification->description = 'Your Schedule Have Been Cancle By'.$dataUserID->workshopName.'please see you history in profile menu or Contact The admin If you have any question.';
+        $newNotification->notificationTime = Carbon::now();
+        $newNotification->save();
         return response()->json([
             'scheduleID' => $req->scheduleID,
             'message' => 'Order Cancelled'
@@ -287,8 +293,8 @@ class AdminWorkshopController extends Controller
         //     'workshopPicture' => 'image|file|max:2048'
         // ]);
         $validator = Validator::make($req->all(), [
-            'workshop_pictures.idWorkshopPicture'=>'required',
-            'workshop_pictures.workshopPicture' => 'image|file|max:2048'
+            'workshop_pictures.*.idWorkshopPicture'=>'required',
+            'workshop_pictures.*.workshopPicture' => 'image|file|max:2048'
         ]);
 
         if ($validator->fails()) {
@@ -331,7 +337,7 @@ class AdminWorkshopController extends Controller
                     $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
                     $dataUser = DB::table('workshop_pictures')
-                    ->where('id','=',$req->workshopID)
+                    ->where('workshopID','=',$req->workshopID)
                     ->where('id','=',$req->workshop_pictures[$key]['idWorkshopPicture'])
                     ->update(['workshopPicture' => $imagePath]);
                 }
@@ -541,8 +547,8 @@ class AdminWorkshopController extends Controller
     public function addNewWorkshopDetail(Request $req){
         try {
             $validator = Validator::make($req->all(), [
-                'workshopDetail.carModel.*' => ['required', 'string', 'max:255'],
-                'workshopDetail.carType.*' => ['required', 'string', 'max:255'],
+                'workshopDetail.*.carModel' => ['required', 'string', 'max:255'],
+                'workshopDetail.*.carType' => ['required', 'string', 'max:255'],
             ]);
 
             if ($validator->fails()) {
@@ -554,15 +560,6 @@ class AdminWorkshopController extends Controller
 
             foreach ($req->workshopDetail as $key => $value)
             {
-                if(!isset($req->workshopDetail[$key]['carType']) || !isset($req->workshopDetail[$key]['carModel'])){
-                    return response()->json([
-                        'errorCarType' => !isset($req->workshopDetail[$key]['carType']),
-                        'errorCarModel' => !isset($req->workshopDetail[$key]['carModel']),
-                        'messageCarType'=>'Car type is required',
-                        'messageCarModel'=>'Car model is required',
-                        'message'=>'Field input is required',
-                    ], 401);
-                }
                 $newAdminWorkshopDetail = new WorkshopDetail;
                 $newAdminWorkshopDetail->workshopID = $req->workshopID;
                 $newAdminWorkshopDetail->carModel = $req->workshopDetail[$key]['carModel'];
@@ -582,12 +579,32 @@ class AdminWorkshopController extends Controller
 
     public function addWorkshopService(Request $req){
         try {
-            $validator = Validator::make($req->all(), [
-                'serviceTypeUmum.serviceDetail.*' => ['required', 'string', 'max:255'],
-                'serviceTypeBerkala.serviceDetail.*' => ['required', 'string', 'max:255'],
-                'serviceTypeBerkala.price.*' => ['required', 'numeric', 'max:255'],
-                'serviceTypeBerkala.time.*' => ['required', 'numeric', 'max:10'],
-            ]);
+            if(!empty($req->serviceTypeUmum)&&!empty($req->serviceTypeBerkala)){
+                $validator = Validator::make($req->all(), [
+                    'serviceTypeUmum.*.serviceDetail' => ['required', 'string', 'max:255'],
+                    'serviceTypeUmum.*.price' => ['required', 'integer', 'max:255'],
+                    'serviceTypeUmum.*.time' => ['required', 'integer', 'max:10'],
+                    'serviceTypeBerkala.*.serviceDetail' => ['required', 'string', 'max:255'],
+                    'serviceTypeBerkala.*.price' => ['required', 'integer', 'max:1000000000'],
+                    'serviceTypeBerkala.*.time' => ['required', 'integer', 'max:10'],
+                ]);
+            }
+            else if(!empty($req->serviceTypeUmum)){
+                $validator = Validator::make($req->all(), [
+                    'serviceTypeUmum.*.serviceDetail' => ['required', 'string', 'max:255'],
+                    'serviceTypeUmum.*.price' => ['required', 'integer', 'max:1000000000'],
+                    'serviceTypeUmum.*.time' => ['required', 'integer', 'max:10'],
+                ]);
+
+            }
+            else if(!empty($req->serviceTypeBerkala)){
+                $validator = Validator::make($req->all(), [
+                    'serviceTypeBerkala.*.serviceDetail' => ['required', 'string', 'max:255'],
+                    'serviceTypeBerkala.*.price' => ['required', 'integer', 'max:1000000000'],
+                    'serviceTypeBerkala.*.time' => ['required', 'integer', 'max:10'],
+                ]);
+            }
+
 
             if ($validator->fails()) {
                 return response()->json([

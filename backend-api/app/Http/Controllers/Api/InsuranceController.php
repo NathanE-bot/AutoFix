@@ -73,7 +73,7 @@ class InsuranceController extends Controller
             'chronology'=>['required', 'string', 'max:255'],
             'incidentStatus'=>['required', 'string'],
             'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'string', 'max:255'],
-            // 'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
+            'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
             'documentationInsuranceName.*'=> ['required|string|max:255'],
         ]);
 
@@ -111,29 +111,30 @@ class InsuranceController extends Controller
         $dataInsurance->insuranceStatus = 'on progress';
         $dataInsurance->submitDate = $dateNow;
         $dataInsurance->save();
-
         if ($req->has('documentationPicture'))
         {
+            // $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
             foreach ($req->file('documentationPicture') as $key => $file)
             {
-                $ext = strtolower($file->getClientOriginalExtension());
-                $image = \Storage::dics('public')->put($req->documentationInsuranceName[$key]+$req->userID+'.'+$ext, $file); // your image path
-                $path = '\public\$req->documentationInsuranceName[$key]+$req->userID+'.'+$ext';
+                // foreach ($dataDocumentInsurance as $key => $value) {
+                    $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName[$key]);
+                    $ext = $file->getClientOriginalExtension();
+                    $path = $file->storeAs('avatar', strtolower($fullNameTemp.$value->id.$key.'.'.$ext), 'public');
+                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-                $insuranceDocumentation = new DocumentationInsurance;
-                $insuranceDocumentation->insuranceID = $dataInsurance->id;
-                $insuranceDocumentation->documentationPicture = $path;
-                $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
-                $insuranceDocumentation->save();
+                    // $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
+                    // ->update(['profilePicture' => $imagePath]);
+                    $insuranceDocumentation = new DocumentationInsurance;
+                    $insuranceDocumentation->insuranceID = $dataInsurance->id;
+                    $insuranceDocumentation->documentationPicture = $imagePath;
+                    $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
+                    $insuranceDocumentation->save();
+                // }
             }
-
-            // $fileNameToStore = serialize($documentationPicture);
         }
         else
         {
-            return response()->json([
-                'message' => 'Image not found'
-            ], 401);
+            return response()->json('image not found', 400);
         }
         date_default_timezone_set('Asia/Jakarta');
         $mytime = new DateTime('now');
@@ -158,21 +159,27 @@ class InsuranceController extends Controller
 
     //     $validator = Validator::make($req->all(), [
     //         'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
+    //         'documentationInsuranceName.*'=> ['required|string|max:255'],
     //     ]);
 
     //     if ($req->has('documentationPicture'))
     //     {
-    //         $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
+    //         // $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
     //         foreach ($req->file('documentationPicture') as $key => $file)
     //         {
     //             foreach ($dataDocumentInsurance as $key => $value) {
-    //                 $fullNameTemp = str_replace(' ', '', $value->documentationInsuranceName);
+    //                 $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName[$key]);
     //                 $ext = $file->getClientOriginalExtension();
     //                 $path = $file->storeAs('avatar', strtolower($fullNameTemp.$value->id.$key.'.'.$ext), 'public');
     //                 $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-    //                 $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
-    //                 ->update(['profilePicture' => $imagePath]);
+    //                 // $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
+    //                 // ->update(['profilePicture' => $imagePath]);
+    //                 $insuranceDocumentation = new DocumentationInsurance;
+    //                 $insuranceDocumentation->insuranceID = $dataInsurance->id;
+    //                 $insuranceDocumentation->documentationPicture = $imagePath;
+    //                 $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
+    //                 $insuranceDocumentation->save();
     //             }
     //         }
     //     }
