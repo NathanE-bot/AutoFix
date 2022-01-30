@@ -17,6 +17,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Schedule;
 use App\ScheduleDetail;
+use App\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class AdminInsuranceController extends Controller
@@ -157,6 +158,7 @@ class AdminInsuranceController extends Controller
             $dataUserID=DB::table('insurances')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->where('id','=',$req->insuranceID)->first();
+
             $newNotification = new Notification;
             $newNotification->userID = $dataUserID->userID;
             $newNotification->senderName = 'System';
