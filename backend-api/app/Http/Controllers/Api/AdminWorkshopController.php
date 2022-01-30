@@ -570,8 +570,8 @@ class AdminWorkshopController extends Controller
 
     public function addWorkshopService(Request $req){
         $validator = Validator::make($req->all(), [
-            'serviceTypeUmum.*' => ['required', 'string', 'max:255'],
-            'serviceTypeBerkala.*' => ['required', 'string', 'max:255'],
+            'serviceTypeUmum.serviceDetail.*' => ['required', 'string', 'max:255'],
+            'serviceTypeBerkala.serviceDetail.*' => ['required', 'string', 'max:255'],
 
         ]);
 
@@ -594,6 +594,7 @@ class AdminWorkshopController extends Controller
                 foreach($req->serviceTypeUmum as $key=>$value){
                 $addServiceUmum = new ScheduleDetail;
                 $addServiceUmum ->workshopDetailID = $req->workshopDetailID;
+                $addServiceUmum ->workshopID = $req->workshopID;
                 $addServiceUmum ->serviceType = 'service umum';
                 $addServiceUmum ->serviceDetail = $req->serviceTypeUmum[$key]['serviceDetail'];
                 $addServiceUmum ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
@@ -607,6 +608,7 @@ class AdminWorkshopController extends Controller
                 foreach($req->serviceTypeUmum as $key=>$value){
                 $addServiceBerkala = new ScheduleDetail;
                 $addServiceBerkala ->workshopDetailID = $req->workshopDetailID;
+                $addServiceBerkala ->workshopID = $req->workshopID;
                 $addServiceBerkala ->serviceType = 'service umum';
                 $addServiceBerkala ->serviceDetail = $req->serviceTypeBerkala[$key]['serviceDetail'];
                 $addServiceBerkala ->price = $req->serviceTypeUmum[$key]['estimasiHarga'];
