@@ -605,7 +605,7 @@ class AdminWorkshopController extends Controller
                         'message'=>'Field input is required',
                     ], 401);
                 }
-                $addServiceUmum = new ScheduleDetail;
+                $addServiceUmum = new WorkshopService;
                 $addServiceUmum ->workshopDetailID = $req->serviceTypeUmum[$key]['workshopDetailID'];
                 $addServiceUmum ->workshopID = $req->serviceTypeUmum[$key]['workshopID'];
                 $addServiceUmum ->serviceType = 'service umum';
@@ -628,7 +628,7 @@ class AdminWorkshopController extends Controller
                         'message'=>'Field input is required',
                     ], 401);
                 }
-                $addServiceBerkala = new ScheduleDetail;
+                $addServiceBerkala = new WorkshopService;
                 $addServiceBerkala ->workshopDetailID = $req->serviceTypeBerkala[$key]['workshopDetailID'];
                 $addServiceBerkala ->workshopID = $req->serviceTypeBerkala[$key]['workshopID'];
                 $addServiceBerkala ->serviceType = 'service berkala';
