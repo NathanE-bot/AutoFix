@@ -18,6 +18,7 @@
                v-if="!isEditableWorkshop"
               @click="isEditableWorkshop = true"
               icon="fas fa-pen" flat round
+              :loading="loader"
               class="edit-pen-btn edit-pen-btn-active"
             >
               <q-tooltip
@@ -29,58 +30,74 @@
             <div v-else class="d-flex a-center q-gutter-x-md">
               <q-btn
                 v-if="isEditableWorkshop"
-                @click="isEditableWorkshop = false; doConsole('a', jsonDataParam.editWorkshopObject, workshopDetail); jsonDataParam.editWorkshopObject = {}; doConsole('b', jsonDataParam.editWorkshopObject, workshopDetail); jsonDataParam.editWorkshopObject = workshopDetail; doConsole('c', jsonDataParam.editWorkshopObject, workshopDetail)"
+                @click="isEditableWorkshop = false; doGetWorkshopDetailByUserID(false, false)"
                 :loading="loader" unelevated rounded color="negative" label="Cancel Edit"
                 class="tf-capitalize ml-20 fs-12"
               />
               <q-btn
                 v-if="isEditableWorkshop"
+                @click="doUpdateWorkshopDetails()"
                 :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
             </div>
           </div>
           <div class="row">
             <div class="col-md-3">
-              <div :class="['no-logo-layout-4 m-auto', { 'm-auto' : help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo) && loader === false }]">
-                <img  v-if="!help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo)" class="m-auto" src="https://cdn.quasar.dev/img/mountains.jpg" alt="">
-                <span>No Logo</span>
+              <div :class="['no-logo-layout-4 m-auto relative-position', {'m-auto' : help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo) && loader === false }]">
+                <!-- <q-img
+                  id="myImg"
+                  :src="jsonDataParam.editWorkshopObject.workshopLogo"
+                  :ratio="1" spinner-color="primary" class="br-5px"
+                  spinner-size="40px"
+                >
+                  <div v-if="help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo)" class="absolute-full text-subtitle2 flex flex-center">
+                    No Logo
+                  </div>
+                </q-img> -->
+                <img :class="['responsive_img fit-content br-5px', {'z-opacity w-0-i' : help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo)}]" :src="jsonDataParam.editWorkshopObject.workshopLogo" id="myImg">
+                <div v-if="help.isDataEmpty(jsonDataParam.editWorkshopObject.workshopLogo)">No Logo</div>
+                <q-btn icon="fas fa-pen" fab-mini class="edit-logo-btn cursor-pointer" text-color="white" color="secondary" v-if="isEditableWorkshop">
+                  <div class="input-hide">
+                    <input class="cursor-pointer" type="file" accept=".png,.jpg,.jpeg" id="uploadDPUser" @change="doUploadLogoWorkshop($event)">
+                  </div>
+                </q-btn>
               </div>
             </div>
             <div class="col-md-3 px-10 q-col-gutter-y-sm">
               <div class="fs-12">
                 <span class="">Workshop Name :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.workshopName" dense outlined :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopName" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">Workshop Email :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.workshopEmail" dense outlined :disable="!isEditableWorkshop" />
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopEmail" dense outlined :loading="loader" :disable="!isEditableWorkshop" />
               </div>
               <div class="fs-12">
                 <span class="">Workshop Phone Number :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.workshopPhoneNumber" dense outlined :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopPhoneNumber" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
             </div>
             <div class="col-md-3 px-10 q-col-gutter-y-sm">
               <div class="fs-12">
                 <span class="">District :</span>
-                <q-input  v-model="jsonDataParam.editWorkshopObject.district" dense outlined :disable="!isEditableWorkshop"/>
+                <q-input  v-model="jsonDataParam.editWorkshopObject.district" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">City :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.city" dense outlined :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.city" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">Province :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.province" dense outlined :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.province" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
             </div>
             <div class="col-md-3 px-10 q-col-gutter-y-sm">
               <div class="fs-12">
                 <span class="">Latitude :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.latitude" dense outlined :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.latitude" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">Longitude :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.longitude" dense outlined :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.longitude" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
             </div>
           </div>
@@ -89,16 +106,17 @@
             <div class="col-md-6 pr-10">
               <div class="fs-12">
                 <span class="">Workshop Address :</span>
-                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopAddress" outlined type="textarea" :disable="!isEditableWorkshop"/>
+                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopAddress" outlined type="textarea" :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
             </div>
             <div class="col-md-6 pl-10">
               <div class="fs-12">
                 <span class="">Workshop Description :</span>
-                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopDescription" outlined type="textarea" :disable="!isEditableWorkshop"/>
+                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopDescription" outlined type="textarea" :loading="loader" :disable="!isEditableWorkshop"/>
               </div>
             </div>
           </div>
+          <div class="text-h6 fw-semibold mb-20 mt-20">Operational Workshop Hour</div>
         </q-tab-panel>
         <q-tab-panel name="services">
           <div class="text-h6 fw-semibold">Car Specification and Services</div>
@@ -482,7 +500,8 @@ import {
   deleteCarModel,
   addWorkshopService,
   deleteWorkshopServiceByID,
-  deleteWorkshopServiceByStatusAndID
+  deleteWorkshopServiceByStatusAndID,
+  updateLogoWorkshop
 } from '../../../api/AdminWorkshopServices'
 import help from '../../../js/help'
 import ValidationFunction from '../../../js/ValidationFunction'
@@ -571,7 +590,6 @@ export default {
       let _this = this
       this.loader = true
       getWorkshopDetailByUserID(_this.user.id).then(response => {
-        _this.loader = true
         _this.workshopDetail = response.data.objectReturn
         // loopingan data servis
         _this.doClearDataV2()
@@ -619,6 +637,80 @@ export default {
         console.log(err)
         _this.loader = false
       })
+    },
+    doUpdateWorkshopDetails () {
+      let _this = this
+      _this.loader = true
+      if(typeof _this.jsonDataParam.editWorkshopObject.workshopLogo !== 'object'){
+        _this.doUpdateDataWorkshopDetails()
+      } else {
+        updateLogoWorkshop(_this.workshopDetail.id, _this.jsonDataParam.editWorkshopObject.workshopLogo, _this.accessToken).then(response => {
+          console.log(response.data)
+          _this.doUpdateDataWorkshopDetails()
+        }) .catch(function (error) {
+          this.loader = false
+          console.log(error.response)
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.response.data
+          })
+        })
+      }
+    },
+    doUpdateDataWorkshopDetails () {
+      let _this = this
+      // _this.$q.loading.show({})
+      if(help.isDataEmpty(_this.jsonDataParam.editWorkshopObject.workshopLogo)){
+        _this.jsonDataParam.editWorkshopObject.workshopLogo = null
+      }
+      doUpdateWorkshopForAdminBengkel(_this.workshopDetail, _this.accessToken).then(response => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.data.messageAll
+        }) .then(() => {
+          _this.isEditableWorkshop = false
+        })
+        _this.doGetWorkshopDetailByUserID(false, false)
+      }) .catch((error) => {
+        if(error.response.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.response.data.message
+          }) .then(() => {
+            _this.loader = true
+          })
+        }
+      })
+    },
+    doUploadLogoWorkshop (event) {
+      var inputFile = event.target.files || event.dataTransfer.files
+      if(!inputFile.length) return null
+
+      var inputFileType = inputFile[0].type
+      if(!help.isValidImageType(inputFileType)){
+        Swal.fire ({
+          icon: "error",
+          title: "Input Error",
+          text: "File type is not .png, .jpg, or .jpeg"
+        })
+        document.getElementById('uploadDPUser').value = ''
+      }
+      var reader = new FileReader() // Creating reader instance from FileReader() API
+
+      var preview = document.getElementById('myImg') // Image reference
+      var file = inputFile[0] // File refrence
+
+      reader.addEventListener("load", function () { // Setting up base64 URL on image
+        preview.src = reader.result
+      }, false)
+      reader.readAsDataURL(file)
+
+      const formData = new FormData
+      formData.set('image', file)
+      this.jsonDataParam.editWorkshopObject.workshopLogo = formData
     },
     doFilterEditWorkshop () {
       let _this = this
