@@ -1,21 +1,29 @@
 <template>
   <q-page>
     <div class="screen-for-print white-1bg p-35 mt-0 fs-12">
-      <div class="top j-sp-between noprint">
+      <div class="top j-sp-between noprint a-center">
         <img class="logo-img" src="../../../assets/images/logo.png" alt="">
-        <div>Icon Download</div>
-      </div>
-      <br class="noprint"/>
-      <q-separator class="col-12" height="10px"/>
-      <br class="noprint"/>
-      <div class="kop-surat row">
-        <q-img
-          :src="insuranceData.logo"
-          class="col-3 insurrance-logo-img"/>
-        <div class="col-9 flex flex-center">
-          Data Perusahaan
+        <div @click="doWindowPrint()" class="cursor-pointer">
+          <i class="fas fa-download "></i>
+          Download PDF
         </div>
       </div>
+      <br class="noprint"/>
+      <q-separator class="col-12 noprint" height="10px"/>
+      <br class="noprint"/>
+      <div class="kop-surat row">
+        <img
+          :src="insuranceData.logo"
+          class="col-3 insurrance-logo-img"/>
+        <div class="col-9">
+          <div class="text-align-right">
+            <div class="tf-capitalize text-h6 fw-semibold">{{ insuranceData.insuranceName }}</div>
+            <div>{{ insuranceData.address }}</div>
+            <div>{{ insuranceData.email }}</div>
+          </div>
+        </div>
+      </div>
+      <br/>
       <q-separator class="col-12" height="5px" color="black"/>
       <br/>
       <div class="col-12 a-end flex-dir-col">
@@ -84,7 +92,7 @@
             <span>{{ insuranceData.chassisNumber }}</span>
           </div>
         </div>
-        <div class="row col-12 mt-20">
+        <div class="row mt-20 flex flex-dir-col">
           <div class="insurance_layout_txt-100">
             <div>
               <span>Email Address</span>
@@ -263,8 +271,11 @@ export default {
         getAdminInsuranceDetails(1).then( response => {
           this.insuranceData = response.data.objectReturnerDataDetail[0]
           this.listPhoto = response.data.objectReturnerDocumentation
-          console.log(this.listPhoto)
+          console.log(this.insuranceData)
         })
+      },
+      doWindowPrint(){
+        window.print()
       }
     }
 }
