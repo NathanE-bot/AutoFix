@@ -481,6 +481,8 @@ export default {
       accessToken: null,
       dialogEditCarServices: false,
       dialogEditCarTypeAndModel: false,
+      editCarLoader: false,
+      editCarServiceLoader: false,
       workshopDetail: [],
       workshop_details: [],
       carModelOptions: [],
@@ -948,7 +950,6 @@ export default {
       // if(help.isObjectEmpty(tempBackendFormat.serviceTypeUmum)){
       //   delete tempBackendFormat.serviceTypeUmum
       // }
-      console.log(tempBackendFormat)
       if(!help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala) || !help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala)){
         console.log('masuk')
         addWorkshopService(tempBackendFormat, _this.accessToken).then(response => {
@@ -974,8 +975,6 @@ export default {
             })
           }
         })
-      } else {
-        console.log('gaada')
       }
     },
     doDeleteWorkshopServices (item, index) {
@@ -994,7 +993,27 @@ export default {
       }
     },
     doDeleteWorkshopServiceByID (item) {
-      console.log('yeet', item)
+      let _this = this
+      _this.editCarServiceLoader = true
+      deleteWorkshopServiceByID(item.workshopDetailID, item.serviceID, _this.accessToken).then(response => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.data.message
+        }) .then(() => {
+          _this.editCarServiceLoader = false
+          _this.doGetWorkshopDetailByUserID(false, true)
+        })
+      }) .catch((error) => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Please contact our admin'
+        }) .then(() => {
+          _this.editCarServiceLoader = false
+        })
+      })
     },
     doClearDataV2 () {
       this.carModelOptions = []

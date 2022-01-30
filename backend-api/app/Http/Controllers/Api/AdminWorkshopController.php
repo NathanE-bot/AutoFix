@@ -679,7 +679,7 @@ class AdminWorkshopController extends Controller
         }
 
         return response()->json([
-            'message'=>'servieDetail deleted'
+            'message'=>'Service deleted'
         ], 200);
     }
 
@@ -694,7 +694,7 @@ class AdminWorkshopController extends Controller
         }
 
         return response()->json([
-            'message'=>'Data deleted'
+            'message'=>'Services deleted'
         ], 200);
     }
 

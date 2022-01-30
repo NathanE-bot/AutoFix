@@ -59,7 +59,8 @@ export function addWorkshopService(carServices, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
   return axios.post(localURL + '/api/addWorkshopService', carServices, authorization)
 }
-export function deleteWorkshopServiceByID(carServices, userToken) {
+
+export function deleteWorkshopServiceByID(workshopDetailID, id, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.post(localURL + '/api/deleteWorkshopServiceByID', carServices, authorization)
+  return axios.post(localURL + '/api/deleteWorkshopServiceByID?workshopDetailID=' + workshopDetailID + '&id=' + id, authorization)
 }
