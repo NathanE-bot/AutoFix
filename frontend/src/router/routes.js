@@ -112,7 +112,8 @@ const routes = [
           title: 'Manage Workshop',
           breadcrumb: 'Manage Workshop'
         }
-      },{
+      },
+      {
         path: "/admin/workshop/accepted-order",
         component: AdminAcceptedOrder,
         meta: {
