@@ -161,13 +161,24 @@ class AdminInsuranceController extends Controller
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
             ->join('users','users.id','=','insurance_vendors.userID')
-            ->where('insurance_vendors.userID','=',$req->adminID)
-            ->where('insurance_details.insuranceStatus','=','on progress')
+            ->select('insurances.id','insurances.userID','insurances.vendorInsuranceID',
+            'insurances.insuredName','insurances.phoneNumberClaimer','insurances.emailClaimer',
+            'insurances.addressClaimer','insurances.carTypeAndBrand','insurances.chassisNumber',
+            'insurances.polisNumber','insurances.licensePlateNumber','insurances.driverName',
+            'insurances.driverSpeed','insurances.driverRelation','insurances.driverLicense','insurances.incidentLocation','insurances.vehicleDescription',
+            'insurances.incidentDate','insurances.incidentTime','insurances.taxiOnlineStatus','insurances.workshopType',
+            'insurances.chronology','insurances.incidentStatus','insurances.incidentStatusDescription','insurances.submitDate','insurance_vendors.logo',
+            'insurance_vendors.insuranceName','insurance_details.claimedInsuranceDate','insurance_details.insuranceStatus','insurance_details.insuranceDescription')
+            ->where('insurances.id','=',$req->id)
+            ->get();
+            // dd($insuranceDetails);
+            $documentInsurance = DB::table('documentation_Insurances')
+            ->where('insuranceID','=',$insuranceDetails[0]->id)
             ->get();
             if(empty($insuranceDetails)){
                 return response()->json(['Message'=>'No data'], 200);
             }
-            return response()->json($insuranceDetails, 200);
+            return response()->json([$insuranceDetails,$documentInsurance], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }

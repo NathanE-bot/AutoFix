@@ -68,6 +68,7 @@ Route::get('getInsuranceStatusApi', 'Api\InsuranceController@getInsuranceStatusA
 Route::get('getInsuranceDetailByStatusAccepted', 'Api\InsuranceController@getInsuranceDetailByStatusAccepted');
 Route::get('getInsuranceDetailByStatusRejected', 'Api\InsuranceController@getInsuranceDetailByStatusRejected');
 Route::get('downloadInsurancePDF', 'Api\InsuranceController@downloadPDFInsurance');
+Route::get('getVendorByID', 'Api\InsuranceController@getVendorByID');
 
 
 
@@ -117,5 +118,6 @@ Route::post('deleteWorkshopServiceByStatusAndID','Api\AdminWorkshopController@de
 Route::get('getDataIncomingInsuranceRequestByAdminID','Api\AdminInsuranceController@getDataIncomingInsuranceRequestByAdminID');
 Route::post('uploadPDFInsurance','Api\AdminInsuranceController@uploadPDFInsurance');
 Route::post('acceptInsuranceClaim','Api\AdminInsuranceController@acceptInsuranceClaim');
+Route::get('getAdminInsuranceDetails','Api\AdminInsuranceController@getAdminInsuranceDetails');
 
 
