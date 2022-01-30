@@ -612,9 +612,10 @@ class AdminWorkshopController extends Controller
                 $addServiceUmum ->price = $req->serviceTypeUmum[$key]['price'];
                 $addServiceUmum ->time = $req->serviceTypeUmum[$key]['time'];
                 $addServiceUmum->save();
-                // kolo pake jobs
-                // array_push($newscheduledetail,$array);
                 }
+            }
+            else{
+                return response()->json(['message'=>'data error'], 200, $headers);
             }
 
 
@@ -638,13 +639,16 @@ class AdminWorkshopController extends Controller
                 // array_push($newscheduledetail,$array);
                 }
             }
+            else{
+                return response()->json(['message'=>'data error'], 200, $headers);
+            }
+            return response()->json([
+                'messageAll' => 'Successfully add car services',
+            ], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
 
-        return response()->json([
-            'messageAll' => 'Successfully add car services',
-        ], 200);
     }
 
     public function deleteWorkshopServiceByID(Request $req){
