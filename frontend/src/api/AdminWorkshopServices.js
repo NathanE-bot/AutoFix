@@ -69,3 +69,8 @@ export function deleteWorkshopServiceByStatusAndID(workshopDetailID, serviceType
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
   return axios.post(localURL + '/api/deleteWorkshopServiceByStatusAndID?workshopDetailID=' + workshopDetailID + '&serviceType=' + serviceType, authorization)
 }
+
+export function updateLogoWorkshop(workshopID, fileImg, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/updateLogoWorkshop?workshopID=' + workshopID, fileImg, authorization)
+}
