@@ -23,10 +23,6 @@ export function getWorkshopDetailByUserID(adminID) {
   return axios.get(localURL + '/api/getWorkshopDetailByUserID?adminID=' + adminID)
 }
 
-export function doUpdateWorkshopForAdminBengkel(dataUpdate) {
-  return axios.post(localURL + '/api/updateWorkshopForAdminBengkel', dataUpdate)
-}
-
 export function getScheduleAcceptedByAdmin(adminID) {
   return axios.get(localURL + '/api/getScheduleAcceptedByAdmin?adminID=' + adminID)
 }
@@ -37,4 +33,24 @@ export function doDoneScheduleByAdmin(scheduleID) {
 
 export function doCancelScheduleByAdmin(dataCancel) {
   return axios.post(localURL + '/api/cancelScheduleByAdmin', dataCancel)
+}
+
+export function doUpdateWorkshopForAdminBengkel(dataUpdate, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/updateWorkshopForAdminBengkel', dataUpdate, authorization)
+}
+
+export function addNewWorkshopDetail(workshopID, workshopDetail, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/addNewWorkshopDetail?workshopID=' + workshopID, workshopDetail, authorization)
+}
+
+export function deleteCarType(workshopID, id, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/deleteCarType?workshopID=' + workshopID + '&id=' + id, authorization)
+}
+
+export function deleteCarModel(workshopID, carModel, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/deleteCarModel?workshopID=' + workshopID + '&carModel=' + carModel, authorization)
 }

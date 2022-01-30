@@ -1,379 +1,523 @@
 <template>
-  <q-page-container style="padding-top: 1.25rem;">
-    <q-page class="w-90 m-auto fh p-20">
-      <div class="white-1bg fh br-20px">
-        <q-tabs
-          v-model="initialTab"
-          align="justify"
-        >
-          <q-tab name="editWorkshop" label="Edit Workshop" class="tf-capitalize"/>
-          <q-tab name="editServices" label="Edit Services" class="tf-capitalize"/>
-        </q-tabs>
-        <q-separator/>
-        <div v-if="initialTab === 'editWorkshop'" class="col-md-12 p-20">
-          <div class="row j-end px-20 pt-10">
-            <div v-if="isEditableWorkshop === false" style="height: 31px">
-              <i class="fas fa-pen fs-20 edit-icon" @click="isEditableWorkshop = !isEditableWorkshop"></i>
-              <q-tooltip class="bg-primary text-body2 txt-white" self="center right" :offset="[10, 15]">
-                Edit Profile
-              </q-tooltip>
-            </div>
-            <div v-else>
-              <q-btn
-                v-if="isEditableWorkshop"
-                @click="doCancelEdit(); isEditableWorkshop = !isEditableWorkshop" :loading="loader" unelevated rounded color="negative" label="Cancel Edit" class="tf-capitalize ml-20 fs-12"/>
-              <q-btn
-                v-if="isEditableWorkshop"
-                @click="doUpdateProfile(true)" :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
+  <q-page class="w-90 m-auto p-20">
+    <div class="white-1bg fh br-20px">
+      <q-tabs
+        v-model="initialTab"
+        align="justify"
+      >
+        <!-- <q-tab name="editWorkshop" label="Edit Workshop" class="tf-capitalize"/> -->
+        <q-tab name="editServices" label="Edit Services" class="tf-capitalize"/>
+      </q-tabs>
+      <q-separator/>
+      <!-- <div v-if="initialTab === 'editWorkshop'" class="col-md-12 p-20">
+        <div class="row j-end px-20 pt-10">
+          <div v-if="isEditableWorkshop === false" style="height: 31px">
+            <i class="fas fa-pen fs-20 edit-icon" @click="isEditableWorkshop = !isEditableWorkshop"></i>
+            <q-tooltip class="bg-primary text-body2 txt-white" self="center right" :offset="[10, 15]">
+              Edit Profile
+            </q-tooltip>
+          </div>
+          <div v-else>
+            <q-btn
+              v-if="isEditableWorkshop"
+              @click="doCancelEdit(); isEditableWorkshop = !isEditableWorkshop" :loading="loader" unelevated rounded color="negative" label="Cancel Edit" class="tf-capitalize ml-20 fs-12"/>
+            <q-btn
+              v-if="isEditableWorkshop"
+              @click="doUpdateProfile(true)" :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div :class="['no-logo-layout-4 m-auto', { 'm-auto' : help.isDataEmpty(this.dataWorkshop.workshopLogo) && loader === false }]">
+              <img  v-if="!help.isDataEmpty(this.dataWorkshop.workshopLogo)" class="m-auto" src="https://cdn.quasar.dev/img/mountains.jpg" alt="">
+              <span>No Logo</span>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-3">
-              <div :class="['no-logo-layout-4 m-auto', { 'm-auto' : help.isDataEmpty(this.dataWorkshop.workshopLogo) && loader === false }]">
-                <img  v-if="!help.isDataEmpty(this.dataWorkshop.workshopLogo)" class="m-auto" src="https://cdn.quasar.dev/img/mountains.jpg" alt="">
-                <span>No Logo</span>
-              </div>
+          <div class="col-md-3 px-10 q-col-gutter-y-sm">
+            <div class="fs-12">
+              <span class="">Workshop Name :</span>
+              <q-input  v-model="this.dataWorkshop.workshopName" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
-            <div class="col-md-3 px-10 q-col-gutter-y-sm">
-              <div class="fs-12">
-                <span class="">Workshop Name :</span>
-                <q-input  v-model="this.dataWorkshop.workshopName" dense outlined :disable="isEditableWorkshop === false"/>
-              </div>
-              <div class="fs-12">
-                <span class="">Workshop Email :</span>
-                <q-input v-model="this.dataWorkshop.workshopEmail" dense outlined disable/>
-              </div>
-              <div class="fs-12">
-                <span class="">Workshop Phone Number :</span>
-                <q-input v-model="this.dataWorkshop.workshopPhoneNumber" dense outlined :disable="isEditableWorkshop === false"/>
-              </div>
+            <div class="fs-12">
+              <span class="">Workshop Email :</span>
+              <q-input v-model="this.dataWorkshop.workshopEmail" dense outlined disable/>
             </div>
-            <div class="col-md-3 px-10 q-col-gutter-y-sm">
-              <div class="fs-12">
-                <span class="">District :</span>
-                <q-input  v-model="this.dataWorkshop.district" dense outlined :disable="isEditableWorkshop === false"/>
-              </div>
-              <div class="fs-12">
-                <span class="">City :</span>
-                <q-input v-model="this.dataWorkshop.city" dense outlined :disable="isEditableWorkshop === false"/>
-              </div>
-              <div class="fs-12">
-                <span class="">Province :</span>
-                <q-input v-model="this.dataWorkshop.province" dense outlined :disable="isEditableWorkshop === false"/>
-              </div>
-            </div>
-            <div class="col-md-3 px-10 q-col-gutter-y-sm">
-              <div class="fs-12">
-                <span class="">Latitude :</span>
-                <q-input v-model="this.dataWorkshop.latitude" dense outlined :disable="isEditableWorkshop === false"/>
-              </div>
-              <div class="fs-12">
-                <span class="">Longitude :</span>
-                <q-input v-model="this.dataWorkshop.longitude" dense outlined :disable="isEditableWorkshop === false"/>
-              </div>
+            <div class="fs-12">
+              <span class="">Workshop Phone Number :</span>
+              <q-input v-model="this.dataWorkshop.workshopPhoneNumber" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
           </div>
-          <br/>
-          <div class="row">
-            <div class="col-md-6 pr-10">
-              <div class="fs-12">
-                <span class="">Workshop Address :</span>
-                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.dataWorkshop.workshopAddress" outlined type="textarea" :disable="isEditableWorkshop === false"/>
-              </div>
+          <div class="col-md-3 px-10 q-col-gutter-y-sm">
+            <div class="fs-12">
+              <span class="">District :</span>
+              <q-input  v-model="this.dataWorkshop.district" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
-            <div class="col-md-6 pl-10">
-              <div class="fs-12">
-                <span class="">Workshop Description :</span>
-                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.dataWorkshop.workshopDescription" outlined type="textarea" :disable="isEditableWorkshop === false"/>
-              </div>
+            <div class="fs-12">
+              <span class="">City :</span>
+              <q-input v-model="this.dataWorkshop.city" dense outlined :disable="isEditableWorkshop === false"/>
+            </div>
+            <div class="fs-12">
+              <span class="">Province :</span>
+              <q-input v-model="this.dataWorkshop.province" dense outlined :disable="isEditableWorkshop === false"/>
+            </div>
+          </div>
+          <div class="col-md-3 px-10 q-col-gutter-y-sm">
+            <div class="fs-12">
+              <span class="">Latitude :</span>
+              <q-input v-model="this.dataWorkshop.latitude" dense outlined :disable="isEditableWorkshop === false"/>
+            </div>
+            <div class="fs-12">
+              <span class="">Longitude :</span>
+              <q-input v-model="this.dataWorkshop.longitude" dense outlined :disable="isEditableWorkshop === false"/>
             </div>
           </div>
         </div>
-        <div v-if="initialTab === 'editServices'" class="col-md-12">
-          <div class="row">
-            <div class="col-md-4 p-20">
-              <div class="col-12 j-end">
-                <i class="fas fa-pen fs-20 edit-icon" @click="doOpenEditModelAndType()" ></i>
-                <q-tooltip class="bg-primary text-body2 txt-white" anchor="center left" self="center left" :offset="[-150, 0]">
+        <br/>
+        <div class="row">
+          <div class="col-md-6 pr-10">
+            <div class="fs-12">
+              <span class="">Workshop Address :</span>
+              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.dataWorkshop.workshopAddress" outlined type="textarea" :disable="isEditableWorkshop === false"/>
+            </div>
+          </div>
+          <div class="col-md-6 pl-10">
+            <div class="fs-12">
+              <span class="">Workshop Description :</span>
+              <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="this.dataWorkshop.workshopDescription" outlined type="textarea" :disable="isEditableWorkshop === false"/>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div v-if="initialTab === 'editServices'" class="col-md-12">
+        <div class="row">
+          <div class="col-md-4 p-20">
+            <div class="col-12 j-end">
+              <q-btn
+                @click="doFilterCarModelAndType(true)"
+                icon="fas fa-pen" flat round
+                class="edit-pen-btn edit-pen-btn-active"
+              >
+                <q-tooltip
+                  class="text-body2 txt-white bg-primary"
+                  anchor="center left" self="center end" :offset="[10, 0]">
                   Edit Car Model & Type
                 </q-tooltip>
-              </div>
-              <br/>
-              <q-select
-                @update:model-value="doFilterCarType($event)"
-                v-model="dataWorkshop.carModel"
-                :options="listCarModel"
-                outlined
-                class="br-10px default-select-2 w-80 mx-auto mb-20"
-              >
-                <template v-slot:selected>
-                  <template v-if="dataWorkshop.carModel">
-                    {{ dataWorkshop.carModel }}
-                  </template>
-                  <template v-else>
-                    <span class="placeholder-text">Choose Car Model...</span>
-                  </template>
-                </template>
-              </q-select>
-              <q-select
-                @update:model-value="doGetCarServices($event)"
-                v-model="dataWorkshop.carType"
-                :options="listCarType"
-                outlined
-                class="br-10px default-select-2 w-80 mx-auto mb-20"
-              >
-                <template v-slot:selected>
-                  <template v-if="dataWorkshop.carType">
-                    {{ dataWorkshop.carType }}
-                  </template>
-                  <template v-else>
-                    <span class="placeholder-text">Choose Car Type...</span>
-                  </template>
-                </template>
-              </q-select>
+              </q-btn>
             </div>
-            <q-separator vertical />
-            <div class="col-md-7 p-20">
-              <div class="col-12 j-end">
-                <i class="fas fa-pen fs-20 edit-icon" @click="doOpenEditServices()" ></i>
-                <q-tooltip class="bg-primary text-body2 txt-white" anchor="center left" self="center left" :offset="[-150, 0]">
-                  Edit Periodic and General Services
+            <br/>
+            <q-select
+              @update:model-value="doFilterCarType($event)"
+              v-model="jsonDataParam.carModel"
+              :options="carModelOptions"
+              outlined
+              class="br-10px default-select-2 w-80 mx-auto mb-20"
+            >
+              <template v-slot:selected>
+                <template v-if="jsonDataParam.carModel">
+                  {{ jsonDataParam.carModel }}
+                </template>
+                <template v-else>
+                  <span class="placeholder-text">Choose Car Model...</span>
+                </template>
+              </template>
+            </q-select>
+            <q-select
+              @update:model-value="doGetCarServices($event)"
+              v-model="jsonDataParam.carType"
+              :options="carTypeOptions"
+              outlined
+              class="br-10px default-select-2 w-80 mx-auto mb-20"
+            >
+              <template v-slot:selected>
+                <template v-if="jsonDataParam.carType">
+                  {{ jsonDataParam.carType }}
+                </template>
+                <template v-else>
+                  <span class="placeholder-text">Choose Car Type...</span>
+                </template>
+              </template>
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    Please choose car model first.
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+          </div>
+          <q-separator vertical size="1px" />
+          <div class="col-md-7 p-20">
+            <div class="col-12 j-end d-flex a-center">
+              <q-btn
+                @click="!help.isDataEmpty(jsonDataParam.carType) ? doFilterCarServices(true) : doNothing()"
+                icon="fas fa-pen" flat round
+                :class="['edit-pen-btn', {'edit-pen-btn-active' : !help.isDataEmpty(jsonDataParam.carType)}]"
+              >
+                <q-tooltip
+                  :class="['text-body2 txt-white', {'bg-info' : help.isDataEmpty(jsonDataParam.carType)}, {'bg-primary' : !help.isDataEmpty(jsonDataParam.carType)}]"
+                  anchor="center left" self="center end" :offset="[10, 0]">
+                  <q-icon v-if="help.isDataEmpty(jsonDataParam.carType)" name="fas fa-info-circle" />
+                  {{ help.isDataEmpty(jsonDataParam.carType) ? 'Choose car model and type first' : 'Edit Periodic & General Services' }}
                 </q-tooltip>
-              </div>
-              <div class="row">
-                <q-checkbox v-model="periodic" :disable="help.isDataEmpty(dataWorkshop.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">
-                  <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(dataWorkshop.carType)">
-                    Choose car model and type first
-                  </q-tooltip>
-                </q-checkbox>
-                <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic">
-                  <div class="auto-3" v-for="service in periodicServicesOptions" :key="service.id">
-                    <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
-                  </div>
+              </q-btn>
+            </div>
+            <br/>
+            <div class="row">
+              <q-checkbox v-model="periodic" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">
+                <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
+                  Choose car model and type first
+                </q-tooltip>
+              </q-checkbox>
+              <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic && periodicServicesOptions">
+                <div class="auto-3" v-for="(service, index) in periodicServicesOptions" :key="'periodic-' + index">
+                  <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
                 </div>
               </div>
-              <br/>
-              <div class="row">
-                <q-checkbox v-model="general" :disable="help.isDataEmpty(dataWorkshop.carType)" color="secondary" label="General Services" :class="['fw-lightbold fs-20']">
-                  <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(dataWorkshop.carType)">
-                    Choose car model and type first
-                  </q-tooltip>
-                </q-checkbox>
-                <div class="row col-12 ml-40 mt-10 gap-1" v-if="general">
-                  <div class="auto-3" v-for="service in generalServicesOptions" :key="service.id">
-                    <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
-                  </div>
+              <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="periodic && help.isObjectEmpty(periodicServicesOptions)">
+                No periodic service listed
+              </div>
+            </div>
+            <br/>
+            <div class="row">
+              <q-checkbox v-model="general" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="General Services" :class="['fw-lightbold fs-20']">
+                <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
+                  Choose car model and type first
+                </q-tooltip>
+              </q-checkbox>
+              <div class="row col-12 ml-40 mt-10 gap-1" v-if="general && !help.isObjectEmpty(generalServicesOptions)">
+                <div class="auto-3" v-for="(service, index) in generalServicesOptions" :key="'general-' + index">
+                  <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
                 </div>
+              </div>
+              <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="general && help.isObjectEmpty(generalServicesOptions)">
+                No general service listed
               </div>
             </div>
           </div>
         </div>
       </div>
-      <q-dialog v-model="promptEditModelAndType" persistent>
-        <q-card style="min-width: 20rem" class="p-20" >
-          <q-card-section>
-            <div style="overflow-y:auto; max-height: 35rem;" class="p-20">
-              <table class="fw m-auto table-sticky">
-                <thead class="fw-semibold sticky">
-                  <tr>
-                    <td>No</td>
-                    <td>Car Model</td>
-                    <td>Car Type</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(detail, index) in tempUpdateModelAndType" :key="detail.id">
-                    <td>{{ index+1 }}</td>
-                    <td>
-                      <q-input v-model="detail.carModel"/>
-                    </td>
-                    <td>
-                      <q-input v-model="detail.carType"/>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </q-card-section>
-          <q-card-actions align="center" class="text-primary">
-              <q-btn label="Cancel" v-close-popup @click="doGetWorkshopDetailByUserID()"/>
-              <q-btn color="primary" label="Submit" v-close-popup @click="doUpdateProfile(true)"/>
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
-      <q-dialog v-model="promptEditServices">
-        <q-card style="min-width: 480px" class="p-20" >
-          <div style=" max-height: 35rem;">
-            <div style="overflow-y:auto;">
-              Periodic Services
-              <table class="fw m-auto table-sticky">
-                <thead class="fw-semibold sticky">
-                  <tr>
-                    <td>No</td>
-                    <td>Service Detail</td>
-                    <td>Service Price</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(detail, index) in tempUpdateServices.periodic_serivces" :key="detail.id">
-                    <td>{{ index+1 }}</td>
-                    <td>
-                      <q-input v-model="detail.serviceDetail"/>
-                    </td>
-                    <td>
-                      <q-input v-model="detail.price"/>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div style="overflow-y:auto;">
-              General Services
-              <table class="fw m-auto table-sticky">
-                <thead class="fw-semibold sticky">
-                  <tr>
-                    <td>No</td>
-                    <td>Service Detail</td>
-                    <td>Service Price</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(detail, index) in tempUpdateServices.general_services" :key="detail.id">
-                    <td>{{ index+1 }}</td>
-                    <td>
-                      <q-input v-model="detail.serviceDetail"/>
-                    </td>
-                    <td>
-                      <q-input v-model="detail.price"/>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+    </div>
+    <q-dialog v-model="dialogEditCarTypeAndModel" persistent class="edit-car-typemodel-dialog">
+      <q-card>
+        <q-card-section class="p-0">
+          <q-table
+            class="edit-car-spec-table"
+            virtual-scroll binary-state-sort hide-pagination
+            :columns="cmth"
+            :rows="carModelAndType"
+            row-key="index"
+            :rows-per-page-options="[0]"
+          >
+            <template v-slot:body="props">
+              <q-tr v-if="help.isDataEmpty(props.row.id) && props.row.id !== '#1'" class="vertical-top">
+                <q-td key="index" :props="props">
+                  <div class="d-flex a-center j-start ml-10" style="min-height:40px">
+                    {{ props.row.index + 1 }}
+                    <q-btn
+                      v-if="carModelAndType.length > 1"
+                      :disabled="carModelAndType.length > 1 && props.row.index == 0"
+                      @click="deleteCarModelAndType(props.row.index, props.row)"
+                      label="Remove" flat rounded color="negative"
+                      class="tf-capitalize ml-5"
+                    />
+                  </div>
+                </q-td>
+                <q-td key="carmodel" :props="props">
+                  <q-input class="input-bold" dense readonly borderless v-model="props.row.carModel" />
+                </q-td>
+                <q-td key="cartype" :props="props">
+                  <div class="row" v-for="(item, index) in props.row.carType" :key="'asd1' + index">
+                    <q-input class="col-9 w-71-i" :error="help.isDataEmpty(item.name) && showError" dense hide-bottom-space v-model="item.name"/>
+                    <div class="col row a-center">
+                      <q-btn
+                        v-if="props.row.carType.length > 1"
+                        @click="deleteCarTypeForm(props.row.index, index, true)"
+                        icon="fas fa-trash" size="sm"
+                        flat round color="negative"
+                      />
+                      <q-btn
+                        v-if="index == props.row.carType.length - 1"
+                        @click="doAddNewCarType(props.row.index, true)"
+                        icon="fas fa-plus" size="sm"
+                        flat round color="primary"
+                      />
+                    </div>
+                  </div>
+                </q-td>
+              </q-tr>
+              <q-tr v-else class="vertical-top">
+                <q-td key="index" :props="props">
+                  <div class="d-flex a-center j-start ml-10" style="min-height:40px">
+                    {{ props.row.index + 1 }}
+                    <q-btn
+                      @click="deleteCarModelAndType(props.row.index, props.row)"
+                      label="Remove" flat rounded color="negative"
+                      class="tf-capitalize ml-5"
+                    />
+                  </div>
+                </q-td>
+                <q-td key="carmodel" :props="props">
+                  <q-input dense :error="help.isDataEmpty(props.row.carModel) && showError" hide-bottom-space v-model="props.row.carModel"/>
+                </q-td>
+                <q-td key="cartype" :props="props" class="text-left">
+                  <div class="row" v-for="(item, index) in props.row.carType" :key="'asd2' + index">
+                    <q-input class="col-9 w-71-i" :error="help.isDataEmpty(item.name) && showError" hide-bottom-space dense v-model="item.name" />
+                    <div class="col row a-center">
+                      <q-btn
+                        v-if="props.row.carType.length > 1"
+                        @click="deleteCarTypeForm(props.row.index, index)"
+                        icon="fas fa-trash" size="sm"
+                        flat round color="negative"
+                      />
+                      <q-btn
+                        v-if="index == props.row.carType.length - 1"
+                        @click="doAddNewCarType(props.row.index, false)"
+                        icon="fas fa-plus" size="sm"
+                        flat round color="primary"
+                      />
+                    </div>
+                  </div>
+                </q-td>
+              </q-tr>
+            </template>
+          </q-table>
+        </q-card-section>
+        <q-card-actions align="right" class="p-20 d-flex a-center j-sp-between relative-position">
+          <div>
+            <q-btn
+              class="tf-capitalize icon-resize"
+              color="primary" icon="fas fa-plus"
+              rounded label="New car specification"
+              @click="doAddNewCarModelAndType()"
+            />
           </div>
-          <div align="center" class="text-primary">
-              <q-btn label="Cancel" v-close-popup  @click="promptEditServices = false; doGetWorkshopDetailByUserID()"/>
-              <q-btn color="primary" label="Done" v-close-popup @click="doHandleIncomingOrder('accept', '')"/>
+          <!-- <q-pagination
+            v-model="jsonDataParamTable.iPage"
+            color="primary"
+            :max="jsonDataParamTable.maxPage"
+            size="md"
+          /> -->
+          <div class="q-gutter-x-sm">
+            <q-btn class="tf-capitalize" color="primary" flat rounded label="Close" @click="dialogEditCarTypeAndModel = false; carModelAndType = []"/>
+            <q-btn class="tf-capitalize" color="primary" rounded label="Submit" @click="doUpdateCarModelAndType()"/>
           </div>
-        </q-card>
-      </q-dialog>
-    </q-page>
-  </q-page-container>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="dialogEditCarServices" persistent class="edit-car-typemodel-dialog">
+      <q-card class="p-20">
+        <div style=" max-height: 35rem;">
+          <div style="overflow-y:auto;">
+            Periodic Services
+            <!-- <table class="fw m-auto table-sticky">
+              <thead class="fw-semibold sticky">
+                <tr>
+                  <td>No</td>
+                  <td>Service Detail</td>
+                  <td>Service Price</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(detail, index) in tempUpdateServices.periodic_serivces" :key="detail.id">
+                  <td>{{ index+1 }}</td>
+                  <td>
+                    <q-input v-model="detail.serviceDetail"/>
+                  </td>
+                  <td>
+                    <q-input v-model="detail.price"/>
+                  </td>
+                </tr>
+              </tbody>
+            </table> -->
+          </div>
+          <div style="overflow-y:auto;">
+            General Services
+            <!-- <table class="fw m-auto table-sticky">
+              <thead class="fw-semibold sticky">
+                <tr>
+                  <td>No</td>
+                  <td>Service Detail</td>
+                  <td>Service Price</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(detail, index) in tempUpdateServices.general_services" :key="detail.id">
+                  <td>{{ index+1 }}</td>
+                  <td>
+                    <q-input v-model="detail.serviceDetail"/>
+                  </td>
+                  <td>
+                    <q-input v-model="detail.price"/>
+                  </td>
+                </tr>
+              </tbody>
+            </table> -->
+          </div>
+        </div>
+        <q-card-actions align="right" class="p-20 relative-position">
+          <!-- <div>
+            <q-btn
+              class="tf-capitalize icon-resize"
+              color="primary" icon="fas fa-plus"
+              rounded label="New car specification"
+              @click="doAddNewCarModelAndType()"
+            />
+          </div> -->
+          <!-- <q-pagination
+            v-model="jsonDataParamTable.iPage"
+            color="primary"
+            :max="jsonDataParamTable.maxPage"
+            size="md"
+          /> -->
+          <div class="q-gutter-x-sm">
+            <q-btn class="tf-capitalize" color="primary" flat rounded label="Close" @click="dialogEditCarServices = false; "/>
+            <q-btn class="tf-capitalize" color="primary" rounded label="Done" />
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+  </q-page>
 </template>
 
 <script>
-import { getWorkshopDetailByUserID, doUpdateWorkshopForAdminBengkel } from '../../../api/AdminWorkshopServices'
-import { LocalStorage } from 'quasar'
+/* eslint-disable */
+import { getWorkshopDetailByUserID, doUpdateWorkshopForAdminBengkel, addNewWorkshopDetail, deleteCarType, deleteCarModel } from '../../../api/AdminWorkshopServices'
 import help from '../../../js/help'
 import ValidationFunction from '../../../js/ValidationFunction'
+import Auth from '../../../js/AuthValidation'
+import Swal from 'sweetalert2'
 
 export default {
   data () {
     return {
-      ValidationFunction,
-      loader: false,
       help,
-      user: {},
-      tempUser: {},
+      ValidationFunction,
       initialTab: 'editServices',
-      dataWorkshop: {},
-      tempDataWorkshop: {},
-      isEditableWorkshop: false,
-      promptEditModelAndType: false,
-      promptEditServices: false,
-      periodic: false,
-      periodicServicesOptions: [],
-      general: false,
-      generalServicesOptions: [],
-      listServices: [],
-      listCarModel: [],
-      listCarType: [],
-      tempListCarType: [], // ini buat apa??
-      dataUpdate: {
+      thumbStyle: {
+        right: '2px',
+        borderRadius: '10px',
+        backgroundColor: '#21a17b',
+        width: '10px',
+        opacity: 0.75
+      },
+      barStyle: {
+        right: '2px',
+        borderRadius: '10px',
+        backgroundColor: '#21a17b',
+        width: '10px',
+        opacity: 0.2
+      },
+      cmth: [
+        { name: 'index', label: 'No', align: 'center', field: 'index', sortable: false },
+        { name: 'carmodel', label: 'Car Model', align: 'center', field: 'carModel', sortable: false },
+        { name: 'cartype', label: 'Car Type', align: 'center', field: 'carType', sortable: false }
+      ],
+      tableCarModelTypeHeader: ['No', 'Car Model', 'Car Type'],
+      user: {},
+      showError: false,
+      accessToken: null,
+      dialogEditCarServices: false,
+      dialogEditCarTypeAndModel: false,
+      workshopDetail: [],
+      workshop_details: [],
+      carModelOptions: [],
+      carTypeOptions: [],
+      tempCarTypeOptions: [],
+      periodicServicesOptions: [], // buat tampilan
+      generalServicesOptions: [], // buat tampilan
+      generalServicesForms: [], // buat form edit
+      generalServicesForms: [], // buat form edit
+      carModelAndType: [],
+      newCarModelAndType: [],
+      jsonDataParam: {
         workshopID: null,
         userID: null,
-        carModel: null
+        carModel: null,
+        carType: null,
+        serviceTypeBerkala: [],
+        serviceTypeUmum: []
       },
-      tempUpdateModelAndType: [],
-      tempUpdateServices: {}
+      jsonDataParamTable: {
+        iPage: 1,
+        maxPage: 5
+      },
+      periodic: false,
+      general: false
     }
   },
   created () {
-    this.user = LocalStorage.getItem('autoRepairUser').data.user
+    this.user = Auth.getUserDetails()
+    this.accessToken = Auth.getAccessToken()
     this.doGetWorkshopDetailByUserID()
   },
   methods: {
-    doConsole (a) {
-      console.log('asd', a)
-    },
-
-    // =============================================================Fetch Data========================================================
-
-    doGetWorkshopDetailByUserID () {
+    doGetWorkshopDetailByUserID (fromDelete) {
+      let _this = this
       this.loader = true
-      getWorkshopDetailByUserID(this.user.id).then(response => {
-        console.log('response', response.data)
-        this.dataWorkshop = response.data
-        this.dataWorkshop.workshopID = this.dataWorkshop.id
-        delete this.dataWorkshop.id
-        this.doUpdateProfile(false)
+      getWorkshopDetailByUserID(_this.user.id).then(response => {
+        _this.loader = true
+        _this.workshopDetail = response.data.objectReturn
+        // loopingan data servis
+        _this.doClearDataV2()
+        _this.workshopDetail.workshop_details.forEach(el1 => {
+            let tempArr = []
+            //for car model option
+            let tempString1 = ""
+            tempString1 = el1.carModel
+            _this.carModelOptions.push(tempString1)
 
-        this.dataWorkshop.workshop_details.forEach(l1 => {
-          // list car Model
-          const tempString = l1.carModel
-          this.listCarModel.push(tempString)
-
-          // list car Type
-          const tempObj = {
-            carModel: l1.carModel,
-            carType: l1.carType
-          }
-          this.tempListCarType.push(tempObj)
-
-          const tempArr = []
-          this.dataWorkshop.workshop_services.forEach(l2 => {
-            tempArr.push(l2)
+            //for car type option
+            let tempObj = {
+              id: el1.id,
+              carModel: el1.carModel,
+              carType: el1.carType
+            }
+            _this.tempCarTypeOptions.push(tempObj)
+          _this.workshopDetail.workshop_services.forEach(el2 =>{
+            if(el2.workshopDetailID === el1.id){
+              tempArr.push(el2)
+            }
           })
 
-          const tempObject = {
-            workshopDetailID: l1.workshopID,
-            carModel: l1.carModel,
-            carType: l1.carType,
+          let tempObject = {
+            id: el1.id,
+            workshopId: el1.workshopID,
+            carModel: el1.carModel,
+            carType: el1.carType,
             workshop_services: tempArr,
-            created_at: l1.created_at,
-            updated_at: l1.updated_at
+            created_at: el1.created_at,
+            updated_at: el1.updated_at,
           }
-
-          this.listServices.push(tempObject)
+          _this.workshop_details.push(tempObject)
         })
-        this.listCarModel = ValidationFunction.arrayFilterCarModel(this.listCarModel)
-        this.loader = false
-        // console.log('listServices', this.listServices)
-        // console.log('listCarModel', this.listCarModel)
-      }).catch((err) => {
+        _this.carModelOptions = ValidationFunction.arrayFilterWithSet(_this.carModelOptions)
+        _this.loader = false
+      }) .finally(() => {
+        if(fromDelete){
+          _this.doFilterCarModelAndType(false)
+        }
+      }) .catch((err) =>{
         console.log(err)
-        this.loader = false
+        _this.loader = false
       })
     },
     doFilterCarType (val) {
-      // this.doClearData()
-      this.listCarType = []
+      this.doClearData()
       let tempArr = []
       const needle = val.toLocaleLowerCase()
-      tempArr = this.tempListCarType.filter(v => v.carModel.toLocaleLowerCase().indexOf(needle) > -1)
+      tempArr = this.tempCarTypeOptions.filter(v => v.carModel.toLocaleLowerCase().indexOf(needle) > -1)
       tempArr.forEach(el1 => {
-        let tempString = ''
+        let tempString = ""
         tempString = el1.carType
-        this.listCarType.push(tempString)
+        this.carTypeOptions.push(tempString)
       })
-      // console.log('options', this.listCarType)
     },
-    doGetCarServices (val) {
+    doGetCarServices(val){
       // get car model n type id
       this.generalServicesOptions = []
       let selectedCarType = []
       const needle1 = val.toLocaleLowerCase()
-      selectedCarType = this.dataWorkshop.workshop_details.filter(v => v.carType.toLocaleLowerCase().indexOf(needle1) > -1)[0]
+      selectedCarType = this.workshopDetail.workshop_details.filter(v => v.carType.toLocaleLowerCase().indexOf(needle1) > -1)[0]
 
       // get services by model n type id and separate services by type
       let tempArrServices = []
@@ -381,66 +525,283 @@ export default {
       let tempArrPeriodic = []
       let tempArrGeneral = []
 
-      tempArrServices = this.dataWorkshop.workshop_services.filter(v => v.workshopDetailID === needle2)
+      tempArrServices = this.workshopDetail.workshop_services.filter(v => v.workshopDetailID == needle2)
       // Periodic
       tempArrPeriodic = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis berkala') > -1)
       tempArrPeriodic.forEach(el1 => {
-        const tempObj = {
+        let tempObj = {
           serviceDetail: el1.serviceDetail,
           price: el1.price,
           time: el1.time
         }
         this.periodicServicesOptions.push(tempObj)
       })
+      console.log(this.periodicServicesOptions, this.generalServicesOptions)
       // General
       tempArrGeneral = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis umum') > -1)
       tempArrGeneral.forEach(el1 => {
-        const tempObj1 = {
+        let tempObj1 = {
           serviceDetail: el1.serviceDetail,
           price: el1.price,
-          time: el1.time
+          time: el1.time,
+          checked: false
         }
         this.generalServicesOptions.push(tempObj1)
       })
-      console.log('periodicServicesOptions', this.periodicServicesOptions)
-      console.log('generalServicesOptions', this.generalServicesOptions)
+      console.log(this.periodicServicesOptions, this.generalServicesOptions)
     },
-
-    // ==================================================Do Updates===================================================================
-    doCancelEdit () {
-      this.tempDataWorkshop = []
-      this.tempDataWorkshop = this.dataWorkshop
-      console.log('cancel', this.dataWorkshop)
-      this.doGetWorkshopDetailByUserID()
-    },
-    doUpdateProfile (update) {
-      if (!update) {
-        this.tempUser = this.user
-        this.tempDataWorkshop = this.dataWorkshop
-        // console.log('masuk firstload pak eko', this.tempUser)
-      } else {
-        console.log('yeet', this.dataWorkshop)
-        doUpdateWorkshopForAdminBengkel(this.dataWorkshop).then(response => {
-          console.log('response', response)
-        })
-        console.log('ngapdeeeeeeeet')
+    doFilterCarModelAndType (fromButton) {
+      let _this = this
+      if(fromButton){
+         _this.dialogEditCarTypeAndModel = true
+        _this.editCarLoader = true
       }
-      // console.log('njay')
-      this.isEditableWorkshop = false
+      _this.carModelAndType = []
+      _this.carModelOptions.forEach((el1, index) => {
+        let tempObj = {
+          index: index,
+          carModel: el1,
+          carType: []
+        }
+        _this.tempCarTypeOptions.forEach(el2 => {
+          let tempObj2 = {
+            id: el2.id,
+            name: el2.carType
+          }
+          if(el1 == el2.carModel){
+            tempObj.carType.push(tempObj2)
+          }
+        })
+        _this.carModelAndType.push(tempObj)
+      })
     },
-    doOpenEditModelAndType () {
-      this.promptEditModelAndType = true
-      this.tempUpdateModelAndType = this.dataWorkshop.workshop_details
-      console.log('data original', this.dataWorkshop)
-      console.log('masuk modal tempUpdateModelAndType', this.tempUpdateModelAndType)
+    doUpdateCarModelAndType () { // untuk update tampilan
+      let _this = this
+      var edited = false
+      _this.workshopDetail.workshop_details.forEach(el1 => { // for update data
+        _this.carModelAndType.forEach(el2 => {
+          el2.carType.forEach(el3 => {
+            if(el1.carModel == el2.carModel){
+              if(el1.id == el3.id && el1.carType !== el3.name){
+                el1.carType = el3.name
+                edited = true
+              }
+            }
+          })
+        })
+      })
+      var tempArr = [] // for add new
+      var tempArrBackendFormat = [] // for add new data format backend
+      _this.carModelAndType.forEach(el1 => { // for add new sekaligus dari data yg udh ada
+        if(!help.isDataEmpty(el1.id) && el1.id == '#1'){
+          tempArr.push(el1)
+        }
+        el1.carType.forEach(el2 => {
+          if(el2.id == '#2'){
+            let tempObj = {
+              id: el2.id,
+              carModel: el1.carModel,
+              carType: el2.name
+            }
+            tempArr.push(tempObj)
+          }
+        })
+      })
+      if(!help.isObjectEmpty(tempArr)){
+        console.log(tempArr)
+        tempArr.forEach(el1 => {
+          if(!help.isDataEmpty(el1.id) && el1.id == '#1'){
+            el1.carType.forEach(el2 => {
+              let tempObj = {
+                carModel: el1.carModel,
+                carType: el2.name
+              }
+              tempArrBackendFormat.push(tempObj)
+            })
+          } else if (!help.isDataEmpty(el1.id) && el1.id == '#2') {
+            let tempObj = {
+              carModel: el1.carModel,
+              carType: el1.carType
+            }
+            tempArrBackendFormat.push(tempObj)
+          }
+        })
+      }
+      if(edited){
+        doUpdateWorkshopForAdminBengkel(_this.workshopDetail, this.accessToken).then(response => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.data.messageAll
+          }) .then(() => {
+            _this.showError = false
+            // _this.dialogEditCarTypeAndModel = false
+            if(!help.isObjectEmpty(tempArrBackendFormat)){
+              _this.doGetWorkshopDetailByUserID(true)
+            } else {
+              _this.doGetWorkshopDetailByUserID(true)
+            }
+          })
+        }) .catch((error) => {
+          if(error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.response.data.message
+            }) .then(() => {
+              _this.showError = true
+            })
+          }
+        })
+      }
+      if(!help.isObjectEmpty(tempArrBackendFormat)){
+        let tempObj = {
+          workshopDetail: []
+        }
+        tempObj.workshopDetail = tempArrBackendFormat
+        addNewWorkshopDetail(_this.workshopDetail.id, tempObj, this.accessToken).then(response => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.data.messageAll
+          }) .then(() => {
+            _this.showError = false
+            // _this.dialogEditCarTypeAndModel = false
+            if(!edited){
+              _this.doGetWorkshopDetailByUserID(true)
+            }
+          })
+        }) .catch((error) => {
+          if(error.response.status === 401) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.response.data.message
+            }) .then(() => {
+              _this.showError = true
+            })
+          }
+        })
+      }
     },
-    doOpenEditServices () {
-      this.promptEditServices = true
-      const tempPeriodicServicesOptions = this.periodicServicesOptions
-      const tempGeneralServicesOptions = this.generalServicesOptions
-      this.tempUpdateServices = { periodic_serivces: tempPeriodicServicesOptions, general_services: tempGeneralServicesOptions }
-      console.log('cek tempUpdateServices List', this.tempUpdateServices)
-    }
+    doAddNewCarModelAndType () { // buat tampilan
+      const tempObj = {
+        index: this.carModelAndType.length,
+        id: '#1',
+        carModel: null,
+        carType: [
+          { name:null }
+        ]
+      }
+      this.carModelAndType.push(tempObj)
+    },
+    doAddNewCarType (index, fromExisting) { // buat tampilan
+      if(fromExisting){
+        var tempObj = {
+          id: '#2',
+          name: null
+        }
+      } else {
+        var tempObj = {
+          name: null
+        }
+      }
+      this.carModelAndType[index].carType.push(tempObj)
+    },
+    deleteCarModelAndType (index, item) {
+      if(item.id == '#1'){
+        this.carModelAndType.splice(index, 1)
+        this.carModelAndType.forEach((el1, index) => { // buat sort ulang index q-table
+          el1.index = index
+        })
+      } else {
+        this.doDeleteCarModelAndTypeFromExisting(item)
+      }
+    },
+    deleteCarTypeForm (index, index1) {
+      if(this.carModelAndType[index].carType[index1].id == '#2'){
+        this.carModelAndType[index].carType.splice(index1, 1)
+      } else {
+        this.doDeleteCarTypeFromExisting(index, index1)
+      }
+    },
+    doDeleteCarModelAndTypeFromExisting (item) {
+      let _this = this
+      _this.editCarLoader = true
+      deleteCarModel(_this.workshopDetail.id, item.carModel, _this.accessToken).then(response => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.data.message
+        }) .then(() => {
+          _this.doGetWorkshopDetailByUserID(true)
+          _this.editCarLoader = false
+        })
+      }) .catch((error) => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Please contact our admin'
+        }) .then(() => {
+          _this.editCarLoader = false
+        })
+      })
+    },
+    doDeleteCarTypeFromExisting (index, index1) {
+      let _this = this
+      _this.editCarLoader = true
+      let item = _this.carModelAndType[index].carType[index1]
+      console.log(item)
+      deleteCarType(_this.workshopDetail.id, item.id, _this.accessToken).then(response => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.data.message
+        }) .then(() => {
+          _this.doGetWorkshopDetailByUserID(true)
+          _this.editCarLoader = false
+        })
+      }) .catch((error) => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Please contact our admin'
+        }) .then(() => {
+          _this.editCarLoader = false
+        })
+      })
+    },
+    doFilterCarServices (fromButton) {
+      let _this = this
+      if(fromButton){
+        _this.dialogEditCarServices = true
+      }
+      _this.generalServicesForms = _this.generalServicesOptions
+      _this.periodicServicesForms = _this.periodicServicesOptions
+      console.log(_this.workshop_details)
+    },
+    doClearDataV2 () {
+      this.carModelOptions = []
+      this.carModelAndType = []
+      this.tempCarTypeOptions = []
+      this.newCarModelAndType = []
+    },
+    doClearData () {
+      this.carTypeOptions = []
+      this.periodic = false
+      this.general = false
+      this.jsonDataParam.carType = null
+      this.generalServicesOptions = []
+      this.periodicServicesOptions = []
+      this.generalServicesForms = []
+      this.periodicServicesForms = []
+    },
+    doConsole (a) {
+      console.log(a)
+    },
+    doNothing(){}
   }
 }
 </script>

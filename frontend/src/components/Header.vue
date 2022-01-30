@@ -29,7 +29,7 @@
                 </q-item>
 
                 <q-item clickable @click="changePage('/insurance/status-insurance')">
-                  <q-item-section>Insurance List</q-item-section>
+                  <q-item-section>Claim Insurance Status</q-item-section>
                 </q-item>
               </q-list>
             </q-btn-dropdown>

@@ -26,6 +26,7 @@
         font-size: 14px;
     }
 }
+
 .edit-icon{
     @include transition_mixin (color);
     cursor: pointer;
@@ -33,6 +34,15 @@
         color: $primary;
     }
 }
+
+.edit-icon-info-state{
+    @include transition_mixin (color);
+    cursor: pointer;
+    &:hover{
+        color: $info;
+    }
+}
+
 .discardDP{
     z-index: 1;
     position: absolute;

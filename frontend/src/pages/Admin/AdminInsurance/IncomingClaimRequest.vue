@@ -1,6 +1,6 @@
 <template>
     <q-page class="flex flex-center">
-        <div class="row w-80 m-auto">
+        <div class="row w-80 m-auto ">
             <div class="q-pa-md fw">
               <q-table
                 title="Incoming Claim Insurance"
@@ -51,7 +51,7 @@
                         icon="far fa-file"
                         flat round color="primary"
                         class="fs-12"
-                        @click="promptDetail = true"
+                        @click="changePage('/admin/insurance/incoming-claim-request/detail/' + props.row.insuranceID)"
                       />
                     </q-td>
                   </q-tr>
@@ -59,7 +59,7 @@
               </q-table>
             </div>
         </div>
-        <q-dialog v-model="promptDetail">
+        <!-- <q-dialog v-model="promptDetail">
             <q-card class="fh fw m-auto" >
                 <q-card-section>
                     <div class="black-1 m-auto fw-semibold text-align-center">Isi data yang mau di show</div>
@@ -101,7 +101,7 @@
                     <q-btn color="primary" label="Done" v-close-popup @click="doHandleIncomingOrder('accept', '')"/>
                 </q-card-actions>
             </q-card>
-        </q-dialog>
+        </q-dialog> -->
     </q-page>
 </template>
 
@@ -129,16 +129,16 @@ export default {
         { name: 'polisNumber', label: 'Polis Number', field: 'polisNumber', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'emailClaimer', label: 'Email', field: 'emailClaimer', align: 'center' },
         { name: 'phoneNumberClaimer', label: 'Phone Number', field: 'phoneNumberClaimer', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'licensePlateNumber', label: 'License Plater', field: 'licensePlateNumber', align: 'center' },
+        { name: 'licensePlateNumber', label: 'License Plate', field: 'licensePlateNumber', align: 'center' },
         { name: 'submitDate', label: 'Submit Date', field: 'submitDate', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'claimedInsuranceDate', label: 'Claimed Insurance Date', field: 'claimedInsuranceDate', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'detail', label: 'View Detail', field: 'detail', align: 'center' }
       ],
       data: [],
       dataIncomingClaim: [],
-      promptDetail: false,
-      promptDetailAccept: false,
-      promptDetailReject: false
+      // promptDetail: false,
+      // promptDetailAccept: false,
+      // promptDetailReject: false
     }
   },
   created() {
@@ -242,7 +242,10 @@ export default {
         }
       })
       return count
-    }
+    },
+    changePage (url) {
+        this.$router.push(url)
+      }
   }
 }
 </script>

@@ -107,3 +107,16 @@
         }
     }
 }
+
+.edit-pen-btn{
+    .q-icon{
+        font-size: 1.4em;
+    }
+}
+.edit-pen-btn-active{
+    @include transition_mixin(color);
+    &:hover{
+        @include transition_mixin(color);
+        color: $primary;
+    }
+}
