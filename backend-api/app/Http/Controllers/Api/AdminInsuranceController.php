@@ -59,7 +59,7 @@ class AdminInsuranceController extends Controller
 
 
 
-            $dataInsuranceDetails = DB::table('insuranceDetails')
+            $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
             ->update(['insuranceDescription'=>$req->insuranceDescription,
                     'insuranceStatus','=','Approved']);
@@ -149,7 +149,7 @@ class AdminInsuranceController extends Controller
                 return $validator->errors();
             }
 
-            $dataInsuranceDetails = DB::table('insuranceDetails')
+            $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
             ->update(['insuranceDescription'=>$req->insuranceDescription,
                     'insuranceStatus','=','Rejected']);
