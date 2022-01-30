@@ -183,7 +183,7 @@
               <div class="icon-phone-border d-flex"><q-icon class="phone-icon" name="email" /></div>
               <div class="content-nomor pl-30 flex flex-center">
                 <div class="fs-16 fw-semibold mb-15">Email Honda Indonesia</div>
-                <div class="text-subtitle2">Send Mail to honda</div>
+                <div class="text-subtitle2">Send Mail to <b class="primary_bg_fade p-2 br-5px">{{ workshopDetail.workshopEmail }}</b></div>
               </div>
             </div>
             <div class="d-flex a-center py-30">
