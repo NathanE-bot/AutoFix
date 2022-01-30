@@ -119,5 +119,6 @@ Route::get('getDataIncomingInsuranceRequestByAdminID','Api\AdminInsuranceControl
 Route::post('uploadPDFInsurance','Api\AdminInsuranceController@uploadPDFInsurance');
 Route::post('acceptInsuranceClaim','Api\AdminInsuranceController@acceptInsuranceClaim');
 Route::get('getAdminInsuranceDetails','Api\AdminInsuranceController@getAdminInsuranceDetails');
+Route::post('rejectInsuranceClaim','Api\AdminInsuranceController@rejectInsuranceClaim');
 
 

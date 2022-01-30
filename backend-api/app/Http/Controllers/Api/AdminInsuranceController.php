@@ -57,21 +57,18 @@ class AdminInsuranceController extends Controller
             if ($validator->fails()) {
                 return $validator->errors();
             }
-
-
-
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
-            ->update(['insuranceDescription'=>$req->insuranceDescription,
-                    'insuranceStatus','=','Approved']);
+            ->update(['insuranceDescription'=>$req->insuranceDescription],
+                    ['insuranceStatus','=','Approved']);
 
             $dataUserID=DB::table('insurances')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
-            ->where('id','=',$req->insuranceID)->first();
+            ->where('insurances.id','=',$req->insuranceID)->first();
             $newNotification = new Notification;
             $newNotification->userID = $dataUserID->userID;
             $newNotification->senderName = 'System';
-            $newNotification->description = 'Your Schedule Have Been Accepted By'.$dataUserID->InsuranceName.'please see you history in profile menu or Contact The admin If you have any question.';
+            $newNotification->description = 'Your Schedule Have Been Accepted By'.$dataUserID->insuranceName.'please see you history in profile menu or Contact The admin If you have any question.';
             $newNotification->notificationTime = Carbon::now();
             $newNotification->save();
             return response()->json(['message'=>'berhasil'], 200);
@@ -152,20 +149,20 @@ class AdminInsuranceController extends Controller
 
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
-            ->update(['insuranceDescription'=>$req->insuranceDescription,
-                    'insuranceStatus','=','Rejected']);
+            ->update(['insuranceDescription'=>$req->insuranceDescription],
+                    ['insuranceStatus','=','Rejected']);
 
             $dataUserID=DB::table('insurances')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
-            ->where('id','=',$req->insuranceID)->first();
+            ->where('insurances.id','=',$req->insuranceID)->first();
 
             $newNotification = new Notification;
             $newNotification->userID = $dataUserID->userID;
             $newNotification->senderName = 'System';
-            $newNotification->description = 'Your Schedule Have Been Rejected By'.$dataUserID->InsuranceName.'please see you history in profile menu or Contact The admin If you have any question.';
+            $newNotification->description = 'Your Schedule Have Been Rejected By'.$dataUserID->insuranceName.'please see you history in profile menu or Contact The admin If you have any question.';
             $newNotification->notificationTime = Carbon::now();
             $newNotification->save();
-            return response()->json($scheduleDetail, 200);
+            return response()->json($dataInsuranceDetails, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
