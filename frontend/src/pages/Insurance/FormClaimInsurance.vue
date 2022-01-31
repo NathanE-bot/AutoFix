@@ -25,8 +25,8 @@
                 <div class="row d-flex a-start j-sp-between">
                     <div class="col-md-5 row">
                         <q-input
-                            v-model="form.name"
-                            :rules="rules.name_r"
+                            v-model="form.insuredName"
+                            :rules="rules.insuredName_r"
                             lazy-rules="ondemand"
                             class="col-md-12" filled
                             label="Insured Name" />
@@ -260,7 +260,7 @@
                                 flat round color="grey-5"
                             />
                             <div v-else-if="imageForm.length == 10">
-                                Max 5 total photo
+                                Max total photo 10
                             </div>
                         </div>
                     </div>
@@ -271,14 +271,15 @@
                 <q-separator color="#605A5A" size="1px" />
                 <q-stepper-navigation class="d-flex a-center j-sp-between">
                     <div class="d-flex a-center j-end q-gutter-x-md">
-                        <div>
+                        <span>Contact Us: </span>
+                        <div v-if="!help.isDataEmpty(vendorInsurance.phoneNumber)">
                             <i class="fas fa-phone mr-8"></i>
-                            <span>087893248938</span>
+                            <span>{{ vendorInsurance.phoneNumber }}</span>
                         </div>
-                        <div>
+                        <!-- <div>
                             <i class="far fa-envelope mr-8"></i>
                             <span>email@gmail.com</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div>
                         <q-btn
@@ -306,22 +307,29 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
 /* eslint-disable */
+import Swal from 'sweetalert2'
 import help from '../../js/help'
+import Auth from '../../js/AuthValidation'
+import { getVendorInsuranceByID } from '../../api/InsuranceService'
+import { LocalStorage } from 'quasar'
 
 export default {
     data () {
         return{
             help,
+            loader: false,
             step: 1,
             window: {
                 width: 0,
                 height: 0,
                 heightAltered: 0
             },
+            vendorInsurance: {},
             form: {
-                name: null,
+                vendorInsuranceID: null,
+                userID: null,
+                insuredName: null,
                 phoneNumber: null,
                 email: null,
                 brandType: null,
@@ -372,7 +380,9 @@ export default {
         }
     },
     created () {
-        this.addUploadPhoto(true)
+        this.user = Auth.getUserDetails()
+        this.vendorInsuranceID = this.$route.params.id
+        this.doGetVendorInsuranceByID()
     },
     mounted () {
         window.addEventListener('resize', this.handleResize)
@@ -382,11 +392,21 @@ export default {
         window.removeEventListener('resize', this.handleResize)
     },
     methods: {
-        doSubmitInsuranceForm () {
-            Swal.fire ({
-                icon: "success",
-                title: "Form Submitted",
-                text: "Your request is being processed"
+        handleResize () {
+            this.window.width = window.innerWidth
+            this.window.height = window.innerHeight
+            this.window.heightAltered = window.innerHeight - (window.innerHeight * (35/100))
+        },
+        doGetVendorInsuranceByID () {
+            let _this = this
+            _this.loader = true
+            let token = Auth.getAccessToken()
+            getVendorInsuranceByID(_this.vendorInsuranceID, token).then(response => {
+                _this.vendorInsurance = response.data.objectReturn
+                _this.addUploadPhoto(true)
+            }) .catch((err) => {
+                _this.loader = false
+                console.log(err)
             })
         },
         doUploadProfilePicture (event, item, index) {
@@ -401,24 +421,35 @@ export default {
                     text: "File type is not .png, .jpg, or .jpeg"
                 })
                 document.getElementById('uploadDPUser-' + index).value = ''
+            } else {
+                item.uploaded = true
+                var reader = new FileReader() // Creating reader instance from FileReader() API
+
+                var preview = document.getElementById('myImg-' + index) // Image reference
+                var file = inputFile[0] // File refrence
+
+                reader.addEventListener("load", function () { // Setting up base64 URL on image
+                    preview.src = reader.result
+                }, false)
+                reader.readAsDataURL(file)
+
+                const formData = new FormData
+                formData.set('image', file)
+                item.imageFile = formData
             }
-            item.uploaded = true
-            var reader = new FileReader() // Creating reader instance from FileReader() API
-
-            var preview = document.getElementById('myImg-' + index) // Image reference
-            var file = inputFile[0] // File refrence
-
-            reader.addEventListener("load", function () { // Setting up base64 URL on image
-                preview.src = reader.result
-            }, false)
-            reader.readAsDataURL(file)
-
-            const formData = new FormData
-            formData.set('image', file)
-            item.imageFile = formData
         },
-        addUploadPhoto () {
-            for (let i = 0; i < 7; i++) {
+        addUploadPhoto (firstLoader) {
+            if(firstLoader){
+                for (let i = 0; i < 7; i++) {
+                    const tempObj = {
+                        name: '',
+                        imageFile: [],
+                        uploaded: false
+                    }
+                    this.imageForm.push(tempObj)
+                }
+                this.loader = false
+            } else {
                 const tempObj = {
                     name: '',
                     imageFile: [],
@@ -427,10 +458,12 @@ export default {
                 this.imageForm.push(tempObj)
             }
         },
-        handleResize () {
-            this.window.width = window.innerWidth
-            this.window.height = window.innerHeight
-            this.window.heightAltered = window.innerHeight - (window.innerHeight * (35/100))
+        doSubmitInsuranceForm () {
+            Swal.fire ({
+                icon: "success",
+                title: "Form Submitted",
+                text: "Your request is being processed"
+            })
         }
     }
 }
