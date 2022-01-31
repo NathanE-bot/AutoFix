@@ -321,10 +321,10 @@ export default {
                 heightAltered: 0
             },
             form: {
-                name: '',
-                phoneNumber: '',
-                email: '',
-                brandType: '',
+                name: null,
+                phoneNumber: null,
+                email: null,
+                brandType: null,
                 nomorRangka: null,
                 polisNumber: null,
                 polisiNumber: null,
@@ -346,26 +346,27 @@ export default {
             imageForm: [],
             rules: {
                 name_r: [
-                    v => !!v || 'Nama harus diisi'
+                    v => !!v || 'Name is required!'
                 ],
                 phoneNumber_r: [
-                    v => !!v || 'Nomor telepon harus diisi'
+                    v => !!v || 'Phone number is required!',
+                    v => /^([0-9]*)$/.test(v) || 'Phone number must be numeric'
                 ],
                 email_r: [
-                    v => !!v || 'Email harus diisi',
-                    v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Format Email Salah'
+                    v => !!v || 'Email is required!',
+                    v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Wrong email format'
                 ],
                 brandType_r: [
-                    v => !!v || 'Brand dan tipe harus diisi'
+                    v => !!v || 'Brand dan Type is required!'
                 ],
                 nomorRangka_r: [
-                    v => !!v || 'Nomor rangka harus diisi'
+                    v => !!v || 'Chassis number is required!'
                 ],
                 polisNumber_r: [
-                    v => !!v || 'Nomor polis harus diisi'
+                    v => !!v || 'Polis number is required!'
                 ],
                 polisiNumber_r: [
-                    v => !!v || 'Nomor polisi mobil harus diisi'
+                    v => !!v || 'Registration number is required!'
                 ]
             }
         }
