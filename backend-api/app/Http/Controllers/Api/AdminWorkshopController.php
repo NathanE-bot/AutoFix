@@ -271,6 +271,7 @@ class AdminWorkshopController extends Controller
         try{
             $validator = Validator::make($req->all(), [
                 'workshopPictureID'=>'required',
+                'workshopID'=>'required',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
@@ -293,14 +294,14 @@ class AdminWorkshopController extends Controller
             {
                 return response()->json('image not found', 400);
             }
-            return response()->json([
-                // 'message' => 'success',
-                $imagePath,
-                $req->workshopPictureID
-            ], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+        return response()->json([
+            'message' => 'success',
+            'path' => $imagePath,
+            'workshopPictureID' => $req->workshopPictureID
+        ], 200);
     }
 
 
