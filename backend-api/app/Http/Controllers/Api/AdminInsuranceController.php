@@ -39,6 +39,7 @@ class AdminInsuranceController extends Controller
             'insurances.polisNumber','insurances.licensePlateNumber','insurances.submitDate')
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','=','on progress')
+            ->orderBy('insurances.submitDate','asc')
             ->get();
             if(empty($insurance)){
                 return response()->json(['Message'=>'No data'], 200);
@@ -57,10 +58,13 @@ class AdminInsuranceController extends Controller
             // if ($validator->fails()) {
             //     return $validator->errors();
             // }
+            $dateTimeNow = carbon::now()->format("Y-m-d_H-i-s");
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
             ->where('insuranceStatus','=','on progress')
-            ->update(['insuranceStatus'=>'Approved','insuranceDescription'=>'Approved brok']); // cek ini mau apa descnya
+            ->update(['insuranceStatus'=>'Approved',
+            'insuranceDescription'=>'Your Insurace Claim Request has been Accpt, Please Download The PDF in The Menu Detail , or Contact Our Admin if you have any question',
+            'claimedInsuranceDate'=>$dateTimeNow]); // cek ini mau apa descnya
 
             $dataUserID=DB::table('insurances')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
@@ -146,11 +150,11 @@ class AdminInsuranceController extends Controller
             if ($validator->fails()) {
                 return $validator->errors();
             }
-
+            $dataDateTimeNow= carbon::noew()->format("Y-m-d_H-i-s");
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
             ->where('insuranceStatus','=','on progress')
-            ->update(['insuranceDescription'=>$req->insuranceDescription,'insuranceStatus'=>'Rejected']);
+            ->update(['insuranceDescription'=>$req->insuranceDescription,'insuranceStatus'=>'Rejected','claimedInsuranceDate'=>$dataDateTimeNow]);
 
             $dataUserID=DB::table('insurances')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
@@ -214,6 +218,7 @@ class AdminInsuranceController extends Controller
             'insurances.polisNumber','insurances.licensePlateNumber','insurances.submitDate')
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','!=','on progress')
+            ->orderBY('insurance_details.claimedInsuranceDate','desc')
             ->get();
             if(empty($insurance)){
                 return response()->json(['Message'=>'No data'], 200);
