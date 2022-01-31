@@ -139,20 +139,21 @@ export default {
                     text: "File type is not .png, .jpg, or .jpeg"
                 })
                 document.getElementById('uploadDPUser').value = ''
+            } else {
+                var reader = new FileReader() // Creating reader instance from FileReader() API
+
+                var preview = document.getElementById('myImg') // Image reference
+                var file = inputFile[0] // File refrence
+
+                reader.addEventListener("load", function () { // Setting up base64 URL on image
+                    preview.src = reader.result
+                }, false)
+                reader.readAsDataURL(file)
+
+                const formData = new FormData
+                formData.set('image', file)
+                this.userDisplay.image = formData
             }
-            var reader = new FileReader() // Creating reader instance from FileReader() API
-
-            var preview = document.getElementById('myImg') // Image reference
-            var file = inputFile[0] // File refrence
-
-            reader.addEventListener("load", function () { // Setting up base64 URL on image
-                preview.src = reader.result
-            }, false)
-            reader.readAsDataURL(file)
-
-            const formData = new FormData
-            formData.set('image', file)
-            this.userDisplay.image = formData
         },
         doUpdateUserData(){
             this.loader = true

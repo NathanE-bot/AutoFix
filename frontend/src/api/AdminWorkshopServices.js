@@ -74,3 +74,8 @@ export function updateLogoWorkshop(workshopID, workshopLogo, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
   return axios.post(localURL + '/api/updateLogoWorkshop?workshopID=' + workshopID, workshopLogo, authorization)
 }
+
+export function uploadGaleryWorkshop(workshopID, workshopPicture, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/uploadGaleryWorkshop?workshopID=' + workshopID, workshopPicture, authorization)
+}

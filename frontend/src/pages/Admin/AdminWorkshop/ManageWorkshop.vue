@@ -5,8 +5,9 @@
         v-model="workshopTab"
         align="justify"
       >
-        <q-tab class="tf-capitalize" name="workshop" label="Edit Workshop" />
-        <q-tab class="tf-capitalize" name="services" label="Edit Services" />
+        <q-tab class="tf-capitalize" name="workshop" label="Manage Workshop" />
+        <q-tab class="tf-capitalize" name="services" label="Manage Services" />
+        <q-tab class="tf-capitalize" name="gallery" label="Manage Gallery" />
       </q-tabs>
       <q-separator />
       <q-tab-panels v-model="workshopTab" animated>
@@ -324,6 +325,40 @@
             </div>
           </div>
         </q-tab-panel>
+        <q-tab-panel name="gallery">
+          <div class="row">
+          <div class="col-12 mb-20">
+            <div class="d-flex a-center">
+              <div class="text-h6 fw-semibold mr-20">Gallery Workshop</div>
+              <q-btn
+                @click="doUploadToDatabaseGalleryWorkshop()"
+                label="Upload Photo Gallery"
+                unelevated rounded color="primary"
+              />
+            </div>
+          </div>
+            <div class="col-3 px-12" v-for="(image, index) in jsonDataParam.galleryImages" :key="'galer-'+index">
+              <div class="upload-photo-box">
+                <i v-if="!image.uploaded" class="fas fa-cloud-upload-alt fs-40 flex flex-center" style="width:100px; height: 100px"></i>
+                <div :class="['upload-photo-box-insurance relative-position flex-center', {'d-none' : !image.uploaded}]">
+                  <img class="responsive_img fit-content d-flex m-auto br-10px" :src="image.imageFile" :id="'file_type[' + index + ']'">
+                </div>
+                <input style="color: transparent; width:92px" class="cursor-pointer" type="file" accept=".png,.jpg,.jpeg" :id="'uploadGallery-' + index" @change="doUploadForGalleryWorkshop($event, image, index)">
+              </div>
+            </div>
+            <div class="d-flex a-center j-center">
+              <q-btn
+                v-if="jsonDataParam.galleryImages.length < 4"
+                @click="addGalleryForm()"
+                icon="fas fa-plus"
+                flat round color="grey-5"
+              />
+              <div class="text-subtitle2 text-semibold" v-if="jsonDataParam.galleryImages.length == 4">
+                You have reached maximum gallery image of 4 images.
+              </div>
+            </div>
+          </div>
+        </q-tab-panel>
       </q-tab-panels>
     </q-card>
     <q-dialog v-model="dialogEditCarTypeAndModel" persistent class="edit-car-typemodel-dialog">
@@ -632,7 +667,8 @@ import {
   addWorkshopService,
   deleteWorkshopServiceByID,
   deleteWorkshopServiceByStatusAndID,
-  updateLogoWorkshop
+  updateLogoWorkshop,
+  uploadGaleryWorkshop
 } from '../../../api/AdminWorkshopServices'
 import help from '../../../js/help'
 import ValidationFunction from '../../../js/ValidationFunction'
@@ -714,6 +750,7 @@ export default {
         editWorkshopObject: {},
         operationalWorkshopHours: [],
         status24Hr: false,
+        galleryImage: {}
       },
       jsonDataParamTable: {
         iPage: 1,
@@ -803,6 +840,9 @@ export default {
         _this.loader = false
       }) .finally(() => {
         _this.workshopDetail.workshop_review.reverse()
+        if(help.isObjectEmpty(_this.jsonDataParam.galleryImages)){
+          _this.addGalleryForm()
+        }
         if(deleteCarSpec){
           _this.doFilterCarModelAndType(false)
         } else if (deleteCarServ){
@@ -894,20 +934,21 @@ export default {
           text: "File type is not .png, .jpg, or .jpeg"
         })
         document.getElementById('uploadDPUser').value = ''
+      } else {
+        var reader = new FileReader() // Creating reader instance from FileReader() API
+
+        var preview = document.getElementById('myImg') // Image reference
+        var file = inputFile[0] // File refrence
+
+        reader.addEventListener("load", function () { // Setting up base64 URL on image
+          preview.src = reader.result
+        }, false)
+        reader.readAsDataURL(file)
+
+        const formData = new FormData
+        formData.set('image', file)
+        this.jsonDataParam.editWorkshopObject.workshopLogo = formData
       }
-      var reader = new FileReader() // Creating reader instance from FileReader() API
-
-      var preview = document.getElementById('myImg') // Image reference
-      var file = inputFile[0] // File refrence
-
-      reader.addEventListener("load", function () { // Setting up base64 URL on image
-        preview.src = reader.result
-      }, false)
-      reader.readAsDataURL(file)
-
-      const formData = new FormData
-      formData.set('image', file)
-      this.jsonDataParam.editWorkshopObject.workshopLogo = formData
     },
     doFilterEditWorkshop () {
       let _this = this
@@ -1447,6 +1488,51 @@ export default {
           _this.showError = true
           _this.editCarServiceLoader = false
         })
+      })
+    },
+    addGalleryForm () {
+      let tempObj = {
+        uploaded: false,
+        imageData: {}
+      }
+      this.jsonDataParam.galleryImages.push(tempObj)
+      console.log('asd', this.jsonDataParam.galleryImages)
+    },
+    doUploadForGalleryWorkshop (event, imageObj, index) {
+      var inputFile = event.target.files || event.dataTransfer.files
+      if(!inputFile.length) return null
+
+      var inputFileType = inputFile[0].type
+      if(!help.isValidImageType(inputFileType)){
+        Swal.fire ({
+          icon: "error",
+          title: "Input Error",
+          text: "File type is not .png, .jpg, or .jpeg"
+        })
+        document.getElementById('uploadGallery-' + index).value = ''
+      } else {
+        imageObj.uploaded = true
+        var reader = new FileReader() // Creating reader instance from FileReader() API
+
+        var preview = document.getElementById('imageGallery-' + index) // Image reference
+        var file = inputFile[0] // File refrence
+
+        reader.addEventListener("load", function () { // Setting up base64 URL on image
+          preview.src = reader.result
+        }, false)
+        reader.readAsDataURL(file)
+        const formData = new FormData
+        formData.set('image', test)
+        _this.jsonDataParam.galleryImage = {}
+        _this.jsonDataParam.galleryImage = formData
+        _this.doUploadToDatabaseGalleryWorkshop()
+      }
+    },
+    doUploadToDatabaseGalleryWorkshop () {
+      let _this = this
+      _this.loader = true
+      uploadGaleryWorkshop(_this.workshopDetail.id, _this.jsonDataParam.galleryImage, _this.accessToken).then(response => {
+        console.log(response.data)
       })
     },
     doClearDataV2 () {
