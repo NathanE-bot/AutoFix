@@ -1,8 +1,8 @@
 <template>
-    <q-header class="autorepair-header">
-      <q-toolbar>
+    <q-header class="autorepair-header  autorepair-header-admin">
+      <q-toolbar class="w-80 autorepair-header-admin m-auto">
         <div class="relative-box">
-          <img class="logo-img fixed-top-left" src="../assets/images/logo.png" alt="">
+          <img class="logo-img fixed-initial-left" src="../assets/images/logo.png" alt="">
         </div>
         <q-tabs
           v-model="initialTab"
@@ -48,14 +48,6 @@
             </div>
             <div class="login-avatar" v-else>
               <div>
-                <q-btn
-                  flat round dense
-                  color="primary" text-color="white"
-                  icon="fas fa-bell"
-                  class="fs-20 mr-20 notif-btn"
-                >
-                  <q-badge color="red" rounded floating />
-                </q-btn>
                 <q-btn
                   round unelevated
                   color="white"

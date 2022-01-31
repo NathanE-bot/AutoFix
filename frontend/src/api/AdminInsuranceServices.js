@@ -14,3 +14,15 @@ export function getIncomingClaimRequest(adminID) {
 export function getAdminInsuranceDetails(insuranceID) {
   return axios.get(localURL + '/api/getAdminInsuranceDetails?insuranceID=' + insuranceID)
 }
+
+export function rejectInsuranceClaim(insuranceID, insuranceDescription){
+  return axios.post(localURL + '/api/rejectInsuranceClaim?insuranceID=' + insuranceID + '&insuranceDescription=' + insuranceDescription)
+}
+
+export function acceptInsuranceClaim(insuranceID) {
+  return axios.post(localURL + '/api/acceptInsuranceClaim?insuranceID=' + insuranceID)
+}
+
+export function uploadPDFInsurance(insuranceID, filePDF){
+  return axios.post(localURL + '/api/uploadPDFInsurance?insuranceID=' + insuranceID, filePDF)
+}

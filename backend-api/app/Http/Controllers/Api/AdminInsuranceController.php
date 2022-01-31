@@ -51,16 +51,16 @@ class AdminInsuranceController extends Controller
 
     public function acceptInsuranceClaim(Request $req){
         try {
-            $validator = Validator::make($req->all(), [
-                'insuranceDescription'=>['required', 'string', 'max:500'],
-            ]);
-            if ($validator->fails()) {
-                return $validator->errors();
-            }
+            // $validator = Validator::make($req->all(), [
+            //     'insuranceDescription'=>['required', 'string', 'max:500'],
+            // ]);
+            // if ($validator->fails()) {
+            //     return $validator->errors();
+            // }
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
             ->where('insuranceStatus','=','on progress')
-            ->update(['insuranceStatus'=>'Approved','insuranceDescription'=>$req->insuranceDescription]);
+            ->update(['insuranceStatus'=>'Approved','insuranceDescription'=>'Approved brok']); // cek ini mau apa descnya
 
             $dataUserID=DB::table('insurances')
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')

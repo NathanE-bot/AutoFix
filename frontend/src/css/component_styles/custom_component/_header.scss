@@ -19,6 +19,7 @@
 }
 
 .autorepair-header{
+    margin: auto;
     background: rgba(0, 0, 0, 0.7);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(8px);
@@ -97,4 +98,9 @@
             }
         }
     }
+}
+
+.autorepair-header-admin{
+    background-color: #212121 !important;
+    box-shadow: rgb(0 0 0 / 35%) 0px 13px 10px -15px;
 }

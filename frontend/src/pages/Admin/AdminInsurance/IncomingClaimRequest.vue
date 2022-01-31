@@ -59,49 +59,6 @@
               </q-table>
             </div>
         </div>
-        <!-- <q-dialog v-model="promptDetail">
-            <q-card class="fh fw m-auto" >
-                <q-card-section>
-                    <div class="black-1 m-auto fw-semibold text-align-center">Isi data yang mau di show</div>
-                </q-card-section>
-
-                <q-card-actions align="center" class="text-primary">
-                    <q-btn color="negative" label="Reject" v-close-popup  @click="promptDetailReject = true"/>
-                    <q-btn color="primary" label="Accept" v-close-popup @click="promptDetailAccept = true"/>
-                </q-card-actions>
-            </q-card>
-        </q-dialog>
-        <q-dialog v-model="promptDetailAccept">
-            <q-card style="min-width: 480px" class="py-20" >
-                <q-card-section>
-                    <div class="black-1 m-auto fw-semibold text-align-center">Accept Insurance Claim Request?</div>
-                </q-card-section>
-
-                <q-card-actions align="center" class="text-primary">
-                    <q-btn label="Cancel" v-close-popup  @click="promptDetail = true"/>
-                    <q-btn color="primary" label="Accept" v-close-popup/>
-                </q-card-actions>
-            </q-card>
-        </q-dialog>
-        <q-dialog v-model="promptDetailReject">
-            <q-card class="fw m-auto" >
-                <q-card-section>
-                    <div class="black-1 m-auto fw-semibold text-align-center">Insert rejecting reason</div>
-                </q-card-section>
-                <div class="fw m-auto">
-                  <q-input
-                    outlined
-                    type="textarea"
-                    class="fix-txt-field default-textarea-1 w-80 m-auto"
-                  >
-                  </q-input>
-                </div>
-                <q-card-actions align="center" class="text-primary">
-                    <q-btn label="Cancel" v-close-popup  @click="promptDetail = true"/>
-                    <q-btn color="primary" label="Done" v-close-popup @click="doHandleIncomingOrder('accept', '')"/>
-                </q-card-actions>
-            </q-card>
-        </q-dialog> -->
     </q-page>
 </template>
 

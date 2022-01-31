@@ -87,5 +87,8 @@ export default {
     },
     isValidImageType (fileType) {
         return fileType.substring(fileType.indexOf("/")+1) == "png" || fileType.substring(fileType.indexOf("/")+1) == "jpg" || fileType.substring(fileType.indexOf("/")+1) == "jpeg"
+    },
+    isValidFilePDF(fileType){
+        return fileType.substring(fileType.indexOf("/")+1) == "pdf"
     }
 }
