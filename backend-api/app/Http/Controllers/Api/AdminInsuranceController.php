@@ -203,4 +203,25 @@ class AdminInsuranceController extends Controller
         }
     }
 
+    public function getInsuranceHistory(Request $req){
+        try {
+            $insurance= DB::table('insurances')
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
+            ->join('users','users.id','=','insurance_vendors.userID')
+            ->select('insurances.id as insuranceID','insurances.userID AS customerID','insurances.phoneNumberClaimer','insurances.emailClaimer',
+            'insurances.insuredName','insurance_vendors.insuranceName','insurance_details.insuranceStatus','insurance_details.claimedInsuranceDate',
+            'insurances.polisNumber','insurances.licensePlateNumber','insurances.submitDate')
+            ->where('insurance_vendors.userID','=',$req->adminID)
+            ->where('insurance_details.insuranceStatus','!=','on progress')
+            ->get();
+            if(empty($insurance)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
+            return response()->json($insurance, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
 }
