@@ -93,7 +93,7 @@
 }
 
 .input-bold{
-    input{
+    input, .q-field__prefix, .q-field__suffix{
         font-weight: 600;
     }
 }

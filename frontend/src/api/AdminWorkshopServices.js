@@ -11,8 +11,8 @@ export function getIncomingOrderSchedule(adminID) {
   return axios.get(localURL + '/api/getScheduleByWorkshopIDAndAdminWorkshop?adminID=' + adminID)
 }
 
-export function doAcceptScheduleByAdmin(scheduleID) {
-  return axios.post(localURL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID)
+export function doAcceptScheduleByAdmin(scheduleID, status) {
+  return axios.post(localURL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID + '&status=' + status)
 }
 
 export function doRejectScheduleByAdmin(dataReject) {
@@ -70,7 +70,7 @@ export function deleteWorkshopServiceByStatusAndID(workshopDetailID, serviceType
   return axios.post(localURL + '/api/deleteWorkshopServiceByStatusAndID?workshopDetailID=' + workshopDetailID + '&serviceType=' + serviceType, authorization)
 }
 
-export function updateLogoWorkshop(workshopID, fileImg, userToken) {
+export function updateLogoWorkshop(workshopID, workshopLogo, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.post(localURL + '/api/updateLogoWorkshop?workshopID=' + workshopID, fileImg, authorization)
+  return axios.post(localURL + '/api/updateLogoWorkshop?workshopID=' + workshopID, workshopLogo, authorization)
 }

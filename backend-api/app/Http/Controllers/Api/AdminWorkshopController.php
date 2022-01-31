@@ -64,15 +64,17 @@ class AdminWorkshopController extends Controller
     }
 
     public function acceptScheduleByAdmin(Request $req){
-        $validator = Validator::make($req->all(), [
-            'description' => 'string','required'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'id' => 1,
-                'message'=>$validator->errors()
-            ], 401);
+        if($req->status == 'cancel'){
+            $validator = Validator::make($req->all(), [
+                'description' => 'string','required'
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'id' => 1,
+                    'message'=>$validator->errors()
+                ], 401);
+            }
         }
         try {
             $dataSchedule= DB::table('schedules')->where('id','=',$req->scheduleID)->where('scheduleStatus','=','waiting confirmation')
@@ -215,7 +217,7 @@ class AdminWorkshopController extends Controller
 
     public function updateLogoWorkshop(Request $req){
         $validator = Validator::make($req->all(), [
-            'workshopLogo' => 'image|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'image|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
 
@@ -226,7 +228,7 @@ class AdminWorkshopController extends Controller
             ], 401);
         }
         $dataUpdatedUser = DB::table('workshops')->where('id','=',$req->workshopID)->first();
-        if (!is_null($req->workshopLogo))
+        if (!is_null($req->image))
         {
             $dataImageWorkshops = DB::table('workshops')
             ->select(DB::raw('SUBSTRING(workshopLogo,30,100) AS path'))
@@ -235,8 +237,8 @@ class AdminWorkshopController extends Controller
 
             $dateTimeNow = carbon::now()->format("Y-m-d_H-i-s");
             $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->workshopName);
-            $ext = $req->workshopLogo->getClientOriginalExtension();
-            $path = $req->file('workshopLogo')->storeAs('avatar', strtolower('LOGO-'.$fullNameTemp.$dataUpdatedUser->id.$dateTimeNow.'.'.$ext), 'public');
+            $ext = $req->image->getClientOriginalExtension();
+            $path = $req->file('image')->storeAs('avatar', strtolower('LOGO-'.$fullNameTemp.$dataUpdatedUser->id.$dateTimeNow.'.'.$ext), 'public');
             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
             $dataUser = DB::table('workshops')->where('id','=',$req->workshopID)

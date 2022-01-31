@@ -281,6 +281,9 @@
 .layout_txt{
     @include layout_txt(85px);
 }
+.layout_owh_admin{
+    @include layout_owh_admin(100px);
+}
 
 .layout_bullet{
     @include layout_bullet(8px, 8px);

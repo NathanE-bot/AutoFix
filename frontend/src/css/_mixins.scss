@@ -91,6 +91,23 @@
     }
 }
 
+@mixin layout_owh_admin($width) {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 4px;
+    border-radius: 5px;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        @include width_preset($width);
+    }
+
+    > q-toggle {
+        margin-left: 8px;
+    }
+}
+
 @mixin layout_bullet ($width, $height) {
     .wrapper{
         display: flex;
