@@ -332,12 +332,13 @@
               <div class="text-h6 fw-semibold mr-20">Gallery Workshop</div>
               <q-btn
                 @click="doUploadToDatabaseGalleryWorkshop()"
-                label="Upload Photo Gallery"
+                label="Upload Photo Gallery" icon="fas fa-plus"
                 unelevated rounded color="primary"
+                class="tf-capitalize icon-resize"
               />
             </div>
           </div>
-            <div class="col-3 px-12" v-for="(image, index) in jsonDataParam.galleryImages" :key="'galer-'+index">
+            <div class="col-3 px-12" v-for="(image, index) in jsonDataParam.galleryImagesForPreview" :key="'galer-'+index">
               <div class="upload-photo-box">
                 <i v-if="!image.uploaded" class="fas fa-cloud-upload-alt fs-40 flex flex-center" style="width:100px; height: 100px"></i>
                 <div :class="['upload-photo-box-insurance relative-position flex-center', {'d-none' : !image.uploaded}]">
@@ -348,12 +349,12 @@
             </div>
             <div class="d-flex a-center j-center">
               <q-btn
-                v-if="jsonDataParam.galleryImages.length < 4"
+                v-if="jsonDataParam.galleryImagesForPreview.length < 4"
                 @click="addGalleryForm()"
                 icon="fas fa-plus"
                 flat round color="grey-5"
               />
-              <div class="text-subtitle2 text-semibold" v-if="jsonDataParam.galleryImages.length == 4">
+              <div class="text-subtitle2 text-semibold" v-if="jsonDataParam.galleryImagesForPreview.length == 4">
                 You have reached maximum gallery image of 4 images.
               </div>
             </div>
@@ -626,29 +627,29 @@
             <q-btn
               class="tf-capitalize icon-resize"
               color="primary" icon="fas fa-plus"
-              rounded label="New Periodic Service"
+              rounded unelevated label="New Periodic Service"
               @click="doAddNewCarPeriodicService()"
             />
             <q-btn
               class="tf-capitalize icon-resize"
-              color="negative" rounded label="Remove All Periodic Services"
+              color="negative" rounded unelevated label="Remove All Periodic Services"
               @click="doDeleteAllWorkshopServicesByType(periodicServicesForms)"
             />
             <q-btn
               class="tf-capitalize icon-resize"
               color="primary" icon="fas fa-plus"
-              rounded label="New General Service"
+              rounded unelevated label="New General Service"
               @click="doAddNewCarGeneralService()"
             />
             <q-btn
               class="tf-capitalize icon-resize"
-              color="negative" rounded label="Remove All General Services"
+              color="negative" rounded unelevated label="Remove All General Services"
               @click="doDeleteAllWorkshopServicesByType(generalServicesForms)"
             />
           </div>
           <div class="q-gutter-x-sm">
             <q-btn class="tf-capitalize" color="primary" flat rounded label="Close" @click="dialogEditCarServices = false; periodicServicesForms = []"/>
-            <q-btn class="tf-capitalize" color="primary" rounded label="Submit" @click="doUpdateWorkshopServices()" />
+            <q-btn class="tf-capitalize" color="primary" rounded unelevated label="Submit" @click="doUpdateWorkshopServices()" />
           </div>
         </q-card-actions>
       </q-card>
@@ -750,7 +751,8 @@ export default {
         editWorkshopObject: {},
         operationalWorkshopHours: [],
         status24Hr: false,
-        galleryImage: {}
+        galleryImage: {},
+        galleryImagesForPreview: []
       },
       jsonDataParamTable: {
         iPage: 1,
@@ -840,7 +842,7 @@ export default {
         _this.loader = false
       }) .finally(() => {
         _this.workshopDetail.workshop_review.reverse()
-        if(help.isObjectEmpty(_this.jsonDataParam.galleryImages)){
+        if(help.isObjectEmpty(_this.jsonDataParam.galleryImagesForPreview)){
           _this.addGalleryForm()
         }
         if(deleteCarSpec){
@@ -1495,7 +1497,7 @@ export default {
         uploaded: false,
         imageData: {}
       }
-      this.jsonDataParam.galleryImages.push(tempObj)
+      this.jsonDataParam.galleryImagesForPreview.push(tempObj)
       console.log('asd', this.jsonDataParam.galleryImages)
     },
     doUploadForGalleryWorkshop (event, imageObj, index) {

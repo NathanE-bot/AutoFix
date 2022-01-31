@@ -2,80 +2,83 @@
     <q-page>
         <div class="w-80 m-auto">
             <div class="text-h5 fw-semibold py-20 txt-white">Incoming Order</div>
-            </div>
-            <div class="white-1bg w-80 m-auto py-20">
-                <q-card v-for="incoming in this.listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80">
-                    <!-- <q-scroll-area
-                    :thumb-style="thumbStyle"
-                    :bar-style="barStyle"
-                    class="list-workshop-scrollbar h-80"> -->
-                        <q-card-section >
-                            <div class="flex j-sp-between mb-10">
-                                <div class="flex flex-center flex-dir-col">
-                                    <span class="fw-semibold p-10">{{ incoming.fullName}}</span>
+        </div>
+        <div class="white-1bg w-80 m-auto py-20" v-if="!help.isObjectEmpty(listIncoming)">
+            <q-card v-for="incoming in listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80">
+                <!-- <q-scroll-area
+                :thumb-style="thumbStyle"
+                :bar-style="barStyle"
+                class="list-workshop-scrollbar h-80"> -->
+                    <q-card-section >
+                        <div class="flex j-sp-between mb-10">
+                            <div class="flex flex-center flex-dir-col">
+                                <span class="fw-semibold p-10">{{ incoming.fullName}}</span>
+                            </div>
+                            <div class="flex primary-bg px-15 br-10 br-20px align-item-center txt-white tf-capitalize">
+                                {{ incoming.scheduleStatus }}
+                            </div>
+                        </div>
+                        <q-separator/>
+                        <q-card-section class="flex m-auto">
+                            <div class="w-40">
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Tanggal dan Waktu</span>
+                                    <span>{{ help.defaultFormat(incoming.scheduleDate, help.data().dmy_8) }}</span>
+                                    <span>{{ help.formatTime(incoming.scheduleTime, help.data().time_2) }}</span>
                                 </div>
-                                <div class="flex primary-bg px-15 br-10 br-20px align-item-center txt-white tf-capitalize">
-                                    {{ incoming.scheduleStatus }}
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Model dan Tipe Mobil</span>
+                                    <span>{{ incoming.carModel}} {{ incoming.carType}}</span>
+                                </div>
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Estimasi waktu pengerjaan</span>
+                                    <span> {{ incoming.timeEstimation}} Jam</span>
+                                </div>
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Estimasi Harga</span>
+                                    <span>{{ validationFunction.convertToRupiah(incoming.priceEstimation) }}</span>
                                 </div>
                             </div>
-                            <q-separator/>
-                            <q-card-section class="flex m-auto">
-                                <div class="w-40">
-                                    <div class="flex flex-dir-col mb-10">
-                                        <span class="fw-semibold">Tanggal dan Waktu</span>
-                                        <span>{{ help.defaultFormat(incoming.scheduleDate, help.data().dmy_8) }}</span>
-                                        <span>{{ help.formatTime(incoming.scheduleTime, help.data().time_2) }}</span>
-                                    </div>
-                                    <div class="flex flex-dir-col mb-10">
-                                        <span class="fw-semibold">Model dan Tipe Mobil</span>
-                                        <span>{{ incoming.carModel}} {{ incoming.carType}}</span>
-                                    </div>
-                                    <div class="flex flex-dir-col mb-10">
-                                        <span class="fw-semibold">Estimasi waktu pengerjaan</span>
-                                        <span> {{ incoming.timeEstimation}} Jam</span>
-                                    </div>
-                                    <div class="flex flex-dir-col mb-10">
-                                        <span class="fw-semibold">Estimasi Harga</span>
-                                        <span>{{ validationFunction.convertToRupiah(incoming.priceEstimation) }}</span>
+                            <div class="w-60">
+                                <span class="fw-semibold">Layanan yang dipilih : </span>
+                                <div v-if="Object.keys(incoming.serviceDetail.periodicService).length !== 0" class="flex flex-dir-col mb-10 ml-5">
+                                    <span class="fw-semibold">Periodic Service :</span>
+                                    <span>{{ incoming.serviceDetail.periodicService.serviceDetail }}</span>
+                                </div>
+                                <div v-if="incoming.serviceDetail.generalServices.length !== 0" class="ml-5">
+                                    <span class="fw-semibold">General Services: </span><br>
+                                    <div>
+                                        <span class="flex flex-dir-col" v-for="service in incoming.serviceDetail.generalServices" :key="service.id">
+                                            - {{ service.serviceDetail}}</span>
                                     </div>
                                 </div>
-                                <div class="w-60">
-                                    <span class="fw-semibold">Layanan yang dipilih : </span>
-                                    <div v-if="Object.keys(incoming.serviceDetail.periodicService).length !== 0" class="flex flex-dir-col mb-10 ml-5">
-                                        <span class="fw-semibold">Periodic Service :</span>
-                                        <span>{{ incoming.serviceDetail.periodicService.serviceDetail }}</span>
-                                    </div>
-                                    <div v-if="incoming.serviceDetail.generalServices.length !== 0" class="ml-5">
-                                        <span class="fw-semibold">General Services: </span><br>
-                                        <div>
-                                            <span class="flex flex-dir-col" v-for="service in incoming.serviceDetail.generalServices" :key="service.id">
-                                                - {{ service.serviceDetail}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-if="incoming.serviceDescription !== null">
-                                    <span class="fw-semibold">Service Request: </span>
-                                    <p class="m-0">{{ incoming.serviceDescription }}</p>
-                                </div>
-                            </q-card-section>
-                            <div class="d-flex a-center j-end" style="gap: 20px">
-                                <q-btn
-                                    @click="doSetTempScheduleID(incoming.scheduleID, 'reject')"
-                                    color="negative" rounded unelevated padding="4px 24px"
-                                    label="Reject"
-                                    class="tf-capitalize"
-                                />
-                                <q-btn
-                                    @click="doSetTempScheduleID(incoming.scheduleID, 'accept')"
-                                    color="primary" rounded unelevated padding="4px 24px"
-                                    label="Accept"
-                                    class="tf-capitalize"
-                                />
+                            </div>
+                            <div v-if="incoming.serviceDescription !== null">
+                                <span class="fw-semibold">Service Request: </span>
+                                <p class="m-0">{{ incoming.serviceDescription }}</p>
                             </div>
                         </q-card-section>
-                    <!-- </q-scroll-area> -->
-                </q-card>
-            </div>
+                        <div class="d-flex a-center j-end" style="gap: 20px">
+                            <q-btn
+                                @click="doSetTempScheduleID(incoming.scheduleID, 'reject')"
+                                color="negative" rounded unelevated padding="4px 24px"
+                                label="Reject"
+                                class="tf-capitalize"
+                            />
+                            <q-btn
+                                @click="doSetTempScheduleID(incoming.scheduleID, 'accept')"
+                                color="primary" rounded unelevated padding="4px 24px"
+                                label="Accept"
+                                class="tf-capitalize"
+                            />
+                        </div>
+                    </q-card-section>
+                <!-- </q-scroll-area> -->
+            </q-card>
+        </div>
+        <div v-else class="white-1bg w-80 m-auto py-20 text-align-center">
+            No Data
+        </div>
         <q-dialog v-model="promptAccept">
             <q-card style="min-width: 480px" class="py-20" >
                 <q-card-section>
