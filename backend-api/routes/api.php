@@ -98,7 +98,7 @@ Route::post('rejectedScheduleByAdmin','Api\AdminWorkshopController@rejectedSched
 Route::get('getWorkshopDetailByUserID','Api\AdminWorkshopController@getWorkshopDetailByUserID');
 Route::post('updateWorkshopForAdminBengkel','Api\AdminWorkshopController@updateWorkshopForAdminBengkel');
 Route::post('updateLogoWorkshop','Api\AdminWorkshopController@updateLogoWorkshop');
-Route::post('uploadGaleryWorkshop','Api\AdminWorkshopController@uploadGaleryWorkshop');
+Route::post('makeGaleryWorkshopPath','Api\AdminWorkshopController@makeGaleryWorkshopPath');
 Route::post('updateGaleryWorkshop','Api\AdminWorkshopController@updateGaleryWorkshop');
 Route::get('getAdminWorkshopProfile','Api\AdminWorkshopController@getAdminWorkshopProfile');
 Route::get('getScheduleAcceptedByAdmin','Api\AdminWorkshopController@getScheduleAcceptedByAdmin');

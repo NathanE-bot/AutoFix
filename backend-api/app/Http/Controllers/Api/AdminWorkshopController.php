@@ -267,14 +267,48 @@ class AdminWorkshopController extends Controller
         ], 200);
     }
 
+    public function makeGaleryWorkshopPath(Request $req){
+        try{
+            $validator = Validator::make($req->all(), [
+                'workshopPictureID'=>'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'id' => 1,
+                    'message'=>$validator->errors()
+                ], 401);
+            }
+
+            if ($req->has('image'))
+            {
+                $dataWorkshop = DB::table('workshops')->where('id','=',$req->workshopID)->first();
+                $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
+                $ext = $req->image->getClientOriginalExtension();
+                $path = $req->image->storeAs('avatar', strtolower('galery-'.$fullNameTemp.$req->workshopID.'.'.$ext), 'public');
+                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+            }
+            else
+            {
+                return response()->json('image not found', 400);
+            }
+            return response()->json([
+                // 'message' => 'success',
+                $imagePath,
+                $req->workshopPictureID
+            ], 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+
     public function updateGaleryWorkshop(Request $req){
-        // $validator = Validator::make($req->all(), [
-        //     'idWorkshopPicture'=>'required',
-        //     'workshopPicture' => 'image|file|max:2048'
-        // ]);
         $validator = Validator::make($req->all(), [
-            'workshop_pictures.*.idWorkshopPicture'=>'required',
-            'workshop_pictures.*.workshopPicture' => 'image|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'workshopPicture.*.workshopPictureID'=>'required',
+            'workshopPicture.*.imagePath'=>'required|string|max:255'
+
         ]);
 
         if ($validator->fails()) {
@@ -283,60 +317,39 @@ class AdminWorkshopController extends Controller
                 'message'=>$validator->errors()
             ], 401);
         }
+        foreach ($workshopPicture as $key => $value) {
+            $dataWorkshopPicture = DB::table('workshop_pictures')
+            ->where('workshopID','=',$req->workshopID)
+            ->where('id','=',$req->workshopPicture[$key]['workshopPictureID'])
+            ->get();
+        }
 
-        if ($req->has('workshopPicture'))
+
+        if (!is_null($req->imagePath))
         {
-            $dataWorkshop = DB::table('workshops')->where('id','=',$req->workshopID)->first();
-            // foreach ($req->file('workshopPicture') as $key => $file)
-            // {
-            //     if (!is_null($req->workshopPicture))
-            //     {
-            //         $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
-            //         $ext = $file->getClientOriginalExtension();
-            //         $path = $file->storeAs('avatar', strtolower($fullNameTemp.$req->workshopID.$key.'.'.$ext), 'public');
-            //         $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
-
-            //         $dataUser = DB::table('workshop_pictures')->where('id','=',$req->workshopID)
-            //         ->where('id','=',$req->idWorkshopPicture[$key])
-            //         ->update(['workshopPicture' => $imagePath]);
-            //     }
-            //     else{
-            //         $dataUser = DB::table('workshop_pictures')
-            //         ->where('id','=',$req->workshopID)
-            //         ->where('id','=',$req->idWorkshopPicture[$key])
-            //         ->update(['workshopPicture' =>null]);
-            //     }
-            // }
-            foreach ($req->workshop_pictures as $key => $file)
-            {
-                if (!is_null($req->workshop_pictures[$key]['workshopPicture']))
-                {
-                    $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
-                    $ext = $req->workshop_pictures[$key]['workshopPicture']->getClientOriginalExtension();
-                    $path = $req->workshop_pictures[$key]['workshopPicture']->storeAs('avatar', strtolower($fullNameTemp.$req->workshopID.$key.'.'.$ext), 'public');
-                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
-
+            foreach ($workshopPicture as $key => $value) {
+                if (WorkshopPicture::where('workshopPicture','=',$req->worksworkshopPicture[$key]['imagePath'])->exist()) {
                     $dataUser = DB::table('workshop_pictures')
                     ->where('workshopID','=',$req->workshopID)
-                    ->where('id','=',$req->workshop_pictures[$key]['idWorkshopPicture'])
-                    ->update(['workshopPicture' => $imagePath]);
+                    ->where('id','=',$req->workshopPicture[$key]['workshopPictureID'])
+                    ->update(['workshopPicture' => $workshopPicture[$key]['imagePath']]);
                 }
-                else{
-                    $dataUser = DB::table('workshop_pictures')
-                    ->where('id','=',$req->workshopID)
-                    ->where('id','=',$req->workshop_pictures[$key]['idWorkshopPicture'])
-                    ->update(['workshopPicture' =>null]);
+                else {
+                    $workshopPicture = new WorkshopPicture;
+                    $workshopPicture->workshopID = $req->workshopID;
+                    $workshopPicture->workshopPicture = $req->imagePath;
+                    $workshopPicture->save();
                 }
             }
         }
-        else
-        {
-            return response()->json('image not found', 400);
+        else{
+            $dataUser = DB::table('workshop_pictures')
+            ->where('id','=',$req->workshopID)
+            ->where('id','=',$req->workshopPicture[$key]['workshopPictureID'])
+            ->update(['workshopPicture' =>null]);
         }
-        return response()->json([
-            'message' => 'success'
-        ], 200);
     }
+
 
     public function getWorkshopDetailByUserID (Request $req){
         try{
