@@ -189,7 +189,7 @@
             <div class="d-flex a-baseline mb-30">
               <div class="d-flex flex-dir-col mr-30 w-60">
                 <span class="grey-txt text-h6 fw-semibold mb-10">Choose Date</span>
-                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDate" :options="(date) => date >= help.formatToday(help.data().dmy_3)" />
+                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="(date) => date >= help.formatToday(help.data().dmy_3)" />
               </div>
               <div class="d-flex flex-dir-col">
                 <span class="grey-txt text-h6 fw-semibold mb-10">Choose Time</span>
@@ -202,7 +202,7 @@
             </div>
             <q-btn
               @click="doMakeSchedule()"
-              :disable="help.isObjectEmpty(jsonDataParam.scheduleTime) || help.isObjectEmpty(jsonDataParam.scheduleDate)"
+              :disable="help.isObjectEmpty(jsonDataParam.scheduleTime) || help.isObjectEmpty(jsonDataParam.scheduleDateTemp)"
               outline color="primary"
               label="Make Schedule"
               class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1"
@@ -256,8 +256,9 @@ export default {
         description: null,
         timeEstimation: 0,
         priceEstimation: 0,
-        scheduleDate: help.formatTommorow(help.data().dmy_3),
-        scheduleTime: null
+        scheduleDate: null,
+        scheduleTime: null,
+        scheduleDateTemp: help.formatTommorow(help.data().dmy_3)
       },
       periodic: false,
       general: false
@@ -406,7 +407,7 @@ export default {
       if(!help.isDataEmpty(LocalStorage.getItem('autoRepairUser').data.user.id)){
         _this.jsonDataParam.userID = LocalStorage.getItem('autoRepairUser').data.user.id
       }
-      _this.jsonDataParam.scheduleDate = help.defaultFormat(_this.jsonDataParam.scheduleDate, help.data().dmy_5)
+      _this.jsonDataParam.scheduleDate = help.defaultFormat(_this.jsonDataParam.scheduleDateTemp, help.data().dmy_5)
       let token = LocalStorage.getItem('autoRepairUser').data.access_token
       console.log(_this.jsonDataParam)
       makeSchedule(_this.jsonDataParam, token).then(response => {

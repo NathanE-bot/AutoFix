@@ -218,7 +218,7 @@ export default {
         doHandleIncomingOrder(action, reason) {
             this.loader = true
             if(action === 'done'){
-                doDoneScheduleByAdmin(this.tempManageScheduleID, action).then(response => {
+                doDoneScheduleByAdmin(this.tempManageScheduleID).then(response => {
                     Swal.fire({
                         icon: 'success',
                         title: response.data.message,
@@ -226,12 +226,12 @@ export default {
                         this.doGetAcceptedOrder()
                     })
                 }).catch(err => {
+                    console.log(err)
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: 'Please contact our admin',
+                        title: err.response.data.message
                     }).then(() => {
-                        this.promptReject = false
+                        this.loader = false
                     })
                 })
                 this.promptAccept = false
@@ -246,14 +246,16 @@ export default {
                         this.doGetAcceptedOrder()
                     })
                 }).catch(err => {
+                    // console.log(err)
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: 'Please contact our admin',
+                        title: err.response.data.message.description[0]
                     }).then(() => {
+                        this.loader = false
                         this.promptReject = false
                     })
                 })
+                this.promptReject = false
             }
         }
     },

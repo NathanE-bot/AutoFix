@@ -11,8 +11,8 @@ export function getIncomingOrderSchedule(adminID) {
   return axios.get(localURL + '/api/getScheduleByWorkshopIDAndAdminWorkshop?adminID=' + adminID)
 }
 
-export function doAcceptScheduleByAdmin(scheduleID, status) {
-  return axios.post(localURL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID + '&status=' + status)
+export function doAcceptScheduleByAdmin(scheduleID) {
+  return axios.post(localURL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID)
 }
 
 export function doRejectScheduleByAdmin(dataReject) {

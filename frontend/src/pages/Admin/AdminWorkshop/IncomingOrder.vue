@@ -231,6 +231,12 @@ export default {
                     })
                 }).catch(err => {
                     console.log(err)
+                    Swal.fire({
+                        icon: 'error',
+                        title: err.response.data.message
+                    }).then(() => {
+                        this.loader = false
+                    })
                 })
                 this.promptAccept = false
             }else if(action === 'reject'){
@@ -245,6 +251,14 @@ export default {
                     })
                 }).catch(err => {
                     console.log(err)
+                    console.log('AAAAAAAAA')
+                    Swal.fire({
+                        icon: 'error',
+                        title: err.response.data.message.description[0]
+                    }).then(() => {
+                        this.loader = false
+                        this.promptReject = false
+                    })
                 })
                 this.promptReject = false
             }
