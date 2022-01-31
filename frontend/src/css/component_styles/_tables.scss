@@ -102,6 +102,11 @@
   }
 }
 
+.edit-car-spec-table{
+  @extend .edit-car-spec-table;
+  max-height: unset;
+}
+
 .edit-car-services-table{
   @extend %my-sticky-dynamic;
   min-height: 480px;

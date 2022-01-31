@@ -11,14 +11,15 @@
       <q-separator />
       <q-tab-panels v-model="workshopTab" animated>
         <q-tab-panel name="workshop">
-          <div class="text-h6 fw-semibold mb-20">Workshop Details</div>
+          <div>
+            <div class="text-h6 fw-semibold mb-20">Workshop Details</div>
+          </div>
           <div class="row j-sp-between a-center" style="min-height: 42px">
             <div class="text-subtitle2">Workshop Profile</div>
             <q-btn
                v-if="!isEditableWorkshop"
               @click="isEditableWorkshop = true"
-              icon="fas fa-pen" flat round
-              :loading="loader"
+              icon="fas fa-pen" flat round :loading="loader"
               class="edit-pen-btn edit-pen-btn-active"
             >
               <q-tooltip
@@ -31,13 +32,13 @@
               <q-btn
                 v-if="isEditableWorkshop"
                 @click="isEditableWorkshop = false; doGetWorkshopDetailByUserID(false, false)"
-                :loading="loader" unelevated rounded color="negative" label="Cancel Edit"
+                :loading="loader" unelevated rounded color="negative" label="Cancel"
                 class="tf-capitalize ml-20 fs-12"
               />
               <q-btn
                 v-if="isEditableWorkshop"
                 @click="doUpdateWorkshopDetails()"
-                :loading="loader" unelevated rounded color="primary" label="Save Profile" class="tf-capitalize ml-20 fs-12"/>
+                :loading="loader" unelevated rounded color="primary" label="Submit Update" class="tf-capitalize ml-20 fs-12"/>
             </div>
           </div>
           <div class="row">
@@ -65,39 +66,39 @@
             <div class="col-md-3 px-10 q-col-gutter-y-sm">
               <div class="fs-12">
                 <span class="">Workshop Name :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.workshopName" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopName" dense outlined :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">Workshop Email :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.workshopEmail" dense outlined :loading="loader" :disable="!isEditableWorkshop" />
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopEmail" dense outlined :disable="!isEditableWorkshop" />
               </div>
               <div class="fs-12">
                 <span class="">Workshop Phone Number :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.workshopPhoneNumber" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.workshopPhoneNumber" dense outlined :disable="!isEditableWorkshop"/>
               </div>
             </div>
             <div class="col-md-3 px-10 q-col-gutter-y-sm">
               <div class="fs-12">
                 <span class="">District :</span>
-                <q-input  v-model="jsonDataParam.editWorkshopObject.district" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input  v-model="jsonDataParam.editWorkshopObject.district" dense outlined :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">City :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.city" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.city" dense outlined :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">Province :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.province" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.province" dense outlined :disable="!isEditableWorkshop"/>
               </div>
             </div>
             <div class="col-md-3 px-10 q-col-gutter-y-sm">
               <div class="fs-12">
                 <span class="">Latitude :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.latitude" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.latitude" dense outlined :disable="!isEditableWorkshop"/>
               </div>
               <div class="fs-12">
                 <span class="">Longitude :</span>
-                <q-input v-model="jsonDataParam.editWorkshopObject.longitude" dense outlined :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input v-model="jsonDataParam.editWorkshopObject.longitude" dense outlined :disable="!isEditableWorkshop"/>
               </div>
             </div>
           </div>
@@ -106,17 +107,114 @@
             <div class="col-md-6 pr-10">
               <div class="fs-12">
                 <span class="">Workshop Address :</span>
-                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopAddress" outlined type="textarea" :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopAddress" outlined type="textarea" :disable="!isEditableWorkshop"/>
               </div>
             </div>
             <div class="col-md-6 pl-10">
               <div class="fs-12">
                 <span class="">Workshop Description :</span>
-                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopDescription" outlined type="textarea" :loading="loader" :disable="!isEditableWorkshop"/>
+                <q-input autogrow maxlength="300" class="ta-r-none-200" v-model="jsonDataParam.editWorkshopObject.workshopDescription" outlined type="textarea" :disable="!isEditableWorkshop"/>
               </div>
             </div>
           </div>
-          <div class="text-h6 fw-semibold mb-20 mt-20">Operational Workshop Hour</div>
+          <div class="row mb-20 mt-20">
+            <div class="d-flex a-center col-6">
+              <div class="text-h6 fw-semibold">Operational Workshop Hour</div>
+              <q-toggle
+                class="fw-semibold"
+                v-model="jsonDataParam.status24Hr"
+                :disable="!isEditableWorkshop"
+                color="primary" label="24 Hour Status"
+              >
+                <q-tooltip
+                  class="text-body2 txt-white bg-info"
+                  anchor="bottom end" self="bottom left" :offset="[0, 20]">
+                  <q-icon name="fas fa-info-circle" />
+                  Toggle opening 24hr everyday
+                </q-tooltip>
+              </q-toggle>
+            </div>
+            <div class="col-6 d-flex a-center">
+              <div class="text-h6 fw-semibold mr-20">Workshop Reviews</div>
+              <q-badge style="padding:5px 10px" color="primary">
+                <span>Rating</span>
+                <div class="ml-8">
+                  <i class="fas fa-star fs-10 mr-5"></i>
+                  <span>{{ workshopDetail.rating }}</span>
+                </div>
+              </q-badge>
+            </div>
+            <q-table
+              class="edit-car-spec-table col-6 px-12"
+              virtual-scroll binary-state-sort hide-pagination
+              :columns="ohwh"
+              :rows="jsonDataParam.operationalWorkshopHours"
+              row-key="id"
+              :rows-per-page-options="[0]"
+            >
+              <template v-slot:body="props">
+                <q-tr class="vertical-top">
+                  <q-td key="operationaldate" :props="props">
+                    <span :class="[{'fw-semibold' : jsonDataParam.status24Hr}]">
+                      {{
+                        props.row.operationalDate == '1' ? 'Monday' :
+                        props.row.operationalDate == '2' ? 'Tuesday' :
+                        props.row.operationalDate == '3' ? 'Wednesday' :
+                        props.row.operationalDate == '4' ? 'Thrusday' :
+                        props.row.operationalDate == '5' ? 'Friday' :
+                        props.row.operationalDate == '6' ? 'Saturday' :
+                        props.row.operationalDate == '0' ? 'Sunday' : '-'
+                      }}
+                    </span>
+                  </q-td>
+                  <q-td key="operationalopenhour" :props="props">
+                    <q-input
+                      v-model="props.row.operationalOpenHour"
+                      :error="help.isDataEmpty(props.row.operationalOpenHour) && showError"
+                      :disable="jsonDataParam.status24Hr || !isEditableWorkshop"
+                      dense mask="##:##:##" hide-bottom-space
+                    />
+                  </q-td>
+                  <q-td key="operationalclosehour" :props="props">
+                    <q-input
+                      v-model="props.row.operationalCloseHour"
+                      :error="help.isDataEmpty(props.row.operationalOpenHour) && showError"
+                      :disable="jsonDataParam.status24Hr || !isEditableWorkshop"
+                      dense mask="##:##:##" hide-bottom-space
+                    />
+                  </q-td>
+                </q-tr>
+              </template>
+            </q-table>
+            <q-scroll-area
+              v-if="!help.isObjectEmpty(workshopDetail.workshop_review)"
+              :thumb-style="thumbStyle"
+              :bar-style="barStyle"
+              class="review-workshop-scrollbar col-6 px-12"
+              style="min-height:inherit"
+            >
+              <q-card class="my-card review-card br-20px mb-20" v-for="(review, index) in workshopDetail.workshop_review" :key="'review' + index">
+                <q-card-section class="relative-position">
+                  <span class="review-date grey-5">{{ help.defaultFormat(review.reviewDate, help.data().dmy_6) }}</span>
+                  <div class="review-content">
+                    <div class="text-h6">{{ review.userName }}</div>
+                    <div class="line-clamp-3 text-subtitle2 fs-12">{{ review.description }}</div>
+                  </div>
+                  <q-rating
+                    class="review-rating"
+                    v-model="review.rating"
+                    readonly size="xs"
+                    color="yellow-14"
+                    icon="star_border"
+                    icon-selected="star"
+                  />
+                </q-card-section>
+              </q-card>
+            </q-scroll-area>
+            <div v-else class="col-6 px-12">
+              <div class="text-subtitle2 fw-semibold">No Reviews Yet</div>
+            </div>
+          </div>
         </q-tab-panel>
         <q-tab-panel name="services">
           <div class="text-h6 fw-semibold">Car Specification and Services</div>
@@ -355,13 +453,22 @@
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
+                  <q-input
+                    :error="help.isDataEmpty(props.row.serviceDetail) && showError" v-model="props.row.serviceDetail" />
+                    dense hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
+                  <q-input
+                    v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError"
+                    class="input-bold" dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input class="input-bold" placeholder="1 - 10" suffix="Hour" dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
+                  <q-input
+                    v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError"
+                    class="input-bold" dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
@@ -378,13 +485,21 @@
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
+                  <q-input
+                  :error="help.isDataEmpty(props.row.serviceDetail) && showError" v-model="props.row.serviceDetail" />
+                  dense hide-bottom-space
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
+                  <q-input
+                    v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError"
+                    class="input-bold" dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input dense placeholder="1 - 10" suffix="Hour" :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
+                  <q-input
+                    v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError"
+                    class="input-bold" dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
@@ -413,13 +528,21 @@
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
+                  <q-input
+                   :error="help.isDataEmpty(props.row.serviceDetail) && showError" v-model="props.row.serviceDetail"
+                   class="input-bold" dense hide-bottom-space />
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input class="input-bold" dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
+                  <q-input
+                    v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError"
+                    class="input-bold" dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input class="input-bold" placeholder="1 - 10" suffix="Hour" dense :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
+                  <q-input
+                    v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError"
+                    class="input-bold" dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
@@ -436,13 +559,21 @@
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input dense :error="help.isDataEmpty(props.row.serviceDetail) && showError" hide-bottom-space v-model="props.row.serviceDetail" />
+                  <q-input
+                    :error="help.isDataEmpty(props.row.serviceDetail) && showError"
+                    dense hide-bottom-space v-model="props.row.serviceDetail" />
                 </q-td>
                 <q-td key="price" :props="props">
-                  <q-input dense :error="help.isDataEmpty(props.row.price) && showError" hide-bottom-space v-model="props.row.price" />
+                  <q-input
+                    v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError"
+                    class="input-bold" dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="time" :props="props">
-                  <q-input dense placeholder="1 - 10" suffix="Hour" :error="help.isDataEmpty(props.row.time) && showError" hide-bottom-space v-model="props.row.time" />
+                  <q-input
+                    v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError"
+                    class="input-bold" dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
+                  />
                 </q-td>
                 <q-td key="action" :props="props">
                   <q-btn
@@ -528,6 +659,11 @@ export default {
         width: '10px',
         opacity: 0.2
       },
+      window: {
+        width: 0,
+        height: 0,
+        heightAltered: 0
+      },
       cmth: [
         { name: 'index', label: 'No', align: 'center', field: 'index', sortable: false },
         { name: 'carmodel', label: 'Car Model', align: 'center', field: 'carModel', sortable: false },
@@ -539,6 +675,11 @@ export default {
         { name: 'price', label: 'Service Price', align: 'left', field: 'price', sortable: false },
         { name: 'time', label: 'Time Estimation', align: 'left', field: 'time', sortable: false },
         { name: 'action', label: 'Action', align: 'center', field: 'action', sortable: false }
+      ],
+      ohwh: [
+        { name: 'operationaldate', label: 'Day', align: 'left', field: 'operationalDate', sortable: false },
+        { name: 'operationalopenhour', label: 'Open Hour', align: 'left', field: 'operationalOpenHour', sortable: false },
+        { name: 'operationalclosehour', label: 'Close Hour', align: 'left', field: 'operationalCloseHour', sortable: false }
       ],
       user: {},
       showError: false,
@@ -570,7 +711,9 @@ export default {
         serviceTypeBerkala: [],
         serviceTypeUmum: [],
         carTypeValue: null,
-        editWorkshopObject: {}
+        editWorkshopObject: {},
+        operationalWorkshopHours: [],
+        status24Hr: false,
       },
       jsonDataParamTable: {
         iPage: 1,
@@ -585,15 +728,46 @@ export default {
     this.accessToken = Auth.getAccessToken()
     this.doGetWorkshopDetailByUserID(false, false)
   },
+  mounted () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  unmounted () {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
+    handleResize () {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+      this.window.heightAltered = window.innerHeight - (window.innerHeight * (40/100))
+    },
     doGetWorkshopDetailByUserID (deleteCarSpec, deleteCarServ) {
       let _this = this
-      this.loader = true
+      _this.loader = true
       getWorkshopDetailByUserID(_this.user.id).then(response => {
         _this.workshopDetail = response.data.objectReturn
         // loopingan data servis
         _this.doClearDataV2()
         _this.jsonDataParam.editWorkshopObject = _this.workshopDetail
+        _this.jsonDataParam.status24Hr = _this.workshopDetail.status24Hr == '1' ? true : false
+        _this.workshopDetail.operationalWorkshop.forEach(el1 => {
+          let tempObj = {
+            id: el1.id,
+            operationalCloseHour: el1.operationalCloseHour,
+            operationalDate: el1.operationalDate,
+            operationalOpenHour: el1.operationalOpenHour,
+            workshopID: el1.workshopID,
+            setOnToggle: false
+          }
+          if(_this.jsonDataParam.status24Hr){
+            tempObj.setOnToggle = false
+          }
+          else if(!help.isDataEmpty(tempObj.operationalOpenHour) && !help.isDataEmpty(tempObj.operationalCloseHour)){
+            tempObj.setOnToggle = true
+          }
+          _this.jsonDataParam.operationalWorkshopHours.push(tempObj)
+        })
+        console.log(_this.jsonDataParam.editWorkshopObject)
         _this.workshopDetail.workshop_details.forEach(el1 => {
             let tempArr = []
             //for car model option
@@ -628,6 +802,7 @@ export default {
         _this.carModelOptions = ValidationFunction.arrayFilterWithSet(_this.carModelOptions)
         _this.loader = false
       }) .finally(() => {
+        _this.workshopDetail.workshop_review.reverse()
         if(deleteCarSpec){
           _this.doFilterCarModelAndType(false)
         } else if (deleteCarServ){
@@ -638,6 +813,20 @@ export default {
         _this.loader = false
       })
     },
+    // setForToggleStatus24Hr (val) { // for future use (undone)
+    //   console.log(val)
+    //   _this.jsonDataParam.operationalWorkshopHours.forEach(el1 => {
+    //     if(val){
+    //       el1.setOnToggle = false
+    //     } else {
+    //       el1.setOnToggle = true
+    //     }
+    //     if(!help.isDataEmpty(el1.operationalOpenHour) && !help.isDataEmpty(el1.operationalCloseHour)){
+    //       el1.setOnToggle = true
+    //     }
+    //     console.log(el1.setOnToggle)
+    //   })
+    // },
     doUpdateWorkshopDetails () {
       let _this = this
       _this.loader = true
@@ -660,10 +849,18 @@ export default {
     },
     doUpdateDataWorkshopDetails () {
       let _this = this
-      // _this.$q.loading.show({})
       if(help.isDataEmpty(_this.jsonDataParam.editWorkshopObject.workshopLogo)){
         _this.jsonDataParam.editWorkshopObject.workshopLogo = null
       }
+      _this.jsonDataParam.operationalWorkshopHours.forEach((el1, index) => { // Untuk OPERATIONAL HOUR
+        if(el1.operationalOpenHour !== _this.workshopDetail.operationalWorkshop[index].operationalOpenHour){
+          _this.workshopDetail.operationalWorkshop[index].operationalOpenHour = el1.operationalOpenHour
+        }
+        if(el1.operationalCloseHour !== _this.workshopDetail.operationalWorkshop[index].operationalCloseHour){
+          _this.workshopDetail.operationalWorkshop[index].operationalCloseHour = el1.operationalCloseHour
+        }
+      })
+      _this.workshopDetail.status24Hr = _this.jsonDataParam.status24Hr == true ? '1' : '0'
       doUpdateWorkshopForAdminBengkel(_this.workshopDetail, _this.accessToken).then(response => {
         Swal.fire({
           icon: 'success',
@@ -1258,6 +1455,8 @@ export default {
       this.tempCarTypeOptions = []
       this.newCarModelAndType = []
       this.jsonDataParam.editWorkshopObject = {}
+      this.jsonDataParam.operationalWorkshopHours = []
+      this.jsonDataParam.status24  = false
     },
     doClearData () {
       this.carTypeOptions = []
