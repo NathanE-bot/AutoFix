@@ -68,7 +68,7 @@ class AdminWorkshopController extends Controller
             $validator = Validator::make($req->all(), [
                 'description' => 'string','required'
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'id' => 1,
@@ -104,7 +104,7 @@ class AdminWorkshopController extends Controller
     public function rejectedScheduleByAdmin(Request $req){
 
         $validator = Validator::make($req->all(), [
-            'description' => 'string','required'
+            'description' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -172,7 +172,7 @@ class AdminWorkshopController extends Controller
 
     public function cancelScheduleByAdmin(Request $req){
         $validator = Validator::make($req->all(), [
-            'description' => ['required','string']
+            'description' => 'required|string'
         ]);
 
 
@@ -474,6 +474,12 @@ class AdminWorkshopController extends Controller
 
         foreach ($req->operationalWorkshop as $key => $value)
         {
+            if (empty($req->operationalWorkshop[$key]['operationalOpenHour'])&&empty($req->operationalWorkshop[$key]['operationalCloseHour'])) {
+                DB::table('operational_workshops')->where('workshopID','=',$req->id)
+                ->where('operationalDate','=',$req->operationalWorkshop[$key]['operationalDate'])
+                ->update(['operationalOpenHour'=>'null',
+                'operationalCloseHour'=>'null']);
+            }
             DB::table('operational_workshops')->where('workshopID','=',$req->id)
             ->where('operationalDate','=',$req->operationalWorkshop[$key]['operationalDate'])
             ->update(['operationalOpenHour'=>$req->operationalWorkshop[$key]['operationalOpenHour'],
