@@ -378,6 +378,9 @@ class AdminWorkshopController extends Controller
                 $value->workshop_services = array_filter($workshop_services, function($workshop_services) use ($value) {
                     return $workshop_services->workshopID === $value->id;
                 });
+                $value->workshop_review = array_filter($workshop_review, function($workshop_review) use ($value) {
+                    return $workshop_review->workshopID === $value->id;
+                });
             }
             if(empty($workshops)){
                 return response()->json(['Message'=>'No data'], 200);
