@@ -98,6 +98,7 @@ class InsuranceController extends Controller
         $dataInsurance->licensePlateNumber = $req->licensePlateNumber;
         $dataInsurance->driverName = $req->driverName;
         $dataInsurance->driverSpeed = $req->driverSpeed;
+        $dataInsurance->driverLicense = $req->driverLicense;
         $dataInsurance->driverRelation = $req->driverRelation;
         $dataInsurance->incidentLocation = $req->incidentLocation;
         $dataInsurance->vehicleDescription = $req->vehicleDescription;
