@@ -136,6 +136,12 @@ class InsuranceController extends Controller
             $validator = Validator::make($req->all(), [
                 'image'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
             ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'id' => 1,
+                    'message'=>$validator->errors()
+                ], 401);
+            }
 
         if ($req->imagePath == null) {
             if ($req->has('image'))
@@ -174,12 +180,39 @@ class InsuranceController extends Controller
             $data = [
                 'objectReturner'=>'Berhasil'
             ];
-        return response()->json([$imagePath,$req->documentationInsuranceName], 200);
+        return response()->json([$imagePath,$req->documentationInsuranceName,$req->insuranceID], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
     }
 
+    public function updateInsurace(Request $req){
+        try{
+            $validator = Validator::make($req->all(), [
+                'insuranceDocument.*.imagePath'=> ['required|String|max:255'],
+                'insuranceDocument.*.documentationInsuranceName'=>['required|String|max:255']
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'id' => 1,
+                    'message'=>$validator->errors()
+                ], 401);
+            }
+            foreach ($variable as $key => $value) {
+                # code...
+            }
+            $addDocumentationInsurance = new DocumentationInsurance;
+            $addDocumentationInsurance->insuranceID = $req->insuranceID;
+            $addDocumentationInsurance->documentationInsuranceName = $req->insuranceDocument[$key]['documentationInsuranceName'];
+            $addDocumentationInsurance->documentationPicture = $req->insuranceDocument[$key]['imagePath'];
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+
+        return response()->json([
+            'objectReturn' => $scheduleDetail
+        ], 200);
+    }
 
     public function getInsuranceStatusApi (Request $req){
         try{
