@@ -73,7 +73,7 @@ class InsuranceController extends Controller
             'workshopType'=>['required'],
             'chronology'=>['required', 'string', 'max:255'],
             'incidentStatus'=>['required', 'string', 'max:255'],
-            'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'string', 'max:255'],
+            'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'max:500'],
             'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
             'documentationInsuranceName.*'=> ['required|string|max:255'],
         ]);
