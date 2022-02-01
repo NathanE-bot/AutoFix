@@ -40,10 +40,10 @@ export default {
     watch: {
         '$route.path': {
             handler: function(url) {
-                if(url.includes('/workshop/') || url.includes('/insurance/')){
+                if(Auth.isUserLogin() && url.includes('/workshop/') || url.includes('/insurance/')){
                     this.isOnDetailSchedule = false
                 } 
-                else if(url.includes('/member')){
+                else if(Auth.isUserLogin() && url.includes('/member')){
                     this.isOnDetailSchedule = true
                     if(!Auth.isUserLogin()){
                         this.forLoad = false
@@ -69,18 +69,20 @@ export default {
                         })
                     }
                 } else {
-                    if(Auth.userRoleType() == 'workshop workshop') {
+                    if(Auth.isUserLogin() && Auth.userRoleType() == 'workshop workshop') {
                         this.forLoad = false
                         this.changePage('/admin/workshop/home')
                         setTimeout(() => {
                             this.forLoad = true
                         }, 2000)
-                    } else if (Auth.userRoleType() == 'insurance admin') {
+                    } else if (Auth.isUserLogin() && Auth.userRoleType() == 'insurance admin') {
                         this.forLoad = false
                         this.changePage('/admin/insurance/home')
                         setTimeout(() => {
                             this.forLoad = true
                         }, 2000)
+                    } else {
+                        this.changePage('/session/login')
                     }
                 }
             },
