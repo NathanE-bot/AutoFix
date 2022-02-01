@@ -175,6 +175,14 @@ const routes = [
           title: 'Insurance Claim History',
           breadcrumb: 'Insurance Claim History'
         }
+      },
+      {
+        path: "/admin/insurance/insurance-claim-history/detail/:insuranceID",
+        component: AdminIncomingClaimRequestDetail,
+        meta: {
+          title: 'Insurance Claim History',
+          breadcrumb: 'Insurance Claim History'
+        }
       }
     ]
   },
