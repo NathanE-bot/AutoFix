@@ -14,7 +14,7 @@
           </div>
           <div>
             <p class="fs-20 text-white" style="width: 80%; margin: auto; text-align: center;">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+              A website created to help people find the nearest car workshop and make appointment with the selected car workshop, according to the services required
             </p>
           </div>
         </div>
@@ -96,7 +96,7 @@
         >
           <swiper-slide v-for="item in workshopRecommendation" :key="item.id">
             <q-card class="my-card rec-card">
-              <img class="responsive_img fit-content" src="https://cdn.quasar.dev/img/mountains.jpg">
+              <img class="responsive_img fit-content" src="~assets/images/test_workshop.jpg">
               <q-card-section>
                 <div class="d-flex a-start j-sp-between">
                   <div class="text-h6 primary_color mb-8 link_txt_transition" @click="changePage('/workshop/detail/' + item.workshopID)">
@@ -177,7 +177,7 @@
         </div>
         <q-video class="mt-40-i w-80 m-auto br-10px"
             :ratio="16/6"
-            src="https://www.youtube.com/embed/veKsxin7iRg"
+            src="https://www.youtube.com/embed/OlHYirmHhK0&ab_channel=baledemy"
           />
       </div>
       <div class="mt-80" id="about-us">
@@ -186,13 +186,59 @@
           <span class="fs-16">Get to know more of the developers</span>
         </div>
         <div class="row">
-          <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40" v-for="n in 3" :key="n">
+          <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
             <q-card-section horizontal class="d-flex j-center">
               <img class="responsive-img dev_pic fit-content"
-                src="~assets/images/preset/person_1.png"
+                src="~assets/images/preset/person_1.jpg"
               />
               <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">
                 <span class="fs-20">Kenny Ongko</span>
+                <span class="primary_color mb-14">Founder Auto Repair</span>
+                <span class="fs-12">Social Media</span>
+                <div class="mt-10 d-flex a-center">
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <div class="sosmed-box">
+                    <i class="fab fa-twitter"></i>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+          <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
+            <q-card-section horizontal class="d-flex j-center">
+              <img class="responsive-img dev_pic fit-content"
+                src="~assets/images/preset/person_2.png"
+              />
+              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">
+                <span class="fs-20">Nathan Oktavian</span>
+                <span class="primary_color mb-14">Founder Auto Repair</span>
+                <span class="fs-12">Social Media</span>
+                <div class="mt-10 d-flex a-center">
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <div class="sosmed-box">
+                    <i class="fab fa-twitter"></i>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+          <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
+            <q-card-section horizontal class="d-flex j-center">
+              <img class="responsive-img dev_pic fit-content"
+                src="~assets/images/preset/person_3.png"
+              />
+              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">
+                <span class="fs-20">Darryl Egbert</span>
                 <span class="primary_color mb-14">Founder Auto Repair</span>
                 <span class="fs-12">Social Media</span>
                 <div class="mt-10 d-flex a-center">
@@ -344,7 +390,7 @@ export default ({
           this.errGeolocationCode = error.code
           this.loader = false
         })
-      } else { 
+      } else {
         this.errorMessage = true
         this.loader = false
       }

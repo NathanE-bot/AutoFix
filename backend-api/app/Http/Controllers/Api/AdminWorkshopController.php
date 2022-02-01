@@ -799,7 +799,7 @@ class AdminWorkshopController extends Controller
 
     public function SumAllPriceEstimationWorkshop(Request $req){
         try {
-            $schedule= DB::table('schedules')
+            $scheduleTotalEstimasiBy= DB::table('schedules')
             ->rightJoin(DB::raw('(
                 SELECT 1 as d
                 UNION SELECT 2 as d
@@ -820,17 +820,64 @@ class AdminWorkshopController extends Controller
                 }
             )
             ->join('workshops','workshops.id','=','schedules.workshopID')
-            ->select(DB::raw('months.d AS day, SUM(schedules.priceEstimation) AS Total_Estimasi'))
+            ->select(DB::raw('months.d AS months, SUM(schedules.priceEstimation) AS Total_Estimasi'))
             ->where('workshops.userID','=',$req->adminID)
             ->where('schedules.scheduleStatus','=','done')
             ->groupBY('months.d')
             ->get();
+
+            $scheduleSumEstimationPerDay= DB::table('schedules')
+            ->rightJoin(DB::raw('(
+                SELECT 1 as d
+                UNION SELECT 2 as d
+                UNION SELECT 3 as d
+                UNION SELECT 4 as d
+                UNION SELECT 5 as d
+                UNION SELECT 6 as d
+                UNION SELECT 7 as d
+                UNION SELECT 8 as d
+                UNION SELECT 9 as d
+                UNION SELECT 10 as d
+                UNION SELECT 11 as d
+                UNION SELECT 12 as d
+                UNION SELECT 13 as d
+                UNION SELECT 14 as d
+                UNION SELECT 15 as d
+                UNION SELECT 16 as d
+                UNION SELECT 17 as d
+                UNION SELECT 18 as d
+                UNION SELECT 19 as d
+                UNION SELECT 20 as d
+                UNION SELECT 21 as d
+                UNION SELECT 22 as d
+                UNION SELECT 23 as d
+                UNION SELECT 24 as d
+                UNION SELECT 25 as d
+                UNION SELECT 26 as d
+                UNION SELECT 27 as d
+                UNION SELECT 28 as d
+                UNION SELECT 29 as d
+                UNION SELECT 30 as d
+                UNION SELECT 31 as d
+            ) as days'),
+            function($join) use($req){
+                $join->on(DB::raw('DAY(schedules.created_at)'), '=',DB::raw('days.d'))
+                ->where(DB::raw('YEAR(schedules.created_at)'), '=', $req->year)
+                ->where(DB::raw('MONTH(schedules.created_at)'), '=', $req->month);
+            }
+        )
+        ->join('workshops','workshops.id','=','schedules.workshopID')
+        ->select(DB::raw('days.d AS day, SUM(schedules.priceEstimation) AS Total_Estimasi'))
+        ->where('workshops.userID','=',$req->adminID)
+        ->where('schedules.scheduleStatus','=','done')
+        ->groupBY('days.d')
+        ->get();
         } catch (Exception $err){
             return response()->json($err, 500);
         }
 
         return response()->json([
-            $schedule
+            $scheduleTotalEstimasiBy
         ], 200);
     }
 
