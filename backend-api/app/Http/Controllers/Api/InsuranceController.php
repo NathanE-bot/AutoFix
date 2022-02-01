@@ -108,7 +108,6 @@ class InsuranceController extends Controller
         $dataInsurance->chronology = $req->chronology;
         $dataInsurance->incidentStatus = $req->incidentStatus;
         $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
-        $dataInsurance->insuranceStatus = 'on progress';
         $dataInsurance->submitDate = $dateNow;
         $dataInsurance->save();
         if ($req->has('documentationPicture'))
@@ -142,7 +141,7 @@ class InsuranceController extends Controller
         $dataInsuranceDetail = new InsuranceDetail;
         $dataInsuranceDetail->insuranceID=$dataInsurance->id;
         $dataInsuranceDetail->claimInsuranceDate=$dateNow;
-        $dataInsuranceDetail->insuranceStatus='waiting confirmation';
+        $dataInsuranceDetail->insuranceStatus='on progress';
         $dataInsuranceDetail->save();
 
         } catch (Exception $err){
