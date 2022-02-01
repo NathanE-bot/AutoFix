@@ -834,6 +834,20 @@ class AdminWorkshopController extends Controller
         ], 200);
     }
 
+
+    public function getYearWorkshopForFilterHome(){
+
+        try {
+            $getTahun = DB::table('schedules')
+            ->select(DB::raw('YEAR(schedules.created_at) as year'))
+            ->distinct()
+            ->get();
+            return response()->json($getTahun, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
     // public function countWorkshopByStatus(Request $req){
     //     try {
     //         $scheduleDone= DB::table('schedules')

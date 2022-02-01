@@ -272,8 +272,10 @@ class AdminInsuranceController extends Controller
                 }
             )
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
             ->select(DB::raw('days.d AS day, COUNT(insurances.id) AS countData'))
             ->where('insurance_vendors.userID','=',$req->adminID)
+            ->where('insurance_details.insuranceStatus','!=','on Progress')
             ->groupBY('days.d')
             ->get();
 
