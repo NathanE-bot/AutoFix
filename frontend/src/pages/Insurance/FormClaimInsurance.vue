@@ -199,75 +199,77 @@
                     maxHeight: window.heightAltered + 'px'
                 }"
             >
-                <div class="row a-start j-sp-between">
-                    <div class="col-md-5 row">
-                        <div class="d-flex flex-dir-col mb-20">
-                            <div class="text-h6">Is the vehicle registered as an online taxi?</div>
-                            <div>
-                                <q-checkbox v-model="form.isOnlineTaxi" @click="form.isNotOnlineTaxi = false" size="lg" label="Yes" />
-                                <q-checkbox v-model="form.isNotOnlineTaxi" @click="form.isOnlineTaxi = false" size="lg" label="No" />
+                <q-form ref="formStepper3">
+                    <div class="row a-start j-sp-between">
+                        <div class="col-md-5 row">
+                            <div class="d-flex flex-dir-col mb-20">
+                                <div class="text-h6">Is the vehicle registered as an online taxi?</div>
+                                <div>
+                                    <q-checkbox v-model="form.isOnlineTaxi" @click="form.isNotOnlineTaxi = false" size="lg" label="Yes" />
+                                    <q-checkbox v-model="form.isNotOnlineTaxi" @click="form.isOnlineTaxi = false" size="lg" label="No" />
+                                </div>
+                                <span v-if="errorMessage && !form.isOnlineTaxi && !form.isNotOnlineTaxi" class="red-txt">*please check either one</span>
                             </div>
-                            <span v-if="errorMessage && !help.isDataEmpty(form.isOnlineTaxi) && !help.isDataEmpty(form.isNotOnlineTaxi)" class="red-txt">*please check either one</span>
-                        </div>
-                        <div class="d-flex flex-dir-col">
-                            <div class="text-h6">Was the vehicle hit by another vehicle?</div>
-                            <div class="d-flex a-center">
-                                <q-checkbox v-model="form.wasHit" @click="form.wasNotHit = false" size="lg" label="Yes" />
-                                <q-checkbox v-model="form.wasNotHit" @click="form.wasHit = false" size="lg" label="No" />
-                            </div>
-                            <span v-if="errorMessage && !help.isDataEmpty(form.wasNotHit) && !help.isDataEmpty(form.wasHit)" class="red-txt mb-10">*please check either one</span>
-                            <div class="p-20 hitter-form-container" v-if="form.wasHit">
-                                <div class="text-subtitle2 pb-10">Please input the name and vehicle number of the hitter</div>
-                                <div class="q-gutter-y-md">
-                                    <q-input
-                                        v-model="form.incidentStatusDescription"
-                                        :rules="form.wasHit ? rules.driverName_r : rules.emptyRule"
-                                        outlined counter maxlength="50" autogrow
-                                        type="textarea" placeholder="Andy, 087239457433"
-                                        class="fix-txt-field default-textarea-1 fix-textarea-height"
-                                    >
-                                    </q-input>
+                            <div class="d-flex flex-dir-col">
+                                <div class="text-h6">Was the vehicle hit by another vehicle?</div>
+                                <div class="d-flex a-center">
+                                    <q-checkbox v-model="form.wasHit" @click="form.wasNotHit = false" size="lg" label="Yes" />
+                                    <q-checkbox v-model="form.wasNotHit" @click="form.wasHit = false" size="lg" label="No" />
+                                </div>
+                                <span v-if="errorMessage && !form.wasNotHit && !form.wasHit" class="red-txt mb-10">*please check either one</span>
+                                <div class="p-20 hitter-form-container" v-if="form.wasHit">
+                                    <div class="text-subtitle2 pb-10">Please input the name and vehicle number of the hitter</div>
+                                    <div class="q-gutter-y-md">
+                                        <q-input
+                                            v-model="form.incidentStatusDescription"
+                                            :rules="form.wasHit ? rules.driverName_r : rules.emptyRule"
+                                            outlined counter maxlength="50" autogrow
+                                            type="textarea" placeholder="Andy, 087239457433"
+                                            class="fix-txt-field default-textarea-1 fix-textarea-height"
+                                        >
+                                        </q-input>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-5 row q-col-gutter-y-md">
-                        <div class="col-12">
-                            <div>
-                                <div class="text-h6">Choose the type of workshop you want</div>
-                                <div class="text-subtitle2 red-txt">*If there is a workshop of your choice, please <b>include it in the chronology</b></div>
+                        <div class="col-md-5 row q-col-gutter-y-md">
+                            <div class="col-12">
+                                <div>
+                                    <div class="text-h6">Choose the type of workshop you want</div>
+                                    <div class="text-subtitle2 red-txt">*If there is a workshop of your choice, please <b>include it in the chronology</b></div>
+                                </div>
+                                <q-select
+                                    v-model="form.workshopTypeObj"
+                                    :options="vendorWorkshops"
+                                    lazy-rules="ondemand"
+                                    :error="help.isObjectEmpty(form.workshopTypeObj) && errorMessage"
+                                    outlined class="default-select-2 w-80"
+                                >
+                                    <template v-slot:selected>
+                                        <template v-if="!help.isObjectEmpty(form.workshopTypeObj)">
+                                            {{ form.workshopTypeObj.label }}
+                                        </template>
+                                        <template v-else>
+                                            <span class="placeholder-text">Choose workshop of your choice</span>
+                                        </template>
+                                    </template>
+                                </q-select>
                             </div>
-                            <q-select
-                                v-model="form.workshopTypeObj"
-                                :options="vendorWorkshops"
-                                lazy-rules="ondemand"
-                                :error="help.isDataEmpty(form.workshopTypeObj) && errorMessage"
-                                outlined class="default-select-2 w-80"
-                            >
-                                <template v-slot:selected>
-                                    <template v-if="!help.isObjectEmpty(form.workshopTypeObj)">
-                                        {{ form.workshopTypeObj.label }}
-                                    </template>
-                                    <template v-else>
-                                        <span class="placeholder-text">Choose workshop of your choice</span>
-                                    </template>
-                                </template>
-                            </q-select>
-                        </div>
-                        <div class="col-12">
-                            <span class="text-h6">Explain the chronology of events</span>
-                            <q-input
-                                v-model="form.chronology"
-                                :rules="rules.chronology_r"
-                                lazy-rules="ondemand"
-                                outlined counter maxlength="500"
-                                type="textarea" placeholder="Explain the chronology.."
-                                class="fix-txt-field default-textarea-1"
-                            >
-                            </q-input>
+                            <div class="col-12">
+                                <span class="text-h6">Explain the chronology of events</span>
+                                <q-input
+                                    v-model="form.chronology"
+                                    :rules="rules.chronology_r"
+                                    lazy-rules="ondemand"
+                                    outlined counter maxlength="500"
+                                    type="textarea" placeholder="Explain the chronology.."
+                                    class="fix-txt-field default-textarea-1"
+                                >
+                                </q-input>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </q-form>
             </q-step>
 
             <q-step
@@ -298,14 +300,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row q-gutter-lg">
-                        <div class="col-4 upload-photo-box" v-for="(i, index) in imageForm" :key="'UP' + index">
-                            <q-input class="upload-photo-name" borderless dense v-model="i.name" placeholder="Input your photo's name" />
-                            <i v-if="!i.uploaded" class="fas fa-cloud-upload-alt fs-40 flex flex-center" style="width:100px; height: 100px"></i>
-                            <div :class="['upload-photo-box-insurance relative-position flex-center', {'d-none' : !i.uploaded}]">
-                                <img class="responsive_img fit-content d-flex m-auto br-10-bot" :src="i.imageFile" :id="'myImg-' + index">
+                    <div :class="['row j-start w-100 m-auto']">
+                        <div class="px-12 mb-15" v-for="(image, index) in imageForm" :key="'UPE' + index">
+                            <q-input
+                                v-model="image.name"
+                                dense filled placeholder="Input your photo's name"
+                                class="input-text-center"
+                            >
+                            </q-input>
+                            <div class="form-insurance-images relative-position br-10-bot">
+                                <img :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]" width="300" height="150" :src="image.imageFile"  :id="'myImg-' + index" alt="">
+                                <i v-if="help.isDataEmpty(image.imageFile)" class="fas fa-cloud-upload-alt fs-40 upload-cloud-icon"></i>
                             </div>
-                            <input v-if="!i.uploaded" style="color: transparent; width:92px" class="cursor-pointer" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, i, index)">
+                            <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, image, index)">
                         </div>
                         <div class="d-flex a-center j-center">
                             <q-btn
@@ -383,7 +390,7 @@ export default {
         return{
             help,
             loader: false,
-            step: 1,
+            step: 3,
             window: {
                 width: 0,
                 height: 0,
@@ -391,6 +398,7 @@ export default {
             },
             vendorInsurance: {},
             accessToken: null,
+            errorMessage: false                 ,
             vendorWorkshops: [],
             form: {
                 vendorInsuranceID: null, // DONE
@@ -558,7 +566,7 @@ export default {
                 for (let i = 0; i < 10; i++) {
                     const tempObj = {
                         name: '',
-                        imageFile: [],
+                        imageFile: null,
                         uploaded: false
                     }
                     this.imageForm.push(tempObj)
@@ -567,7 +575,7 @@ export default {
             } else {
                 const tempObj = {
                     name: '',
-                    imageFile: [],
+                    imageFile: null,
                     uploaded: false
                 }
                 this.imageForm.push(tempObj)
@@ -612,23 +620,41 @@ export default {
             })
         },
         doCheckFormPerStepper(refs){
-            refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
+            // refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
             if(this.step == 1 && this.$refs.formStepper1) {
                 this.$refs.formStepper1.validate().then(success => {
                     if (success) {
                         refs.stepper.next()
                     }
                 })
-            } else if (this.step == 2 && this.$refs.formStepper2) {
+            } 
+            else if (this.step == 2 && this.$refs.formStepper2) {
                 this.$refs.formStepper2.validate().then(success => {
                     if (success) {
+                        refs.stepper.next()  
+                    }
+                })
+            }
+            else if (this.step == 3 && this.$refs.formStepper3) {
+                this.$refs.formStepper3.validate().then(success => {
+                    console.log(this.form.workshopTypeObj)
+                    if(!this.form.isOnlineTaxi && !this.form.isNotOnlineTaxi){
+                        this.errorMessage = true
+                    } else if (!this.form.wasNotHit && !this.form.wasHit) {
+                        this.errorMessage = true
+                    } else if (success) {
                         refs.stepper.next()
                     }
                 })
-            } else if (this.step == 3) {
-                if(!help.isDataEmpty(this.form.isOnlineTaxi) && !help.isDataEmpty(this.form.isOnlineTaxi)){
-
-                }
+                // if(){
+                //     this.errorMessage = true
+                //     console.log(this.errorMessage, this.form.isOnlineTaxi, this.form.isNotOnlineTaxi)
+                // } else if (help.isDataEmpty(this.form.wasHit) && help.isDataEmpty(this.form.wasNotHit)){
+                //     this.errorMessage = true
+                //     console.log(this.errorMessage, this.form.wasHit, this.form.wasNotHit)
+                // } else {
+                    
+                // }
             }
         },
         changePage(url){
