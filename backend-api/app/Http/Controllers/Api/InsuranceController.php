@@ -68,9 +68,9 @@ class InsuranceController extends Controller
             'incidentLocation'=>['required', 'string', 'max:255'],
             'vehicleDescription'=>['required', 'string', 'max:255'],
             'incidentDate'=>['required', 'date_format:Y-m-d'],
-            'incidentTime'=>['required', 'date_format:H:i:s'],
+            'incidentTime'=>['required', 'date_format:H:i'],
             'taxiOnlineStatus'=>['required', 'string', 'max:255'],
-            'workshopType'=>['required', 'exists:insurance_workshops,insuranceWorkshopName'],
+            'workshopType'=>['required'],
             'chronology'=>['required', 'string', 'max:255'],
             'incidentStatus'=>['required', 'string', 'max:255'],
             'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'string', 'max:255'],
@@ -118,7 +118,7 @@ class InsuranceController extends Controller
         $dateNow = $mytime->format("Y-m-d");
         $dataInsuranceDetail = new InsuranceDetail;
         $dataInsuranceDetail->insuranceID=$dataInsurance->id;
-        $dataInsuranceDetail->claimInsuranceDate=$dateNow;
+        $dataInsuranceDetail->claimedInsuranceDate=$dateNow;
         $dataInsuranceDetail->insuranceStatus='on progress';
         $dataInsuranceDetail->save();
 
