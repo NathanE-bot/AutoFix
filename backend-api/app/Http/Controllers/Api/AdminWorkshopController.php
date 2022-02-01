@@ -272,7 +272,7 @@ class AdminWorkshopController extends Controller
             $validator = Validator::make($req->all(), [
                 'workshopPictureID'=>'required',
                 'workshopID'=>'required',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
             ]);
 
             if ($validator->fails()) {

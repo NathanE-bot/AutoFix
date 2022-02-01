@@ -74,6 +74,18 @@
 }
 
 // justify-content-----------------------------------
+.j-start,
+.d-flex.j-start{
+    @include flex_grid(justify-content, flex-start);
+}
+.j-start-i,
+.d-flex.j-start-i{
+    @include important_flex_grid(justify-content, flex-start);
+}
+.j-center-i,
+.d-flex.j-center-i{
+    @include important_flex_grid(justify-content, center);
+}
 .j-center,
 .d-flex.j-center{
     @include flex_grid(justify-content, center);

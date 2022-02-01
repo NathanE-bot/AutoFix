@@ -9,6 +9,11 @@
     #{$var}: $content;
 }
 
+@mixin important_flex_grid ($var, $content) {
+    display: flex;
+    #{$var}: $content !important;
+}
+
 // Width Mixins
 @mixin max_width_height ($max_w, $max_h) {
     max-width: $max_w;

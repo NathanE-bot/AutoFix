@@ -71,7 +71,7 @@ class InsuranceController extends Controller
             'taxiOnlineStatus'=>['required', 'string', 'max:255'],
             'workshopType'=>['required', 'exists:insurance_workshops,insuranceWorkshopName'],
             'chronology'=>['required', 'string', 'max:255'],
-            'incidentStatus'=>['required', 'string'],
+            'incidentStatus'=>['required', 'string', 'max:255'],
             'incidentStatusDescription'=>['required_if:incidentStatus,==,yes', 'string', 'max:255'],
             'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
             'documentationInsuranceName.*'=> ['required|string|max:255'],
@@ -150,7 +150,7 @@ class InsuranceController extends Controller
         }
 
         return response()->json([
-            'objectReturn' => $dataInsurance,$dataInsuranceDetails
+            'message' => 'Success'
         ], 200);
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="w-90 m-auto p-20">
+  <q-page class="w-80 m-auto p-20">
     <q-card class="br-10px">
       <q-tabs
         v-model="workshopTab"
@@ -327,37 +327,65 @@
         </q-tab-panel>
         <q-tab-panel name="gallery">
           <div class="row">
-          <div class="col-12 mb-20">
-            <div class="d-flex a-center">
-              <div class="text-h6 fw-semibold mr-20">Gallery Workshop</div>
-              <q-btn
-                @click="doUploadToDatabaseGalleryWorkshop()"
-                label="Upload Photo Gallery" icon="fas fa-plus"
-                unelevated rounded color="primary"
-                class="tf-capitalize icon-resize"
-              />
+            <div class="col-12 mb-20">
+              <div class="d-flex a-center">
+                <div class="text-h6 fw-semibold mr-20">Gallery Workshop</div>
+                <div class="text-subtitle2 fw-semibold">Max: 4 Images</div>
+                <!-- <div class="d-flex a-center j-center">
+                  <q-btn
+                    v-if="jsonDataParam.galleryImagesForPreview.length < 4"
+                    @click="addGalleryForm()"
+                    icon="fas fa-plus"
+                    flat round color="grey-5"
+                  />
+                </div> -->
+                <q-btn
+                  @click="doUploadToDatabaseGalleryWorkshop()"
+                  label="Upload Photo Gallery"
+                  unelevated rounded color="primary"
+                  class="tf-capitalize icon-resize"
+                />
+              </div>
+            </div>
+            <div :class="['row j-start w-94 m-auto']">
+              <div class="px-12 mb-15" v-for="(image, index) in jsonDataParam.galleryImagesForPreview" :key="'galer-'+index">
+                <div class="gallery-images">
+                  <img class="responsive_img fit-content" width="500" height="250" :src="image.imageData" :id="'imageGallery-' + index" alt="">
+                </div>
+                <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadGallery-' + index" @change="doUploadForGalleryWorkshop($event, image, index)">
+              </div>
             </div>
           </div>
-            <div class="col-3 px-12" v-for="(image, index) in jsonDataParam.galleryImagesForPreview" :key="'galer-'+index">
-              <div class="upload-photo-box">
-                <i v-if="!image.uploaded" class="fas fa-cloud-upload-alt fs-40 flex flex-center" style="width:100px; height: 100px"></i>
-                <div :class="['upload-photo-box-insurance relative-position flex-center', {'d-none' : !image.uploaded}]">
-                  <img class="responsive_img fit-content d-flex m-auto br-10px" :src="image.imageFile" :id="'file_type[' + index + ']'">
-                </div>
-                <input style="color: transparent; width:92px" class="cursor-pointer" type="file" accept=".png,.jpg,.jpeg" :id="'uploadGallery-' + index" @change="doUploadForGalleryWorkshop($event, image, index)">
-              </div>
-            </div>
-            <div class="d-flex a-center j-center">
-              <q-btn
-                v-if="jsonDataParam.galleryImagesForPreview.length < 4"
-                @click="addGalleryForm()"
-                icon="fas fa-plus"
-                flat round color="grey-5"
-              />
-              <div class="text-subtitle2 text-semibold" v-if="jsonDataParam.galleryImagesForPreview.length == 4">
-                You have reached maximum gallery image of 4 images.
-              </div>
-            </div>
+          <div class="row w-94 m-auto">
+            <div class="text-h6 fw-semibold mb-20 col-12">Preview Gallery</div>
+            <q-carousel
+              v-if="help.isObjectEmpty(jsonDataParam.galleryImagesForPreview) && loader"
+              v-model="gallerySlide"
+              arrows swipeable thumbnails
+              animated infinite :autoplay="10000"
+              transition-prev="slide-right"
+              transition-next="slide-left"
+              transition-duration="2000"
+              control-color="primary"
+              class="bg-grey-1 rounded-borders col-12"
+              :style="{height: window.heightAltered + 'px'}"
+            >
+              <q-carousel-slide v-for="n in 4" :key="'AIYE' + n" :name="n" img-src="~assets/images/background_img/car_bg_1.jpg" />
+            </q-carousel>
+            <q-carousel
+              v-else
+              v-model="gallerySlide"
+              arrows swipeable thumbnails
+              animated infinite :autoplay="10000"
+              transition-prev="slide-right"
+              transition-next="slide-left"
+              transition-duration="2000"
+              control-color="primary"
+              class="bg-grey-1 rounded-borders col-12"
+              :style="{height: window.heightAltered + 'px'}"
+            >
+              <q-carousel-slide v-for="(images, index) in jsonDataParam.galleryImagesForPreview" :key="'AIYE' + index" :name="index+1" :img-src="images.imageData" />
+            </q-carousel>
           </div>
         </q-tab-panel>
       </q-tab-panels>
@@ -669,7 +697,7 @@ import {
   deleteWorkshopServiceByID,
   deleteWorkshopServiceByStatusAndID,
   updateLogoWorkshop,
-  uploadGaleryWorkshop
+  makeGaleryWorkshopPath
 } from '../../../api/AdminWorkshopServices'
 import help from '../../../js/help'
 import ValidationFunction from '../../../js/ValidationFunction'
@@ -681,7 +709,6 @@ export default {
     return {
       help,
       ValidationFunction,
-      initialTab: 'editWorkshop',
       thumbStyle: {
         right: '2px',
         borderRadius: '10px',
@@ -721,7 +748,7 @@ export default {
       user: {},
       showError: false,
       loader: false,
-      workshopTab: 'workshop',
+      workshopTab: 'gallery',
       accessToken: null,
       dialogEditCarServices: false,
       dialogEditCarTypeAndModel: false,
@@ -752,14 +779,16 @@ export default {
         operationalWorkshopHours: [],
         status24Hr: false,
         galleryImage: {},
-        galleryImagesForPreview: []
+        galleryImagesForPreview: [],
+        workshopPictureID: null
       },
       jsonDataParamTable: {
         iPage: 1,
         maxPage: 5
       },
       periodic: false,
-      general: false
+      general: false,
+      gallerySlide: 1
     }
   },
   created () {
@@ -842,8 +871,18 @@ export default {
         _this.loader = false
       }) .finally(() => {
         _this.workshopDetail.workshop_review.reverse()
-        if(help.isObjectEmpty(_this.jsonDataParam.galleryImagesForPreview)){
+        if(help.isObjectEmpty(_this.workshopDetail.workshop_picture)){
           _this.addGalleryForm()
+        } else {
+          _this.jsonDataParam.galleryImagesForPreview = []
+          _this.workshopDetail.workshop_picture.forEach(el1 => {
+            let tempObject = {
+              workshopPictureID: el1.id,
+              uploaded: true,
+              imageData: el1.workshopPicture
+            }
+            _this.jsonDataParam.galleryImagesForPreview.push(tempObject)
+          })
         }
         if(deleteCarSpec){
           _this.doFilterCarModelAndType(false)
@@ -1494,6 +1533,7 @@ export default {
     },
     addGalleryForm () {
       let tempObj = {
+        workshopPictureID: 0,
         uploaded: false,
         imageData: {}
       }
@@ -1524,17 +1564,34 @@ export default {
         }, false)
         reader.readAsDataURL(file)
         const formData = new FormData
-        formData.set('image', test)
-        _this.jsonDataParam.galleryImage = {}
-        _this.jsonDataParam.galleryImage = formData
-        _this.doUploadToDatabaseGalleryWorkshop()
+        formData.set('image', file)
+        imageObj.imageData = file
+        this.jsonDataParam.galleryImage = {}
+        this.jsonDataParam.galleryImage = formData
+        this.jsonDataParam.workshopPictureID = null
+        this.jsonDataParam.workshopPictureID = imageObj.workshopPictureID
+        this.doMakeImagePathForDatabase() // jdnya lgsng upload
       }
     },
-    doUploadToDatabaseGalleryWorkshop () {
+    doMakeImagePathForDatabase () {
       let _this = this
       _this.loader = true
-      uploadGaleryWorkshop(_this.workshopDetail.id, _this.jsonDataParam.galleryImage, _this.accessToken).then(response => {
-        console.log(response.data)
+      makeGaleryWorkshopPath(_this.workshopDetail.id, _this.jsonDataParam.workshopPictureID, _this.jsonDataParam.galleryImage, _this.accessToken).then(response => {
+        _this.doGetWorkshopDetailByUserID(false, false)
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Upload success'
+        })
+      }) .catch((error) => {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.response.data.message.image[0]
+        }) .then(() => {
+          _this.loader = false
+        })
       })
     },
     doClearDataV2 () {

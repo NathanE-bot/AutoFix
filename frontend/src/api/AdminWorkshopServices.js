@@ -75,7 +75,12 @@ export function updateLogoWorkshop(workshopID, workshopLogo, userToken) {
   return axios.post(localURL + '/api/updateLogoWorkshop?workshopID=' + workshopID, workshopLogo, authorization)
 }
 
-export function uploadGaleryWorkshop(workshopID, workshopPicture, userToken) {
+export function makeGaleryWorkshopPath(workshopID, workshopPictureID, workshopPicture, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.post(localURL + '/api/uploadGaleryWorkshop?workshopID=' + workshopID, workshopPicture, authorization)
+  return axios.post(localURL + '/api/makeGaleryWorkshopPath?workshopID=' + workshopID + '&workshopPictureID=' + workshopPictureID, workshopPicture, authorization)
 }
+
+// export function updateGaleryWorkshop(workshopID, workshopPictureID, workshopPicture, userToken) {
+//   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+//   return axios.post(localURL + '/api/updateGaleryWorkshop?workshopID=' + workshopID + '&workshopPictureID=' + workshopPictureID, workshopPicture, authorization)
+// }

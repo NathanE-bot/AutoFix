@@ -148,3 +148,8 @@
     object-fit: cover;
     object-position: 50% 50%;
 }
+
+.gallery-images{
+    // @include width_preset(500px);
+    @include height_preset(250px);
+}

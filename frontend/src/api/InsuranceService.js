@@ -31,3 +31,8 @@ export function getInsuranceDetailByStatusRejected (userID, insuranceID, userTok
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
   return axios.get(localURL + '/api/getInsuranceDetailByStatusRejected?userID=' + userID + '&insuranceID=' + insuranceID, authorization)
 }
+
+export function makeInsuranceClaimApi (userID, vendorInsuranceID, insuranceForm, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.get(localURL + '/api/makeInsuranceClaimApi?userID=' + userID + '&vendorInsuranceID=' + vendorInsuranceID, insuranceForm, authorization)
+}
