@@ -74,6 +74,7 @@ Route::post('updateInsurace', 'Api\InsuranceController@updateInsurace');
 
 
 
+
 //API review
 Route::post('formReviewAPI','Api\ReviewController@formReviewAPI');
 Route::post('viewReviewAPI','Api\ReviewController@viewReviewAPI');
@@ -123,5 +124,5 @@ Route::post('acceptInsuranceClaim','Api\AdminInsuranceController@acceptInsurance
 Route::get('getAdminInsuranceDetails','Api\AdminInsuranceController@getAdminInsuranceDetails');
 Route::post('rejectInsuranceClaim','Api\AdminInsuranceController@rejectInsuranceClaim');
 Route::get('getInsuranceHistory','Api\AdminInsuranceController@getInsuranceHistory');
-
+Route::get('countDataTotalCLaimedInsurance', 'Api\AdminInsuranceController@countDataTotalCLaimedInsurance');
 
