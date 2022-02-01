@@ -39,7 +39,7 @@ class AdminInsuranceController extends Controller
             'insurances.polisNumber','insurances.licensePlateNumber','insurances.submitDate')
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','=','on progress')
-            ->orderBy('insurances.submitDate','asc')
+            ->orderBy('insurances.submitDate','desc')
             ->get();
             if(empty($insurance)){
                 return response()->json(['Message'=>'No data'], 200);
@@ -286,4 +286,54 @@ class AdminInsuranceController extends Controller
         }
     }
 
+
+    public function getYearInsuranceForFilterHome(){
+
+        try {
+            $getTahun = DB::table('insurances')
+            ->select(DB::raw('YEAR(insurances.submitDate)'))
+            ->distinc
+            ->get();
+            return response()->json($getTahun, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
+
+    public function countDataTotalCLaimedInsuranceByStatus(Request $req){
+        try {
+            $insuranceAccept= DB::table('insurances')
+            ->rightJoin(DB::raw('(
+                SELECT 1 as d
+                UNION SELECT 2 as d
+                UNION SELECT 3 as d
+                UNION SELECT 4 as d
+                UNION SELECT 5 as d
+                UNION SELECT 6 as d
+                UNION SELECT 7 as d
+                UNION SELECT 8 as d
+                UNION SELECT 9 as d
+                UNION SELECT 10 as d
+                UNION SELECT 11 as d
+                UNION SELECT 12 as d
+            ) as months'),
+            function($join) use($req){
+                $join->on(DB::raw('MONTH(insurances.submitDate)'), '=',DB::raw('months.d'))
+                ->where(DB::raw('YEAR(insurances.submitDate)'), '=', $req->year);
+            }
+            )
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->select(DB::raw('months.d AS day, COUNT(insurances.id) AS countData'))
+            ->where('insurance_vendors.userID','=',$req->adminID)
+            ->groupBY('months.d')
+            ->get();
+
+            if(empty($insurance)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
+            return response()->json($insurance,$getTahun, 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
 }
