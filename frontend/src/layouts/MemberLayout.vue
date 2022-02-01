@@ -40,50 +40,48 @@ export default {
     watch: {
         '$route.path': {
             handler: function(url) {
-                if(Auth.isUserLogin() && url.includes('/workshop/') || url.includes('/insurance/')){
-                    this.isOnDetailSchedule = false
-                } 
-                else if(Auth.isUserLogin() && url.includes('/member')){
-                    this.isOnDetailSchedule = true
-                    if(!Auth.isUserLogin()){
-                        this.forLoad = false
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Please login first.',
-                            confirmButtonText: 'Login',
-                            confirmButtonColor: '#21a17b',
-                            showCancelButton: true,
-                            cancelButtonText: 'Back',
-                        }) .then((result) => {
-                            if(result.isConfirmed){
-                                this.changePage('/session/login')
-                                setTimeout(() => {
-                                    this.forLoad = true
-                                }, 2000)
-                            } else {
-                                this.changePage('/')
-                                setTimeout(() => {
-                                    this.forLoad = true
-                                }, 2000)
-                            }
-                        })
-                    }
-                } else {
-                    if(Auth.isUserLogin() && Auth.userRoleType() == 'workshop workshop') {
+                if(Auth.isUserLogin()){
+                    if(Auth.userRoleType() == 'customer'){
+                        if(url.includes('/workshop/') || url.includes('/insurance/')){
+                            this.isOnDetailSchedule = false
+                        } else if(url.includes('/member')){
+                            this.isOnDetailSchedule = true
+                        }
+                    } else if (Auth.userRoleType() == 'workshop admin'){
                         this.forLoad = false
                         this.changePage('/admin/workshop/home')
                         setTimeout(() => {
                             this.forLoad = true
                         }, 2000)
-                    } else if (Auth.isUserLogin() && Auth.userRoleType() == 'insurance admin') {
+                    } else {
                         this.forLoad = false
                         this.changePage('/admin/insurance/home')
                         setTimeout(() => {
                             this.forLoad = true
                         }, 2000)
-                    } else {
-                        this.changePage('/session/login')
-                    }
+                    } 
+                } else {
+                    this.forLoad = false
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Please login first.',
+                        confirmButtonText: 'Login',
+                        confirmButtonColor: '#21a17b',
+                        showCancelButton: true,
+                        cancelButtonText: 'Back',
+                    }) .then((result) => {
+                        if(result.isConfirmed){
+                            this.changePage('/session/login')
+                            setTimeout(() => {
+                                this.forLoad = true
+                            }, 2000)
+                        } else {
+                            this.changePage('/')
+                            setTimeout(() => {
+                                this.forLoad = true
+                            }, 2000)
+                        }
+                    })
                 }
             },
             deep: true,
