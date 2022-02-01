@@ -22,7 +22,7 @@
                 </template>
                 <template v-slot:body="props">
                   <q-tr :props="props">
-                    <q-td key="insuredName" :props="props">
+                    <q-td class="text-white" key="insuredName" :props="props">
                       {{ props.row.insuredName }}
                     </q-td>
                     <q-td key="insuranceStatus" :props="props" class="tf-capitalize">

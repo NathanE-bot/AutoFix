@@ -23,7 +23,7 @@
                 </template>
                 <template v-slot:body="props">
                   <q-tr :props="props" :class="['', {'set-bg-red-rejected' : props.row.insuranceStatus === 'Rejected'}]">
-                    <q-td key="insuredName" :props="props">
+                    <q-td class="text-white"  key="insuredName" :props="props">
                       {{ props.row.insuredName }}
                     </q-td>
                     <q-td key="insuredStatus" :props="props" class="tf-capitalize">
