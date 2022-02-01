@@ -111,31 +111,31 @@ class InsuranceController extends Controller
         $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
         $dataInsurance->submitDate = $dateNow;
         $dataInsurance->save();
-        if ($req->has('documentationPicture'))
-        {
-            // $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
-            foreach ($req->file('documentationPicture') as $key => $file)
-            {
-                // foreach ($dataDocumentInsurance as $key => $value) {
-                    $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName[$key]);
-                    $ext = $file->getClientOriginalExtension();
-                    $path = $file->storeAs('avatar', strtolower($fullNameTemp.$value->id.$key.'.'.$ext), 'public');
-                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+        // if ($req->has('documentationPicture'))
+        // {
+        //     // $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
+        //     foreach ($req->file('documentationPicture') as $key => $file)
+        //     {
+        //         // foreach ($dataDocumentInsurance as $key => $value) {
+        //             $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName[$key]);
+        //             $ext = $file->getClientOriginalExtension();
+        //             $path = $file->storeAs('avatar', strtolower($fullNameTemp.$value->id.$key.'.'.$ext), 'public');
+        //             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-                    // $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
-                    // ->update(['profilePicture' => $imagePath]);
-                    $insuranceDocumentation = new DocumentationInsurance;
-                    $insuranceDocumentation->insuranceID = $dataInsurance->id;
-                    $insuranceDocumentation->documentationPicture = $imagePath;
-                    $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
-                    $insuranceDocumentation->save();
-                // }
-            }
-        }
-        else
-        {
-            return response()->json('image not found', 400);
-        }
+        //             // $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
+        //             // ->update(['profilePicture' => $imagePath]);
+        //             $insuranceDocumentation = new DocumentationInsurance;
+        //             $insuranceDocumentation->insuranceID = $dataInsurance->id;
+        //             $insuranceDocumentation->documentationPicture = $imagePath;
+        //             $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
+        //             $insuranceDocumentation->save();
+        //         // }
+        //     }
+        // }
+        // else
+        // {
+        //     return response()->json('image not found', 400);
+        // }
         date_default_timezone_set('Asia/Jakarta');
         $mytime = new DateTime('now');
         $dateNow = $mytime->format("Y-m-d");
