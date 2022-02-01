@@ -114,7 +114,8 @@ Route::post('addWorkshopService','Api\AdminWorkshopController@addWorkshopService
 Route::post('deleteWorkshopServiceByID','Api\AdminWorkshopController@deleteWorkshopServiceByID');
 Route::post('deleteWorkshopServiceByStatusAndID','Api\AdminWorkshopController@deleteWorkshopServiceByStatusAndID');
 Route::get('countAllDataWorkshop','Api\AdminWorkshopController@countAllDataWorkshop');
-
+Route::get('SumAllPriceEstimationWorkshop','Api\AdminWorkshopController@SumAllPriceEstimationWorkshop');
+Route::get('countWorkshopByStatus','Api\AdminWorkshopController@countWorkshopByStatus');
 
 
 
