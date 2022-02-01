@@ -229,7 +229,7 @@ class AdminInsuranceController extends Controller
         }
     }
 
-    public function countDataTotalCLaimedInsurance(Request $req){
+    public function countDataTotalClaimedInsurance(Request $req){
         try {
                 $insurance= DB::table('insurances')
                 ->rightJoin(DB::raw('(
@@ -302,7 +302,7 @@ class AdminInsuranceController extends Controller
         }
     }
 
-    public function countDataTotalCLaimedInsuranceByStatus(Request $req){
+    public function countDataTotalClaimedInsuranceByStatus(Request $req){
         try {
             $insuranceAccept= DB::table('insurances')
             ->rightJoin(DB::raw('(

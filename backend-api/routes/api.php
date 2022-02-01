@@ -129,8 +129,7 @@ Route::post('rejectInsuranceClaim','Api\AdminInsuranceController@rejectInsurance
 Route::get('getInsuranceHistory','Api\AdminInsuranceController@getInsuranceHistory');
 Route::get('countDataTotalClaimedInsurance', 'Api\AdminInsuranceController@countDataTotalClaimedInsurance');
 Route::get('getYearInsuranceForFilterHome', 'Api\AdminInsuranceController@getYearInsuranceForFilterHome');
-Route::get('getYearInsuranceForFilterHome', 'Api\AdminInsuranceController@getYearInsuranceForFilterHome');
-Route::get('countDataTotalCLaimedInsuranceByStatus', 'Api\AdminInsuranceController@countDataTotalCLaimedInsuranceByStatus');
+Route::get('countDataTotalClaimedInsuranceByStatus', 'Api\AdminInsuranceController@countDataTotalClaimedInsuranceByStatus');
 
 
 

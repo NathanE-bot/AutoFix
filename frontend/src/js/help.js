@@ -22,6 +22,11 @@ export default {
             dmy_9: 'Y-M-D', // 2021-11-28 (backend-format)
             // Day
             d_1: 'dddd', //Sunday
+            // Month
+            m_1: 'MM', //01
+            m_2: 'MMMM', //January
+            // Year
+            y_1: 'YYYY',
             // Hour
             time_1: 'HH A', // 21 PM
             time_2: 'HH:mm', // 21:20

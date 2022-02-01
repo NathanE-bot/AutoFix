@@ -2,61 +2,73 @@
     <q-page class="flex flex-center">
         <div class="row w-80">
           <div class="row col-12 j-sp-between">
-            <div class="col-4 p-0">
-              <div class="white-1bg br-10px-i w-95">
-                <apexchart ref="realtimeChart" width="100%" height="215" :options="spark1" :series="spark1.series"></apexchart>
-              </div>
-            </div>
-            <div class="col-8">
-              <div class="row fw">
-                <div class="white-1bg col-md-12 br-10px-i">
-                  <div>
-                    <apexchart width="100%" height="200" type="bar" :options="options1" :series="options1.series1"></apexchart>
+            <div class="row fw">
+              <div class="row col-12 br-10px-i">
+                <div class="row col-12">
+                  <div class="col-6 j-start txt-white flex a-end fs-20">
+                    <span>Daily Total Accepted and Rejected Insurance Claim Requests</span>
+                  </div>
+                  <div class="col-6 j-end" style="gap: 1rem;">
+                    <q-select
+                      v-model="dataHitAPI.month"
+                      :options="listMonth"
+                      outlined dense
+                      class="br-10px default-select-2 white-1bg"
+                    />
+                    <q-select
+                      v-model="dataHitAPI.year"
+                      :options="listYear"
+                      outlined dense
+                      class="br-10px default-select-2 white-1bg"
+                    />
+                    <q-btn
+                      @click="doGetChartCountDataTotalClaimedInsurance()"
+                      color="primary"
+                      unelevated dense
+                      label="Search"
+                      padding="0px 20px"
+                      class="br-10px tf-capitalize"
+                    />
                   </div>
                 </div>
-               </div>
+              </div>
+              <div class="white-1bg col-12 br-10px-i mt-5">
+                <div>
+                  <apexchart width="100%" height="200" type="bar" :options="options1" :series="options1.series1"></apexchart>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-12 mt-10" style="min-height: 200px;">
-            <div class="white-1bg br-10px-i">
-              <apexchart width="100%" height="200" type="bar" :options="options2" :series="options2.series"></apexchart>
+            <div class="row fw">
+              <div class="row col-12 br-10px-i">
+                <div class="row col-12">
+                  <div class="col-6 j-start txt-white flex a-end fs-20">
+                      <span>Monthly Insurance Claim Requests</span>
+                  </div>
+                  <div class="row col-6 j-end" style="gap: 1rem;">
+                    <q-select
+                      v-model="dataHitAPI.year2"
+                      :options="listYear"
+                      outlined dense
+                      class="br-10px default-select-2 white-1bg"
+                    />
+                    <q-btn
+                      @click="doGetCountDataTotalClaimedInsuranceByStatus()"
+                      color="primary"
+                      unelevated dense
+                      label="Search"
+                      padding="0px 20px"
+                      class="br-10px tf-capitalize"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="white-1bg col-12 br-10px-i mt-5">
+                <apexchart width="100%" height="200" type="bar" :options="options2" :series="options2.series2"></apexchart>
+              </div>
             </div>
           </div>
-          <!-- <div class="col-md-12 q-gutter-y-md" >
-            <div class="row">
-              <div class="white-1bg chart">
-                <apexchart width="100%" :options="spark1" :series="spark1.series"></apexchart>
-              </div>
-              <div class="white-1bg ml-5">
-                <div class="row filternya j-end q-gutter-lg">
-                  <div>Year</div>
-                  <div>Month</div>
-                  <div>Search</div>
-                </div>
-                <div class="row white-1bg chart">
-                  <apexchart width="100%" height="200" type="bar" :options="options2" :series="options2.series"></apexchart>
-                </div>
-              </div>
-            </div>
-            <div class="row fw">
-              <div class="col-md-12 filternya j-end txt-white q-gutter-x-md">
-                <div>
-                  Year
-                </div>
-                <div>
-                  Month
-                </div>
-                <div>
-                  Search
-                </div>
-              </div>
-              <div class="white-1bg col-md-12 chart h-50 br-10px-i">
-                <div>
-                  <apexchart width="100%" height="200em" type="bar" :options="options1" :series="options1.series1"></apexchart>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
     </q-page>
 </template>
@@ -64,6 +76,9 @@
 <script>
 /* eslint-disable */
 import VueApexCharts from "vue3-apexcharts";
+import { getChartCountDataTotalClaimedInsurance, getYearInsuranceForFilterHome, getCountDataTotalClaimedInsuranceByStatus } from '../../../api/AdminInsuranceServices'
+import { LocalStorage } from 'quasar'
+import help from '../../../js/help'
 
 export default {
   components: {
@@ -71,27 +86,69 @@ export default {
   },
   data () {
     return {
+      help,
+      user: {},
+      loader: false,
+      dateToday: {},
+      listYear: [],
+      listMonth: [
+        { label: 'January', value: 1},
+        { label: 'February', value: 2},
+        { label: 'March', value: 3},
+        { label: 'April', value: 4},
+        { label: 'May', value: 5},
+        { label: 'June', value: 6},
+        { label: 'July', value: 7},
+        { label: 'August', value: 8},
+        { label: 'September', value: 9},
+        { label: 'October', value: 10},
+        { label: 'November', value: 11},
+        { label: 'December', value: 12},
+      ],
+      dataHitAPI: {
+        adminID: null,
+        month: {
+          label: null,
+          value: null
+        },
+        year: {
+          label: null,
+          value: null
+        },
+        year2: {
+          label: null,
+          value: null
+        }
+      },
       options1: {
         chart: {
           id: 'vuechart-example'
         },
         xaxis: {
-          categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30']
+          categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
           // categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         },
         series1: [{
-          name: 'series-1',
-          data: [30, 40, 45, 50, 49, 60, 70, 91, 100, 70,30, 40, 45, 50, 49, 60, 70, 91, 100, 70,30, 40, 45, 50, 49, 60, 70, 91, 100, 70]
+          name: 'Total',
+          data: []
         }],
+        colors: ['#373c68'],
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val + " insurance claim requests"
+            }
+          }
+        }
       },
       options2: {
-        series: [
+        series2: [
           {
             name: 'Approved',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 90]
+            data: ['0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
           },{
             name: 'Rejected',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 50, 70]
+            data: ['0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
           }
         ],
         chart: {
@@ -109,19 +166,9 @@ export default {
         dataLabels: {
           enabled: false
         },
-        // stroke: {
-        //   show: true,
-        //   width: 2,
-        //   colors: ['transparent']
-        // },
         xaxis: {
-          categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         },
-        // yaxis: {
-        //   title: {
-        //     text: '$ (thousands)'
-        //   }
-        // },
         fill: {
           opacity: 1
         },
@@ -132,59 +179,12 @@ export default {
             }
           }
         }
-      },
-      spark1: {
-        chart: {
-          label: 'asd',
-          id: 'sparkline1',
-          // group: 'sparklines',
-          type: 'area',
-          sparkline: {
-            enabled: true
-          },
-        },
-        grid:{
-          show: true
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        fill: {
-          opacity: 1,
-        },
-        series: [{
-          name: 'Total Estimation',
-          data: [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46] //isi datanya disini
-        }],
-        labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`), //ini tanggal
-        yaxis: {
-          min: 0
-        },
-        xaxis: {
-          type: 'datetime',
-          labels: {
-            show: false
-          }
-        },
-        colors: ['#21a17b'],
-        title: {
-          text: 'DERIL GOBLOG',
-          offsetX: 30,
-          style: {
-            fontSize: '24px',
-            cssClass: 'apexcharts-yaxis-title'
-          }
-        },
-        subtitle: {
-          text: 'MAKAN DUREN ANJENG',
-          offsetX: 30,
-          style: {
-            fontSize: '14px',
-            cssClass: 'apexcharts-yaxis-title'
-          }
-        }
       }
     }
+  },
+  created(){
+    this.user = LocalStorage.getItem('autoRepairUser').data.user
+    this.doGetFirstLoadData()
   },
   mounted () {
     // this.updateSeriesLine()
@@ -198,10 +198,59 @@ export default {
       // }, 3000);
     },
     updateSeriesLine() {
-      console.log('asd')
       this.$refs.realtimeChart.updateSeries([{
         data: this.spark1.series[0].data,
       }], false, true);
+    },
+    doGetFirstLoadData() {
+      this.loader = true
+      this.dataHitAPI.month.value = help.formatToday(help.data().m_1)
+      this.dataHitAPI.month.label = help.formatToday(help.data().m_2)
+      getYearInsuranceForFilterHome().then(response => {
+        
+        response.data.map(val => {
+          let tempObj = {
+            label: null
+          }
+          tempObj.label = val.year
+          this.listYear.push(tempObj)
+        })
+        this.dataHitAPI.year.label = this.listYear[0].label
+        this.dataHitAPI.year2.label = this.listYear[0].label
+        this.doGetChartCountDataTotalClaimedInsurance()
+        this.doGetCountDataTotalClaimedInsuranceByStatus()
+      })
+      this.loader = false
+    },
+    doGetChartCountDataTotalClaimedInsurance () {
+      this.loader = true
+      this.options1.series1[0].data =  ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
+      
+      getChartCountDataTotalClaimedInsurance(this.user.id, this.dataHitAPI.month.value, this.dataHitAPI.year.label)
+      .then(response => {
+        response.data.map(val => {
+          this.options1.series1[0].data[val.day-1] = val.countData
+        })
+      })
+      this.loader = false
+    },
+    doGetCountDataTotalClaimedInsuranceByStatus(){
+      this.loader = true
+      this.options2.series2[0].data = ['0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+      this.options2.series2[1].data = ['0','0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+      
+      getCountDataTotalClaimedInsuranceByStatus(this.user.id, this.dataHitAPI.year2.label)
+      .then(response => {
+
+        response.data.approvedArray.map(val => {
+          this.options2.series2[0].data[val.months-1] = val.countData
+        })
+
+        response.data.rejectedArray.map(val => {
+          this.options2.series2[1].data[val.months-1] = val.countData
+        })
+      })
+      this.loader = false
     }
   }
 }
