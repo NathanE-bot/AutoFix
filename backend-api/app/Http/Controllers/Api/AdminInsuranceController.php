@@ -39,7 +39,7 @@ class AdminInsuranceController extends Controller
             'insurances.polisNumber','insurances.licensePlateNumber','insurances.submitDate')
             ->where('insurance_vendors.userID','=',$req->adminID)
             ->where('insurance_details.insuranceStatus','=','on progress')
-            ->orderBy('insurances.submitDate','desc')
+            ->orderBy('insurances.submitDate','asc')
             ->get();
             if(empty($insurance)){
                 return response()->json(['Message'=>'No data'], 200);
