@@ -291,8 +291,8 @@ class AdminInsuranceController extends Controller
 
         try {
             $getTahun = DB::table('insurances')
-            ->select(DB::raw('YEAR(insurances.submitDate)'))
-            ->distinc
+            ->select(DB::raw('YEAR(insurances.submitDate) as year'))
+            ->distinct()
             ->get();
             return response()->json($getTahun, 200);
         } catch (Exception $err){
@@ -323,17 +323,60 @@ class AdminInsuranceController extends Controller
             }
             )
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
-            ->select(DB::raw('months.d AS day, COUNT(insurances.id) AS countData'))
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
+            ->select(DB::raw('months.d AS months, COUNT(insurances.id) AS countData'))
             ->where('insurance_vendors.userID','=',$req->adminID)
+            ->where('insurance_details.insuranceStatus','=','approved')
             ->groupBY('months.d')
             ->get();
 
-            if(empty($insurance)){
+            if(empty($insuranceAccept)){
                 return response()->json(['Message'=>'No data'], 200);
             }
-            return response()->json($insurance,$getTahun, 200);
+
+            $insuranceRejected= DB::table('insurances')
+            ->rightJoin(DB::raw('(
+                SELECT 1 as d
+                UNION SELECT 2 as d
+                UNION SELECT 3 as d
+                UNION SELECT 4 as d
+                UNION SELECT 5 as d
+                UNION SELECT 6 as d
+                UNION SELECT 7 as d
+                UNION SELECT 8 as d
+                UNION SELECT 9 as d
+                UNION SELECT 10 as d
+                UNION SELECT 11 as d
+                UNION SELECT 12 as d
+            ) as months'),
+            function($join) use($req){
+                $join->on(DB::raw('MONTH(insurances.submitDate)'), '=',DB::raw('months.d'))
+                ->where(DB::raw('YEAR(insurances.submitDate)'), '=', $req->year);
+            }
+            )
+            ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
+            ->join('insurance_details','insurance_details.insuranceID','=','insurances.id')
+            ->select(DB::raw('months.d AS months, COUNT(insurances.id) AS countData'))
+            ->where('insurance_vendors.userID','=',$req->adminID)
+            ->where('insurance_details.insuranceStatus','=','rejected')
+            ->groupBY('months.d')
+            ->get();
+
+            if(empty($insuranceRejected)){
+                return response()->json(['Message'=>'No data'], 200);
+            }
+
+
+
+            $data =[
+                'approvedArray'=>$insuranceAccept,
+                'rejectedArray'=>$insuranceRejected
+            ];
+            return response()->json($data, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
     }
+
+
 }
