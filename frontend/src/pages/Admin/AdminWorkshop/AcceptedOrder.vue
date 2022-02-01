@@ -60,7 +60,7 @@
                         </q-card-section>
                         <div class="d-flex a-center j-end" style="gap: 20px">
                             <q-btn
-                                @click="doSetTempScheduleID(accepted.scheduleID, 'cancel')"
+                                @click="doSetTempScheduleID(accepted.scheduleID, 'cancel'); cancelReason = null;"
                                 color="negative" rounded unelevated padding="4px 24px"
                                 label="Cancel"
                                 class="tf-capitalize"
@@ -129,7 +129,7 @@ export default {
         user: {},
         listAccepted: [],
         tempManageScheduleID: null,
-        cancelReason: '',
+        cancelReason: null,
         window: {
             width: 0,
             height: 0,
