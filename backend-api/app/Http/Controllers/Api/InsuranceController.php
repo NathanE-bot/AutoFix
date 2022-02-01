@@ -17,6 +17,7 @@ use App\InsuranceVendor;
 use App\InsuranceWorkshop;
 use App\InsuranceDetail;
 use App\DocumentationInsurance;
+use Illuminate\Support\Facades\Storage;
 
 class InsuranceController extends Controller
 {
@@ -111,31 +112,7 @@ class InsuranceController extends Controller
         $dataInsurance->incidentStatusDescription = $req->incidentStatusDescription;
         $dataInsurance->submitDate = $dateNow;
         $dataInsurance->save();
-        // if ($req->has('documentationPicture'))
-        // {
-        //     // $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
-        //     foreach ($req->file('documentationPicture') as $key => $file)
-        //     {
-        //         // foreach ($dataDocumentInsurance as $key => $value) {
-        //             $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName[$key]);
-        //             $ext = $file->getClientOriginalExtension();
-        //             $path = $file->storeAs('avatar', strtolower($fullNameTemp.$value->id.$key.'.'.$ext), 'public');
-        //             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
-        //             // $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
-        //             // ->update(['profilePicture' => $imagePath]);
-        //             $insuranceDocumentation = new DocumentationInsurance;
-        //             $insuranceDocumentation->insuranceID = $dataInsurance->id;
-        //             $insuranceDocumentation->documentationPicture = $imagePath;
-        //             $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
-        //             $insuranceDocumentation->save();
-        //         // }
-        //     }
-        // }
-        // else
-        // {
-        //     return response()->json('image not found', 400);
-        // }
         date_default_timezone_set('Asia/Jakarta');
         $mytime = new DateTime('now');
         $dateNow = $mytime->format("Y-m-d");
@@ -154,48 +131,54 @@ class InsuranceController extends Controller
         ], 200);
     }
 
-    // public function uploadImageInsuranceClaim(Request $req){
-    //     try {
+    public function makePathInsurance(Request $req){
+        try {
+            $validator = Validator::make($req->all(), [
+                'image'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
+            ]);
 
-    //     $validator = Validator::make($req->all(), [
-    //         'documentationPicture.*'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
-    //         'documentationInsuranceName.*'=> ['required|string|max:255'],
-    //     ]);
+        if ($req->imagePath == null) {
+            if ($req->has('image'))
+            {
+                $dateTimeNow= carbon::now()->format('Y-m-d_H-i-s');
 
-    //     if ($req->has('documentationPicture'))
-    //     {
-    //         // $dataDocumentInsurance = DB::table('documentation_insurances')->where('insuraceID','=',$req->insuraceID)->first();
-    //         foreach ($req->file('documentationPicture') as $key => $file)
-    //         {
-    //             foreach ($dataDocumentInsurance as $key => $value) {
-    //                 $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName[$key]);
-    //                 $ext = $file->getClientOriginalExtension();
-    //                 $path = $file->storeAs('avatar', strtolower($fullNameTemp.$value->id.$key.'.'.$ext), 'public');
-    //                 $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName);
+                $ext = $req->image->getClientOriginalExtension();
+                $path = $req->image->storeAs('avatar', strtolower($fullNameTemp.$dateTimeNow.'.'.$ext), 'public');
+                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+            }
+            else
+            {
+                return response()->json('image not found', 400);
+            }
+        }
+        else {
+            if ($req->has('image'))
+            {
+                $dataImagePath =mb_substr($req->imagePath,30,100);
+                dd($dataImagePath);
+                Storage::delete('/public/'.$dataImagePath);
 
-    //                 // $dataUser = DB::table('documentation_insurances')->where('id','=',$req->id)->where('role','=','1')
-    //                 // ->update(['profilePicture' => $imagePath]);
-    //                 $insuranceDocumentation = new DocumentationInsurance;
-    //                 $insuranceDocumentation->insuranceID = $dataInsurance->id;
-    //                 $insuranceDocumentation->documentationPicture = $imagePath;
-    //                 $insuranceDocumentation -> documentationInsuranceName = $req->documentationInsuranceName[$key];
-    //                 $insuranceDocumentation->save();
-    //             }
-    //         }
-    //     }
-    //     else
-    //     {
-    //         return response()->json('image not found', 400);
-    //     }
+                $dateTimeNow= carbon::now()->format('Y-m-d_H-i-s');
 
-    //     $data = [
-    //         'objectReturner'=>'Berhasil'
-    //     ];
-    //     return response()->json($data, 200);
-    // } catch (Exception $err){
-    //     return response()->json($err, 500);
-    // }
-    // }
+                $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName);
+                $ext = $req->image->getClientOriginalExtension();
+                $path = $req->image->storeAs('avatar', strtolower($fullNameTemp.$dateTimeNow.'.'.$ext), 'public');
+                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+            }
+            else
+            {
+                return response()->json('image not found', 400);
+            }
+        }
+            $data = [
+                'objectReturner'=>'Berhasil'
+            ];
+        return response()->json([$imagePath,$req->documentationInsuranceName], 200);
+        } catch (Exception $err){
+            return response()->json($err, 500);
+        }
+    }
 
 
     public function getInsuranceStatusApi (Request $req){

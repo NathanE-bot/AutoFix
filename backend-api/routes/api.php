@@ -69,6 +69,7 @@ Route::get('getInsuranceDetailByStatusAccepted', 'Api\InsuranceController@getIns
 Route::get('getInsuranceDetailByStatusRejected', 'Api\InsuranceController@getInsuranceDetailByStatusRejected');
 Route::get('downloadInsurancePDF', 'Api\InsuranceController@downloadPDFInsurance');
 Route::get('getVendorByID', 'Api\InsuranceController@getVendorByID');
+Route::post('makePathInsurance', 'Api\InsuranceController@makePathInsurance');
 
 
 
