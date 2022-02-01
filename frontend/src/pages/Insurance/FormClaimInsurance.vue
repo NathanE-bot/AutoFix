@@ -5,16 +5,17 @@
             ref="stepper"
             color="primary"
             animated contracted
-            class="w-95 insurance_form_layout"
+            class="w-95 m-auto insurance_form_layout"
         >
             <template v-slot:message>
-                <div class="d-flex a-center j-center position-relative py-15">
-                    <h5 class="fw-bold m-0">Form Claim Insurance</h5>
-                    <img class="responsive_img logo-img-form" width="120" src="~assets/images/logo/allianz.png" alt="">
+                <div class="d-flex a-center j-center py-15">
+                    <h5 class="fw-bold m-0">Claim Insurance Form</h5>
+                    <div class="position-relative">
+                        <img class="responsive_img logo-img-form fit-content" width="120" height="42" :src="help.checkForInsuranceLogo(vendorInsurance.logo)" alt="">
+                    </div>
                 </div>
                 <q-separator color="#605A5A" size="1px" />
             </template>
-
             <q-step
                 :name="1"
                 :style="{
@@ -22,18 +23,22 @@
                     maxHeight: window.heightAltered + 'px'
                 }"
             >
-                <div class="row d-flex a-start j-sp-between">
-                    <div class="col-md-5 row">
+                <q-form
+                    ref="formStepper1"
+                    class="row d-flex a-start j-sp-between"
+                >
+                    <div class="col-md-5 row q-gutter-y-md">
                         <q-input
                             v-model="form.insuredName"
                             :rules="rules.insuredName_r"
                             lazy-rules="ondemand"
-                            class="col-md-12" filled
+                            class="col-md-12 q-field--with-bottom" filled
                             label="Insured Name" />
                         <q-input
                             v-model="form.phoneNumber"
                             :rules="rules.phoneNumber_r"
                             lazy-rules="ondemand"
+                            mask="############"
                             class="col-md-12" filled
                             label="Phone Number" />
                         <q-input
@@ -43,46 +48,47 @@
                             class="col-md-12" filled
                             label="Email" />
                         <q-input
-                            v-model="form.brandType"
-                            :rules="rules.brandType_r"
+                            v-model="form.carTypeAndBrand"
+                            :rules="rules.carTypeAndBrand_r"
                             lazy-rules="ondemand"
+                            hint="Ex. Nissan Grand Livina"
                             class="col-md-12" filled
                             label="Vehicle Brand and Type" />
                         <q-input
-                            v-model="form.nomorRangka"
-                            :rules="rules.nomorRangka_r"
+                            v-model="form.chassisNumber"
+                            :rules="rules.chassisNumber_r"
                             lazy-rules="ondemand"
+                            hint="Ex. 1HGBH41JXMN109186"
                             class="col-md-12" filled
-                            label="Vehicle Identification Number" />
+                            label="Chassis Number / VIN" />
                     </div>
-                    <div class="col-md-5 row d-flex flex-dir-col j-sp-between">
-                        <div class="">
+                    <div class="col-md-5 row q-gutter-y-md">
+                        <q-input
+                            v-model="form.addressClaimer"
+                            :rules="rules.addressClaimer_r"
+                            lazy-rules="ondemand"
+                            type="textarea"
+                            class="col-md-12 fix-txt-field mb-20" filled
+                            label="Address"
+                        />
+                        <div class="col-md-12 row j-sp-between">
                             <q-input
-                                v-model="form.address"
-                                :rules="rules.address_r"
-                                lazy-rules="ondemand"
-                                type="textarea"
-                                class="col-md-12 fix-txt-field mb-20" filled
-                                label="Address"
-                            />
-                            <div class="row col-md-12 d-flex a-center j-sp-between q-gutter-y-lg">
-                                <q-input
                                 v-model="form.polisNumber"
-                                    :rules="rules.polisNumber_r"
-                                    lazy-rules="ondemand"
-                                    class="col-md-5" filled
-                                    label="No. Polis" />
-                                <q-input
-                                    v-model="form.polisiNumber"
-                                    :rules="rules.polisiNumber_r"
-                                    lazy-rules="ondemand"
-                                    class="col-md-5" filled
-                                    label="Vehicle Registration Number"
-                                    placeholder="Ex. B 1234 CDE"/>
-                            </div>
+                                :rules="rules.polisNumber_r"
+                                lazy-rules="ondemand"
+                                class="col-md-5" filled
+                                label="No. Polis" />
+                            <q-input
+                                v-model="form.licensePlateNumber"
+                                :rules="rules.licensePlateNumber_r"
+                                lazy-rules="ondemand"
+                                class="col-md-5" filled
+                                label="License Plate Number"
+                                hint="Ex. B 1234 CDE"
+                            />
                         </div>
                     </div>
-                </div>
+                </q-form>
             </q-step>
 
             <q-step
@@ -92,45 +98,58 @@
                     maxHeight: window.heightAltered + 'px'
                 }"
             >
-                <div class="row d-flex a-start j-sp-between">
-                    <div class="col-md-5 row">
+                <q-form
+                    ref="formStepper2"
+                    class="row d-flex a-start j-sp-between"
+                >
+                    <div class="col-md-5 row q-gutter-y-md">
                         <q-input
-                            v-model="form.namaPengemudiSaatKejadan"
+                            v-model="form.driverName"
+                            :rules="rules.driverName_r"
                             lazy-rules="ondemand"
                             class="col-md-12" filled bottom-slots
-                            label="Name of the driver at the time of the incident" />
+                            label="Name of the driver at the incident" />
                         <q-input
-                            v-model="form.SIM"
+                            v-model="form.driverLicense"
+                            :rules="rules.driverLicense_r"
                             lazy-rules="ondemand"
                             class="col-md-12" filled bottom-slots
                             label="Driver license number" />
                         <q-input
-                            v-model="form.hubunganDenganTertanggung"
-                            lazy-rules="ondemand"
+                            v-model="form.driverRelation"
+                            :rules="rules.driverRelation_r"
+                            lazy-rules="ondemand" hint="Ex. Mother/Son/Cousin/etc. Note: If it's yourself type myself / saya"
                             class="col-md-12" filled bottom-slots
                             label="Relation with the insured" />
                         <q-input
-                            v-model="form.tempatKejadian"
+                            v-model="form.incidentLocation"
+                            :rules="rules.incidentLocation_r"
                             lazy-rules="ondemand"
                             class="col-md-12" filled bottom-slots
-                            label="Place of scene" />
+                            label="Incident Location" />
                     </div>
-                    <div class="col-md-5 row">
+                    <div class="col-md-5 row q-gutter-y-md">
                         <q-input
-                            v-model="form.kecepatanKendaraan"
+                            v-model="form.driverSpeed"
+                            :rules="rules.driverSpeed_r"
                             lazy-rules="ondemand"
                             class="col-md-12" filled bottom-slots
                             label="Speed during incident"
-                            suffix="Km/h" mask="###"/>
+                            suffix="km/h" mask="###"
+                        />
                         <q-input
-                            v-model="form.tanggalKejadian"
+                            v-model="form.incidentDate"
+                            :rules="rules.incidentDate_r"
+                            lazy-rules="ondemand"
+                            hint="Ex. 2021/08/20"
+                            mask="####/##/##"
                             class="col-md-5 mr-auto icon-hover-input" filled bottom-slots
                             label="Incident Date"
                         >
                             <template v-slot:append>
                                 <q-icon name="event" class="cursor-pointer">
                                     <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
-                                        <q-date v-model="form.tanggalKejadian">
+                                        <q-date v-model="form.incidentDate">
                                         <div class="row items-center justify-end">
                                             <q-btn v-close-popup label="Close" color="primary" flat />
                                         </div>
@@ -140,14 +159,18 @@
                             </template>
                         </q-input>
                         <q-input
-                             v-model="form.jamKejadian"
+                            v-model="form.incidentTime"
+                            :rules="rules.incidentTime_r"
+                            lazy-rules="ondemand"
+                            hint="Ex. 14:40"
+                            mask="##:##"
                             class="col-md-5 ml-auto icon-hover-input" filled bottom-slots
                             label="Incident Time"
                         >
                             <template v-slot:append>
                                 <q-icon name="access_time" class="cursor-pointer">
                                     <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                        <q-time v-model="form.jamKejadian">
+                                        <q-time v-model="form.incidentTime">
                                             <div class="row items-center justify-end">
                                             <q-btn v-close-popup label="Close" color="primary" flat />
                                             </div>
@@ -157,15 +180,16 @@
                             </template>
                         </q-input>
                         <q-input
-                            v-model="form.desc2"
+                            v-model="form.vehicleDescription"
+                            :rules="rules.driverSpeed_r"
                             lazy-rules="ondemand"
+                            hint="Ex. vehicles used to transport goods"
                             type="textarea"
                             class="col-md-12 fix-txt-field" filled bottom-slots
-                            label="Usage of the vehicle"
-                            placeholder="Ex. Used for transportation during incident"
+                            label="The use of the vehicle on incident"
                         />
                     </div>
-                </div>
+                </q-form>
             </q-step>
 
             <q-step
@@ -183,6 +207,7 @@
                                 <q-checkbox v-model="form.isOnlineTaxi" @click="form.isNotOnlineTaxi = false" size="lg" label="Yes" />
                                 <q-checkbox v-model="form.isNotOnlineTaxi" @click="form.isOnlineTaxi = false" size="lg" label="No" />
                             </div>
+                            <span v-if="errorMessage && !help.isDataEmpty(form.isOnlineTaxi) && !help.isDataEmpty(form.isNotOnlineTaxi)" class="red-txt">*please check either one</span>
                         </div>
                         <div class="d-flex flex-dir-col">
                             <div class="text-h6">Was the vehicle hit by another vehicle?</div>
@@ -190,18 +215,18 @@
                                 <q-checkbox v-model="form.wasHit" @click="form.wasNotHit = false" size="lg" label="Yes" />
                                 <q-checkbox v-model="form.wasNotHit" @click="form.wasHit = false" size="lg" label="No" />
                             </div>
+                            <span v-if="errorMessage && !help.isDataEmpty(form.wasNotHit) && !help.isDataEmpty(form.wasHit)" class="red-txt mb-10">*please check either one</span>
                             <div class="p-20 hitter-form-container" v-if="form.wasHit">
-                                <div>Please input name and vehicle number of the hitter (vehicle)</div>
+                                <div class="text-subtitle2 pb-10">Please input the name and vehicle number of the hitter</div>
                                 <div class="q-gutter-y-md">
                                     <q-input
-                                        v-model="form.namaPenabrak"
-                                        filled
-                                        label="Hitter Name"></q-input>
-                                    <q-input
-                                        v-model="form.nomorMobilPenabrak"
-                                        filled
-                                        label="Hitter Police Number"
-                                    ></q-input>
+                                        v-model="form.incidentStatusDescription"
+                                        :rules="form.wasHit ? rules.driverName_r : rules.emptyRule"
+                                        outlined counter maxlength="50" autogrow
+                                        type="textarea" placeholder="Andy, 087239457433"
+                                        class="fix-txt-field default-textarea-1 fix-textarea-height"
+                                    >
+                                    </q-input>
                                 </div>
                             </div>
                         </div>
@@ -210,16 +235,31 @@
                         <div class="col-12">
                             <div>
                                 <div class="text-h6">Choose the type of workshop you want</div>
-                                <div class="text-subtitle2 red-txt">*If there is a workshop of your choice, please include it in the chronology</div>
+                                <div class="text-subtitle2 red-txt">*If there is a workshop of your choice, please <b>include it in the chronology</b></div>
                             </div>
                             <q-select
+                                v-model="form.workshopTypeObj"
+                                :options="vendorWorkshops"
+                                lazy-rules="ondemand"
+                                :error="help.isDataEmpty(form.workshopTypeObj) && errorMessage"
                                 outlined class="default-select-2 w-80"
                             >
+                                <template v-slot:selected>
+                                    <template v-if="!help.isObjectEmpty(form.workshopTypeObj)">
+                                        {{ form.workshopTypeObj.label }}
+                                    </template>
+                                    <template v-else>
+                                        <span class="placeholder-text">Choose workshop of your choice</span>
+                                    </template>
+                                </template>
                             </q-select>
                         </div>
                         <div class="col-12">
                             <span class="text-h6">Explain the chronology of events</span>
                             <q-input
+                                v-model="form.chronology"
+                                :rules="rules.chronology_r"
+                                lazy-rules="ondemand"
                                 outlined counter maxlength="500"
                                 type="textarea" placeholder="Explain the chronology.."
                                 class="fix-txt-field default-textarea-1"
@@ -238,65 +278,90 @@
                 }"
             >
                 <div class="pb-20">
-                    <div class="text-h6 mb-8">Upload photo of the car's condition</div>
-                    <div class="mb-20 red-txt">
-                        <b>IMPORTANT NOTE: </b>
-                        <span>Photos that needed to be included such as view of the car front, rear, left, right, dashboard, car engine frame number</span>
+                    <div class="text-h6 mb-8">Claim insurance procedure online</div>
+                    <div class="mb-20 class p-10 negative_bg_fade-1 br-5px w-mc">
+                        <div>
+                            <span><b class="red-txt">IMPORTANT NOTE!</b> Required photo document for claim insurance online include:</span>
+                            <div class="d-flex a-start">
+                                <div class="d-flex flex-dir-col">
+                                    <span>1. Driver's license</span>
+                                    <span>2. Driver's ID Card</span>
+                                    <span>3. Driver's Car Registration <b>(both sides)</b></span>
+                                    <span>4. Front and rear view of the vehicle <b>(license plate number included in both photo)</b></span>
+                                </div>
+                                <div class="d-flex flex-dir-col ml-10">
+                                    <span>5. Left and right view of the vehicle</span>
+                                    <span>6. <b>Damaged</b> section from afar</span>
+                                    <span>7. <b>Damaged</b> section up close while <b>pointing</b> at the damaged direction</span>
+                                    <span>8. Chassis number and vehicle kilometer</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row q-gutter-lg">
                         <div class="col-4 upload-photo-box" v-for="(i, index) in imageForm" :key="'UP' + index">
                             <q-input class="upload-photo-name" borderless dense v-model="i.name" placeholder="Input your photo's name" />
                             <i v-if="!i.uploaded" class="fas fa-cloud-upload-alt fs-40 flex flex-center" style="width:100px; height: 100px"></i>
                             <div :class="['upload-photo-box-insurance relative-position flex-center', {'d-none' : !i.uploaded}]">
-                                <img class="responsive_img d-flex m-auto br-10-bot" :src="i.imageFile" :id="'myImg-' + index">
+                                <img class="responsive_img fit-content d-flex m-auto br-10-bot" :src="i.imageFile" :id="'myImg-' + index">
                             </div>
                             <input v-if="!i.uploaded" style="color: transparent; width:92px" class="cursor-pointer" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, i, index)">
                         </div>
                         <div class="d-flex a-center j-center">
                             <q-btn
-                                v-if="imageForm.length < 10"
+                                v-if="imageForm.length < 20"
                                 @click="addUploadPhoto(false)"
                                 icon="fas fa-plus"
                                 flat round color="grey-5"
                             />
-                            <div v-else-if="imageForm.length == 10">
-                                Max total photo 10
+                            <div v-else-if="imageForm.length == 20">
+                                Max total photo 20
                             </div>
                         </div>
                     </div>
                 </div>
             </q-step>
-
             <template v-slot:navigation>
                 <q-separator color="#605A5A" size="1px" />
                 <q-stepper-navigation class="d-flex a-center j-sp-between">
-                    <div class="d-flex a-center j-end q-gutter-x-md">
+                    <div class="d-flex a-center j-end q-gutter-x-md" v-if="!help.isDataEmpty(vendorInsurance.phoneNumber && vendorInsurance.email)">
                         <span>Contact Us: </span>
                         <div v-if="!help.isDataEmpty(vendorInsurance.phoneNumber)">
                             <i class="fas fa-phone mr-8"></i>
                             <span>{{ vendorInsurance.phoneNumber }}</span>
                         </div>
-                        <!-- <div>
+                        <div v-if="!help.isDataEmpty(vendorInsurance.email)">
                             <i class="far fa-envelope mr-8"></i>
-                            <span>email@gmail.com</span>
-                        </div> -->
+                            <span>{{ vendorInsurance.email }}</span>
+                        </div>
                     </div>
+                    <div class="v-else"><!-- Sementara pake ini klo gk ada datanya --></div>
                     <div>
                         <q-btn
                             v-if="step > 1"
                             @click="$refs.stepper.previous()"
-                            padding="6px 32px"
+                            padding="6px 16px"
                             rounded flat
                             label="Back"
+                            icon="fas fa-chevron-left"
                             color="primary"
                             class="mr-20 tf-capitalize"
                         />
+                        <!-- $refs.stepper.next(); doConsole($refs) -->
                         <q-btn
-                            @click="step === 4 ? doSubmitInsuranceForm() : $refs.stepper.next()"
-                            padding="6px 32px"
-                            rounded unelevated
-                            :label="step === 4 ? 'Submit' : 'Next'"
-                            class="tf-capitalize"
+                            v-if="step !== 4"
+                            @click="doCheckFormPerStepper($refs)"
+                            padding="6px 16px"
+                            rounded unelevated :class="['tf-capitalize']"
+                            label="Next" icon-right="fas fa-chevron-right"
+                            color="primary"
+                        />
+                        <q-btn
+                            v-else
+                            @click="doSubmitInsuranceForm()"
+                            padding="6px 16px"
+                            rounded unelevated :class="['tf-capitalize']"
+                            type="submit" :loading="loader" label="Submit"
                             color="primary"
                         />
                     </div>
@@ -311,8 +376,7 @@
 import Swal from 'sweetalert2'
 import help from '../../js/help'
 import Auth from '../../js/AuthValidation'
-import { getVendorInsuranceByID } from '../../api/InsuranceService'
-import { LocalStorage } from 'quasar'
+import { getVendorInsuranceByID, makeInsuranceClaimApi } from '../../api/InsuranceService'
 
 export default {
     data () {
@@ -326,62 +390,110 @@ export default {
                 heightAltered: 0
             },
             vendorInsurance: {},
+            accessToken: null,
+            vendorWorkshops: [],
             form: {
-                vendorInsuranceID: null,
-                userID: null,
-                insuredName: null,
-                phoneNumber: null,
-                email: null,
-                brandType: null,
-                nomorRangka: null,
-                polisNumber: null,
-                polisiNumber: null,
-                namaPengemudiSaatKejadan: null,
-                SIM: null,
-                hubunganDenganTertanggung: null,
-                tempatKejadian: null,
-                kecepatanKendaraan: null,
-                tanggalKejadian: null,
-                jamKejadian: null,
-                desc2: null,
-                isOnlineTaxi: false,
-                isNotOnlineTaxi: false,
-                wasHit: false,
-                wasNotHit: false,
-                namaPenabrak: null,
-                nomorMobilPenabrak: null
+                vendorInsuranceID: null, // DONE
+                userID: null, // DONE
+                insuredName: null, // DONE
+                phoneNumber: null, //  DONE
+                email: null, // DONE
+                addressClaimer: null, // DONE
+                carTypeAndBrand: null, // DONE
+                chassisNumber: null, // DONE
+                polisNumber: null, // DONE
+                licensePlateNumber: null, // DONE
+                driverName: null, // DONE
+                driverSpeed: null, // DONE
+                driverLicense: null, // DONE
+                driverRelation: null, // DONE
+                incidentLocation: null, // DONE
+                vehicleDescription: null, // DONE
+                incidentDate: null, // DONE
+                incidentTime: null, // DONE
+                taxiOnlineStatus: null, // DONE
+                isOnlineTaxi: false, // BUAT CHECKBOX
+                isNotOnlineTaxi: false, // BUAT CHECKBOX
+                incidentStatus: null, // DONE
+                wasHit: false, // BUAT CHECKBOX
+                wasNotHit: false, // BUAT CHECKBOX
+                incidentStatusDescription: null, // DONE
+                workshopTypeObj: {}, // DONE
+                workshopType: null,
+                workshopTypeID: null,
+                chronology: null, // DONE
             },
             imageForm: [],
             rules: {
-                name_r: [
+                //STEPPER 1
+                insuredName_r: [
                     v => !!v || 'Name is required!'
                 ],
                 phoneNumber_r: [
                     v => !!v || 'Phone number is required!',
-                    v => /^([0-9]*)$/.test(v) || 'Phone number must be numeric'
+                    v => /^[0-9]{10,12}$/.test(v) || 'Minimal of 10 digit'
                 ],
                 email_r: [
                     v => !!v || 'Email is required!',
                     v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Wrong email format'
                 ],
-                brandType_r: [
+                carTypeAndBrand_r: [
                     v => !!v || 'Brand dan Type is required!'
                 ],
-                nomorRangka_r: [
+                chassisNumber_r: [
                     v => !!v || 'Chassis number is required!'
+                    // v => /^[0-9][A-Z]{17,17}$/.test(v) || 'Wrong chassis number format'
+                ],
+                addressClaimer_r: [
+                    v => !!v || 'Address is required!'
                 ],
                 polisNumber_r: [
                     v => !!v || 'Polis number is required!'
                 ],
-                polisiNumber_r: [
+                licensePlateNumber_r: [
                     v => !!v || 'Registration number is required!'
-                ]
+                ],
+                //STEPPER 2
+                driverName_r: [
+                    v => !!v || 'Driver\'s name is required!'
+                ],
+                driverLicense_r: [
+                    v => !!v || 'Driver\'s license number is required!'
+                ],
+                driverRelation_r: [
+                    v => !!v || 'Driver\'s relation is required!'
+                ],
+                driverSpeed_r: [
+                    v => !!v || 'Driver\'s speed is required!'
+                ],
+                incidentLocation_r: [
+                    v => !!v || 'Incident location is required!'
+                ],
+                vehicleDescription_r: [
+                    v => !!v || 'Vehicle Description is required!'
+                ],
+                incidentDate_r: [
+                    v => !!v || 'Incident date is required!'
+                ],
+                incidentTime_r: [
+                    v => !!v || 'Incident time is required!'
+                ],
+                //STEPPER 3
+                incidentStatusDescription_r: [
+                    v => !!v || 'Incident status description is required!'
+                ],
+                chronology_r: [
+                    v => !!v || 'Chronology is required!'
+                ],
+                emptyRule: []
             }
         }
     },
     created () {
         this.user = Auth.getUserDetails()
+        this.accessToken = Auth.getAccessToken()
         this.vendorInsuranceID = this.$route.params.id
+        this.userID = this.user.id
         this.doGetVendorInsuranceByID()
     },
     mounted () {
@@ -403,6 +515,9 @@ export default {
             let token = Auth.getAccessToken()
             getVendorInsuranceByID(_this.vendorInsuranceID, token).then(response => {
                 _this.vendorInsurance = response.data.objectReturn
+                _this.vendorWorkshops = []
+                _this.vendorWorkshops = [{value: 0, label: 'Workshop of my own choice'}]
+                console.log(_this.vendorInsurance)
                 _this.addUploadPhoto(true)
             }) .catch((err) => {
                 _this.loader = false
@@ -440,7 +555,7 @@ export default {
         },
         addUploadPhoto (firstLoader) {
             if(firstLoader){
-                for (let i = 0; i < 7; i++) {
+                for (let i = 0; i < 10; i++) {
                     const tempObj = {
                         name: '',
                         imageFile: [],
@@ -459,11 +574,68 @@ export default {
             }
         },
         doSubmitInsuranceForm () {
-            Swal.fire ({
-                icon: "success",
-                title: "Form Submitted",
-                text: "Your request is being processed"
+            let _this = this
+            _this.loader = true
+            _this.form.vendorInsuranceID = _this.vendorInsuranceID
+            _this.form.userID = _this.userID
+            _this.form.incidentDate = help.defaultFormat(_this.form.incidentDate, help.data().dmy_5)
+            _this.form.workshopType = _this.form.workshopTypeObj.label
+            _this.form.workshopTypeID = _this.form.workshopTypeObj.value
+            if(help.isDataEmpty(_this.form.isOnlineTaxi) || !_this.form.isOnlineTaxi){
+                _this.form.taxiOnlineStatus = 'no'
+            } else {
+                _this.form.taxiOnlineStatus = 'yes'
+            }
+            if(help.isDataEmpty(_this.form.wasHit) || !_this.form.wasHit){
+                _this.form.incidentStatus = 'no'
+            } else {
+                _this.form.incidentStatus = 'yes'
+            }
+            console.log(_this.form)
+            makeInsuranceClaimApi(_this.user.id, _this.vendorInsuranceID, _this.form, _this.accessToken).then(response => {
+                Swal.fire ({
+                    icon: "success",
+                    title: "Form Submitted",
+                    text: "Your request is being processed"
+                }) .then (() => {
+                    _this.changePage('/insurance/status-insurance')
+                    _this.loader = false
+                })
+            }) .catch((err) => {
+                console.log(err.response)
+                _this.loader = false
+                _this.errorMessage = true
+                Swal.fire ({
+                    icon: "error",
+                    title: "Form Error"
+                })
             })
+        },
+        doCheckFormPerStepper(refs){
+            refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
+            if(this.step == 1 && this.$refs.formStepper1) {
+                this.$refs.formStepper1.validate().then(success => {
+                    if (success) {
+                        refs.stepper.next()
+                    }
+                })
+            } else if (this.step == 2 && this.$refs.formStepper2) {
+                this.$refs.formStepper2.validate().then(success => {
+                    if (success) {
+                        refs.stepper.next()
+                    }
+                })
+            } else if (this.step == 3) {
+                if(!help.isDataEmpty(this.form.isOnlineTaxi) && !help.isDataEmpty(this.form.isOnlineTaxi)){
+
+                }
+            }
+        },
+        changePage(url){
+            this.$router.push(url)
+        },
+        doConsole (a) {
+            console.log(a)
         }
     }
 }
