@@ -331,20 +331,20 @@
               <div class="d-flex a-center">
                 <div class="text-h6 fw-semibold mr-20">Gallery Workshop</div>
                 <div class="text-subtitle2 fw-semibold">Max: 4 Images</div>
-                <!-- <div class="d-flex a-center j-center">
+                <div class="d-flex a-center j-center">
                   <q-btn
                     v-if="jsonDataParam.galleryImagesForPreview.length < 4"
                     @click="addGalleryForm()"
                     icon="fas fa-plus"
                     flat round color="grey-5"
                   />
-                </div> -->
-                <q-btn
+                </div>
+                <!-- <q-btn
                   @click="doUploadToDatabaseGalleryWorkshop()"
                   label="Upload Photo Gallery"
                   unelevated rounded color="primary"
                   class="tf-capitalize icon-resize"
-                />
+                /> -->
               </div>
             </div>
             <div :class="['row j-start w-94 m-auto']">
