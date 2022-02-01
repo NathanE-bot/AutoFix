@@ -2,7 +2,7 @@
     <q-page class="flex flex-center" v-if="pageLodaer">
         <q-card class="my-card forgotpass-card w-75" :style="{height: window.heightAltered + 'px'}">
             <div class="position-relative">
-                <img class="responsive_img logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
+                <img class="responsive_img fit-content logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
             </div>
             <q-card-section class="p-35 flex flex-center">
                 <div style="width: 100%">

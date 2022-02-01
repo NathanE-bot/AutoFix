@@ -67,7 +67,7 @@
                   <q-card-section class="d-flex j-sp-between">
                     <div class="d-flex a-center">
                       <div v-if="!help.isDataEmpty(item.workshopLogo)">
-                        <img class="responsive_img" width="100" :src="item.workshopLogo" alt="">
+                        <img class="responsive_img fit-content" width="100" :src="item.workshopLogo" alt="">
                       </div>
                       <div class="no-logo-layout-1" v-else>
                         No Logo
@@ -108,7 +108,7 @@
                 <div>
                   <div class="d-flex a-start j-sp-between">
                     <div v-if="!help.isDataEmpty(workshopById.defaultData.workshopLogo)">
-                      <img class="responsive_img" width="100" :src="workshopById.defaultData.workshopLogo" alt="">
+                      <img class="responsive_img fit-content" width="100" :src="workshopById.defaultData.workshopLogo" alt="">
                     </div>
                     <div class="no-logo-layout-2" v-else>
                       No Logo
@@ -430,7 +430,7 @@
       <div>
         <div class="d-flex flex-dir-col" v-if="errorMessage || errGeolocationCode == 1 && help.isObjectEmpty(workshops)">
           <figure class="d-flex flex-dir-col">
-            <img class="responsive_img w-50 m-auto" src="~assets/images/preset/no_location_bg.png" alt="">
+            <img class="responsive_img fit-content w-50 m-auto" src="~assets/images/preset/no_location_bg.png" alt="">
             <caption class="mt-20 d-flex flex-dir-col">
               <span class="text-h5">No Location Detected</span>
               <div>

@@ -5,7 +5,7 @@
           <q-card-section class="p-35">
             <div class="d-flex a-center j-sp-between">
               <h5 class="m-0 fw-blackbold fs-35">Welcome, Create your account here.</h5>
-              <img class="logo-logReg pos-logReg-right" width="150" src="~assets/images/logo.png" alt="">
+              <img class="logo-logReg pos-logReg-right responsive_img fit-content" width="150" src="~assets/images/logo.png" alt="">
             </div>
             <div class="row">
               <div class="col-md-6 pr-12 l_side">
@@ -140,7 +140,7 @@
                 </q-form>
               </div>
               <div class="col-md-6 pl-12 r_side">
-                <img class="car-img" src="~assets/images/background_img/car_bg_1.jpg" alt="">
+                <img class="car-img responsive_img fit-content" src="~assets/images/background_img/car_bg_1.jpg" alt="">
               </div>
             </div>
           </q-card-section>

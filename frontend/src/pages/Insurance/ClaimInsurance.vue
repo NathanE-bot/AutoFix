@@ -1,7 +1,7 @@
 <template>
     <q-page class="insurance_layout_1 flex flex-center position-relative">
         <div>
-            <img class="responsive-img" src="~assets/images/preset/image1.png" alt="">
+            <img class="responsive-img fit-content" src="~assets/images/preset/image1.png" alt="">
         </div>
         <div class="m-auto text-center">
             <h4 class="fw-bold">Choose Your Insurance</h4>
@@ -21,7 +21,7 @@
             />
         </div>
         <div>
-            <img class="responsive-img" src="~assets/images/preset/image2.png" alt="">
+            <img class="responsive-img fit-content" src="~assets/images/preset/image2.png" alt="">
         </div>
     </q-page>
 </template>

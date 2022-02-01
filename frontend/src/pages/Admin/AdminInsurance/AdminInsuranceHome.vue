@@ -4,7 +4,7 @@
           <div class="row col-12 j-sp-between">
             <div class="col-4 p-0">
               <div class="white-1bg br-10px-i w-95">
-                <apexchart width="100%" height="215" :options="spark1" :series="spark1.series"></apexchart>
+                <apexchart ref="realtimeChart" width="100%" height="215" :options="spark1" :series="spark1.series"></apexchart>
               </div>
             </div>
             <div class="col-8">
@@ -135,6 +135,7 @@ export default {
       },
       spark1: {
         chart: {
+          label: 'asd',
           id: 'sparkline1',
           // group: 'sparklines',
           type: 'area',
@@ -167,7 +168,7 @@ export default {
         },
         colors: ['#21a17b'],
         title: {
-          text: '$424,652',
+          text: 'DERIL GOBLOG',
           offsetX: 30,
           style: {
             fontSize: '24px',
@@ -175,7 +176,7 @@ export default {
           }
         },
         subtitle: {
-          text: 'Sales',
+          text: 'MAKAN DUREN ANJENG',
           offsetX: 30,
           style: {
             fontSize: '14px',
@@ -185,9 +186,23 @@ export default {
       }
     }
   },
-  created() {
+  mounted () {
+    // this.updateSeriesLine()
   },
   methods: {
+    setDataLineChart() {
+      // setInterval(() => {
+      //   this.series[0].data.splice(0, 1);
+      //   this.series[0].data.push(this.getRandomArbitrary(0, 99));
+      //   this.updateSeriesLine();
+      // }, 3000);
+    },
+    updateSeriesLine() {
+      console.log('asd')
+      this.$refs.realtimeChart.updateSeries([{
+        data: this.spark1.series[0].data,
+      }], false, true);
+    }
   }
 }
 </script>

@@ -2,7 +2,7 @@
     <q-page class="flex flex-center">
         <q-card class="w-60 py-60 br-20px position-relative flex flex-center" :style="{height: window.heightAltered + 'px'}">
             <div class="position-relative">
-                <img class="responsive_img logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
+                <img class="responsive_img fit-contentlogo_topLeft" width="150" src="~assets/images/logo.png" alt="">
             </div>
             <q-card-section class="flex flex-center flex-dir-col" v-if="!help.isDataEmpty(email)">
                 <h5 class="my-10">We've sent you a 4 digits verification code for your account at,</h5>

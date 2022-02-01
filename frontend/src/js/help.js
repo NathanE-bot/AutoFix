@@ -3,6 +3,8 @@ import moment from 'moment'
 import { createNamespacedHelpers } from 'vuex'
 import router from '../router'
 
+const localURL = 'http://127.0.0.1:8000'
+
 export default {
     data () {
         return {
@@ -90,5 +92,9 @@ export default {
     },
     isValidFilePDF(fileType){
         return fileType.substring(fileType.indexOf("/")+1) == "pdf"
+    },
+    // images
+    checkForInsuranceLogo (url) {
+        return !this.isDataEmpty(url) ? url : localURL + '/storage/presetLogo/insurea.png'
     }
 }

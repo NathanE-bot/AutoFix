@@ -4,7 +4,7 @@
       class="parallax-lp q-page-height"
     >
       <template v-slot:media>
-        <img src="~assets/images/bg_9.png">
+        <img class="fit-content" src="~assets/images/bg_9.png">
       </template>
       <div class="row" :style="{minHeight: window.alteredHeight + 'px'}">
         <div class="col-md-12">
@@ -38,7 +38,7 @@
           </q-input>
           <div class="d-flex flex-dir-col j-sp-between h-55">
             <div class="mt-20">
-              <img class="responsive-img" src="~assets/images/car_stock_img.png" alt="">
+              <img class="responsive-img fit-content" src="~assets/images/car_stock_img.png" alt="">
             </div>
             <div class="scrolldown-animation m-auto cursor-pointer" @click="doScrollIntoAboutUs()">
               <q-tooltip
@@ -96,7 +96,7 @@
         >
           <swiper-slide v-for="item in workshopRecommendation" :key="item.id">
             <q-card class="my-card rec-card">
-              <img src="https://cdn.quasar.dev/img/mountains.jpg">
+              <img class="responsive_img fit-content" src="https://cdn.quasar.dev/img/mountains.jpg">
               <q-card-section>
                 <div class="d-flex a-start j-sp-between">
                   <div class="text-h6 primary_color mb-8 link_txt_transition" @click="changePage('/workshop/detail/' + item.workshopID)">
@@ -188,7 +188,7 @@
         <div class="row">
           <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40" v-for="n in 3" :key="n">
             <q-card-section horizontal class="d-flex j-center">
-              <img class="responsive-img dev_pic"
+              <img class="responsive-img dev_pic fit-content"
                 src="~assets/images/preset/person_1.png"
               />
               <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">

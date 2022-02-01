@@ -1,7 +1,7 @@
 <template>
     <q-page class="bg-white form-schedule">
         <div class="topInfo">
-          <img class="responsive_img detail-workshop-bg my-30" width="120" src="~assets/images/logo/workshop/honda.png" alt="">
+          <img class="responsive_img fit-content detail-workshop-bg my-30" width="120" src="~assets/images/logo/workshop/honda.png" alt="">
           <div class="detailInfo">
             <span class="text-h6 fw-semibold">{{ workshopDetail.workshopName }}</span>
             <span class="grey-txt">{{ workshopDetail.district }}, {{ workshopDetail.city }}</span>

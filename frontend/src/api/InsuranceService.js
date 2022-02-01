@@ -34,5 +34,5 @@ export function getInsuranceDetailByStatusRejected (userID, insuranceID, userTok
 
 export function makeInsuranceClaimApi (userID, vendorInsuranceID, insuranceForm, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.get(localURL + '/api/makeInsuranceClaimApi?userID=' + userID + '&vendorInsuranceID=' + vendorInsuranceID, insuranceForm, authorization)
+  return axios.post(localURL + '/api/makeInsuranceClaimApi?userID=' + userID + '&vendorInsuranceID=' + vendorInsuranceID, insuranceForm, authorization)
 }

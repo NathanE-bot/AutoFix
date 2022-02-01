@@ -2,7 +2,7 @@
     <q-header class="autorepair-header">
       <q-toolbar>
         <div class="relative-box">
-          <img class="logo-img fixed-top-left" src="../assets/images/logo.png" alt="">
+          <img class="logo-img fixed-top-left fit-content" src="../assets/images/logo.png" alt="">
         </div>
         <q-tabs
           v-model="initialTab"

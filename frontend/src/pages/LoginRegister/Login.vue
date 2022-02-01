@@ -5,8 +5,8 @@
           <q-card-section class="p-35 flex flex-center">
             <div class="row d-flex a-center">
               <div class="col-md-7 pr-12 l_side">
-                <img class="logo-logReg pos-logReg-left" width="150" src="~assets/images/logo.png" alt="">
-                <img class="car-img" style="margin-top: 56px;" src="~assets/images/background_img/car_bg_1.jpg" alt="">
+                <img class="logo-logReg pos-logReg-left responsive_img fit-content" width="150" src="~assets/images/logo.png" alt="">
+                <img class="car-img responsive_img fit-content" style="margin-top: 56px;" src="~assets/images/background_img/car_bg_1.jpg" alt="">
               </div>
               <div class="col-md-5 pl-12 r_side">
                 <div class="d-flex a-center j-sp-between">

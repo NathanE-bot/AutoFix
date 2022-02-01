@@ -11,14 +11,14 @@
     </q-btn>
     <q-parallax :height="120" :speed="0.5">
       <template v-slot:media>
-        <img src="~assets/images/background_img/car_bg_1.jpg">
+        <img class="responsive_img fit-content" src="~assets/images/background_img/car_bg_1.jpg">
       </template>
     </q-parallax>
     <div class="bg-white">
       <div class="m-auto w-80 relative-position">
         <div  class="flex flex-center flex-start" style="position:relative; bottom:70px;">
           <div v-if="!help.isDataEmpty(workshopDetail.workshopLogo)">
-            <img class="responsive_img detail-workshop-bg" width="120" :src="workshopDetail.workshopLogo" alt="">
+            <img class="responsive_img detail-workshop-bg fit-content" width="120" :src="workshopDetail.workshopLogo" alt="">
           </div>
           <div class="detail-workshop-bg d-flex a-center j-center" v-else>
             No Logo

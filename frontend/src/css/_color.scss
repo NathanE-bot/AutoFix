@@ -18,7 +18,7 @@
     background-color: $black_2;
 }
 .primary_bg_fade{
-    background-color: rgba(33, 161, 123, .3);
+    background-color: rgba($primary, .3);
 }
 .white-bg{
     background: #ffffff;
@@ -31,6 +31,9 @@
 }
 .white-1bg{
     background-color: #FFFFFF;
+}
+.negative_bg_fade{
+    background-color: rgba($negative, .3);
 }
 
 // color

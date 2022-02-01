@@ -144,7 +144,7 @@
             </div>
         </div>
         <div v-else class="flex flex-dir-col flex-center q-page-height">
-            <img class="responsive_img" width="450" src="~assets/images/preset/no_schedule_bg.png" alt="">
+            <img class="responsive_img fit-content" width="450" src="~assets/images/preset/no_schedule_bg.png" alt="">
             <span class="fs-30 txt-white fw-semibold mt-10">No Schedule Yet</span>
             <q-btn
                 @click="changePage('/workshop')"

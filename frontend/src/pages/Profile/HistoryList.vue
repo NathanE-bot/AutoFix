@@ -135,14 +135,14 @@
             </div>
         </div>
         <div v-else class="flex flex-dir-col flex-center q-page-height">
-            <img class="responsive_img" width="400" src="~assets/images/preset/no_schedule_bg.png" alt="">
+            <img class="responsive_img fit-content" width="400" src="~assets/images/preset/no_schedule_bg.png" alt="">
             <span class="fs-25 txt-white fw-semibold mt-10">No History</span>
         </div>
         <q-dialog v-model="reviewScheduleDialog">
             <q-card class="my-card card-size-m">
                 <q-card-section class="q-gutter-y-md">
                     <div class="d-flex a-center q-gutter-x-lg">
-                        <img class="responsive_img" width="90" src="~assets/images/logo/workshop/honda.png" alt="">
+                        <img class="responsive_img fit-content" width="90" src="~assets/images/logo/workshop/honda.png" alt="">
                         <span class="text-h5 fw-semibold">{{ tempHistorySchedule.workshopName }}</span>
                     </div>
                     <div class="d-flex a-baseline j-sp-between">

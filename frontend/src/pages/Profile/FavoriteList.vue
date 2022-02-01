@@ -7,7 +7,7 @@
                         <div class="d-flex a-center q-gutter-x-sm">
                             <div>
                                 <div v-if="!help.isDataEmpty(item.workshopLogo)">
-                                    <img class="responsive_img" width="80" :src="item.workshopLogo" alt="">
+                                    <img class="responsive_img fit-content" width="80" :src="item.workshopLogo" alt="">
                                 </div>
                                 <div class="no-logo-layout-3 fs-12" v-else>
                                     No Logo
@@ -86,7 +86,7 @@
             <span class="text-white">Loading...</span>
         </div>
         <div v-else class="flex flex-dir-col flex-center q-page-height">
-            <img class="responsive_img" width="400" src="~assets/images/preset/no_schedule_bg.png" alt="">
+            <img class="responsive_img fit-content" width="400" src="~assets/images/preset/no_schedule_bg.png" alt="">
             <span class="fs-25 txt-white fw-semibold mt-10">No Favorite</span>
         </div>
     </q-page>
