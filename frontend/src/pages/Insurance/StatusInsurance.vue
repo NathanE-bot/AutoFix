@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center insurance_layout_3">
+  <q-page class="pt-40 insurance_layout_3">
     <div class="flex flex-dir-col w-80 m-auto">
       <div class="text-h5 fw-semibold text-white mb-40">Insurance List</div>
       <q-markup-table class="fw br-10px insurance-status-table" wrap-cells>
@@ -10,7 +10,7 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="!help.isObjectEmpty(dataInsuranceList)">
           <tr v-for="(item, index) in dataInsuranceList" :key="'insurance-' + index">
             <td class="text-center">{{index + 1}}</td>
             <td class="text-center tf-capitalize">{{item.insuranceName}}</td>
@@ -26,13 +26,18 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td>No Data</td>
+          </tr>
+        </tbody>
       </q-markup-table>
-      <div class="p-15 flex j-end">
+      <!-- <div class="p-15 flex j-end">
         <q-pagination
           v-model="iPage"
           :max="5"
         />
-      </div>
+      </div> -->
       <q-dialog v-model="promptDetail">
         <q-card style="min-width: 480px" class="py-20 m-auto text-align-center">
           <q-card-section>
@@ -69,20 +74,13 @@ import { getInsuranceStatusApi } from '../../api/InsuranceService'
 export default {
   data () {
     return {
+      help,
       user: {},
       userToken: null,
       filter: '',
       loader: false,
       iPage: 1,
       tableHeader: ['No', 'Insurance Name', 'Created Date', 'Polis Number', 'Status', 'View'],
-      tableBody: [
-        {insuranceName: 'Astra', createdDate: '20/11/2021', policeNumber: '40239402934', status: 'Accepted'},
-        {insuranceName: 'Garda', createdDate: '28/12/2021', policeNumber: '09420934234', status: 'Waiting Confirmation'},
-        {insuranceName: 'Testing', createdDate: '18/1/2022', policeNumber: '4309528492', status: 'Cancelled'},
-        {insuranceName: 'BCA', createdDate: '12/1/2022', policeNumber: '2380392422', status: 'Rejected'},
-        {insuranceName: 'Prudential', createdDate: '14/1/2022', policeNumber: '2341287310923', status: 'Done'},
-        {insuranceName: 'HA', createdDate: '14/1/2022', policeNumber: '345902384', status: 'Accepted'}
-      ],
       dataInsuranceList: [],
       promptDetail: false,
       openDetail: {
@@ -119,7 +117,7 @@ export default {
       this.promptDetail = true;
       this.openDetail.insuranceStatus = insuranceStatus1
       this.openDetail.insuranceID = insuranceID1
-      this.openDetail.filePDF = this.dataInsuranceList[index].filePDF || null
+      this.openDetail.filePDF = !help.isDataEmpty(this.dataInsuranceList[index].filePDF) ? this.dataInsuranceList[index].filePDF : null
       console.log('menu', this.openDetail)
     },
     doChangePage () {

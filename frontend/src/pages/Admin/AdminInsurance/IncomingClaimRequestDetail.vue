@@ -367,8 +367,19 @@ export default {
         rejectInsuranceClaim(this.$route.params.insuranceID, this.rejectDescription)
         .then(response => {
           console.log(response)
-          this.changePage('/admin/insurance/incoming-claim-request')
+          Swal.fire ({
+            icon: "success",
+            title: "Success",
+            text: "Reject claim successfully"
+          }) .then(() => {
+            this.changePage('/admin/insurance/incoming-claim-request')
+          })
         }).catch(err => {
+          Swal.fire ({
+            icon: "success",
+            title: "Upload Success",
+            text: "Please contact our admin"
+          })
             console.log(err)
         })
           this.promptReject = false
@@ -403,11 +414,6 @@ export default {
         uploadPDFInsurance(this.$route.params.insuranceID, fd)
         .then(response => {
           this.doAcceptClaim(this.$route.params.insuranceID)
-          Swal.fire ({
-              icon: "success",
-              title: "Upload Success",
-              text: "Claim Request Approved"
-          })
         }).finally(() => {
           this.doGetAdminInsuranceDetails(this.$route.params.insuranceID)
           this.loader = false
@@ -416,7 +422,7 @@ export default {
           Swal.fire ({
               icon: "error",
               title: "Input Error",
-              text: "Harap contact team support kami" //revisi
+              text: "Please contact our admin" //revisi
           })
         })
       }

@@ -23,7 +23,7 @@
           <br/>
           <div class="row">
             <div class="col-8 m-auto border-card br-20px flex flex-center fs-20" style="height: 10rem;">
-              <span>{{ data.insuranceDescription }}</span>
+              <span class="w-80">{{ data.insuranceDescription }}</span>
             </div>
           </div>
         </q-card-section>
