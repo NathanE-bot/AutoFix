@@ -116,6 +116,7 @@ Route::post('deleteWorkshopServiceByStatusAndID','Api\AdminWorkshopController@de
 Route::get('countAllDataWorkshop','Api\AdminWorkshopController@countAllDataWorkshop');
 Route::get('SumAllPriceEstimationWorkshop','Api\AdminWorkshopController@SumAllPriceEstimationWorkshop');
 Route::get('countWorkshopByStatus','Api\AdminWorkshopController@countWorkshopByStatus');
+Route::get('getYearWorkshopForFilterHome','Api\AdminWorkshopController@getYearWorkshopForFilterHome');
 
 
 
