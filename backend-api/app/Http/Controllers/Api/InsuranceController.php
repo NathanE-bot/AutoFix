@@ -41,12 +41,15 @@ class InsuranceController extends Controller
             $data = DB::table('insurance_vendors')
             ->where('id','=',$req->id)
             ->first();
+
+            $dataWorkshop = DB::table('insurance_workshops')->where('vendorInsuranceID','=',$data->id)->get();
         } catch (Exception $err) {
             return response()->json($err, 500);
         }
 
         return response()->json([
-            'objectReturn' => $data
+            'objectReturn' => $data,
+            'objectReturn1' =>$dataWorkshop
         ], 200);
     }
 

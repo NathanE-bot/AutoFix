@@ -113,6 +113,7 @@ Route::post('deleteCarType','Api\AdminWorkshopController@deleteCarType');
 Route::post('addWorkshopService','Api\AdminWorkshopController@addWorkshopService');
 Route::post('deleteWorkshopServiceByID','Api\AdminWorkshopController@deleteWorkshopServiceByID');
 Route::post('deleteWorkshopServiceByStatusAndID','Api\AdminWorkshopController@deleteWorkshopServiceByStatusAndID');
+Route::get('countAllDataWorkshop','Api\AdminWorkshopController@countAllDataWorkshop');
 
 
 

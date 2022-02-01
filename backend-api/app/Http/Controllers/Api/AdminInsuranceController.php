@@ -231,45 +231,45 @@ class AdminInsuranceController extends Controller
 
     public function countDataTotalCLaimedInsurance(Request $req){
         try {
-            $insurance= DB::table('insurances')
-            ->rightJoin(DB::raw('(
-                SELECT 1 as d
-                UNION SELECT 2 as d
-                UNION SELECT 3 as d
-                UNION SELECT 4 as d
-                UNION SELECT 5 as d
-                UNION SELECT 6 as d
-                UNION SELECT 7 as d
-                UNION SELECT 8 as d
-                UNION SELECT 9 as d
-                UNION SELECT 10 as d
-                UNION SELECT 11 as d
-                UNION SELECT 12 as d
-                UNION SELECT 13 as d
-                UNION SELECT 14 as d
-                UNION SELECT 15 as d
-                UNION SELECT 16 as d
-                UNION SELECT 17 as d
-                UNION SELECT 18 as d
-                UNION SELECT 19 as d
-                UNION SELECT 20 as d
-                UNION SELECT 21 as d
-                UNION SELECT 22 as d
-                UNION SELECT 23 as d
-                UNION SELECT 24 as d
-                UNION SELECT 25 as d
-                UNION SELECT 26 as d
-                UNION SELECT 27 as d
-                UNION SELECT 28 as d
-                UNION SELECT 29 as d
-                UNION SELECT 30 as d
-                UNION SELECT 31 as d
-            ) as days'),
-            function($join) use($req){
-                $join->on(DB::raw('DAY(insurances.submitDate)'), '=',DB::raw('days.d'))
-                ->where(DB::raw('YEAR(insurances.submitDate)'), '=', $req->year)
-                ->where(DB::raw('MONTH(insurances.submitDate)'), '=', $req->month);
-            }
+                $insurance= DB::table('insurances')
+                ->rightJoin(DB::raw('(
+                    SELECT 1 as d
+                    UNION SELECT 2 as d
+                    UNION SELECT 3 as d
+                    UNION SELECT 4 as d
+                    UNION SELECT 5 as d
+                    UNION SELECT 6 as d
+                    UNION SELECT 7 as d
+                    UNION SELECT 8 as d
+                    UNION SELECT 9 as d
+                    UNION SELECT 10 as d
+                    UNION SELECT 11 as d
+                    UNION SELECT 12 as d
+                    UNION SELECT 13 as d
+                    UNION SELECT 14 as d
+                    UNION SELECT 15 as d
+                    UNION SELECT 16 as d
+                    UNION SELECT 17 as d
+                    UNION SELECT 18 as d
+                    UNION SELECT 19 as d
+                    UNION SELECT 20 as d
+                    UNION SELECT 21 as d
+                    UNION SELECT 22 as d
+                    UNION SELECT 23 as d
+                    UNION SELECT 24 as d
+                    UNION SELECT 25 as d
+                    UNION SELECT 26 as d
+                    UNION SELECT 27 as d
+                    UNION SELECT 28 as d
+                    UNION SELECT 29 as d
+                    UNION SELECT 30 as d
+                    UNION SELECT 31 as d
+                ) as days'),
+                function($join) use($req){
+                    $join->on(DB::raw('DAY(insurances.submitDate)'), '=',DB::raw('days.d'))
+                    ->where(DB::raw('YEAR(insurances.submitDate)'), '=', $req->year)
+                    ->where(DB::raw('MONTH(insurances.submitDate)'), '=', $req->month);
+                }
             )
             ->join('insurance_vendors','insurance_vendors.id','=','insurances.vendorInsuranceID')
             ->select(DB::raw('days.d AS day, COUNT(insurances.id) AS countData'))
@@ -365,8 +365,6 @@ class AdminInsuranceController extends Controller
             if(empty($insuranceRejected)){
                 return response()->json(['Message'=>'No data'], 200);
             }
-
-
 
             $data =[
                 'approvedArray'=>$insuranceAccept,
