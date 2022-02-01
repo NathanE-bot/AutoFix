@@ -88,6 +88,12 @@
   height: 393px;
 }
 
+.set-bg-red-rejected{
+  td:first-child{
+  /* bg color is important for td; just specify one */
+  background-color: $negative !important;
+  }
+} 
 .edit-car-spec-table{
   @extend %my-sticky-dynamic;
   max-height: 410px;

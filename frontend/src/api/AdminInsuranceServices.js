@@ -26,3 +26,7 @@ export function acceptInsuranceClaim(insuranceID) {
 export function uploadPDFInsurance(insuranceID, filePDF){
   return axios.post(localURL + '/api/uploadPDFInsurance?insuranceID=' + insuranceID, filePDF)
 }
+
+export function getInsuranceHistory(adminID) {
+  return axios.get(localURL + '/api/getInsuranceHistory?adminID=' + adminID)
+}

@@ -25,7 +25,7 @@
                     <q-td key="insuredName" :props="props">
                       {{ props.row.insuredName }}
                     </q-td>
-                    <q-td key="insuredStatus" :props="props" class="tf-capitalize">
+                    <q-td key="insuranceStatus" :props="props" class="tf-capitalize">
                       {{ props.row.insuranceStatus }}
                     </q-td>
                     <q-td key="polisNumber" :props="props">
@@ -41,10 +41,7 @@
                       {{ props.row.licensePlateNumber }}
                     </q-td>
                     <q-td key="submitDate" :props="props">
-                      {{ props.row.submitDate }}
-                    </q-td>
-                    <q-td key="claimedInsuranceDate" :props="props">
-                      {{ props.row.claimedInsuranceDate }}
+                      {{ help.defaultFormat(props.row.submitDate, help.data().dmy_8) }}
                     </q-td>
                     <q-td key="detail" :props="props" class="">
                       <q-btn
@@ -66,10 +63,12 @@
 /* eslint-disable */
 import { getIncomingClaimRequest } from '../../../api/AdminInsuranceServices'
 import { LocalStorage } from 'quasar'
+import help from '../../../js/help'
 
 export default {
   data () {
     return {
+      help,
       user: {},
       filter: '',
       loading: false,
@@ -81,26 +80,21 @@ export default {
         rowsNumber: 10
       },
       columns: [
-        { name: 'insuredName', label: 'Insured Name', field: 'insuredName', required: true, align: 'center', field: row => row.name, format: val => `${val}`, sortable: true },
-        { name: 'insuredStatus', label: 'Status', field: 'insuranceStatus', required: true, align: 'center', field: row => row.name, format: val => `${val}`, sortable: true },
-        { name: 'polisNumber', label: 'Polis Number', field: 'polisNumber', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'insuredName', label: 'Insured Name', field: 'insuredName', required: true, align: 'center' },
+        { name: 'insuranceStatus', label: 'Status', field: 'insuranceStatus', required: true, align: 'center' },
+        { name: 'polisNumber', label: 'Polis Number', field: 'polisNumber' },
         { name: 'emailClaimer', label: 'Email', field: 'emailClaimer', align: 'center' },
-        { name: 'phoneNumberClaimer', label: 'Phone Number', field: 'phoneNumberClaimer', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'phoneNumberClaimer', label: 'Phone Number', field: 'phoneNumberClaimer', align: 'center' },
         { name: 'licensePlateNumber', label: 'License Plate', field: 'licensePlateNumber', align: 'center' },
-        { name: 'submitDate', label: 'Submit Date', field: 'submitDate', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'claimedInsuranceDate', label: 'Claimed Insurance Date', field: 'claimedInsuranceDate', align: 'center', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'submitDate', label: 'Submit Date', field: 'submitDate', align: 'center' },
         { name: 'detail', label: 'View Detail', field: 'detail', align: 'center' }
       ],
       data: [],
       dataIncomingClaim: [],
-      // promptDetail: false,
-      // promptDetailAccept: false,
-      // promptDetailReject: false
     }
   },
   created() {
     this.user = LocalStorage.getItem('autoRepairUser').data.user
-    console.log('this user', this.user)
     this.doGetIncomingClaimRequest()
   },
   mounted () {
@@ -113,7 +107,6 @@ export default {
   methods: {
     doGetIncomingClaimRequest() {
       getIncomingClaimRequest(this.user.id).then(response =>{
-        console.log('response', response)
         response.data.forEach(el1 => {
           let templateDataIncoming = {
                 insuranceID: el1.insuranceID,
@@ -123,12 +116,10 @@ export default {
                 emailClaimer: el1.emailClaimer,
                 phoneNumberClaimer: el1.phoneNumberClaimer,
                 licensePlateNumber: el1.licensePlateNumber,
-                submitDate: el1.submitDate,
-                claimedInsuranceDate: el1.claimedInsuranceDate || '',
+                submitDate: el1.submitDate
               }
           this.dataIncomingClaim.push(templateDataIncoming)
         })
-        console.log('dataIncomingClaim', this.dataIncomingClaim)
       })
     },
     onRequest (props) {
@@ -201,8 +192,8 @@ export default {
       return count
     },
     changePage (url) {
-        this.$router.push(url)
-      }
+      this.$router.push(url)
+    }
   }
 }
 </script>
