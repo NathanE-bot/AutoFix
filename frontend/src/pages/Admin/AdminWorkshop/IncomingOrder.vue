@@ -60,7 +60,7 @@
                         </q-card-section>
                         <div class="d-flex a-center j-end" style="gap: 20px">
                             <q-btn
-                                @click="doSetTempScheduleID(incoming.scheduleID, 'reject')"
+                                @click="doSetTempScheduleID(incoming.scheduleID, 'reject'); rejectReason = null"
                                 color="negative" rounded unelevated padding="4px 24px"
                                 label="Reject"
                                 class="tf-capitalize"
@@ -128,7 +128,7 @@ export default {
         user: {},
         listIncoming: [],
         tempManageScheduleID: null,
-        rejectReason: '',
+        rejectReason: null,
         window: {
             width: 0,
             height: 0,
