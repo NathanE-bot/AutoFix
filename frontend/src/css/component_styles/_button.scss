@@ -125,3 +125,9 @@
         color: $primary;
     }
 }
+
+.btn-disable-right-icon{
+    .q-icon.on-right{
+        display: none !important;
+    }
+}

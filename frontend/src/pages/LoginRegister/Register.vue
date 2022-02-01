@@ -174,28 +174,28 @@ export default ({
       isPwd: true,
       rules: {
         fullName_r: [
-          v => !!v || 'Nama harus diisi'
+          v => !!v || 'Name is required'
         ],
         email_r: [
-          v => !!v || 'Email harus diisi',
-          v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Format email salah'
+          v => !!v || 'Email is required',
+          v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Wrong Email format'
         ],
         password_r: [
-          v => !!v || 'Password harus diisi',
-          v => v.length >= 8 || 'Password minimal 8 karakter'
+          v => !!v || 'Password is required',
+          v => v.length >= 8 || 'Password min 8 characters'
         ],
         password_confirmation_r: [
-          v => !!v || 'Password harus diisi',
-          v => v === this.form.password || 'Password belum sama'
+          v => !!v || 'Password confirmation is required',
+          v => v === this.form.password || 'Password is not the same'
         ],
         DoB_r: [
-          v => !!v || 'Tanggal lahir harus diisi'
+          v => !!v || 'Date of Birth is required'
         ],
         phoneNumber_r: [
-          v => !!v || 'Nomor telepon harus diisi'
+          v => !!v || 'Phone number is required'
         ],
         address_r: [
-          v => !!v || 'Alamat harus diisi'
+          v => !!v || 'Address is required'
         ],
       },
       window: {

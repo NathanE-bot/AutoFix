@@ -97,3 +97,10 @@
         font-weight: 600;
     }
 }
+
+.fix-textarea-height{
+    textarea{
+        min-height: 94px !important;
+        max-height: 94px !important;
+    }
+}

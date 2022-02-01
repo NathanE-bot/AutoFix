@@ -116,11 +116,11 @@ export default {
       isPwd: true,
       rules: {
         email_r: [
-          v => !!v || 'Email Harus Diisi',
-          v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Format Email Salah'
+          v => !!v || 'Email is required',
+          v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Wrong email format'
         ],
         password_r: [
-          v => !!v || 'Password Harus Diisi'
+          v => !!v || 'Password is required'
         ]
       },
       window: {
