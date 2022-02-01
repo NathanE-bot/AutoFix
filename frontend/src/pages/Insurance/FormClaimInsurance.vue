@@ -300,32 +300,34 @@
                             </div>
                         </div>
                     </div>
-                    <div :class="['row j-start w-100 m-auto']">
-                        <div class="px-12 mb-15" v-for="(image, index) in imageForm" :key="'UPE' + index">
-                            <q-input
-                                v-model="image.name"
-                                dense filled placeholder="Input your photo's name"
-                                class="input-text-center"
-                            >
-                            </q-input>
-                            <div class="form-insurance-images relative-position br-10-bot">
-                                <img :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]" width="300" height="150" :src="image.imageFile"  :id="'myImg-' + index" alt="">
-                                <i v-if="help.isDataEmpty(image.imageFile)" class="fas fa-cloud-upload-alt fs-40 upload-cloud-icon"></i>
+                    <q-form ref="formStepper4">
+                        <div :class="['row j-start w-100 m-auto']">
+                            <div class="px-12 mb-15" v-for="(image, index) in imageForm" :key="'UPE' + index">
+                                <q-input
+                                    v-model="image.name"
+                                    dense filled placeholder="Input your photo's name"
+                                    class="input-text-center"
+                                >
+                                </q-input>
+                                <div class="form-insurance-images relative-position br-10-bot">
+                                    <img :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]" width="300" height="150" :src="image.imageFile"  :id="'myImg-' + index" alt="">
+                                    <i v-if="help.isDataEmpty(image.imageFile)" class="fas fa-cloud-upload-alt fs-40 upload-cloud-icon"></i>
+                                </div>
+                                <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, image, index)">
                             </div>
-                            <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, image, index)">
-                        </div>
-                        <div class="d-flex a-center j-center">
-                            <q-btn
-                                v-if="imageForm.length < 20"
-                                @click="addUploadPhoto(false)"
-                                icon="fas fa-plus"
-                                flat round color="grey-5"
-                            />
-                            <div v-else-if="imageForm.length == 20">
-                                Max total photo 20
+                            <div class="d-flex a-center j-center">
+                                <q-btn
+                                    v-if="imageForm.length < 20"
+                                    @click="addUploadPhoto(false)"
+                                    icon="fas fa-plus"
+                                    flat round color="grey-5"
+                                />
+                                <div v-else-if="imageForm.length == 20">
+                                    Max total photo 20
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </q-form>
                 </div>
             </q-step>
             <template v-slot:navigation>
@@ -383,14 +385,14 @@
 import Swal from 'sweetalert2'
 import help from '../../js/help'
 import Auth from '../../js/AuthValidation'
-import { getVendorInsuranceByID, makeInsuranceClaimApi } from '../../api/InsuranceService'
+import { getVendorInsuranceByID, makeInsuranceClaimApi, makePathInsurance } from '../../api/InsuranceService'
 
 export default {
     data () {
         return{
             help,
             loader: false,
-            step: 3,
+            step: 4,
             window: {
                 width: 0,
                 height: 0,
@@ -398,7 +400,7 @@ export default {
             },
             vendorInsurance: {},
             accessToken: null,
-            errorMessage: false                 ,
+            errorMessage: false,
             vendorWorkshops: [],
             form: {
                 vendorInsuranceID: null, // DONE
@@ -431,6 +433,8 @@ export default {
                 workshopTypeID: null,
                 chronology: null, // DONE
             },
+            imageBinary: {},
+            forSavingImage: [],
             imageForm: [],
             rules: {
                 //STEPPER 1
@@ -558,8 +562,47 @@ export default {
 
                 const formData = new FormData
                 formData.set('image', file)
-                item.imageFile = formData
+                if(!help.isDataEmpty(item.name)){
+                    item.imageFile = formData
+                    this.imageBinary = {}
+                    item.filePath = item.filePath !== 'null' ? item.filePath : 'null'
+                    this.imageBinary = formData
+                    this.getURLForImage(item, index)
+                } else {
+                    Swal.fire ({
+                        icon: "warning",
+                        title: "Warning!",
+                        text: "Please input photo name first"
+                    }) .then(() => {
+                        item.imageFile = null
+                        document.getElementById('uploadDPUser-' + index).value = ''
+                    })
+                }
             }
+        },
+        getURLForImage(item, index){
+            let _this = this
+            // let tempObj = {
+            //     documentationInsuranceName: item.name,
+            //     imagePath: item.filePath
+            // }
+            makePathInsurance(item.filePath, item.name, item.imageFile, _this.accessToken).then(response => {
+                // let tempObj = {
+                //     name: item.name,
+                //     uploaded: true,
+                //     filePath: response.data.filePath,
+                //     insuranceID: response.data.insuranceID
+                // }
+                _this.imageForm[index].filePath = response.data.filePath
+                console.log(_this.imageForm)
+
+            }) .catch((error) => {
+                console.log(error.response)
+                Swal.fire ({
+                    icon: "error",
+                    title: "Upload image error"
+                })
+            })
         },
         addUploadPhoto (firstLoader) {
             if(firstLoader){
@@ -567,7 +610,8 @@ export default {
                     const tempObj = {
                         name: '',
                         imageFile: null,
-                        uploaded: false
+                        uploaded: false,
+                        filePath: 'null'
                     }
                     this.imageForm.push(tempObj)
                 }
@@ -576,7 +620,8 @@ export default {
                 const tempObj = {
                     name: '',
                     imageFile: null,
-                    uploaded: false
+                    uploaded: false,
+                    filePath: 'null'
                 }
                 this.imageForm.push(tempObj)
             }
@@ -620,7 +665,7 @@ export default {
             })
         },
         doCheckFormPerStepper(refs){
-            // refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
+            refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
             if(this.step == 1 && this.$refs.formStepper1) {
                 this.$refs.formStepper1.validate().then(success => {
                     if (success) {
@@ -646,15 +691,6 @@ export default {
                         refs.stepper.next()
                     }
                 })
-                // if(){
-                //     this.errorMessage = true
-                //     console.log(this.errorMessage, this.form.isOnlineTaxi, this.form.isNotOnlineTaxi)
-                // } else if (help.isDataEmpty(this.form.wasHit) && help.isDataEmpty(this.form.wasNotHit)){
-                //     this.errorMessage = true
-                //     console.log(this.errorMessage, this.form.wasHit, this.form.wasNotHit)
-                // } else {
-                    
-                // }
             }
         },
         changePage(url){

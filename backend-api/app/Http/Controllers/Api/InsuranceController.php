@@ -137,7 +137,8 @@ class InsuranceController extends Controller
     public function makePathInsurance(Request $req){
         try {
             $validator = Validator::make($req->all(), [
-                'image'=> ['required|image|mimes:jpeg,png,jpg,gif|max:2048'],
+                'image'=> 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'documentationInsuranceName' => 'required'
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -146,7 +147,7 @@ class InsuranceController extends Controller
                 ], 401);
             }
 
-        if ($req->imagePath == null) {
+        if ($req->imagePath == 'null') {
             if ($req->has('image'))
             {
                 $dateTimeNow= carbon::now()->format('Y-m-d_H-i-s');
@@ -158,14 +159,14 @@ class InsuranceController extends Controller
             }
             else
             {
-                return response()->json('image not found', 400);
+                return response()->json('image not found', 401);
             }
         }
         else {
             if ($req->has('image'))
             {
                 $dataImagePath =mb_substr($req->imagePath,30,100);
-                dd($dataImagePath);
+                // dd($dataImagePath);
                 Storage::delete('/public/'.$dataImagePath);
 
                 $dateTimeNow= carbon::now()->format('Y-m-d_H-i-s');
@@ -177,16 +178,18 @@ class InsuranceController extends Controller
             }
             else
             {
-                return response()->json('image not found', 400);
+                return response()->json('image not found', 401);
             }
         }
             $data = [
                 'objectReturner'=>'Berhasil'
             ];
-        return response()->json([$imagePath,$req->documentationInsuranceName,$req->insuranceID], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
+        return response()->json([
+            'filePath' => $imagePath
+        ], 200);
     }
 
     public function updateInsurace(Request $req){

@@ -36,3 +36,8 @@ export function makeInsuranceClaimApi (userID, vendorInsuranceID, insuranceForm,
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
   return axios.post(localURL + '/api/makeInsuranceClaimApi?userID=' + userID + '&vendorInsuranceID=' + vendorInsuranceID, insuranceForm, authorization)
 }
+
+export function makePathInsurance (imagePath, documentationInsuranceName, fileImage, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/makePathInsurance?imagePath=' + imagePath + '&documentationInsuranceName=' + documentationInsuranceName, fileImage, authorization)
+}
