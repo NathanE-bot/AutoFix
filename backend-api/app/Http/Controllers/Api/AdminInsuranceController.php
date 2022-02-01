@@ -150,7 +150,7 @@ class AdminInsuranceController extends Controller
             if ($validator->fails()) {
                 return $validator->errors();
             }
-            $dataDateTimeNow= carbon::noew()->format("Y-m-d_H-i-s");
+            $dataDateTimeNow= carbon::now()->format("Y-m-d_H-i-s");
             $dataInsuranceDetails = DB::table('insurance_details')
             ->where('insuranceID','=',$req->insuranceID)
             ->where('insuranceStatus','=','on progress')
