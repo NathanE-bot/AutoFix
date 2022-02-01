@@ -33,7 +33,7 @@ class CreateInsurancesTable extends Migration
             $table->string('driverRelation');
             $table->string('incidentLocation');
             $table->string('vehicleDescription');
-            $table->date('incidentDate');
+            $table->date('incidentDate')->format("Y-m-d");
             $table->time('incidentTime');
             $table->string('taxiOnlineStatus');
             $table->string('workshopType');

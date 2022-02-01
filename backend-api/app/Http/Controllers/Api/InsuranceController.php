@@ -66,7 +66,7 @@ class InsuranceController extends Controller
             'driverRelation'=>['required', 'string', 'max:255'],
             'incidentLocation'=>['required', 'string', 'max:255'],
             'vehicleDescription'=>['required', 'string', 'max:255'],
-            'incidentDate'=>['required', 'date_format:Y-M-D'],
+            'incidentDate'=>['required', 'date_format:Y-m-d'],
             'incidentTime'=>['required', 'date_format:H:i:s'],
             'taxiOnlineStatus'=>['required', 'string', 'max:255'],
             'workshopType'=>['required', 'exists:insurance_workshops,insuranceWorkshopName'],
