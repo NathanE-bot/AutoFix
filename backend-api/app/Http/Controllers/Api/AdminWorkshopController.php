@@ -816,7 +816,8 @@ class AdminWorkshopController extends Controller
             ) as months'),
                 function($join) use($req){
                     $join->on(DB::raw('MONTH(schedules.created_at)'), '=',DB::raw('months.d'))
-                    ->where(DB::raw('YEAR(schedules.created_at)'), '=', $req->year);
+                    ->where(DB::raw('YEAR(schedules.created_at)'), '=', $req->year)
+                    ->where(DB::raw('MONTH(schedules.created_at)'), '=', $req->month);
                 }
             )
             ->join('workshops','workshops.id','=','schedules.workshopID')
