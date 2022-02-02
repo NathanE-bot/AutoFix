@@ -34,7 +34,7 @@
                     <q-item-section>Accepted Order</q-item-section>
                   </q-item>
 
-                  <q-item clickable>
+                  <q-item clickable @click="changePage('/admin/workshop/history-order')">
                     <q-item-section>History Order</q-item-section>
                   </q-item>
                 </q-list>
@@ -161,6 +161,7 @@ export default {
       if(url.includes('/home')) this.initialTab = 'home'
       else if(url.includes('/incoming-order')) this.initialTab = 'orderList'
       else if(url.includes('/accepted-order')) this.initialTab = 'orderList'
+      else if(url.includes('/history-order')) this.initialTab = 'orderList'
       else if(url.includes('/manage-workshop')) this.initialTab = 'manageWorkshop'
       else if (url.includes('/incoming-claim-request')) this.initialTab = 'incomingClaimRequest'
       else if (url.includes('/insurance-claim-history')) this.initialTab = 'insuranceClaimHistory'

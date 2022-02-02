@@ -1,14 +1,15 @@
 <template>
     <q-page>
         <div class="w-80 m-auto">
-            <div class="text-h5 fw-semibold py-20 txt-white">Incoming Order</div>
+            <div class="text-h5 fw-semibold py-20 txt-white" style="border-bottom: 1px solid #3b3b3b">Incoming Order</div>
         </div>
         <div class="w-80 m-auto py-20" v-if="!help.isObjectEmpty(listIncoming)">
-            <q-card v-for="incoming in listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80 br-10px-i">
-                <!-- <q-scroll-area
-                :thumb-style="thumbStyle"
-                :bar-style="barStyle"
-                class="list-workshop-scrollbar h-80"> -->
+            <q-scroll-area
+            :thumb-style="thumbStyle"
+            :bar-style="barStyle"
+            class="list-workshop-scrollbar h-80"
+            :style="{height: window.heightAltered + 'px'}">
+                <q-card v-for="incoming in listIncoming" :key="incoming.scheduleID" class="adminWorkshop-card w-80 br-10px-i">
                     <q-card-section >
                         <div class="flex flex-center j-sp-between mb-10">
                             <div class="fw-semibold p-10">
@@ -73,8 +74,8 @@
                             />
                         </div>
                     </q-card-section>
-                <!-- </q-scroll-area> -->
-            </q-card>
+                </q-card>
+            </q-scroll-area>
         </div>
         <div v-else class="w-80 m-auto py-20 text-align-center txt-white">
             No Data
@@ -157,14 +158,19 @@ export default {
         this.user = LocalStorage.getItem('autoRepairUser').data.user
         this.doGetIncomingOrderSchedule()
     },
-    // mounted () {
-    //     window.addEventListener('resize', this.handleResize)
-    //     this.handleResize()
-    // },
-    // unmounted () {
-    //     window.removeEventListener('resize', this.handleResize)
-    // },
+    mounted () {
+        window.addEventListener('resize', this.handleResize)
+        this.handleResize()
+    },
+    unmounted () {
+        window.removeEventListener('resize', this.handleResize)
+    },
     methods: {
+        handleResize () {
+            this.window.width = window.innerWidth
+            this.window.height = window.innerHeight
+            this.window.heightAltered = window.innerHeight - (window.innerHeight * (35/100))
+        },
         doGetIncomingOrderSchedule() {
             this.loader = true
             this.listIncoming = []
@@ -206,7 +212,7 @@ export default {
                                 tempObjectCustomer = el2
                             }
                         })
-
+console.log('tempListDataCustomer',tempListDataCustomer)
                         tempObject = { ...tempObject, ...el1, ...tempObjectCustomer}
                         this.listIncoming.push(tempObject)
                     })
@@ -230,10 +236,15 @@ export default {
                 Swal.fire({
                     icon: 'question',
                     title: 'Accept schedule?',
+                    cancelButtonText: 'Cancel',
                     confirmButtonText: 'Accept',
                     confirmButtonColor: '#21a17b',
                     showCancelButton: true,
-                    cancelButtonText: 'Cancel',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i',
+                        cancelButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 }) .then((result) => {
                     if(result.isConfirmed) {
                             doAcceptScheduleByAdmin(this.tempManageScheduleID).then(response => {

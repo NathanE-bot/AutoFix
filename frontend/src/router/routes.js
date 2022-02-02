@@ -48,6 +48,7 @@ const AdminAcceptedOrder = () => import("pages/Admin/AdminWorkshop/AcceptedOrder
 const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
 const AdminManageWorkshop = () => import("pages/Admin/AdminWorkshop/ManageWorkshop");
 const AdminWorkshopChatRoom = () => import("pages/Admin/AdminWorkshop/AdminWorkshopChatPage");
+const AdminHistoryOrder = () => import("pages/Admin/AdminWorkshop/HistoryOrder");
 
 //Admin Insurance
 const AdminInsuranceHome = () => import("pages/Admin/AdminInsurance/AdminInsuranceHome");
@@ -143,6 +144,14 @@ const routes = [
         meta: {
           title: 'Admin Workshop Home',
           breadcrumb: 'Admin Workshop Home'
+        }
+      },
+      {
+        path: "/admin/workshop/history-order",
+        component: AdminHistoryOrder,
+        meta: {
+          title: 'History Order Admin',
+          breadcrumb: 'History Order Admin'
         }
       }
     ]

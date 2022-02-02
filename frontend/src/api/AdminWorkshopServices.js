@@ -100,3 +100,7 @@ export function getCountAllDataWorkshop (adminID, month, year) {
 export function getCountWorkshopByStatus(adminID, month, year){
   return axios.get(localURL + '/api/countWorkshopByStatus?adminID=' + adminID + '&month=' + month + '&year=' + year)
 }
+
+export function getScheduleHistoryByAdmin(adminID){
+  return axios.get(localURL + '/api/getScheduleHistoryByAdmin?adminID=' + adminID)
+}
