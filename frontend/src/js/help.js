@@ -3,7 +3,7 @@ import moment from 'moment'
 import { createNamespacedHelpers } from 'vuex'
 import router from '../router'
 
-const localURL = 'http://localhost:8080'
+const localURL = 'http://127.0.0.1:8000/'
 
 export default {
     data () {
@@ -100,6 +100,12 @@ export default {
     },
     // images
     checkForInsuranceLogo (url) {
-        return !this.isDataEmpty(url) ? url : localURL + '/img/logo.png'
+        return !this.isDataEmpty(url) ? url : localURL + 'img/logo.png'
+    },
+    checkforBackgroundDetailWorkshopImage (a) {
+        if(this.isObjectEmpty(a)){
+            return localURL + 'storage/presetLogo/background_img_preset_detailWorkshop.jpeg'
+        }
+        return a[0].filePath
     }
 }

@@ -9,9 +9,9 @@
     >
       <i class="fas fa-arrow-left fs-20"></i>
     </q-btn>
-    <q-parallax :height="120" :speed="0.5">
+    <q-parallax :height="200" :speed="0.5">
       <template v-slot:media>
-        <img class="responsive_img fit-content" src="~assets/images/background_img/car_bg_1.jpg">
+        <img class="fit-content" :src="help.checkforBackgroundDetailWorkshopImage(workshop_gallery)">
       </template>
     </q-parallax>
     <div class="bg-white">
@@ -128,6 +128,7 @@
           <div class="text-h6 fw-bold mb-10">Gallery</div>
           <div>
             <q-carousel
+              v-if="help.isObjectEmpty(workshopDetail.workshop_picture)"
               v-model="gallerySlide"
               arrows swipeable thumbnails
               animated infinite :autoplay="10000"
@@ -135,12 +136,24 @@
               transition-next="slide-left"
               transition-duration="2000"
               control-color="primary"
-              class="bg-grey-1 rounded-borders"
+              class="bg-grey-1 rounded-borders col-12"
+              :style="{height: window.heightAltered + 'px'}"
             >
-              <q-carousel-slide :name="1" img-src="~assets/images/background_img/car_bg_1.jpg" />
-              <q-carousel-slide :name="2" img-src="~assets/images/background_img/car_bg_1.jpg" />
-              <q-carousel-slide :name="3" img-src="~assets/images/background_img/car_bg_1.jpg" />
-              <q-carousel-slide :name="4" img-src="~assets/images/background_img/car_bg_1.jpg" />
+              <q-carousel-slide v-for="n in 4" :key="'AIYE' + n" :name="n" img-src="~assets/images/background_img/car_bg_1.jpg" />
+            </q-carousel>
+            <q-carousel
+              v-else
+              v-model="gallerySlide"
+              arrows swipeable thumbnails
+              animated infinite :autoplay="10000"
+              transition-prev="slide-right"
+              transition-next="slide-left"
+              transition-duration="2000"
+              control-color="primary"
+              class="bg-grey-1 rounded-borders col-12"
+              :style="{height: window.heightAltered + 'px'}"
+            >
+              <q-carousel-slide v-for="(images, index) in jsonDataParam.galleryImagesForPreview" :key="'AIYE' + index" :name="index+1" :img-src="images.imageData" />
             </q-carousel>
           </div>
         </div>
@@ -250,6 +263,11 @@ export default {
         width: '10px',
         opacity: 0.2
       },
+      window: {
+        width: 0,
+        height: 0,
+        heightAltered: 0
+      },
       loader: false,
       userTokenChat: null,
       workshopId: null,
@@ -263,7 +281,8 @@ export default {
         lat: null,
         lon: null
       },
-      tempDistance: []
+      tempDistance: [],
+      workshop_gallery: []
     }
   },
   created () {
@@ -277,6 +296,8 @@ export default {
     }
   },
   mounted () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
     if(Auth.isUserLogin() == 'session_expired'){
       Swal.fire({
         icon: 'warning',
@@ -289,7 +310,15 @@ export default {
       })
     }
   },
+  unmounted () {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
+    handleResize () {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+      this.window.heightAltered = window.innerHeight - (window.innerHeight * (40/100))
+    },
     doCheckLogin () {
       if(!Auth.isUserLogin()){
         Swal.fire({
