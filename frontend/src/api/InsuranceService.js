@@ -1,12 +1,11 @@
 /* eslint-disable */
 import axios from 'axios'
-var localURL = 'http://34.101.220.96:8080'
-// if(window.location.href.includes('http://34.101.220.96/')){
-//   localURL = 'http://34.101.220.96:8080'
-// } else {
-//   localURL = 'http://127.0.0.1:8000'
-// }
-
+var localURL = ''
+if(window.location.href.includes('http://34.101.220.96/')){
+  localURL = 'http://34.101.220.96:8080'
+} else {
+  localURL = 'http://127.0.0.1:8000'
+}
 export default
   function kosong() {
   return true
