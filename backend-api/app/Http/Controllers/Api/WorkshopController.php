@@ -178,7 +178,7 @@ class WorkshopController extends Controller
 
             $workshop_picture =  DB::table('workshop_pictures')
             ->orWhere('workshop_pictures.workshopID','=',$req->id)
-            ->first()->toArray();
+            ->get()->toArray();
 
             foreach ($workshop_details as $key=>$value) {
                 $workshop_services =  DB::table('workshop_services')
