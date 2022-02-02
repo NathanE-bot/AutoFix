@@ -60,14 +60,6 @@
             <div class="login-avatar" v-else>
               <div>
                 <q-btn
-                  flat round dense
-                  color="primary" text-color="white"
-                  icon="fas fa-bell"
-                  class="fs-20 mr-20 notif-btn"
-                >
-                  <q-badge color="red" rounded floating />
-                </q-btn>
-                <q-btn
                   round unelevated
                   color="white"
                   size="md"
