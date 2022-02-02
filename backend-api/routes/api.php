@@ -117,7 +117,7 @@ Route::get('countAllDataWorkshop','Api\AdminWorkshopController@countAllDataWorks
 Route::get('SumAllPriceEstimationWorkshop','Api\AdminWorkshopController@SumAllPriceEstimationWorkshop');
 Route::get('countWorkshopByStatus','Api\AdminWorkshopController@countWorkshopByStatus');
 Route::get('getYearWorkshopForFilterHome','Api\AdminWorkshopController@getYearWorkshopForFilterHome');
-
+Route::get('getScheduleHistoryByAdmin', 'Api\AdminWorkshopController@getScheduleHistoryByAdmin');
 
 
 //ADMIN INSURANCE

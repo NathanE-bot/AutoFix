@@ -5,7 +5,7 @@
         v-model="workshopTab"
         align="justify"
       >
-        <q-tab class="tf-capitalize" name="workshop" label="Manage Workshop" />
+        <q-tab class="tf-capitalize" name="workshop" label="Manage Workshop Profile" />
         <q-tab class="tf-capitalize" name="services" label="Manage Services" />
         <q-tab class="tf-capitalize" name="gallery" label="Manage Gallery" />
       </q-tabs>

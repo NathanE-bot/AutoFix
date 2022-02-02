@@ -111,7 +111,7 @@
               <is-favorite />
             </q-item-section>
 
-            <q-item-section>favorites</q-item-section>
+            <q-item-section>Favorites</q-item-section>
           </q-item>
 
           <!-- <q-item
