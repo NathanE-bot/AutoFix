@@ -176,6 +176,9 @@ class WorkshopController extends Controller
             ->where('workshop_details.workshopID','=',$req->id)
             ->get()->toArray();
 
+            $workshop_picture =  DB::table('workshop_pictures')
+            ->orWhere('workshop_pictures.workshopID','=',$req->id)
+            ->first()->toArray();
 
             foreach ($workshop_details as $key=>$value) {
                 $workshop_services =  DB::table('workshop_services')
@@ -184,10 +187,7 @@ class WorkshopController extends Controller
                 ->where('workshop_details.workshopID','=',$req->id)
                 ->orWhere('workshop_services.workshopDetailID','=',$value->id)
                 ->get()->toArray();
-                
-                $workshop_picture =  DB::table('workshop_pictures')
-                ->orWhere('workshop_pictures.workshopID','=',$value->id)
-                ->first()->toArray();
+
             }
 
             $workshop_review = DB::table('reviews')
