@@ -178,6 +178,7 @@ import isvgLogout from './IconSVG/isvg_logout'
 import isvgFavorite from './IconSVG/isvg_favorite'
 // End of SVGs
 import help from '../js/help'
+import Auth from '../js/AuthValidation'
 import { LocalStorage } from 'quasar'
 
 export default {
@@ -221,7 +222,9 @@ export default {
     }
   },
   mounted () {
-    this.user = LocalStorage.getItem('autoRepairUser').data.user
+    if(Auth.isUserLogin){
+      this.user = LocalStorage.getItem('autoRepairUser').data.user
+    } 
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   },

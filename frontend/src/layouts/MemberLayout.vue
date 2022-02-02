@@ -60,8 +60,14 @@ export default {
                             this.forLoad = true
                         }, 2000)
                     } 
-                } else {
+                } else if (!Auth.isUserLogin() && url.includes('/session/')) {
                     this.forLoad = false
+                } else if (!Auth.isUserLogin() && !url.includes('/session/') && !url.includes('/insurance/') && !url.includes('/member/') && !url.includes('/admin/')) {
+                    this.forLoad = false
+                }
+                else {
+                    this.forLoad = false
+                    console.log('a')
                     Swal.fire({
                         title: 'Error',
                         text: 'Please login first.',
