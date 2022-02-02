@@ -209,6 +209,7 @@ class InsuranceController extends Controller
                 $addDocumentationInsurance->insuranceID = $req->insuranceID;
                 $addDocumentationInsurance->documentationInsuranceName = $req->insuranceDocument[$key]['name'];
                 $addDocumentationInsurance->documentationPicture = $req->insuranceDocument[$key]['filePath'];
+                $addDocumentationInsurance->save();
             }
         } catch (Exception $err){
             return response()->json($err, 500);
