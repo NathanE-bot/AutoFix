@@ -27,6 +27,9 @@ const yourAccount = () => import("pages/Profile/YourAccount");
 const scheduleList = () => import("pages/Profile/ScheduleList");
 const historyList = () => import("pages/Profile/HistoryList");
 const favoriteList = () => import("pages/Profile/FavoriteList");
+//chat
+const homeMessage = () => import("pages/Chats/HomeMessage");
+const roomMessage = () => import("pages/Chats/RoomMessage");
 
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
@@ -39,15 +42,12 @@ const formInsurance = () => import("pages/Insurance/FormClaimInsurance");
 const statusInsurance = () => import("pages/Insurance/StatusInsurance");
 const statusInsuranceDetail = () => import("pages/Insurance/StatusInsuranceDetail");
 
-//chat
-const homeMessage = () => import("pages/Chats/HomeMessage");
-const roomMessage = () => import("pages/Chats/RoomMessage");
-
 //Admin Workshop
 const AdminWorkshopHome = () => import("pages/Admin/AdminWorkshop/AdminWorkshopHome");
 const AdminAcceptedOrder = () => import("pages/Admin/AdminWorkshop/AcceptedOrder");
 const AdminIncomingOrder = () => import("pages/Admin/AdminWorkshop/IncomingOrder");
 const AdminManageWorkshop = () => import("pages/Admin/AdminWorkshop/ManageWorkshop");
+const AdminWorkshopChatRoom = () => import("pages/Admin/AdminWorkshop/AdminWorkshopChatPage");
 
 //Admin Insurance
 const AdminInsuranceHome = () => import("pages/Admin/AdminInsurance/AdminInsuranceHome");
@@ -105,6 +105,14 @@ const routes = [
     path: '/admin/workshop',
     component: AdminWorkshopLayout,
     children: [
+      {
+        path: "/admin/workshop/chat-room",
+        component: AdminWorkshopChatRoom,
+        meta: {
+          title: 'Manage Workshop',
+          breadcrumb: 'Manage Workshop'
+        }
+      },
       {
         path: "/admin/workshop/manage-workshop",
         component: AdminManageWorkshop,

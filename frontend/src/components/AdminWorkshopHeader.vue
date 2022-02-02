@@ -14,9 +14,34 @@
         >
           <div class="flex" v-if="user.role == 2">
             <q-tab @click="changePage('/admin/workshop/home')" name="home" label="Home" />
-            <q-tab @click="changePage('/admin/workshop/incoming-order')" name="incomingOrder" label="Incoming Order" />
-            <q-tab @click="changePage('/admin/workshop/accepted-order')" name="acceptedOrder" label="Accepted Order" />
+            <!-- <q-tab @click="changePage('/admin/workshop/incoming-order')" name="incomingOrder" label="Incoming Order" />
+            <q-tab @click="changePage('/admin/workshop/accepted-order')" name="acceptedOrder" label="Accepted Order" /> -->
+            <div class="relative-position">
+              <q-tab class="insurance-tab" name="orderList" />
+              <q-btn-dropdown
+                :color="initialTab == 'orderList' ? 'primary' : ''"
+                auto-close flat :ripple="false" :menu-offset="[25, 15]"
+                transition-show="jump-down" transition-hide="jump-up" label="Order List"
+                class="tf-capitalize fs-16 dropdown-btn-tab"
+                content-class="dropdown-tab text-white"
+              >
+                <q-list class="dropdown-d">
+                  <q-item clickable @click="changePage('/admin/workshop/incoming-order')">
+                    <q-item-section>Incoming Order</q-item-section>
+                  </q-item>
+
+                  <q-item clickable @click="changePage('/admin/workshop/accepted-order')">
+                    <q-item-section>Accepted Order</q-item-section>
+                  </q-item>
+
+                  <q-item clickable>
+                    <q-item-section>History Order</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </div>
             <q-tab @click="changePage('/admin/workshop/manage-workshop')" name="manageWorkshop" label="Manage Workshop" />
+            <q-tab @click="changePage('/admin/workshop/chat-room')" name="chatHome" label="Customer Chat" />
           </div>
           <div class="flex" v-else>
             <q-tab @click="changePage('/admin/insurance/home')" name="home" label="Home" />
@@ -63,7 +88,7 @@
                     <i v-else class="fas fa-user grey-5"></i>
                   </q-avatar>
                   <q-menu
-                    class="dropdown-g text-white"
+                    class="dropdown-d"
                     style="border-radius: 0px 0px 5px 5px"
                     :offset="[25, 15]"
                   >
@@ -134,8 +159,8 @@ export default {
   '$route.path': {
     handler: function(url) {
       if(url.includes('/home')) this.initialTab = 'home'
-      else if(url.includes('/incoming-order')) this.initialTab = 'incomingOrder'
-      else if(url.includes('/accepted-order')) this.initialTab = 'acceptedOrder'
+      else if(url.includes('/incoming-order')) this.initialTab = 'orderList'
+      else if(url.includes('/accepted-order')) this.initialTab = 'orderList'
       else if(url.includes('/manage-workshop')) this.initialTab = 'manageWorkshop'
       else if (url.includes('/incoming-claim-request')) this.initialTab = 'incomingClaimRequest'
       else if (url.includes('/insurance-claim-history')) this.initialTab = 'insuranceClaimHistory'

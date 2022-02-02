@@ -6,20 +6,20 @@
               <div class="row col-12 br-10px-i">
                 <div class="row col-12">
                   <div class="col-6 j-start txt-white flex a-end fs-20">
-                    <span>Daily Total Accepted and Rejected Insurance Claim Requests</span>
+                    <span>Daily Total Approved and Rejected Insurance Claim Requests</span>
                   </div>
                   <div class="col-6 j-end" style="gap: 1rem;">
                     <q-select
                       v-model="dataHitAPI.month"
                       :options="listMonth"
                       outlined dense
-                      class="br-10px default-select-2 white-1bg"
+                      class="br-10px admin_select w-20"
                     />
                     <q-select
                       v-model="dataHitAPI.year"
                       :options="listYear"
                       outlined dense
-                      class="br-10px default-select-2 white-1bg"
+                      class="br-10px admin_select"
                     />
                     <q-btn
                       @click="doGetChartCountDataTotalClaimedInsurance()"
@@ -51,7 +51,7 @@
                       v-model="dataHitAPI.year2"
                       :options="listYear"
                       outlined dense
-                      class="br-10px default-select-2 white-1bg"
+                      class="br-10px admin_select"
                     />
                     <q-btn
                       @click="doGetCountDataTotalClaimedInsuranceByStatus()"
