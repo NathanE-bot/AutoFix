@@ -44,11 +44,7 @@ export default {
     return {
       help,
       loader: false,
-      userName: "",
-      name: null,
-      showMessage: "",
       room: [],
-      messagesView: [],
       user: LocalStorage.getItem('autoRepairUser').data.user
     };
   },

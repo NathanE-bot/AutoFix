@@ -19,8 +19,8 @@
                     <div :class="[{'time-layout-not-sent' : item.username != user.fullName},{'time-layout-sent' : item.username == user.fullName}]">
                         <span v-if="item.username == user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
                         <q-chat-message class="chat-message-bubble"
-                            :text="[item.message]" :bg-color="item.username != user.fullName ? 'primary' : ''"
-                            :sent="item.username == user.fullName ? true : false"
+                          :text="[item.message]" :bg-color="item.username != user.fullName ? 'primary' : ''"
+                          :sent="item.username == user.fullName ? true : false"
                         />
                         <span v-if="item.username != user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
                     </div>
@@ -58,8 +58,6 @@ export default {
         help,
         messageInput: '',
         userName: "",
-        name: null,
-        showMessage: "",
         messages: [],
         user_1: null,
         user_2: null,
@@ -74,10 +72,6 @@ export default {
     };
   },
   methods: {
-    updateUsername() {
-      this.name = this.userName
-      this.userName = ""
-    },
     sendMessage(event) {
       const message = {
         time: new Date().getTime(),
