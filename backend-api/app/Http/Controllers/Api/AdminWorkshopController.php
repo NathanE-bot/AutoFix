@@ -158,6 +158,47 @@ class AdminWorkshopController extends Controller
         ], 200);
     }
 
+
+    public function getScheduleHistoryByAdmin (Request $req){
+        $acceptedSchedule = DB::table('schedules')
+        ->join('workshops','workshops.id','=','schedules.workshopID')
+        ->join('users','users.ID','=','workshops.userID')
+        ->select('schedules.id as scheduleID','schedules.userID as customerID','workshops.userID as AdminID','schedules.workshopID'
+        ,'schedules.workshopName','schedules.workshopAddress','schedules.workshopPhoneNumber',
+        'schedules.workshopEmail','schedules.scheduleDate','schedules.scheduleTime','schedules.carModel',
+        'schedules.carType','schedules.timeEstimation','schedules.priceEstimation','schedules.scheduleStatus'
+        ,'schedules.serviceDescription')
+        ->where('workshops.userID','=',$req->adminID)
+        ->where('scheduleStatus','!=','accepted')
+        ->where('scheduleStatus','!=','waiting confirmation')
+        ->get()
+        ->toArray();
+
+        $dataDetailsSchedule = DB::table('schedule_details')
+        ->join('schedules','schedules.id','=','schedule_details.scheduleID')
+        ->join('workshops','workshops.id','=','schedules.workshopID')
+        ->select('schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
+        ->where('workshops.userID','=',$req->adminID)
+        ->where('scheduleStatus','!=','accepted')
+        ->where('scheduleStatus','!=','waiting confirmation')
+        ->get()
+        ->toArray();
+
+        $dataCustomer = DB::table('users')
+        ->join('schedules','schedules.userID','=','users.id')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber')
+        ->where('users.role','=','1')
+        ->get();
+        if(empty($acceptedSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
+            return response()->json(['Message'=>'No data'], 200);
+        }
+        return response()->json([
+            'listSchedule' => $acceptedSchedule,
+            'listDetails' => $dataDetailsSchedule,
+            'listDataCustomer' => $dataCustomer
+        ], 200);
+    }
+
     public function cancelScheduleByAdmin(Request $req){
         $validator = Validator::make($req->all(), [
             'description' => 'required|string'
