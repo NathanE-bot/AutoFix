@@ -218,7 +218,7 @@
                                 </div>
                                 <span v-if="errorMessage && !form.wasNotHit && !form.wasHit" class="red-txt mb-10">*please check either one</span>
                                 <div class="p-20 hitter-form-container" v-if="form.wasHit">
-                                    <div class="text-subtitle2 pb-10">Please input the name and vehicle number of the hitter</div>
+                                    <div class="text-subtitle2 pb-10">Please input the name and phone number of the hitter</div>
                                     <div class="q-gutter-y-md">
                                         <q-input
                                             v-model="form.incidentStatusDescription"
@@ -618,8 +618,11 @@ export default {
         },
         doUploadPhotoDocumentInsurance () {
             let _this = this
-            let insuranceDocument = _this.imageForm
-            updateInsurace(_this.vendorInsurance.id, insuranceDocument, _this.accessToken).then(response => {
+            let tempObj = {
+                insuranceID: _this.vendorInsurance.id,
+                insuranceDocument: _this.imageForm
+            }
+            updateInsurace(tempObj, _this.accessToken).then(response => {
                 if(response.data.message == 'Success') {
                     Swal.fire ({
                         icon: "success",
@@ -686,9 +689,23 @@ export default {
                 })
             })
         },
-        // doCheckPhotoUploadedMin10Photo () {
-        //     // Rencana mau buat cek min 10 foto upload
-        // },
+        doCheckPhotoUploadedMin10Photo () {
+            let bool = false
+            _this.imageForm.forEach(el1 => {
+                if(help.isDataEmpty(el1.name)){
+                    bool = true
+                }
+            })
+            if(bool){
+                Swal.fire ({
+                    icon: "warning",
+                    title: "Warning Submit",
+                    text: "Please fill all existing upload slot!"
+                })
+            } else {
+                _this.doSubmitInsuranceForm()
+            }
+        },
         doCheckFormPerStepper(refs){
             // refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
             if(this.step == 1 && this.$refs.formStepper1) {

@@ -195,8 +195,8 @@ class InsuranceController extends Controller
     public function updateInsurace(Request $req){
         try{
             $validator = Validator::make($req->all(), [
-                'insuranceDocument.*.filePath'=> ['required|string|max:255'],
-                'insuranceDocument.*.name'=>['required|string|max:255']
+                'insuranceDocument.*.filePath' => ['required', 'string', 'max:255'],
+                'insuranceDocument.*.name' => ['required', 'string', 'max:255']
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -215,7 +215,7 @@ class InsuranceController extends Controller
         }
 
         return response()->json([
-            'message' => 'success'
+            'message' => 'Success'
         ], 200);
     }
 
