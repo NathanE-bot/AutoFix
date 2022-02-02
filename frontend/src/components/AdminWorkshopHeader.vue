@@ -164,6 +164,7 @@ export default {
       else if(url.includes('/manage-workshop')) this.initialTab = 'manageWorkshop'
       else if (url.includes('/incoming-claim-request')) this.initialTab = 'incomingClaimRequest'
       else if (url.includes('/insurance-claim-history')) this.initialTab = 'insuranceClaimHistory'
+      else if (url.includes('/chat-room')) this.initialTab = 'chatHome'
       else this.initialTab = ''
     },
       deep: true,
