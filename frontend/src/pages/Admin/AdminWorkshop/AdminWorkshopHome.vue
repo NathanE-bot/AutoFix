@@ -2,61 +2,113 @@
     <q-page class="flex flex-center">
         <div class="row w-80">
           <div class="row col-12 j-sp-between">
-            <div class="col-4 p-0">
-              <div class="white-1bg br-10px-i w-95">
+            <div class="col-5 p-0">
+              <div class="row col-12 w-95">
+                <div class="col-12 j-sp-between">
+                  <div class="col-6 j-start txt-white flex a-end fs-20">
+                    <span>Total Income</span>
+                  </div>
+                  <div class="col-6 j-end" style="gap: 0.5rem;">
+                    <q-select
+                      v-model="dataHitAPI.month3"
+                      :options="listMonth"
+                      outlined dense
+                      class="br-10px default-select-2 white-1bg"
+                    />
+                    <q-select
+                      v-model="dataHitAPI.year3"
+                      :options="listYear"
+                      outlined dense
+                      class="br-10px default-select-2 white-1bg"
+                    />
+                    <q-btn
+                      @click="doGetSumAllPriceEstimationWorkshop()"
+                      color="primary"
+                      unelevated dense
+                      label="Search"
+                      padding="0px 20px"
+                      class="br-10px tf-capitalize"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="white-1bg br-10px-i br-10px-i-svg w-95 mt-5">
                 <apexchart width="100%" height="215" :options="spark1" :series="spark1.series"></apexchart>
               </div>
             </div>
-            <div class="col-8">
-              <div class="row fw">
-                <div class="white-1bg col-md-12 br-10px-i">
-                  <div>
-                    <apexchart width="100%" height="200" type="bar" :options="options1" :series="options1.series1"></apexchart>
+            <div class="col-7">
+              <div class="row col-12 br-10px-i">
+                <div class="row col-12">
+                  <div class="col-6 j-start txt-white flex a-end fs-20">
+                    <span>Daily Total Done Order</span>
+                  </div>
+                  <div class="col-6 j-end" style="gap: 0.5rem;">
+                    <q-select
+                      v-model="dataHitAPI.month"
+                      :options="listMonth"
+                      outlined dense
+                      class="br-10px default-select-2 white-1bg"
+                    />
+                    <q-select
+                      v-model="dataHitAPI.year"
+                      :options="listYear"
+                      outlined dense
+                      class="br-10px default-select-2 white-1bg"
+                    />
+                    <q-btn
+                      @click="doGetCountAllDataWorkshop()"
+                      color="primary"
+                      unelevated dense
+                      label="Search"
+                      padding="0px 20px"
+                      class="br-10px tf-capitalize"
+                    />
                   </div>
                 </div>
-               </div>
+              </div>
+              <div class="col-8">
+                <div class="row fw">
+                  <div class="white-1bg col-12 br-10px-i mt-5">
+                    <div>
+                      <apexchart width="100%" height="200" type="bar" :options="options1" :series="options1.series1"></apexchart>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-12 mt-10" style="min-height: 200px;">
-            <div class="white-1bg br-10px-i">
-              <apexchart width="100%" height="200" type="bar" :options="options2" :series="options2.series"></apexchart>
+            <div class="row col-12">
+              <div class="col-6 j-start txt-white flex a-end fs-20">
+                <span>Monthly Total Order</span>
+              </div>
+              <div class="col-6 j-end" style="gap: 0.5rem;">
+                <q-select
+                  v-model="dataHitAPI.month2"
+                  :options="listMonth"
+                  outlined dense
+                  class="br-10px default-select-2 white-1bg"
+                />
+                <q-select
+                  v-model="dataHitAPI.year2"
+                  :options="listYear"
+                  outlined dense
+                  class="br-10px default-select-2 white-1bg"
+                />
+                <q-btn
+                  @click="doGetCountWorkshopByStatus()"
+                  color="primary"
+                  unelevated dense
+                  label="Search"
+                  padding="0px 20px"
+                  class="br-10px tf-capitalize"
+                />
+              </div>
+            </div>
+            <div class="white-1bg br-10px-i mt-5">
+              <apexchart width="100%" height="200" type="bar" :options="options2" :series="options2.series2"></apexchart>
             </div>
           </div>
-          <!-- <div class="col-md-12 q-gutter-y-md" >
-            <div class="row">
-              <div class="white-1bg chart">
-                <apexchart width="100%" :options="spark1" :series="spark1.series"></apexchart>
-              </div>
-              <div class="white-1bg ml-5">
-                <div class="row filternya j-end q-gutter-lg">
-                  <div>Year</div>
-                  <div>Month</div>
-                  <div>Search</div>
-                </div>
-                <div class="row white-1bg chart">
-                  <apexchart width="100%" height="200" type="bar" :options="options2" :series="options2.series"></apexchart>
-                </div>
-              </div>
-            </div>
-            <div class="row fw">
-              <div class="col-md-12 filternya j-end txt-white q-gutter-x-md">
-                <div>
-                  Year
-                </div>
-                <div>
-                  Month
-                </div>
-                <div>
-                  Search
-                </div>
-              </div>
-              <div class="white-1bg col-md-12 chart h-50 br-10px-i">
-                <div>
-                  <apexchart width="100%" height="200em" type="bar" :options="options1" :series="options1.series1"></apexchart>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
     </q-page>
 </template>
@@ -64,6 +116,10 @@
 <script>
 /* eslint-disable */
 import VueApexCharts from "vue3-apexcharts";
+import { getYearWorkshopForFilterHome, getCountAllDataWorkshop, getCountWorkshopByStatus, getSumAllPriceEstimationWorkshop } from '../../../api/AdminWorkshopServices'
+import { LocalStorage } from 'quasar'
+import help from '../../../js/help'
+import ValidationFunction from '../../../js/ValidationFunction'
 
 export default {
   components: {
@@ -71,27 +127,78 @@ export default {
   },
   data () {
     return {
+      ValidationFunction,
+      help,
+      loader: false,
+      user: {},
+      totalEstimasi: null,
+      listYear: [],
+      listMonth: [
+        { label: 'January', value: 1},
+        { label: 'February', value: 2},
+        { label: 'March', value: 3},
+        { label: 'April', value: 4},
+        { label: 'May', value: 5},
+        { label: 'June', value: 6},
+        { label: 'July', value: 7},
+        { label: 'August', value: 8},
+        { label: 'September', value: 9},
+        { label: 'October', value: 10},
+        { label: 'November', value: 11},
+        { label: 'December', value: 12},
+      ],
+      dataHitAPI: {
+        adminID: null,
+        month: {
+          label: null,
+          value: null
+        },
+        month2: {
+          label: null,
+          value: null
+        },
+        month3: {
+          label: null,
+          value: null
+        },
+        year: {
+          label: null,
+          value: null
+        },
+        year2: {
+          label: null,
+          value: null
+        },
+        year3: {
+          label: null,
+          value: null
+        }
+      },
       options1: {
         chart: {
           id: 'vuechart-example'
         },
         xaxis: {
-          categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30']
+          categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
           // categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         },
         series1: [{
           name: 'series-1',
-          data: [30, 40, 45, 50, 49, 60, 70, 91, 100, 70,30, 40, 45, 50, 49, 60, 70, 91, 100, 70,30, 40, 45, 50, 49, 60, 70, 91, 100, 70]
+          data: []
         }],
+        colors: ['#21a17b']
       },
       options2: {
-        series: [
+        series2: [
           {
-            name: 'Approved',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 90]
+            name: 'Done',
+            data: []
           },{
             name: 'Rejected',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 50, 70]
+            data: []
+          },{
+            name: 'Cancel',
+            data: []
           }
         ],
         chart: {
@@ -105,7 +212,7 @@ export default {
             endingShape: 'rounded'
           },
         },
-        colors:['#21a17b','#d32f2f'],
+        colors:['#21a17b','#d32f2f','#373c68'],
         dataLabels: {
           enabled: false
         },
@@ -115,7 +222,7 @@ export default {
         //   colors: ['transparent']
         // },
         xaxis: {
-          categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
         },
         // yaxis: {
         //   title: {
@@ -136,7 +243,6 @@ export default {
       spark1: {
         chart: {
           id: 'sparkline1',
-          // group: 'sparklines',
           type: 'area',
           sparkline: {
             enabled: true
@@ -153,9 +259,9 @@ export default {
         },
         series: [{
           name: 'Total Estimation',
-          data: [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46] //isi datanya disini
+          data: [] //isi datanya disini
         }],
-        labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`), //ini tanggal
+        labels: [...Array(31).keys()].map(n => `2018-09-0${n+1}`), //ini tanggal
         yaxis: {
           min: 0
         },
@@ -167,7 +273,7 @@ export default {
         },
         colors: ['#21a17b'],
         title: {
-          text: '$424,652',
+          text: ValidationFunction.convertToRupiah(3300000),
           offsetX: 30,
           style: {
             fontSize: '24px',
@@ -175,7 +281,7 @@ export default {
           }
         },
         subtitle: {
-          text: 'Sales',
+          text: 'Monthly Total Estimation Income',
           offsetX: 30,
           style: {
             fontSize: '14px',
@@ -186,8 +292,97 @@ export default {
     }
   },
   created() {
+    this.user = LocalStorage.getItem('autoRepairUser').data.user
+    // this.doGetFirstLoadData()
+  },
+  mounted(){
+    this.doGetFirstLoadData()
   },
   methods: {
+    doGetFirstLoadData(){
+      this.loader = true
+
+      this.dataHitAPI.adminID = this.user.id
+      this.dataHitAPI.month.value = help.formatToday(help.data().m_1)
+      this.dataHitAPI.month.label = help.formatToday(help.data().m_2)
+
+      this.dataHitAPI.month2.value = help.formatToday(help.data().m_1)
+      this.dataHitAPI.month2.label = help.formatToday(help.data().m_2)
+
+      this.dataHitAPI.month3.value = help.formatToday(help.data().m_1)
+      this.dataHitAPI.month3.label = help.formatToday(help.data().m_2)
+
+      getYearWorkshopForFilterHome().then(response =>{
+        response.data.map(val => {
+          let tempObj = {
+            label: null
+          }
+          tempObj.label = val.year
+          this.listYear.push(tempObj)
+        })
+        this.dataHitAPI.year.label = this.listYear[0].label
+        this.dataHitAPI.year2.label = this.listYear[0].label
+        this.dataHitAPI.year3.label = this.listYear[0].label
+        this.doGetCountAllDataWorkshop()
+        this.doGetCountWorkshopByStatus()
+        this.doGetSumAllPriceEstimationWorkshop()
+      })
+      this.loader = false
+    },
+    doGetSumAllPriceEstimationWorkshop(){
+      this.loader = true
+      
+      this.spark1.series[0].data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+      this.spark1.title.text = ''
+      getSumAllPriceEstimationWorkshop(this.user.id, this.dataHitAPI.month3.value, this.dataHitAPI.year3.label)
+      .then(response => {
+        response.data.ReturnDaily.map(val => {
+          this.spark1.series[0].data[val.day-1] = val.Total_Estimasi
+        })
+          this.totalEstimasi = response.data.ReturnTotal.Total_Estimasi // revisi, belum bisa masuk ke title, text biar jadi dynamis
+      })
+
+      this.loader=false
+    },
+    doGetCountAllDataWorkshop(){
+      this.loader = true
+
+      this.options1.series1[0].data =  ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
+
+      getCountAllDataWorkshop(this.user.id, this.dataHitAPI.month.value, this.dataHitAPI.year.label)
+      .then(response => {
+        response.data.map(val => {
+          this.options1.series1[0].data[val.day-1] = val.countData
+        })
+      })
+      this.loader = false
+    },
+    doGetCountWorkshopByStatus(){
+      this.loader = true
+
+      this.options2.series2[0].data = ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
+      this.options2.series2[1].data = ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
+      this.options2.series2[2].data = ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
+
+      getCountWorkshopByStatus(this.user.id, this.dataHitAPI.month2.value, this.dataHitAPI.year2.label).then(response => {
+        
+        console.log(response.data)
+
+        response.data.doneArray.map(val => {
+          this.options2.series2[0].data[val.day-1] = val.countData
+        })
+
+        response.data.rejectedArray.map(val => {
+          this.options2.series2[1].data[val.day-1] = val.countData
+        })
+
+        response.data.cancelledArray.map(val => {
+          this.options2.series2[2].data[val.day-1] = val.countData
+        })
+      })
+
+      this.loader = false
+    }
   }
 }
 </script>
