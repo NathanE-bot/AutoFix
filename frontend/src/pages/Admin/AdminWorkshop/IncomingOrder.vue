@@ -15,7 +15,7 @@
                                 <span>{{ incoming.fullName}}</span>
                             </div>
                             <div>
-                                <q-badge class="tf-capitalize mr-10 p-5" :color="incoming.scheduleStatus == 'waiting confirmation' ? 'orange-5' : 'accent'" text-color="#ffffff" :label="incoming.scheduleStatus" />
+                                <q-badge class="tf-capitalize mr-10 p-5" color="orange-5" text-color="#ffffff" :label="incoming.scheduleStatus" />
                             </div>
                         </div>
                         <q-separator/>
@@ -176,43 +176,43 @@ export default {
                 tempListIncoming = response.data.listSchedule
                 tempListServiceDetails = response.data.listDetails
                 tempListDataCustomer = response.data.listDataCustomer
-
-                tempListIncoming.forEach(el1 => {
-                    let tempObject = {
-                        serviceDetail: {
-                            periodicService: {},
-                            generalServices: []
-                        }
-                    }
-
-                    let tempObjectCustomer = {
-                        customerID: null,
-                        fullName: '',
-                        phoneNumber: ''
-                    }
-
-                    tempListServiceDetails.forEach(el2 => {
-                        if(el2.scheduleID === el1.scheduleID){
-                            if(el2.serviceType === 'servis umum'){
-                                tempObject.serviceDetail.generalServices.push(el2)
-                            }else{
-                                tempObject.serviceDetail.periodicService = el2
+                if(!help.isObjectEmpty(tempListIncoming)){
+                    tempListIncoming.forEach(el1 => {
+                        let tempObject = {
+                            serviceDetail: {
+                                periodicService: {},
+                                generalServices: []
                             }
                         }
-                    })
 
-                    tempListDataCustomer.forEach(el2 => {
-                        if(el1.customerID === el2.customerID){
-                            tempObjectCustomer = el2
+                        let tempObjectCustomer = {
+                            customerID: null,
+                            fullName: '',
+                            phoneNumber: ''
                         }
-                    })
 
-                    tempObject = { ...tempObject, ...el1, ...tempObjectCustomer}
-                    this.listIncoming.push(tempObject)
-                })
+                        tempListServiceDetails.forEach(el2 => {
+                            if(el2.scheduleID === el1.scheduleID){
+                                if(el2.serviceType === 'servis umum'){
+                                    tempObject.serviceDetail.generalServices.push(el2)
+                                }else{
+                                    tempObject.serviceDetail.periodicService = el2
+                                }
+                            }
+                        })
+
+                        tempListDataCustomer.forEach(el2 => {
+                            if(el1.customerID === el2.customerID){
+                                tempObjectCustomer = el2
+                            }
+                        })
+
+                        tempObject = { ...tempObject, ...el1, ...tempObjectCustomer}
+                        this.listIncoming.push(tempObject)
+                    })
+                }
                 console.log('listIncoming',this.listIncoming)
             })
-
             this.loader = false
         },
         doSetTempScheduleID(scheduleID, action) {
