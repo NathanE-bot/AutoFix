@@ -3,19 +3,19 @@
         <div class="w-80 m-auto">
             <div class="text-h5 fw-semibold py-20 txt-white">Accepted Order</div>
         </div>
-        <div class="white-1bg w-80 m-auto py-20" v-if="!help.isObjectEmpty(listAccepted)">
-            <q-card v-for="accepted in listAccepted" :key="accepted.scheduleID" class="adminWorkshop-card w-80">
+        <div class="w-80 m-auto py-20" v-if="!help.isObjectEmpty(listAccepted)">
+            <q-card v-for="accepted in listAccepted" :key="accepted.scheduleID" class="adminWorkshop-card w-80 br-10px-i">
                 <!-- <q-scroll-area
                 :thumb-style="thumbStyle"
                 :bar-style="barStyle"
                 class="list-workshop-scrollbar h-80"> -->
-                    <q-card-section >
-                        <div class="flex j-sp-between mb-10">
-                            <div class="flex flex-center flex-dir-col">
-                                <span class="fw-semibold p-10">{{ accepted.fullName}}</span>
+                    <q-card-section>
+                        <div class="flex flex-center j-sp-between mb-10">
+                            <div class="fw-semibold p-10">
+                                <span>{{ accepted.fullName }}</span>
                             </div>
-                            <div class="flex primary-bg px-15 br-10 br-20px align-item-center txt-white tf-capitalize">
-                                {{ accepted.scheduleStatus }}
+                            <div>
+                                <q-badge class="tf-capitalize mr-10 p-5" color="accent" text-color="#ffffff" :label="accepted.scheduleStatus" />
                             </div>
                         </div>
                         <q-separator/>
@@ -66,9 +66,9 @@
                                 class="tf-capitalize"
                             />
                             <q-btn
-                                @click="doSetTempScheduleID(accepted.scheduleID, 'done')"
+                                @click="doHandleIncomingOrder('done', '', accepted.scheduleID)"
                                 color="primary" rounded unelevated padding="4px 24px"
-                                label="Done"
+                                label="Finish"
                                 class="tf-capitalize"
                             />
                         </div>
@@ -76,23 +76,23 @@
                 <!-- </q-scroll-area> -->
             </q-card>
         </div>
-        <div v-else class="white-1bg w-80 m-auto py-20 text-align-center">
+        <div v-else class="w-80 m-auto py-20 text-align-center txt-white">
             No Data
         </div>
         <q-dialog v-model="promptDone">
-            <q-card style="min-width: 480px" class="py-20" >
+            <q-card style="min-width: 480px" class="py-20 br-10px-i">
                 <q-card-section>
                     <div class="black-1 m-auto fw-semibold text-align-center">Finish Schedule?</div>
                 </q-card-section>
 
                 <q-card-actions align="center" class="text-primary">
-                    <q-btn label="Cancel" v-close-popup  @click="promptReject = false"/>
+                    <q-btn label="Cancel" v-close-popup @click="promptReject = false"/>
                     <q-btn color="primary" label="Done" v-close-popup @click="doHandleIncomingOrder('done', '')"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
         <q-dialog v-model="promptCancel">
-            <q-card style="min-width: 640px" class="p-16">
+            <q-card style="min-width: 640px" class="p-16 br-10px-i">
                 <q-card-section>
                     <div class="black-1 m-auto fw-semibold text-align-center">Please insert your reason for Cancelling</div>
                 </q-card-section>
@@ -106,7 +106,8 @@
                     </q-input>
                 </div>
                 <q-card-actions align="right" class="text-primary">
-                    <q-btn padding="4px 16px" color="primary" rounded label="Submit" v-close-popup @click="doHandleIncomingOrder('cancel',this.cancelReason)"/>
+                    <q-btn padding="4px 16px" color="primary" rounded flat no-caps label="Cancel" v-close-popup />
+                    <q-btn padding="4px 16px" color="primary" rounded unelevated no-caps label="Submit" v-close-popup @click="doHandleIncomingOrder('cancel',this.cancelReason, null)"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -218,26 +219,37 @@ export default {
             }
             this.tempManageScheduleID = scheduleID
         },
-        doHandleIncomingOrder(action, reason) {
+        doHandleIncomingOrder(action, reason, id) {
             this.loader = true
             if(action === 'done'){
-                doDoneScheduleByAdmin(this.tempManageScheduleID).then(response => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: response.data.message,
-                    }).then(response => {
-                        this.doGetAcceptedOrder()
-                    })
-                }).catch(err => {
-                    console.log(err)
-                    Swal.fire({
-                        icon: 'error',
-                        title: err.response.data.message
-                    }).then(() => {
-                        this.loader = false
-                    })
+                this.tempManageScheduleID = id
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Finish schedule?',
+                    confirmButtonText: 'Finish',
+                    confirmButtonColor: '#21a17b',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancel',
+                }) .then((result) => {
+                    if(result.isConfirmed) {
+                            doDoneScheduleByAdmin(this.tempManageScheduleID).then(response => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: response.data.message,
+                            }).then(response => {
+                                this.doGetAcceptedOrder()
+                            })
+                        }).catch(err => {
+                            console.log(err)
+                            Swal.fire({
+                                icon: 'error',
+                                title: err.response.data.message
+                            }).then(() => {
+                                this.loader = false
+                            })
+                        })
+                    }
                 })
-                this.promptAccept = false
             }else if(action === 'cancel'){
                 let submitReject = {}
                 submitReject = { scheduleID: this.tempManageScheduleID, description: reason}

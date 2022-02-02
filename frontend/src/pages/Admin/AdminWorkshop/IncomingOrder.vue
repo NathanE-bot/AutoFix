@@ -107,7 +107,7 @@
                 </div>
                 <q-card-actions align="right" class="text-primary">
                     <q-btn padding="4px 16px" color="primary" rounded flat no-caps label="Cancel" v-close-popup />
-                    <q-btn padding="4px 16px" color="primary" rounded unelevated no-caps label="Submit" v-close-popup @click="doHandleIncomingOrder('reject',this.rejectReason)"/>
+                    <q-btn padding="4px 16px" color="primary" rounded unelevated no-caps label="Submit" v-close-popup @click="doHandleIncomingOrder('reject',this.rejectReason, null)"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>

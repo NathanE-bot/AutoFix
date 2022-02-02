@@ -174,3 +174,8 @@
     @include width_preset(190px);
     @include height_preset(190px);
 }
+
+.workshop-img-favorite{
+    @include width_preset(60px);
+    @include height_preset(60px);
+}

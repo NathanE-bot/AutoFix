@@ -7,7 +7,7 @@
                         <div class="d-flex a-center q-gutter-x-sm">
                             <div>
                                 <div v-if="!help.isDataEmpty(item.workshopLogo)">
-                                    <img class="responsive_img fit-content" width="80" :src="item.workshopLogo" alt="">
+                                    <img class="responsive_img fit-content workshop-img-favorite" :src="item.workshopLogo" alt="">
                                 </div>
                                 <div class="no-logo-layout-3 fs-12" v-else>
                                     No Logo
