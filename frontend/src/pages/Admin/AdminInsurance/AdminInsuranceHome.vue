@@ -190,13 +190,6 @@ export default {
     // this.updateSeriesLine()
   },
   methods: {
-    setDataLineChart() {
-      // setInterval(() => {
-      //   this.series[0].data.splice(0, 1);
-      //   this.series[0].data.push(this.getRandomArbitrary(0, 99));
-      //   this.updateSeriesLine();
-      // }, 3000);
-    },
     updateSeriesLine() {
       this.$refs.realtimeChart.updateSeries([{
         data: this.spark1.series[0].data,
@@ -241,7 +234,7 @@ export default {
       
       getCountDataTotalClaimedInsuranceByStatus(this.user.id, this.dataHitAPI.year2.label)
       .then(response => {
-
+        console.log(response.data)
         response.data.approvedArray.map(val => {
           this.options2.series2[0].data[val.months-1] = val.countData
         })

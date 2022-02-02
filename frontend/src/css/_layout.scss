@@ -232,6 +232,12 @@
         &-i{
             border-radius: #{$i}px !important;
         }
+
+        &-i-svg{
+            svg{
+                border-radius: #{$i}px !important;
+            }
+        }
     }
 }
 
@@ -328,3 +334,4 @@
     grid-template-columns: auto auto auto auto;
     flex-direction: column;
 }
+

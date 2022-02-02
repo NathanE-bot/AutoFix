@@ -84,3 +84,19 @@ export function makeGaleryWorkshopPath(workshopID, workshopPictureID, workshopPi
 //   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
 //   return axios.post(localURL + '/api/updateGaleryWorkshop?workshopID=' + workshopID + '&workshopPictureID=' + workshopPictureID, workshopPicture, authorization)
 // }
+
+export function getYearWorkshopForFilterHome(){
+  return axios.get(localURL + '/api/getYearWorkshopForFilterHome' )
+}
+
+export function getSumAllPriceEstimationWorkshop(adminID, month, year){
+  return axios.get(localURL + '/api/SumAllPriceEstimationWorkshop?adminID=' + adminID + '&month=' + month + '&year=' + year)
+}
+
+export function getCountAllDataWorkshop (adminID, month, year) {
+  return axios.get(localURL + '/api/countAllDataWorkshop?adminID=' + adminID + '&month=' + month + '&year=' + year)
+}
+
+export function getCountWorkshopByStatus(adminID, month, year){
+  return axios.get(localURL + '/api/countWorkshopByStatus?adminID=' + adminID + '&month=' + month + '&year=' + year)
+}
