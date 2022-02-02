@@ -149,7 +149,7 @@
                             <template v-slot:append>
                                 <q-icon name="event" class="cursor-pointer">
                                     <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
-                                        <q-date v-model="form.incidentDate">
+                                        <q-date v-model="form.incidentDate" :options="(date) => date <= help.formatToday(help.data().dmy_3)">
                                         <div class="row items-center justify-end">
                                             <q-btn v-close-popup label="Close" color="primary" flat />
                                         </div>
@@ -236,12 +236,11 @@
                             <div class="col-12">
                                 <div>
                                     <div class="text-h6">Choose the type of workshop you want</div>
-                                    <div class="text-subtitle2 red-txt">*If there is a workshop of your choice, please <b>include it in the chronology</b></div>
+                                    <div class="text-subtitle2 red-txt mb-10">*If there is a workshop of your choice, please <b>include it in the chronology</b> and pick "Workshop of my own choice".</div>
                                 </div>
                                 <q-select
                                     v-model="form.workshopTypeObj"
                                     :options="vendorWorkshops"
-                                    lazy-rules="ondemand"
                                     :error="help.isObjectEmpty(form.workshopTypeObj) && errorMessage"
                                     outlined class="default-select-2 w-80"
                                 >
@@ -297,6 +296,10 @@
                                     <span>7. <b>Damaged</b> section up close while <b>pointing</b> at the damaged direction</span>
                                     <span>8. Chassis number and vehicle kilometer</span>
                                 </div>
+                            </div>
+                            <div class="d-flex flex-dir-col">
+                                <span class="mt-8"><b>SIDE NOTE: </b> Please input <b>photo's name</b> first before uploading the photo.</span>
+                                <span class="mt-8">Best photo format is landscape and minimal resolution of 300 x 150</span>
                             </div>
                         </div>
                     </div>
@@ -385,14 +388,14 @@
 import Swal from 'sweetalert2'
 import help from '../../js/help'
 import Auth from '../../js/AuthValidation'
-import { getVendorInsuranceByID, makeInsuranceClaimApi, makePathInsurance } from '../../api/InsuranceService'
+import { getVendorInsuranceByID, makeInsuranceClaimApi, makePathInsurance, updateInsurace } from '../../api/InsuranceService'
 
 export default {
     data () {
         return{
             help,
             loader: false,
-            step: 4,
+            step: 1,
             window: {
                 width: 0,
                 height: 0,
@@ -434,7 +437,6 @@ export default {
                 chronology: null, // DONE
             },
             imageBinary: {},
-            forSavingImage: [],
             imageForm: [],
             rules: {
                 //STEPPER 1
@@ -582,20 +584,8 @@ export default {
         },
         getURLForImage(item, index){
             let _this = this
-            // let tempObj = {
-            //     documentationInsuranceName: item.name,
-            //     imagePath: item.filePath
-            // }
             makePathInsurance(item.filePath, item.name, item.imageFile, _this.accessToken).then(response => {
-                // let tempObj = {
-                //     name: item.name,
-                //     uploaded: true,
-                //     filePath: response.data.filePath,
-                //     insuranceID: response.data.insuranceID
-                // }
                 _this.imageForm[index].filePath = response.data.filePath
-                console.log(_this.imageForm)
-
             }) .catch((error) => {
                 console.log(error.response)
                 Swal.fire ({
@@ -626,6 +616,36 @@ export default {
                 this.imageForm.push(tempObj)
             }
         },
+        doUploadPhotoDocumentInsurance () {
+            let _this = this
+            let insuranceDocument = _this.imageForm
+            updateInsurace(_this.vendorInsurance.id, insuranceDocument, _this.accessToken).then(response => {
+                if(response.data.message == 'Success') {
+                    Swal.fire ({
+                        icon: "success",
+                        title: "Form Submitted",
+                        text: "Your request is being processed"
+                    }) .then (() => {
+                        _this.changePage('/insurance/status-insurance')
+                        _this.loader = false
+                    })
+                } else {
+                    _this.loader = false
+                    Swal.fire ({
+                        icon: "error",
+                        title: "Upload image error"
+                    })
+                }
+                
+            }) .catch((error) => {
+                console.log(error.response)
+                _this.loader = false
+                Swal.fire ({
+                    icon: "error",
+                    title: "Please contact our admin"
+                })
+            })
+        },
         doSubmitInsuranceForm () {
             let _this = this
             _this.loader = true
@@ -634,26 +654,28 @@ export default {
             _this.form.incidentDate = help.defaultFormat(_this.form.incidentDate, help.data().dmy_5)
             _this.form.workshopType = _this.form.workshopTypeObj.label
             _this.form.workshopTypeID = _this.form.workshopTypeObj.value
-            if(help.isDataEmpty(_this.form.isOnlineTaxi) || !_this.form.isOnlineTaxi){
+            if(!_this.form.isOnlineTaxi){
                 _this.form.taxiOnlineStatus = 'no'
             } else {
                 _this.form.taxiOnlineStatus = 'yes'
             }
-            if(help.isDataEmpty(_this.form.wasHit) || !_this.form.wasHit){
+            if(!_this.form.wasHit){
                 _this.form.incidentStatus = 'no'
             } else {
                 _this.form.incidentStatus = 'yes'
             }
             console.log(_this.form)
             makeInsuranceClaimApi(_this.user.id, _this.vendorInsuranceID, _this.form, _this.accessToken).then(response => {
-                Swal.fire ({
-                    icon: "success",
-                    title: "Form Submitted",
-                    text: "Your request is being processed"
-                }) .then (() => {
-                    _this.changePage('/insurance/status-insurance')
+                if(response.data.message == 'Success'){
+                    _this.doUploadPhotoDocumentInsurance()
+                } else {
                     _this.loader = false
-                })
+                    Swal.fire ({
+                        icon: "error",
+                        title: "Form Error"
+                    })
+                }
+                
             }) .catch((err) => {
                 console.log(err.response)
                 _this.loader = false
@@ -664,8 +686,11 @@ export default {
                 })
             })
         },
+        // doCheckPhotoUploadedMin10Photo () {
+        //     // Rencana mau buat cek min 10 foto upload
+        // },
         doCheckFormPerStepper(refs){
-            refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
+            // refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
             if(this.step == 1 && this.$refs.formStepper1) {
                 this.$refs.formStepper1.validate().then(success => {
                     if (success) {

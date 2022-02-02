@@ -195,8 +195,8 @@ class InsuranceController extends Controller
     public function updateInsurace(Request $req){
         try{
             $validator = Validator::make($req->all(), [
-                'insuranceDocument.*.imagePath'=> ['required|String|max:255'],
-                'insuranceDocument.*.documentationInsuranceName'=>['required|String|max:255']
+                'insuranceDocument.*.filePath'=> ['required|string|max:255'],
+                'insuranceDocument.*.name'=>['required|string|max:255']
             ]);
             if ($validator->fails()) {
                 return response()->json([
@@ -204,19 +204,18 @@ class InsuranceController extends Controller
                     'message'=>$validator->errors()
                 ], 401);
             }
-            foreach ($variable as $key => $value) {
-                # code...
+            foreach ($req->insuranceDocument as $key => $value) {
+                $addDocumentationInsurance = new DocumentationInsurance;
+                $addDocumentationInsurance->insuranceID = $req->insuranceID;
+                $addDocumentationInsurance->documentationInsuranceName = $req->insuranceDocument[$key]['name'];
+                $addDocumentationInsurance->documentationPicture = $req->insuranceDocument[$key]['filePath'];
             }
-            $addDocumentationInsurance = new DocumentationInsurance;
-            $addDocumentationInsurance->insuranceID = $req->insuranceID;
-            $addDocumentationInsurance->documentationInsuranceName = $req->insuranceDocument[$key]['documentationInsuranceName'];
-            $addDocumentationInsurance->documentationPicture = $req->insuranceDocument[$key]['imagePath'];
         } catch (Exception $err){
             return response()->json($err, 500);
         }
 
         return response()->json([
-            'objectReturn' => $scheduleDetail
+            'message' => 'success'
         ], 200);
     }
 
