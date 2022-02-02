@@ -169,3 +169,8 @@
     align-items: center;
     color: rgba(0,0,0,.2);
 }
+
+.about-us-img{
+    @include width_preset(190px);
+    @include height_preset(190px);
+}
