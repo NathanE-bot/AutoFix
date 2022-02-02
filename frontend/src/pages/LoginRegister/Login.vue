@@ -14,7 +14,7 @@
                   <div class="d-flex flex-dir-col a-center pos-back-btn-right">
                     <q-btn
                       @click="backToLandingPage()"
-                      unelevated round outline
+                      round flat
                       size="lg"
                     >
                       <i class="fas fa-chevron-left fs-30"></i>

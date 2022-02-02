@@ -748,7 +748,7 @@ export default {
       user: {},
       showError: false,
       loader: false,
-      workshopTab: 'gallery',
+      workshopTab: 'workshop',
       accessToken: null,
       dialogEditCarServices: false,
       dialogEditCarTypeAndModel: false,
