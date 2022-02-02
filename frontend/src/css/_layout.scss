@@ -179,9 +179,11 @@
         left: 10px;
     }
     > .fixed-initial-left {
-        position: initial;
-        top: 0px;
+        // position: initial;
+        // top: 0px;
         left: 10px;
+        position: absolute;
+        top: -34px;
     }
 }
 // sticky
