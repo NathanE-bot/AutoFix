@@ -131,5 +131,8 @@ Route::get('countDataTotalClaimedInsurance', 'Api\AdminInsuranceController@count
 Route::get('getYearInsuranceForFilterHome', 'Api\AdminInsuranceController@getYearInsuranceForFilterHome');
 Route::get('countDataTotalClaimedInsuranceByStatus', 'Api\AdminInsuranceController@countDataTotalClaimedInsuranceByStatus');
 
+//notif
+Route::get('getNoticationList', 'Api\notificationController@getNoticationList');
+
 
 
