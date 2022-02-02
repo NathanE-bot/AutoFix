@@ -8,10 +8,17 @@ export default
 }
 
 // Need Access Token
-export function updateDataUserProfile(userCred) {
-  return axios.post(localURL + '/api/updateDataUserProfile', userCred)
+export function updateDataUserProfile(userCred, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/updateDataUserProfile', userCred, authorization)
 }
 
-export function saveImgTest(fileImg, id){
-  return axios.post(localURL + '/api/saveImg?id=' + id, fileImg)
+export function saveImgTest(fileImg, id, userToken){
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.post(localURL + '/api/saveImg?id=' + id, fileImg, authorization)
+}
+
+export function deleteUserAccount(userID, userToken) {
+  const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
+  return axios.delete(localURL + '/api/deleteUserAccount?userID=' + userID, authorization)
 }

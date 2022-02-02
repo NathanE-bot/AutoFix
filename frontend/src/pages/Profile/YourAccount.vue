@@ -1,14 +1,20 @@
 <template>
     <q-page class="p-20">
         <div class="row">
-            <div class="col-md-9 col-sm-12 d-flex a-start m-auto text-white" style="min-height:60px">
+            <div class="col-md-9 col-sm-12 d-flex a-baseline m-auto text-white" style="min-height:60px">
                 <div class="text-h6 mr-20">Your Profile</div>
-                <div v-if="isEditable">
-                    <i class="fas fa-pen fs-20 edit-icon" @click="isEditable = !isEditable"></i>
-                    <q-tooltip class="bg-primary text-body2 txt-white" anchor="center end" self="center start">
-                        Edit Profile
-                    </q-tooltip>
-                </div>
+                <q-btn
+                    v-if="isEditable"
+                    @click="isEditable = !isEditable"
+                    icon="fas fa-pen" flat round :loading="loader"
+                    class="edit-pen-btn edit-pen-btn-active"
+                    >
+                        <q-tooltip
+                            class="text-body2 txt-white bg-primary"
+                            anchor="center left" self="center end" :offset="[10, 0]">
+                            Edit Profile
+                        </q-tooltip>
+                </q-btn>
                 <div v-else>
                     <q-btn
                         @click="doUpdateUserData()"
@@ -36,7 +42,7 @@
                         <!-- <q-badge v-if="!help.isDataEmpty(userDisplay.image) && !isEditable" class="discardDP cursor-pointer" rounded color="red" @click="doClearImage()">X</q-badge> -->
                         <img :class="['responsive_img fit-content', {'z-opacity w-0-i' : help.isDataEmpty(userDisplay.image)}]" :src="userDisplay.image" id="myImg">
                         <i v-if="help.isDataEmpty(userDisplay.image)" class="fas fa-user grey-5"></i>
-                        <q-btn icon="fas fa-pen" fab-mini class="edit-img-btn cursor-pointer" text-color="white" color="secondary" v-if="!isEditable">
+                        <q-btn icon="fas fa-pen" fab-mini class="edit-img-btn cursor-pointer" text-color="white" color="secondary" v-if="!isEditable" :loading="loader">
                             <div class="input-hide">
                                 <input class="cursor-pointer" type="file" accept=".png,.jpg,.jpeg" id="uploadDPUser" @change="doUploadProfilePicture($event)">
                             </div>
@@ -64,7 +70,7 @@
                     </div>
                     <div>
                         <span>Date of Birth</span>
-                        <q-input v-model="userDisplay.DoB" outlined dense :disable="isEditable" />
+                        <q-input v-model="DoBForDisplay" outlined dense :disable="isEditable" />
                     </div>
                     <div>
                         <span>Display Name</span>
@@ -82,7 +88,7 @@
                     </div>
                 </div>
                 <div class="col-md-9 j-end mt-20">
-                    <q-btn color="negative" unelevated rounded class="tf-capitalize d-flex" @click="doDeleteAccount()" label="Delete Account" />
+                    <q-btn color="negative" unelevated rounded class="tf-capitalize d-flex" @click="doDeleteAccount()" :loading="loader" label="Delete Account" />
                 </div>
             </div>
         </div>
@@ -92,9 +98,10 @@
 <script>
 /* eslint-disable */
 import { requestForgotPasswordEmail } from '../../api/loginRegisterServices'
-import { updateDataUserProfile, saveImgTest } from '../../api/UserService'
+import { updateDataUserProfile, saveImgTest, deleteUserAccount } from '../../api/UserService'
 import { LocalStorage } from 'quasar'
 import help from '../../js/help'
+import Auth from '../../js/AuthValidation'
 import Swal from 'sweetalert2'
 
 export default {
@@ -102,9 +109,9 @@ export default {
         return{
             help,
             loader: false,
-            loader: false,
             tes: 0,
             user: {},
+            userToken: null,
             userDisplay: {
                 id: null,
                 displayName: null,
@@ -115,11 +122,14 @@ export default {
                 image: null,
                 address: null,
             },
-            isEditable: true
+            DoBForDisplay: null,
+            isEditable: true,
+            isUploadPhoto: false
         }
     },
     created () {
-        this.user = LocalStorage.getItem('autoRepairUser').data.user
+        this.user = Auth.getUserDetails()
+        this.userToken =  Auth.getAccessToken()
         this.doInsertUserDisplay(true)
     },
     methods: {
@@ -160,8 +170,9 @@ export default {
             if(typeof this.userDisplay.image !== 'object'){
                 this.doUpdateDataUserProfile()
             } else {
-                saveImgTest(this.userDisplay.image, this.user.id).then(response => {
+                saveImgTest(this.userDisplay.image, this.user.id, this.userToken).then(response => {
                     console.log(response.data)
+                    this.isUploadPhoto = true
                     this.doUpdateDataUserProfile()
                 }) .catch(function (error) {
                     this.loader = false
@@ -169,12 +180,13 @@ export default {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.response.data
+                        text: error.response.message
                     })
                 })
             }
         },
         doInsertUserDisplay (firstLoad) {
+            this.loader = true
             if(firstLoad){
                 this.userDisplay.id = this.user.id
                 this.userDisplay.name = this.user.fullName
@@ -186,8 +198,9 @@ export default {
             this.userDisplay.image = this.user.profilePicture
             this.userDisplay.displayName = this.user.displayName
             this.userDisplay.phoneNumber = this.user.phoneNumber
-            this.userDisplay.DoB = help.defaultFormat(this.user.DoB, help.data().dmy_7)
+            this.DoBForDisplay = help.defaultFormat(this.user.DoB, help.data().dmy_7)
             this.userDisplay.address = this.user.address
+            this.loader = false
         },
         doRequestForgotPasswordEmail () {
             let _this = this
@@ -214,12 +227,12 @@ export default {
         },
         doUpdateDataUserProfile () {    
             let _this = this
-            _this.$q.loading.show({})
+            // _this.$q.loading.show({})
             if(help.isDataEmpty(_this.userDisplay.image)){
                 _this.userDisplay.image = null
             }
-            _this.userDisplay.DoB = help.defaultFormat(_this.userDisplay.DoB, help.data().dmy_5)
-            updateDataUserProfile(_this.userDisplay).then(response => {
+            _this.userDisplay.DoB = help.defaultFormat(_this.DoBForDisplay, help.data().dmy_5)
+            updateDataUserProfile(_this.userDisplay, _this.userToken).then(response => {
                 console.log(response.data)
                 let tempLocalStorage = {}
                 tempLocalStorage = LocalStorage.getItem('autoRepairUser')
@@ -229,19 +242,75 @@ export default {
                 _this.user = LocalStorage.getItem('autoRepairUser').data.user
                 _this.doInsertUserDisplay(false)
                 _this.loader = false
-                _this.$q.loading.hide()
-                _this.$router.go()
+                // _this.$q.loading.hide()
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Your account has been updated.'
+                }) .then(() => {
+                    _this.isEditable = !_this.isEditable
+                    if(_this.isUploadPhoto){
+                        _this.$router.go()
+                    }
+                })
             }) .catch(function (error) {
+                console.log(error.response.data.id)
+                _this.loader = false
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.response.data.id == 1 ? 'Input format error, please check again.' : 'Please contact our admin'
+                })
+            })
+        },
+        doDeleteAccount () {
+            let _this = this
+            Swal.fire({
+                icon: 'warning',
+                title: 'Attention!',
+                text: 'This will delete your account and cannot be restored, proceed?',
+                confirmButtonText: 'Delete Account',
+                confirmButtonColor: '#d32f2f',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel'
+            }) .then((result) => {
+                if(result.isConfirmed){
+                    _this.loader = true
+                    deleteUserAccount(_this.user.id, _this.userToken).then(response => {
+                        console.log(response.data)
+                        _this.loader = false
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Your account has been deleted.'
+                        }) .then(() => {
+                            if(!Auth.doUserLogout()){
+                                _this.loader = false
+                                _this.changePage('/')
+                            }
+                        })
+                    }) .catch((error) => {
+                        _this.loader = false
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: error.response.data
+                        })
+                    })
+                } else {
+                    _this.loader = false
+                }
+            }) .catch((error) => {
                 _this.loader = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: error.response.data
-                })
-            })
+                })          
+            }) 
         },
-        doDeleteAccount () {
-            console.log('This is deleting account')
+        changePage(url){
+            this.$router.push(url)
         }
     }
 }

@@ -133,7 +133,7 @@ class AdminInsuranceController extends Controller
             else{
                 $dataInsuranceDetails = DB::table('insurance_details')
                 ->where('insuranceID','=',$req->insuranceID)
-                ->update(['filePDF'=>'null']);
+                ->update(['filePDF'=>null]);
             }
             return response()->json(['Message'=>'Berhasil'], 200);
         } catch (Exception $err){

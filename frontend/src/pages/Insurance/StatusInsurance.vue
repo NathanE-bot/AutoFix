@@ -20,7 +20,9 @@
             <td class="text-center">
               <q-btn
                 icon="far fa-file"
-                flat round :color="item.insuranceStatus === 'Approved' || item.insuranceStatus === 'Rejected' ? 'primary' : 'grey'"
+                flat round
+                :color="item.insuranceStatus === 'on progress' ? 'grey' : 'primary'"
+                :disable="item.insuranceStatus === 'on progress'"
                 @click="doOpenMenuList(index+1, item.insuranceStatus, item.id)"
               />
             </td>
@@ -46,7 +48,7 @@
           <div class="w-90 j-sp-around flex m-auto">
             <q-btn
               rounded color="primary"
-              :disable="openDetail.filePDF === 'NULL' ? true : false"
+              :disable="openDetail.filePDF === null ? true : false"
               class="tf-capitalize w-30">
               Download PDF
             </q-btn>

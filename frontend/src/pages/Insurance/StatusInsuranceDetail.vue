@@ -1,6 +1,16 @@
 <template>
   <q-page class="flex flex-center insurance_layout_3">
     <div class="flex flex-dir-col w-80 m-auto">
+      <div class="d-flex a-center mb-20">
+        <q-btn
+          @click="goBack()"
+          round flat
+          size="lg" color="white"
+        >
+          <i class="fas fa-chevron-left fs-30"></i>
+        </q-btn>
+        <div class="text-h6 fw-semibold txt-white ml-10">Back</div>
+      </div>
       <q-card class="br-20px">
         <q-card-section>
           <div class="row j-sp-between p-20">
@@ -16,9 +26,9 @@
             />
           </div>
           <div class="col-12 fs-18 px-20">
-            <div class="row py-10">Nama Pengemudi : {{ data.insuredName }}</div>
-            <div class="row py-10">Tanggal : {{ data.claimedInsuranceDate }}</div>
-            <div class="row py-10">Nomor Polis : {{ data.polisNumber }}</div>
+            <div class="row py-10">Driver's Name : {{ data.insuredName }}</div>
+            <div class="row py-10">Claimed Date : {{ data.claimedInsuranceDate }}</div>
+            <div class="row py-10">Polis Number : {{ data.polisNumber }}</div>
           </div>
           <br/>
           <div class="row">
@@ -71,6 +81,9 @@ export default {
         );
       }
     },
+    goBack(){
+      this.$router.go(-1)
+    }
   },
 };
 </script>
