@@ -1,7 +1,7 @@
 <template>
     <q-page>
         <div class="w-80 m-auto">
-            <div class="text-h5 fw-semibold py-20 txt-white">Accepted Order</div>
+            <div class="text-h5 fw-semibold py-20 txt-white" style="border-bottom: 1px solid #3b3b3b">Accepted Order</div>
         </div>
         <div class="w-80 m-auto py-20" v-if="!help.isObjectEmpty(listAccepted)">
             <q-scroll-area
