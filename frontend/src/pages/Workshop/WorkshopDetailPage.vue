@@ -149,7 +149,7 @@
           <div class="text-h6 fw-bold">Contact</div>
           <div class="contact-section">
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex" @click="copyPhoneNum()">
+              <div class="icon-phone-border d-flex cursor-pointer" @click="copyPhoneNum()">
                 <q-icon class="phone-icon" name="phone" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">

@@ -359,7 +359,7 @@
           <div class="row w-94 m-auto">
             <div class="text-h6 fw-semibold mb-20 col-12">Preview Gallery</div>
             <q-carousel
-              v-if="help.isObjectEmpty(jsonDataParam.galleryImagesForPreview) && loader"
+              v-if="help.isObjectEmpty(workshopDetail.workshop_picture)"
               v-model="gallerySlide"
               arrows swipeable thumbnails
               animated infinite :autoplay="10000"

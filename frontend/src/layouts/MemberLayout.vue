@@ -67,7 +67,6 @@ export default {
                 }
                 else {
                     this.forLoad = false
-                    console.log('a')
                     Swal.fire({
                         title: 'Error',
                         text: 'Please login first.',
