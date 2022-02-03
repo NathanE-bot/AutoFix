@@ -10,7 +10,7 @@
     "start": "node server.js",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "heroku-postbuild": "cd client && npm install && quasar build"
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.13.4",
