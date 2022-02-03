@@ -3,9 +3,9 @@ import moment from 'moment'
 import { createNamespacedHelpers } from 'vuex'
 import router from '../router'
 
-const localURL = 'http://127.0.0.1:8000/'
-const vcpURL = 'http://34.126.189.122/'
-const vcpURLBackend = 'http://34.126.189.122:8080/'
+const localURL = 'http://127.0.0.1:8000'
+const vcpURL = 'http://34.126.189.122'
+const vcpURLBackend = 'http://34.126.189.122:8080'
 
 export default {
     data () {
@@ -111,7 +111,7 @@ export default {
         return a[0].filePath
     },
     checkForProduction () {
-        if(window.location.href.includes('http://34.126.189.122/')) {
+        if(window.location.href.includes(vcpURL)) {
             return vcpURLBackend
         }
         return localURL
