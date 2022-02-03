@@ -1,0 +1,51 @@
+.input-outline-profile{
+    input{
+        color: #fff;
+        font-size: 14px;
+    }
+    > div {
+        position: relative;
+        > span {
+            padding: 2px 8px;
+            position: absolute;
+            top: -18px;
+            z-index: 1;
+            background: #212121;
+            left: 8px;
+            font-size: 18px;
+            color: $primary;
+        }
+        > label {
+            .q-field__control::before{
+                border: 1px solid #fff !important;
+            }
+        }
+    }
+    textarea{
+        color: #fff;
+        font-size: 14px;
+    }
+}
+
+.edit-icon{
+    @include transition_mixin (color);
+    cursor: pointer;
+    &:hover{
+        color: $primary;
+    }
+}
+
+.edit-icon-info-state{
+    @include transition_mixin (color);
+    cursor: pointer;
+    &:hover{
+        color: $info;
+    }
+}
+
+.discardDP{
+    z-index: 1;
+    position: absolute;
+    top: 15px;
+    right: 12px;
+}

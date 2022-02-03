@@ -1,0 +1,17 @@
+.edit-car-typemodel-dialog{
+    z-index: 1000;
+    .q-card{
+        border-radius: 10px;
+        width: 620px; 
+        max-width: 70vw;
+        .q-markup-table{
+            border-radius: 10px 10px 0 0;
+        }
+    }
+}
+.edit-car-services-dialog{
+    z-index: 1000;
+    .q-card{
+        border-radius: 10px;
+    }
+}

@@ -1,0 +1,132 @@
+// Background
+.p-bg{
+    background: $dark-theme-bg;
+}
+.bg-transparent{
+    background-color: transparent;
+}
+.primary-bg{
+    background: $primary;
+}
+.secondary-bg{
+    background: $secondary;
+}
+.accent-bg{
+    background: $accent;
+}
+.card_bg_black_2{
+    background-color: $black_2;
+}
+.primary_bg_fade{
+    background-color: rgba($primary, .3);
+}
+.white-bg{
+    background: #ffffff;
+}
+.lightGrey-bg{
+    background: #F2F0F0;
+}
+.grey-1bg{
+    background-color: #FDFDFD;
+}
+.white-1bg{
+    background-color: #FFFFFF;
+}
+.negative_bg_fade-1{
+    background-color: rgba($negative, .1);
+}
+
+// color
+.primary_color{
+    color: $primary;
+}
+.secondary_color{
+    color: $secondary;
+}
+.accent_color{
+    color: $accent;
+}
+.info_color{
+    color: $info;
+    &_i{
+        color: $info !important;
+    }
+}
+
+.black-1{
+    color: $black_1;
+}
+
+.black_2 {
+    color: $black_2;
+}
+.black_3{
+    color: $black_3;
+}
+
+.grey_1{
+    color: $grey_1;
+}
+.grey_2{
+    color: $grey_2;
+}
+.grey_3{
+    color: $grey_3;
+}
+
+.grey-txt{
+    color: #595959;
+}
+
+.grey-4{
+    color: #E0E0E0;
+}
+
+.grey-5{
+    color: #BDBDBD;
+}
+
+.grey-6{
+    color: #9898AE;
+}
+
+.red-txt{
+    color: $negative;
+}
+
+.txt-white{
+    color: #ffffff;
+}
+
+.txt-primary{
+    color: $primary;
+}
+.txt-white{
+    color: $white;
+}
+
+// Class
+.accepted-color{
+    color: $primary;
+}
+
+.rejected-color{
+    color: $red;
+}
+
+.waiting-color{
+    color: $yellow;
+}
+
+.rating_yellow{
+    color: $yellow_1;
+}
+
+.slate_grey{
+    color: slategray;
+}
+
+// FILL --------------------------------------------------
+.svg-grey1{
+    @include svg_color(#6C6B6B);
+}

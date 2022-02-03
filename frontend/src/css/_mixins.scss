@@ -1,0 +1,172 @@
+// All Mixins
+@mixin important_mix($var, $content) {
+    #{$var}: $content !important;
+}
+
+// Grid Mixins
+@mixin flex_grid ($var, $content) {
+    display: flex;
+    #{$var}: $content;
+}
+
+@mixin important_flex_grid ($var, $content) {
+    display: flex;
+    #{$var}: $content !important;
+}
+
+// Width Mixins
+@mixin max_width_height ($max_w, $max_h) {
+    max-width: $max_w;
+    max-height: $max_h;
+}
+
+@mixin min_width_height ($min_w, $min_h) {
+    min-width: $min_w;
+    min-height: $min_h;
+}
+
+@mixin min_max_height ($value) {
+    min-height: $value;
+    max-height: $value;
+}
+
+@mixin width_preset($width) {
+    width: $width;
+    max-width: $width;
+    min-width: $width;
+}
+
+@mixin height_preset($height) {
+    height: $height;
+    max-height: $height;
+    min-height: $height;
+}
+
+// sosmed_box
+@mixin sosmed_box ($bg_c, $c) {
+    background-color: $bg_c;
+    color: $c;
+    border-radius: 10px;
+    padding: 7px;
+    width: 35px;
+    min-width: 35px;
+    min-height: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    i{
+        font-size: 20px;
+    }
+}
+
+// Transition Mixins
+@mixin transition_mixin ($property) {
+    transition: $property 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-property: $property;
+    transition-duration: 0.36s, 0.36s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0s, 0s;
+}
+
+@mixin transition_mixin_duration ($property, $duration) {
+    transition: $property $duration cubic-bezier(0.4, 0, 0.2, 1);
+    transition-property: $property;
+    transition-duration: $duration, $duration;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0s, 0s;
+}
+
+// misc
+@mixin layout_txt($width) {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 4px;
+    border-radius: 5px;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        @include width_preset($width);
+    }
+
+    > span {
+        margin-left: 8px;
+    }
+}
+
+@mixin layout_owh_admin($width) {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 4px;
+    border-radius: 5px;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        @include width_preset($width);
+    }
+
+    > q-toggle {
+        margin-left: 8px;
+    }
+}
+
+@mixin layout_bullet ($width, $height) {
+    .wrapper{
+        display: flex;
+        align-items: center;
+        padding: 4px;
+        .bullet{
+            @include width_preset($width);
+            @include height_preset($height);
+            padding: 1px;
+            background-color: $primary;
+            border-radius: 50%;
+        }
+        .text{
+            margin-left: 6px;
+        }
+    }
+}
+
+@mixin layout_soft_badge ($bg, $c) {
+    display: flex;
+    align-items: center;
+    color: $c;
+    background-color: $bg;
+    padding: 5px 20px;
+    border-radius: 15px;
+
+    > span {
+        margin-right: 8px;
+    }
+
+    > div {
+        display: flex;
+        align-items: center;
+        i{
+            margin-right: 4px;
+        }
+    }
+}
+
+@mixin line_clamp($line) {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// svg color
+@mixin svg_color ($color) {
+    svg{
+        path{
+            fill: $color;
+        }
+    }
+    path{
+        fill: $color;
+    }
+}

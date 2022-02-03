@@ -1,0 +1,55 @@
+.landing-page{
+    background: $dark-theme-bg;
+    .initial-bg{
+        background: $dark-theme-bg;
+        background-size: 115%;
+        background-repeat: no-repeat;
+    }
+    .lp-height{
+        height: 100%;
+        min-height: 600px;
+    }
+    .lp-title{
+        padding-top: 40px;
+        font-size: 40px;
+    }
+    .parallax-lp{
+        .q-parallax__content{
+            justify-content: flex-start;
+        }
+    }
+    .bottom-section{
+        @media (max-width: 500px) {
+            padding: 15px 25px 25px 25px;
+        }
+        padding: 40px 70px 70px 70px;
+        background-image: url('~assets/images/background_img/cogs_black_2.png'), url('~assets/images/background_img/cogs_black_2_inverted.png');
+        background-repeat: no-repeat;
+        background-position-y: 98%, 98%;
+        background-position-x: 0%, 100%;
+        background-size: 25%, 25%;
+    }
+    .btm-lp{
+        .sosmed_section{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .sosmed-box-lp{
+        @include sosmed_box ($primary, $white);
+    }
+    .footer-lp{
+        padding: 16px;
+        background-color: $white;
+        border-top: 1px solid #555555;
+    }
+    .rec-card{
+        @extend %transition_default;
+        box-shadow: 0px 0px 25px rgb(0 0 0 / 15%);
+        &:hover{
+            @extend %transition_default;
+            box-shadow: 5px 0px 25px rgba(33, 161, 123, .15);
+        }
+    }
+}

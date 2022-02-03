@@ -1,0 +1,162 @@
+// ALERT!!!!!!!!!! IMPORTANT!!!!!
+// This is how you use these class
+
+// class="d-flex a-center j-end"
+// class="d-flex j-sp-between"
+// class="d-flex a-baseline" and so on...
+
+
+// Grid css
+
+.d-flex {
+    display: flex;
+    &-i{
+        @include important_mix(display, flex);
+    }
+}
+
+.d-block {
+    display: block;
+    &-i{
+        @include important_mix(display, block);
+    }
+}
+
+.d-grid {
+    display: grid;
+    &-i{
+        @include important_mix(display, grid);
+    }
+}
+
+// Flex 
+
+// flex-direction----------------------------------
+.flex-dir-row,
+.d-flex.flex-dir-row{
+    @include flex_grid(flex-direction, row);
+}
+.flex-dir-col,
+.d-flex.flex-dir-col{
+    @include flex_grid(flex-direction, column);
+}
+
+// flex-wrap---------------------------------------
+.flex-wrap,
+.d-flex.flex-wrap{
+    @include flex_grid(flex-wrap, wrap);
+}
+.flex-nowrap,
+.d-flex.flex-nowrap{
+    @include flex_grid(flex-wrap, nowrap);
+}
+
+// align-content----------------------------------
+.ac-center,
+.d-flex.ac-center{
+    @include flex_grid(align-content, center);
+}
+.ac-end,
+.d-flex.ac-end{
+    @include flex_grid(align-content, flex-end);
+}
+.ac-sp-around,
+.d-flex.ac-sp-around{
+    @include flex_grid(align-content, space-around);
+}
+.aca-sp-between,
+.d-flex.ac-sp-between{
+    @include flex_grid(align-content, space-between);
+}
+.ac-stretch,
+.d-flex.ac-stretch{
+    @include flex_grid(align-content, stretch);
+}
+
+// justify-content-----------------------------------
+.j-start,
+.d-flex.j-start{
+    @include flex_grid(justify-content, flex-start);
+}
+.j-start-i,
+.d-flex.j-start-i{
+    @include important_flex_grid(justify-content, flex-start);
+}
+.j-center-i,
+.d-flex.j-center-i{
+    @include important_flex_grid(justify-content, center);
+}
+.j-center,
+.d-flex.j-center{
+    @include flex_grid(justify-content, center);
+}
+.j-end,
+.d-flex.j-end{
+    @include flex_grid(justify-content, flex-end);
+}
+.j-sp-around,
+.d-flex.j-sp-around{
+    @include flex_grid(justify-content, space-around);
+}
+.j-sp-evenly,
+.d-flex.j-sp-around{
+    @include flex_grid(justify-content, space-evenly);
+}
+.j-sp-between,
+.d-flex.j-sp-between{
+    @include flex_grid(justify-content, space-between);
+}
+.j-stretch,
+.d-flex.j-stretch{
+    @include flex_grid(justify-content, stretch);
+}
+
+// align-items
+.a-center,
+.d-flex.a-center{
+    @include flex_grid(align-items, center);
+}
+.a-start,
+.d-flex.a-start{
+    @include flex_grid(align-items, flex-start);
+}
+.a-end,
+.d-flex.a-end{
+    @include flex_grid(align-items, flex-end);
+}
+.a-stretch,
+.d-flex.a-stretch{
+    @include flex_grid(align-items, stretch);
+}
+.a-baseline,
+.d-flex.a-baseline{
+    @include flex_grid(align-items, baseline);
+}
+
+.d-none{
+    display: none;
+}
+
+.d-only{
+    @media (max-width: 500px) {
+        display: none;
+    }
+}
+
+// width
+.fw{
+    width: 100%;
+}
+.hw{
+    width: 50%;
+}
+
+// height
+.fh{
+    height: 100%;
+}
+
+// Misc
+.ps-center{
+    place-self: center;
+}

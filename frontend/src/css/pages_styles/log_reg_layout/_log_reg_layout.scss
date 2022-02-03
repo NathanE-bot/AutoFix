@@ -1,0 +1,82 @@
+.log-reg-s{
+    background-image: url($background_img_url+'login_register_bg.jpg');
+    background-size: 100%;
+
+    // .center_page{
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: center;
+    //     align-items: center;
+    // }
+
+    %default_log_reg{
+        box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
+        border-radius: 15px;
+
+        .q-card__section{
+            height: 100%;
+            // .row{
+            //     height: 100%;
+            // }
+        }
+        .car-img{
+            max-width: 100%;
+            border-radius: 150px;
+        }
+    }
+    // register
+    .register-card{
+        @extend %default_log_reg;
+        .workshop-bg-register{
+            background-image: url($background_img_url+'workshop_bg_2.jpg');
+        }
+        .r_side{
+            margin-top: 40px;
+            // display: flex;
+            // flex-direction: column;
+            // justify-content: space-around;
+        }
+    }
+    // Login
+    .login-card{
+        @extend %default_log_reg;
+        .l_side{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .forgot_pass_pos{
+            position: absolute;
+            right: 2px;
+            bottom: -8px;
+        }
+    }
+
+    .forgotpass-card{
+        @extend %default_log_reg;
+    }
+
+    .logo-logReg{
+        max-width: 100%;
+    }
+    
+    // posisi Logo
+    .pos-logReg-left{
+        position: relative;
+        top: -15px;
+        left: -5px;
+    }
+    
+    .pos-logReg-right{
+        position: relative;
+        top: -15px;
+        right: -5px;
+    }
+
+    // posisi back button
+    .pos-back-btn-right{
+        position: relative;
+        left: 0px;
+        bottom: 85px;
+    }
+}

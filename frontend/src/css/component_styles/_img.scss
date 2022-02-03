@@ -1,0 +1,181 @@
+%no-logo-layout{
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
+    color: #B3B3B3;
+}
+.no-logo-layout-1{
+    @extend %no-logo-layout;
+    width: 100px;
+}
+.no-logo-layout-2{
+    @extend %no-logo-layout;
+    width: 100px;
+    height: 100px;
+}
+
+.no-logo-layout-3{
+    @extend %no-logo-layout;
+    width: 50px;
+    height: 50px;
+}
+
+.no-logo-layout-4{
+    @extend %no-logo-layout;
+    width: 12.5rem;
+    height: 12.5rem;
+}
+
+.responsive-img{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.responsive_img{
+    max-width: 100%;
+    max-height: 100%;
+    position: relative;
+}
+
+.center-img{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.logo_topRight{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.logo_topLeft{
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.dev_pic{
+    @include max_width_height (190px, 190px);
+}
+
+.iconify{
+    @include max_width_height (30px, 30px);
+}
+.round_btn_layout{
+    position: absolute;
+    top: 4px;
+    left: 5.5px;
+    right: 0px;
+    bottom: 0;
+
+    &_cs{
+        position: absolute;
+        top: 8px;
+        left: 5.5px;
+        right: 0px;
+        bottom: 0;
+    }
+
+    &_gear{
+        position: absolute;
+        top: 5px;
+        left: 5.5px;
+        right: 0px;
+        bottom: 0;
+    }
+}
+
+.detail-workshop-bg{
+    background: rgba(242, 234, 234, 0.6);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    width: 180px;
+    height: 140px;
+    padding: 10px 24px;
+}
+
+.absolute-img-profile{
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -60px;
+    margin-bottom: -35px;
+}
+
+.upload-photo-box-insurance{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0 0 10px 10px;
+}
+
+.upload-photo-box{
+    width: 300px;
+    max-width: 300px;
+    height: 210px;
+    max-height: 210px;
+    background-color: #DEDEDE;
+    border: 1px solid;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    .upload-photo-name{
+        width: 100%;
+        padding: 0 12px;
+        border-bottom: 1px solid;
+        input{
+            text-align: center;
+        }
+    }
+
+    i{
+        color: rgba(0,0,0, .25);
+    }
+}
+
+.fit-content{
+    object-fit: cover;
+    object-position: 50% 50%;
+}
+
+.gallery-images{
+    // @include width_preset(500px);
+    @include height_preset(250px);
+}
+.form-insurance-images{
+    @include width_preset(300px);
+    @include height_preset(150px);
+    background-color: rgba(0,0,0,.1);
+}
+.upload-cloud-icon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0,0,0,.2);
+}
+
+.about-us-img{
+    @include width_preset(190px);
+    @include height_preset(190px);
+}
+
+.workshop-img-favorite{
+    @include width_preset(60px);
+    @include height_preset(60px);
+}

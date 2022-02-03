@@ -1,0 +1,89 @@
+%default_bg_preset{
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+}
+
+%default_bg_preset1{
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-color: white;
+}
+
+.insurance_layout{
+    &_1{
+        @extend %default_bg_preset;
+        background-image: url($background_img_url+'insurance_bg.png');
+    }
+
+    &_2{
+        @extend %default_bg_preset;
+        background-image: url($background_img_url+'insurance2_bg.png');
+    }
+    
+    &_3{
+        @extend %default_bg_preset1;
+        background-image: url($background_img_url+'insurance3_bg.png');
+    }
+}
+
+.insurance_form_layout{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+    
+    .logo-img-form{
+        position: absolute;
+        right: 24px;
+        top: 10px;
+        width: 120px;
+    }
+    .q-stepper__step-inner{
+        padding-bottom: 0;
+    }
+    .q-stepper__dot{
+        @include width_preset(40px);
+        @include height_preset(40px);
+    }
+    .notranslate{
+        // font-size: 16px;
+    }
+    .q-stepper__header{
+        display: none;
+    }
+    .hitter-form-container{
+        border: 1px solid $primary;
+        border-radius: 20px;
+    }
+    .q-stepper__nav{
+        padding: 14px 24px;
+    }
+    .upload-photo-box{
+        width: 300px;
+        max-width: 300px;
+        height: 210px;
+        max-height: 210px;
+        background-color: #DEDEDE;
+        border: 1px solid;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        .upload-photo-name{
+            width: 100%;
+            padding: 0 12px;
+            border-bottom: 1px solid;
+            input{
+                text-align: center;
+            }
+        }
+
+        i{
+            color: rgba(0,0,0, .25);
+        }
+    }
+}

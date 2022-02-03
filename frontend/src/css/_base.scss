@@ -1,0 +1,10 @@
+html,
+body{
+    font-family: $font-family-default;
+    // scroll-behavior: smooth;
+}
+.q-page{
+    > .q-page-height {
+        min-height: inherit;
+    }
+}

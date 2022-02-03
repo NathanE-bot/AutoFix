@@ -1,0 +1,139 @@
+.wd-page{
+  .img-logo{
+    width:100%;
+    max-width:300px
+  }
+  .content-border{
+    // height:2000px;
+    background-color:white
+  }
+  .content-logo{
+    position:relative;
+    bottom:70px;
+    font-size: 20px;
+  }
+  .content-jam-servis{
+    position: relative;
+    bottom: 2%;
+  }
+  .judul-jam{
+    width:50%;
+    border-bottom:solid 1px;
+  }
+  .judul-servis{
+    width:50%;
+    border-bottom:solid 1px;
+  }
+  .vertical-line{
+    border-left: 1px solid;
+    height: 200px;
+  
+    position: relative;
+    bottom: 5%;
+  }
+  .content-jam{
+    width: 50%;
+    border-bottom:solid 1px;
+  }
+  .content-servis{
+    width: 49.9%;
+    border-bottom:solid 1px;
+  }
+  .content-slider{
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    margin: auto;
+  }
+  .border-contact{
+    width: 100%;
+  }
+  .content-contact{
+    border-bottom: solid 1px;
+    font-size: 30px;
+  }
+  .icon-phone-border{
+    background: #F7F7F7;
+    border-radius: 12px;
+    width: 100px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+  }
+  .phone-icon{
+    color: #21A17B;
+    font-size: 30pt;
+  
+  }
+  .content-nomor{
+    display: grid;
+    justify-content: start;
+    width: 75%;
+  }
+  .content-tulisan-nomor-1{
+    font-size: 15pt;
+    font-weight: bold;
+    width: 100%;
+  }
+  .content-tulisan-nomor-2{
+    font-size: 15pt;
+    width: 100%;
+    font-weight: 300;
+  }
+  .button-copy{
+    width: 150px;
+    height: 40px;
+    background: #21A17B;
+    border: 1px solid #21A17B;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 28px;
+    color: #FFFFFF;
+  }
+  .border-phone{
+    width: 100%;
+    border-bottom: solid 1px;
+  }
+  .button-make-shedule{
+    background: #FFFFFF;
+    border: 1px solid #21A17B;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    width: 100%;
+    height: 80px;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 42px;
+    color: #21A17B;
+  }
+  
+  // -----------------
+  .title-workshop{
+    position: absolute;
+    top: 30px;
+  }
+  .rating-workshop{
+    position: absolute;
+    top: 30px;
+    right: 0px;
+  }
+  .w-description{
+    padding: 0px 10px 20px 10px;
+  }
+  .contact-section{
+    > div{
+      &:not(:last-child){
+        border-bottom: 1px solid #D0D0D0 !important;
+      }
+    }
+  }
+  .copy-layout{
+    border: 0;
+    outline: none;
+  }
+}

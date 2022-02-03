@@ -1,0 +1,110 @@
+.form-schedule{
+    .topInfo{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .detailInfo{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+    .modelServisFragment{
+        width: 95%;
+        margin: auto;
+    }
+    .modelServisTitle{
+        font-size: 1.75rem;
+        margin: 2rem 0rem;
+    }
+    .modelServisSubtitle{
+        font-size: 1.1rem;
+        margin: 1.5rem 0rem;
+    }
+    .listServis{
+    width: 95%;
+    margin: auto;
+    border-radius: 10px;
+    }
+
+    .reqTextCard{
+        width: 50%;
+        margin-left: 2.5%;
+        border-radius: 10px;
+    }
+
+    // .infoReqServis{
+    //     // margin: 1rem 0rem;
+    // }
+
+    .reqServis{
+        padding: 2rem 1rem;
+    }
+    .inputTextArea{
+        padding: 0rem 1rem;
+        border: solid 1px black;
+        border-radius: 10px;
+    }
+
+    .itemCheckbox1{
+        width: 20%;
+        margin: 1rem 0rem 1rem 2.65rem;
+    }
+    .estimasiContainer{
+        width: 70%;
+        display: flex;
+        margin-left: 2.5%;
+        margin-top: 2rem;
+        span{
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        p{
+            font-size: 0.65rem;
+        }
+    }
+    .estimasiHarga{
+        background: $white;
+        flex: 1;
+        padding: 2rem 1rem;
+    }
+    .estimasiWaktu{
+        background: #E7E3E354;
+        flex: 1;
+        padding: 2rem 1rem;
+    }
+
+    .general-services{
+        border: 1px solid #000000;
+        border-radius: 10px;
+        display: flex;
+        align-items: flex-start;
+        padding: 12px 20px;
+        .content{
+            display: flex;
+            flex-direction: column;
+            margin-top: 4px;
+        }
+    }
+    .estimation-section{
+        %template-card{
+            min-height: 230px;
+            max-height: 230px;
+            border: 1px solid #AEAEAE;
+            .text-section{
+                position: relative;
+                top: -20px;
+            }
+        }
+        .l-card{
+            @extend %template-card;
+            border-radius: 10px 0 0 10px;
+        }
+        .r-card{
+            @extend %template-card;
+            border-radius: 0 10px 10px 0;
+            background-color: #E7E3E3;
+        }
+    }
+}

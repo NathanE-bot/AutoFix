@@ -1,0 +1,34 @@
+.default-left-scrollbar{
+	margin-left: 10px;
+	.q-scrollarea__content{
+		padding: 0 10px 10px 20px;
+	}
+
+	.q-scrollarea__bar--v{
+		right: unset;
+		left: 0;
+	}
+	.q-scrollarea__thumb--v{
+		right: unset;
+		left: 0;
+	}
+}
+
+.list-workshop-scrollbar{
+	.q-scrollarea__content{
+		padding-right: 24px;
+	}
+}
+
+.review-workshop-scrollbar{
+	.q-scrollarea__content{
+		padding-right: 15px;
+	}
+
+	.my-card{
+		&:not(:last-child){
+			margin: 5px 0 20px 5px;
+		}
+		margin: 5px 0 5px 5px;
+	}
+}

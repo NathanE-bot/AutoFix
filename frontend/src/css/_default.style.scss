@@ -1,0 +1,25 @@
+.bg_img_cog_b{
+    background-image: url('~assets/images/background_img/cog_black_2.png');
+    background-repeat: no-repeat;
+    background-position-x: 85%;
+    background-position-y: 85%;
+}
+
+.link_txt{
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+    &_transition{
+        cursor: pointer;
+        @extend %transition_default;
+        &:hover{
+            @extend %transition_default;
+            text-decoration: underline;
+        }
+    }
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}

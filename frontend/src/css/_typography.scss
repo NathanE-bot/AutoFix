@@ -1,0 +1,59 @@
+// font-size (px)
+@for $i from 0 to 101 {
+    .fs-#{$i}{
+        font-size: #{$i}px;
+    }
+}
+// font weight
+.fw-normal{
+    font-weight: 500;
+}
+.fw-lightbold{
+    font-weight: 500;
+}
+.fw-semibold{
+    font-weight: 600;
+}
+.fw-bold{
+    font-weight: 700;
+}
+.fw-extrabold{
+    font-weight: 800;
+}
+.fw-blackbold{
+    font-weight: 900;
+}
+
+// text transformation
+.tf-capitalize{
+    text-transform: capitalize;
+}
+
+// Title
+.d_title{
+    font-family: $font-family-title-default;
+}
+
+//text-align
+.text-align-center{
+    text-align: center;
+}
+.text-align-left{
+    text-align: left;
+}
+.text-align-right{
+    text-align: right;
+}
+.text-align-last-center{
+    text-align-last: center;
+}
+
+//vertical-align
+.vertical-align-middle{
+    vertical-align: middle;
+}
+
+//align-item
+.align-item-center{
+    align-items: center;
+}

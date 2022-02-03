@@ -1,0 +1,23 @@
+.cardSize{
+    padding: 2rem;
+
+    span{
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+}
+
+.listTable{
+    max-height: 320px;
+    overflow-y: auto;
+    thead th{
+        position: sticky;
+        top: 0;
+        background: #FFFF;
+    }
+    tr{
+        td{
+            text-align: center;
+        }
+    }
+}

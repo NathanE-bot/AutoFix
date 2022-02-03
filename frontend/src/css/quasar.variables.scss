@@ -1,0 +1,57 @@
+// Quasar SCSS (& Sass) Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
+
+// Check documentation for full list of Quasar variables
+
+// Your own variables (that are declared here) and Quasar's own
+// ones will be available out of the box in your .vue/.scss/.sass files
+
+// It's highly recommended to change the default colors
+// to match your app's branding.
+// Tip: Use the "Theme Builder" on Quasar's documentation website.
+
+$primary   : #21a17b;
+$secondary : #3d3d3d;
+$accent    : #373c68;
+
+$dark      : #212121;
+$positive  : #21BA45;
+$negative  : #d32f2f;
+$info      : #31CCEC;
+$warning   : #F2C037;
+
+$red       : #CA2424;
+$yellow    : #CA7424;
+
+// colors
+$white     : #ffffff; 
+$black     : #000000;
+$black_1   : #333333;
+$black_2   : #3D3D3D;
+$black_3   : #414141;
+$grey_1    : #525262;
+$grey_2    : #d9d9d9;
+$grey_3    : #cccccc;
+$grey_4    : #c0c0c0;
+// preset
+// $color_name     : #hexCode;
+$yellow_1  : #ffd600;
+
+
+// Background
+// $dark-theme-header-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 66.09%, #000000 135.08%);
+// $dark-theme-bg: linear-gradient(104.08deg, #212121 6.51%, #343434 62.09%, #000000 125.08%);
+$dark-theme-header-bg: #212121;
+$dark-theme-bg: #212121;
+
+// font-family
+$font-family-default: "Nunito", "Helvetica Neue", "Helvetica" ,"sans-serif";
+$font-family-title-default: "Candal", "sans-serif";
+
+// assets url
+$iconify_url: '~assets/iconify/';
+$background_img_url: '~assets/images/background_img/';
+$preset_url: '~assets/images/preset/';
+$images_url: '~assets/images/';

@@ -1,0 +1,60 @@
+.autorepair-sidebar{
+    .q-drawer{
+        background: inherit;
+        .q-list{
+            padding: 20px 0 0 20px;
+            .q-item__label--header{
+                background-color: $primary;
+                border-radius: 25px;
+                color: white;
+                padding: 35px 16px;
+                .user-img-sidebar{
+                    background-color: #fff;
+                    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.59));
+                }
+            }
+            > .q-item__section{
+                background-color: $primary;
+                border-radius: 25px;
+
+                > .q-item__label{
+                    padding: 24px 16px;
+                }
+
+                > .q-hoverable{
+                    border-radius: 0 25px 25px 0;
+                    background: linear-gradient(to left, $primary 50%, #ffffff 50%) right;
+                    background-size: 200%;
+                    transition: .3s ease-out;
+                    svg{
+                        path{
+                            fill: #ffffff;
+                            transition: .3s ease-out;
+                        }
+                    }
+                    &:hover{
+                        color: $primary;
+                        background-position: left;
+                        svg{
+                            path{
+                                transition: .3s ease-out;
+                                fill: $primary;
+                            }
+                        }
+                    }
+                }
+                > .q-item--active{
+                    transition: none;
+                    background: #ffffff;
+                    color: $primary;
+                    svg{
+                        path{
+                            transition: .3s ease-out;
+                            fill: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,43 @@
+
+@media screen {
+    .screen-for-print{
+        width: 755px;
+        margin: 60px auto 0 auto;
+    }
+}
+@media print{
+    .screen-for-print{
+        width: unset !important;
+        margin: 0 auto 0 auto !important;
+        -webkit-print-color-adjust: exact;
+    }
+    .q-page-container{
+        padding-top: 0 !important;
+    }
+    header{
+        display: none;
+    }
+    .noprint{
+        display: none !important;
+    }
+    .print-img{
+        display: block !important;
+        page-break-inside: avoid;
+    }
+    img{
+        display: block !important;
+        page-break-after: auto !important;
+        page-break-before: auto !important;
+        page-break-inside: avoid !important;
+    }
+}
+
+.logo-img{
+    height: 100px;
+    width: 150px;
+}
+
+.insurrance-logo-img{
+    height: 100px;
+    width: 200px;
+}

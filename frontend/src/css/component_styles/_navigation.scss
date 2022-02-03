@@ -1,0 +1,38 @@
+// SwiperJs Navigation
+.lp-swiper{
+    .q-card{
+        margin: 0 20px 20px 20px;
+        // box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15) !important;
+        border-radius: 10px;
+        background-image: url('~assets/images/background_img/cog_primaryc.png');
+        background-repeat: no-repeat;
+        background-position-x: 95%;
+        background-position-y: 95%;
+    }
+    .swiper-button-prev{
+        color: $primary;
+        left: 20px;
+    }
+    .swiper-button-next{
+        color: $primary;
+        right: 20px;
+    }
+    .swiper-pagination{
+        bottom: -5px !important;
+        
+        .swiper-pagination-bullet{
+            @extend %transition_default;
+            opacity: 1;
+            background-color: #A6E9D5;
+        }
+
+        .swiper-pagination-bullet-active{
+            @extend %transition_default;
+            background-color: #21A17B !important;
+            @media (min-width:500px) {
+                padding: 0 10px;
+            }
+            border-radius: 5px;
+        }
+    }
+}

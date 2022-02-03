@@ -1,0 +1,183 @@
+// q-table
+
+%my-sticky-header-column-table{
+  /* height or max-height is important */
+  padding-bottom: 7px;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  td:first-child{
+    /* bg color is important for td; just specify one */
+    background-color: $primary !important;
+  }
+  tr th{
+    position: sticky;
+    /* higher than z-index for td below */
+    z-index: 2;
+    /* bg color is important; just specify one */
+    background: #fff;
+  }
+  /* this will be the loading indicator */
+  thead tr:last-child th{
+    /* height of all previous header rows */
+    top: 48px;
+    /* highest z-index */
+    z-index: 3;
+  }
+  thead tr:first-child th{
+    top: 0;
+    z-index: 1;
+  }
+  tr:first-child th:first-child{
+    /* highest z-index */
+    z-index: 3;
+  }
+  td:first-child{
+    z-index: 1;
+  }
+  td:first-child, th:first-child{
+    position: sticky;
+    left: 0;
+  }
+}
+
+%my-sticky-column-table{
+    thead tr:first-child th:first-child{
+      /* bg color is important for th; just specify one */
+      background-color: #fff;
+    }
+  
+    td:first-child{
+      background-color: #f5f5dc;
+    }
+  
+    th:first-child, td:first-child{
+      position: sticky;
+      left: 0;
+      z-index: 1;
+    }
+}
+
+%my-sticky-dynamic{
+  /* height or max-height is important */
+  padding-bottom: 7px;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th{ /* bg color is important for th; just specify one */
+    background-color: #fff;
+  }
+  thead tr th{
+    position: sticky;
+    z-index: 1;
+  }
+  /* this will be the loading indicator */
+  thead tr:last-child th{
+    /* height of all previous header rows */
+    top: 48px;
+  }
+  thead tr:first-child th{
+    top: 0;
+  }
+}
+
+.incoming-claim-insurance-table-layout{
+  @extend %my-sticky-header-column-table;
+  height: 393px;
+}
+
+.set-bg-red-rejected{
+  td:first-child{
+  /* bg color is important for td; just specify one */
+  background-color: $negative !important;
+  }
+} 
+.edit-car-spec-table{
+  @extend %my-sticky-dynamic;
+  max-height: 410px;
+  .q-table{
+    th{
+      font-size: 16px;
+      font-weight: 600;
+    }
+    th:not(:first-child){
+      text-align: left;
+    }
+  }
+}
+
+.edit-car-spec-table{
+  @extend .edit-car-spec-table;
+  max-height: unset;
+}
+
+.edit-car-services-table{
+  @extend %my-sticky-dynamic;
+  min-height: 480px;
+  max-height: 480px;
+  .q-table{
+    th{
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+}
+
+.table-sticky{
+  position: relative;
+}
+
+.sticky{
+  position: sticky;
+  top: 0;
+  background: #FFFFFF;
+  z-index: 5;
+}
+
+.table-yeet{
+  .q-table{
+    th, td{
+      text-align: center;
+    }
+  }
+}
+
+%default-markup-table{
+  table{
+    tbody{
+      tr{
+        td{
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.cmth-markup-table{
+  @extend %default-markup-table;
+  box-shadow: none;
+  tr{
+    .numbering{
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+  }
+}
+
+.insurance-status-table{
+  border-radius: 10px;
+  table{
+    padding: 40px 20px;
+    tbody{
+      tr{
+        td{
+          border: none;
+        }
+      }
+    }
+  }
+}
