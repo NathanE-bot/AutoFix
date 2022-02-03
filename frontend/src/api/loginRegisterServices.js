@@ -29,9 +29,9 @@ export function getTempUserID (id) {
 }
 
 export function verififcationEmailWithOtp (otp, encryptUserId) {
-  return axios.post(localURL + '/api/doVerififcationEmailWithOtp?otp=' + otp + '&encryptUserId=' + encryptUserId)
+  return axios.post(URL + '/api/doVerififcationEmailWithOtp?otp=' + otp + '&encryptUserId=' + encryptUserId)
 }
 
 export function resendOtp (email, encryptUserId) {
-  return axios.post(localURL + '/api/doResendOtp?email=' + email + '&encryptUserId=' + encryptUserId)
+  return axios.post(URL + '/api/doResendOtp?email=' + email + '&encryptUserId=' + encryptUserId)
 }

@@ -16,7 +16,7 @@
                                 <span>{{ history.fullName}}</span>
                             </div>
                             <div>
-                                <q-badge class="tf-capitalize mr-10 p-5" color="primary" text-color="#ffffff" :label="history.scheduleStatus" />
+                                <q-badge class="tf-capitalize mr-10 p-5" :color="history.scheduleStatus === 'done' ? 'primary' : 'negative'" text-color="#ffffff" :label="history.scheduleStatus" />
                             </div>
                         </div>
                         <q-separator/>

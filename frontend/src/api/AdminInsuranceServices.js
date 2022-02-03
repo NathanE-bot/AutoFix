@@ -29,18 +29,18 @@ export function uploadPDFInsurance(insuranceID, filePDF){
 }
 
 export function getInsuranceHistory(adminID) {
-  return axios.get(localURL + '/api/getInsuranceHistory?adminID=' + adminID)
+  return axios.get(URL + '/api/getInsuranceHistory?adminID=' + adminID)
 }
 
 export function getChartCountDataTotalClaimedInsurance (adminID, month, year) {
-  return axios.get(localURL + '/api/countDataTotalClaimedInsurance?adminID=' + adminID + '&month=' + month + '&year=' + year)
+  return axios.get(URL + '/api/countDataTotalClaimedInsurance?adminID=' + adminID + '&month=' + month + '&year=' + year)
 }
 
 export function getYearInsuranceForFilterHome(){
-  return axios.get(localURL + '/api/getYearInsuranceForFilterHome' )
+  return axios.get(URL + '/api/getYearInsuranceForFilterHome' )
 }
 
 export function getCountDataTotalClaimedInsuranceByStatus(adminID, year){
-  return axios.get(localURL + '/api/countDataTotalClaimedInsuranceByStatus?adminID=' + adminID + '&year=' + year)
+  return axios.get(URL + '/api/countDataTotalClaimedInsuranceByStatus?adminID=' + adminID + '&year=' + year)
 }
 
