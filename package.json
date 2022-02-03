@@ -9,7 +9,8 @@
     "build": "quasar build",
     "start": "node server.js",
     "lint": "eslint --ext .js,.vue ./",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "heroku-postbuild": "cd client && npm install && quasar build"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.13.4",
