@@ -5,7 +5,7 @@ import router from '../router'
 
 const localURL = 'http://127.0.0.1:8000'
 const vcpURL = 'autofix-1a7af'
-const vcpURLBackend = 'https://34.126.189.122:8080'
+const vcpURLBackend = 'http://34.126.189.122:8080'
 
 export default {
     data () {
