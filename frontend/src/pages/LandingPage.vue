@@ -162,7 +162,7 @@
                   <a href="https://support.google.com/chrome/answer/142065?hl=en" target="_blank">Click Here</a> to learn more.
                 </span>
               </div>
-              <span>Or <b>refresh</b> the page to automatically prompt request location popup from your browser.</span>
+              <!-- <span>Or <b>refresh</b> the page to automatically prompt request location popup from your browser.</span> -->
             </div>
           </div>
           <div v-else-if="!errorMessage && help.isObjectEmpty(workshopRecommendation)">
@@ -342,11 +342,12 @@ export default ({
     }
   },
   created () {
-    this.doGetCurrentPosition()
+    // this.doGetCurrentPosition()
   },
   mounted () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
+    this.doGetCurrentPosition()
   },
   unmounted () {
     window.removeEventListener('resize', this.handleResize)
@@ -372,28 +373,57 @@ export default ({
         _this.loader = false
       })
     },
-    doGetCurrentPosition() {
-      this.loader = true
-      if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          this.location.lat = pos.coords.latitude
-          this.location.lon = pos.coords.longitude
-          // this.jsonDataParam.lat = ''
-          // this.jsonDataParam.lon = ''
-          if(!help.isDataEmpty(this.location.lat) && !help.isDataEmpty(this.location.lon)){
-            this.doGetRecommendationWorkshop()
-          } else {
-            this.errorMessage = true
-            this.loader = false
-          }
-        }, error => {
-          this.errGeolocationCode = error.code
+    // doGetCurrentPosition() {
+    //   this.loader = true
+    //   if(navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(pos => {
+    //       this.location.lat = pos.coords.latitude
+    //       this.location.lon = pos.coords.longitude
+    //       // this.jsonDataParam.lat = ''
+    //       // this.jsonDataParam.lon = ''
+    //       if(!help.isDataEmpty(this.location.lat) && !help.isDataEmpty(this.location.lon)){
+    //         this.doGetRecommendationWorkshop()
+    //       } else {
+    //         this.errorMessage = true
+    //         this.loader = false
+    //       }
+    //     }, error => {
+    //       this.errGeolocationCode = error.code
+    //       this.loader = false
+    //     })
+    //   } else {
+    //     this.errorMessage = true
+    //     this.loader = false
+    //   }
+    // },
+    showError(error) {
+      this.errGeolocationCode = error.code
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          this.errorMessage = true
           this.loader = false
-        })
-      } else {
-        this.errorMessage = true
-        this.loader = false
+          console.log("User denied the request for Geolocation.")
+          break;
+        case error.POSITION_UNAVAILABLE:
+          console.log("Location information is unavailable.")
+          break;
+        case error.TIMEOUT:
+          console.log("The request to get user location timed out.")
+          break;
+        case error.UNKNOWN_ERROR:
+          console.log("An unknown error occurred.")
+          break;
       }
+    },
+    doGetCurrentPosition () {
+      navigator.geolocation.getCurrentPosition(pos => {
+        console.log(pos)
+        this.location.lat = pos.coords.latitude
+        this.location.lon = pos.coords.longitude
+        this.doGetRecommendationWorkshop()
+      }, error => {
+        this.showError(error)
+      })
     },
     doConsole (a) {
       console.log(a)
