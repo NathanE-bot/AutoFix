@@ -153,7 +153,7 @@
               class="bg-grey-1 rounded-borders col-12"
               :style="{height: window.heightAltered + 'px'}"
             >
-              <q-carousel-slide v-for="(images, index) in jsonDataParam.galleryImagesForPreview" :key="'AIYE' + index" :name="index+1" :img-src="images.imageData" />
+              <q-carousel-slide v-for="(images, index) in workshopDetail.workshop_picture" :key="'AIYE' + index" :name="index+1" :img-src="images.workshopPicture" />
             </q-carousel>
           </div>
         </div>
@@ -196,7 +196,7 @@
               <div class="icon-phone-border d-flex"><q-icon class="phone-icon" name="email" /></div>
               <div class="content-nomor pl-30 flex flex-center">
                 <div class="fs-16 fw-semibold mb-15">Email Honda Indonesia</div>
-                <div class="text-subtitle2">Send Mail to <b class="primary_bg_fade p-2 br-5px">{{ workshopDetail.workshopEmail }}</b></div>
+                <div class="text-subtitle2">Send Mail to <b class="primary_bg_fade p-2 br-5px">{{ !help.isDataEmpty(workshopDetail.workshopEmail) ? workshopDetail.workshopEmail : 'No data'}}</b></div>
               </div>
             </div>
             <div class="d-flex a-center py-30">
