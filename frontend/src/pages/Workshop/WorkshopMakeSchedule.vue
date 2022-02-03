@@ -170,7 +170,7 @@
               </q-card>
             </div>
             <q-btn
-              @click="secondPage = true"
+              @click="doScrollBottomAfterContinue()"
               :disable="(help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) || this.jsonDataParam.serviceTypeBerkala[0] === null) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
               outline color="primary"
               label="Continue"
@@ -180,7 +180,7 @@
           </div>
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
-        <q-slide-transition class="w-95 m-auto">
+        <q-slide-transition class="w-95 m-auto" id="slide-tr">
           <div v-show="secondPage">
             <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30">
               <span class="fw-semibold">Choose schedule date & time</span>
@@ -426,6 +426,16 @@ export default {
         console.log(err)
         _this.loader = false
       })
+    },
+    doScrollBottomAfterContinue () {
+      this.secondPage = true
+      setTimeout(() => {
+        // window.scrollTo(0,document.getElementById("slide-tr").scrollHeight)
+        console.log(document.getElementById("slide-tr"))
+        var el = document.getElementById("slide-tr")
+        el.scrollTop = el.scrollHeight - el.clientHeight
+        console.log(el.scrollTop, el.scrollHeight - el.clientHeight)
+      }, 1000);
     },
     changePage (url) {
       this.$router.push(url)
