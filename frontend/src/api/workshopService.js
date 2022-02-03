@@ -1,11 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
-var localURL = ''
-if(window.location.href.includes('http://34.126.189.122/')){
-  localURL = 'http://34.101.220.96:8080'
-} else {
-  localURL = 'http://127.0.0.1:8000'
-}
+import help from '../js/help'
+var URL = help.checkForProduction()
 
 export default
   function kosong() {
@@ -18,19 +14,19 @@ export default
 // }
 
 export function getRecommendWorkshop(lat, lon) {
-  return axios.get(localURL + '/api/getRecommendationWorkshop?lat=' + lat + '&lon=' + lon)
+  return axios.get(URL + '/api/getRecommendationWorkshop?lat=' + lat + '&lon=' + lon)
 }
 
 export function getAllWorkshops() {
-  return axios.get(localURL + '/api/getAllWorkshop')
+  return axios.get(URL + '/api/getAllWorkshop')
 }
 
 export function getWorkshopApi(jsonDataParam) {
-  return axios.post(localURL + '/api/getWorkshopApi', jsonDataParam)
+  return axios.post(URL + '/api/getWorkshopApi', jsonDataParam)
 }
 
 export function getWorkshopById(id) {
-  return axios.get(localURL + '/api/getWorkshopById?id=' + id)
+  return axios.get(URL + '/api/getWorkshopById?id=' + id)
 }
 
 export function countDistanceFromCurrPos(currPos) {

@@ -1,11 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
-var localURL = ''
-if(window.location.href.includes('http://34.126.189.122/')){
-  localURL = 'http://34.101.220.96:8080'
-} else {
-  localURL = 'http://127.0.0.1:8000'
-}
+import help from '../js/help'
+var URL = help.checkForProduction()
 
 export default
   function kosong() {
@@ -13,23 +9,23 @@ export default
 }
 
 export function getIncomingClaimRequest(adminID) {
-  return axios.get(localURL + '/api/getDataIncomingInsuranceRequestByAdminID?adminID=' + adminID)
+  return axios.get(URL + '/api/getDataIncomingInsuranceRequestByAdminID?adminID=' + adminID)
 }
 
 export function getAdminInsuranceDetails(insuranceID) {
-  return axios.get(localURL + '/api/getAdminInsuranceDetails?insuranceID=' + insuranceID)
+  return axios.get(URL + '/api/getAdminInsuranceDetails?insuranceID=' + insuranceID)
 }
 
 export function rejectInsuranceClaim(insuranceID, insuranceDescription){
-  return axios.post(localURL + '/api/rejectInsuranceClaim?insuranceID=' + insuranceID + '&insuranceDescription=' + insuranceDescription)
+  return axios.post(URL + '/api/rejectInsuranceClaim?insuranceID=' + insuranceID + '&insuranceDescription=' + insuranceDescription)
 }
 
 export function acceptInsuranceClaim(insuranceID) {
-  return axios.post(localURL + '/api/acceptInsuranceClaim?insuranceID=' + insuranceID)
+  return axios.post(URL + '/api/acceptInsuranceClaim?insuranceID=' + insuranceID)
 }
 
 export function uploadPDFInsurance(insuranceID, filePDF){
-  return axios.post(localURL + '/api/uploadPDFInsurance?insuranceID=' + insuranceID, filePDF)
+  return axios.post(URL + '/api/uploadPDFInsurance?insuranceID=' + insuranceID, filePDF)
 }
 
 export function getInsuranceHistory(adminID) {

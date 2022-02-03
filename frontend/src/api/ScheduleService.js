@@ -1,11 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
-var localURL = ''
-if(window.location.href.includes('http://34.126.189.122/')){
-  localURL = 'http://34.101.220.96:8080'
-} else {
-  localURL = 'http://127.0.0.1:8000'
-}
+import help from '../js/help'
+var URL = help.checkForProduction()
 
 export default
   function kosong() {
@@ -14,20 +10,20 @@ export default
 
 export function makeSchedule(formSchedule, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.post(localURL + '/api/makeScheduleApi', formSchedule, authorization)
+  return axios.post(URL + '/api/makeScheduleApi', formSchedule, authorization)
 }
 
 export function getScheduleList(userID, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.get(localURL + '/api/getScheduleByUserID?userID=' + userID, authorization)
+  return axios.get(URL + '/api/getScheduleByUserID?userID=' + userID, authorization)
 }
 
 export function getHistoryScheduleList(userID, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.get(localURL + '/api/getHistoryByScheduleStatusAndUserID?userID=' + userID, authorization)
+  return axios.get(URL + '/api/getHistoryByScheduleStatusAndUserID?userID=' + userID, authorization)
 }
 
 export function reviewSchedule(formReview, userToken) {
   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-  return axios.post(localURL + '/api/formReviewAPI', formReview, authorization)
+  return axios.post(URL + '/api/formReviewAPI', formReview, authorization)
 }

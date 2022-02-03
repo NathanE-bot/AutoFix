@@ -1,11 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
-var localURL = ''
-if(window.location.href.includes('http://34.126.189.122/')){
-  localURL = 'http://34.101.220.96:8080'
-} else {
-  localURL = 'http://127.0.0.1:8000'
-}
+import help from '../js/help'
+var URL = help.checkForProduction()
 
 export default
   function kosong() {
@@ -13,23 +9,23 @@ export default
 }
 
 export function getIncomingOrderSchedule(adminID) {
-  return axios.get(localURL + '/api/getScheduleByWorkshopIDAndAdminWorkshop?adminID=' + adminID)
+  return axios.get(URL + '/api/getScheduleByWorkshopIDAndAdminWorkshop?adminID=' + adminID)
 }
 
 export function doAcceptScheduleByAdmin(scheduleID) {
-  return axios.post(localURL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID)
+  return axios.post(URL + '/api/acceptScheduleByAdmin?scheduleID=' + scheduleID)
 }
 
 export function doRejectScheduleByAdmin(dataReject) {
-  return axios.post(localURL + '/api/rejectedScheduleByAdmin', dataReject)
+  return axios.post(URL + '/api/rejectedScheduleByAdmin', dataReject)
 }
 
 export function getWorkshopDetailByUserID(adminID) {
-  return axios.get(localURL + '/api/getWorkshopDetailByUserID?adminID=' + adminID)
+  return axios.get(URL + '/api/getWorkshopDetailByUserID?adminID=' + adminID)
 }
 
 export function getScheduleAcceptedByAdmin(adminID) {
-  return axios.get(localURL + '/api/getScheduleAcceptedByAdmin?adminID=' + adminID)
+  return axios.get(URL + '/api/getScheduleAcceptedByAdmin?adminID=' + adminID)
 }
 
 export function doDoneScheduleByAdmin(scheduleID) {
