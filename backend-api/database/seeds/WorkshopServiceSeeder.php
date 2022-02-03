@@ -19,6 +19,55 @@ class WorkshopServiceSeeder extends Seeder
             'time'=>2
         ]);
         WorkshopService::create([
+            'workshopDetailID'=>'1',
+            'serviceType'=>'servis berkala',
+            'serviceDetail'=>'10.000 KM',
+            'price'=>4000000,
+            'time'=>5
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'1',
+            'serviceType'=>'servis berkala',
+            'serviceDetail'=>'15.000 KM',
+            'price'=>6000000,
+            'time'=>6
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'1',
+            'serviceType'=>'servis berkala',
+            'serviceDetail'=>'20.000 KM',
+            'price'=>10000000,
+            'time'=>6
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'1',
+            'serviceType'=>'servis berkala',
+            'serviceDetail'=>'20.000 KM',
+            'price'=>10000000,
+            'time'=>6
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'1',
+            'serviceType'=>'servis umum',
+            'serviceDetail'=>'Ketok Magic',
+            'price'=>500000,
+            'time'=>2
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'1',
+            'serviceType'=>'servis umum',
+            'serviceDetail'=>'Ganti Ban',
+            'price'=>300000,
+            'time'=>1
+        ]);
+        WorkshopService::create([
+            'workshopDetailID'=>'1',
+            'serviceType'=>'servis umum',
+            'serviceDetail'=>'Sevis AC',
+            'price'=>500000,
+            'time'=>1
+        ]);
+        WorkshopService::create([
             'workshopDetailID'=>'2',
             'serviceType'=>'servis berkala',
             'serviceDetail'=>'1.000 KM',

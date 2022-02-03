@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     {
         User::Create(
             [
-                'fullName' => "Admin daihasu",
-                'displayName'=>'daihatsi',
-                'email' => 'daihatsu@gmail.com',
-                'password' => bcrypt('daihatsumobil'),
+                'fullName' => "Admin daihana",
+                'displayName'=>'daihana',
+                'email' => 'daihana@gmail.com',
+                'password' => bcrypt('daihanamobil'),
                 'DoB' => Carbon::parse('2000-10-11'),
                 'phoneNumber' => '085813600655',
                 'address'=> 'jl kabupaten daihasu no 50',
@@ -29,13 +29,13 @@ class UserSeeder extends Seeder
         );
         User::Create(
             [
-                'fullName' => "admin HONDA",
-                'displayName'=>'HONDA',
-                'email' => 'Honda@gmail.com',
-                'password' => bcrypt('hondamobil'),
+                'fullName' => "admin honsda",
+                'displayName'=>'honsda',
+                'email' => 'honsda@gmail.com',
+                'password' => bcrypt('honsdamobil'),
                 'DoB' => Carbon::parse('2000-10-11'),
                 'phoneNumber' => '086237237',
-                'address'=> 'jl kedoya HONDA no 50',
+                'address'=> 'jl kedoya honsda no 50',
                 'role' => '2',
                 'profilePicture'=>'',
                 'tokenChat'=>'2d232d2222'
@@ -43,13 +43,13 @@ class UserSeeder extends Seeder
         );
         User::Create(
             [
-                'fullName' => "admin Toyota",
-                'displayName'=>'Toyota',
-                'email' => 'toyota@gmail.com',
-                'password' => bcrypt('toyotamobil'),
+                'fullName' => "admin tota",
+                'displayName'=>'tota',
+                'email' => 'tota@gmail.com',
+                'password' => bcrypt('totamobil'),
                 'DoB' => Carbon::parse('2000-10-11'),
                 'phoneNumber' => '082632612312',
-                'address'=> 'jl maju Toyota no 50',
+                'address'=> 'jl maju tota no 50',
                 'role' => '2',
                 'profilePicture'=>'',
                 'tokenChat'=>'12f2123f21'
@@ -57,13 +57,13 @@ class UserSeeder extends Seeder
         );
         User::Create(
             [
-                'fullName' => "admin BMW",
-                'displayName'=>'BMW',
-                'email' => 'BMW@gmail.com',
-                'password' => bcrypt('BMWmobil'),
+                'fullName' => "admin BWW",
+                'displayName'=>'BWW',
+                'email' => 'BWW@gmail.com',
+                'password' => bcrypt('BWWmobil'),
                 'DoB' => Carbon::parse('2000-10-11'),
                 'phoneNumber' => '082632621312',
-                'address'=> 'jl maju BMW no 50',
+                'address'=> 'jl maju BWW no 50',
                 'role' => '2',
                 'profilePicture'=>'',
                 'tokenChat'=>'32f2453f1'
@@ -71,10 +71,10 @@ class UserSeeder extends Seeder
         );
         User::Create(
             [
-                'fullName' => "Alianz",
-                'displayName'=>'Alianz',
-                'email' => 'Alianz@gmail.com',
-                'password' => bcrypt('AlianzAsuransi'),
+                'fullName' => "Alienz",
+                'displayName'=>'Alienz',
+                'email' => 'Alienz@gmail.com',
+                'password' => bcrypt('AlienzAsuransi'),
                 'DoB' => Carbon::parse('2000-10-11'),
                 'phoneNumber' => '085231624',
                 'address'=> 'jl puri mall no 50',
@@ -93,7 +93,7 @@ class UserSeeder extends Seeder
                 'phoneNumber' => '085813600655',
                 'address'=> 'jl puri indah no 50',
                 'role' => '1',
-                'profilePicture'=>'http://127.0.0.1:8000/storage/avatar/kenny2022-01-24_14-24-226.jpg',
+                'profilePicture'=>'',
                 'tokenChat'=>'2321f23w12'
             ]
         );

@@ -14,72 +14,129 @@ class WorkshopDetailSeeder extends Seeder
         //1
         WorkshopDetail::create([
             'workshopID'=>'1',
-            'carModel'=>'Rocy',
-            'CarType'=>'Rocy CVT'
+            'carModel'=>'RoCV',
+            'CarType'=>'RoCV CVT'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'1',
+            'carModel'=>'RoCV',
+            'CarType'=>'RoCV SVT'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'1',
+            'carModel'=>'RoCV',
+            'CarType'=>'RoCV MVT'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'1',
+            'carModel'=>'RoCV',
+            'CarType'=>'RoCV AVT'
         ]);
 
         WorkshopDetail::create([
             'workshopID'=>'1',
-            'carModel'=>'Terios',
-            'CarType'=>'Terios 1.5 R'
+            'carModel'=>'Teriasz',
+            'CarType'=>'Teriasz 1.5 A'
+        ]);
+
+        WorkshopDetail::create([
+            'workshopID'=>'1',
+            'carModel'=>'Teriasz',
+            'CarType'=>'Teriasz 3.5 R'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'1',
+            'carModel'=>'Teriasz',
+            'CarType'=>'Teriasz 1.5 R'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'1',
+            'carModel'=>'Teriasz',
+            'CarType'=>'Teriasz 3.5 A'
         ]);
         //2
         WorkshopDetail::create([
             'workshopID'=>'2',
-            'carModel'=>'CRV',
-            'CarType'=>'CRV model S'
+            'carModel'=>'CRZ',
+            'CarType'=>'CRZ model S'
         ]);
         WorkshopDetail::create([
             'workshopID'=>'2',
-            'carModel'=>'HRV',
-            'CarType'=>'HRV Mugern'
+            'carModel'=>'CRZ',
+            'CarType'=>'CRZ model Z'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'2',
+            'carModel'=>'CRZ',
+            'CarType'=>'CRZ model A'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'2',
+            'carModel'=>'CRZ',
+            'CarType'=>'CRZ model M'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'2',
+            'carModel'=>'HRZ',
+            'CarType'=>'HRZ Mugern'
         ]);
 
         WorkshopDetail::create([
             'workshopID'=>'2',
-            'carModel'=>'BRV',
-            'CarType'=>'BRV sport'
+            'carModel'=>'HRZ',
+            'CarType'=>'HRZ Sport'
+        ]);
+        WorkshopDetail::create([
+            'workshopID'=>'2',
+            'carModel'=>'HRZ',
+            'CarType'=>'HRZ Auto'
+        ]);
+
+        WorkshopDetail::create([
+            'workshopID'=>'2',
+            'carModel'=>'BRZ',
+            'CarType'=>'BRZ sport'
         ]);
         //3
         WorkshopDetail::create([
             'workshopID'=>'3',
-            'carModel'=>'camry',
-            'CarType'=>'camry special force'
+            'carModel'=>'camri',
+            'CarType'=>'camri special force'
         ]);
         WorkshopDetail::create([
             'workshopID'=>'3',
-            'carModel'=>'supra',
-            'CarType'=>'supra webseries'
+            'carModel'=>'zupra',
+            'CarType'=>'zupra Sport Auto'
         ]);
         //4 - start di 8
         WorkshopDetail::create([
             'workshopID'=>'4',
-            'carModel'=>'Jazz',
-            'CarType'=>'Jazz RS'
+            'carModel'=>'Jizz',
+            'CarType'=>'Jizz RS'
         ]);
         WorkshopDetail::create([
             'workshopID'=>'4',
-            'carModel'=>'Jazz',
-            'CarType'=>'Jazz S'
+            'carModel'=>'Jizz',
+            'CarType'=>'Jizz Sport'
         ]);
         WorkshopDetail::create([
             'workshopID'=>'4',
-            'carModel'=>'Brio',
-            'CarType'=>'Brio Satya S M/T'
+            'carModel'=>'Pio',
+            'CarType'=>'Pio Satya S M/T'
         ]);
         WorkshopDetail::create([
             'workshopID'=>'4',
-            'carModel'=>'Brio',
-            'CarType'=>'Brio Satya E M/T'
+            'carModel'=>'Pio',
+            'CarType'=>'Pio Satya E M/T'
         ]);
         WorkshopDetail::create([
             'workshopID'=>'4',
-            'carModel'=>'Brio',
-            'CarType'=>'Brio Satya E CVT'
+            'carModel'=>'Pio',
+            'CarType'=>'Pio Satya E CVT'
         ]);
         WorkshopDetail::create([
             'workshopID'=>'4',
-            'carModel'=>'Mobilio',
+            'carModel'=>'Mobilala',
             'CarType'=>'RS 1.5'
         ]);
     }

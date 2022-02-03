@@ -11,11 +11,12 @@ class OperationalWorkshopSeeder extends Seeder
      */
     public function run()
     {
+        //1
         Operationalworkshop::create([
             'workshopID'=>'1',
             'operationalDate'=>'0',
             'operationalOpenHour' => '08:40:20',
-            'operationalCloseHour' => '15:40:20',
+            'operationalCloseHour' => '10:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
@@ -33,13 +34,13 @@ class OperationalWorkshopSeeder extends Seeder
             'workshopID'=>'1',
             'operationalDate'=>'3',
             'operationalOpenHour' => '08:40:20',
-            'operationalCloseHour' => '13:40:20',
+            'operationalCloseHour' => '15:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
             'operationalDate'=>'4',
             'operationalOpenHour' => '08:40:20',
-            'operationalCloseHour' => '11:40:20',
+            'operationalCloseHour' => '15:40:20',
         ]);
         Operationalworkshop::create([
             'workshopID'=>'1',
@@ -51,7 +52,7 @@ class OperationalWorkshopSeeder extends Seeder
             'workshopID'=>'1',
             'operationalDate'=>'6',
             'operationalOpenHour' => '08:40:20',
-            'operationalCloseHour' => '15:40:20',
+            'operationalCloseHour' => '10:40:20',
         ]);
         //2
         Operationalworkshop::create([
