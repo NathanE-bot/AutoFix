@@ -30,9 +30,9 @@ export function getWorkshopById(id) {
 }
 
 export function countDistanceFromCurrPos(currPos) {
-  return axios.post(localURL + '/api/doCountDistanceFromCurrPos', currPos)
+  return axios.post(URL + '/api/doCountDistanceFromCurrPos', currPos)
 }
 
 export function getUserWorkshopByWorkshopId(userID){
-  return axios.post(localURL + '/api/getUserWorkshopByWorkshopId?userID=' + userID)
+  return axios.post(URL + '/api/getUserWorkshopByWorkshopId?userID=' + userID)
 }
