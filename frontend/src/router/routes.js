@@ -241,14 +241,14 @@ const routes = [
           breadcrumb: 'Chat Message'
         }
       },
-      {
-        path: "/member/home-message/room-message/:id",
-        component: roomMessage,
-        meta: {
-          title: 'Room Message',
-          breadcrumb: 'Room Message'
-        }
-      },
+      // {
+      //   path: "/member/home-message/room-message/:id",
+      //   component: roomMessage,
+      //   meta: {
+      //     title: 'Room Message',
+      //     breadcrumb: 'Room Message'
+      //   }
+      // },
       // Insurance
       {
         path: "/member/insurance/form/:id",
