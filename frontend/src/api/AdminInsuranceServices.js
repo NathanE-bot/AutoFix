@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
 var localURL = ''
-if(window.location.href.includes('http://34.101.220.96/')){
+if(window.location.href.includes('http://34.126.189.122/')){
   localURL = 'http://34.101.220.96:8080'
 } else {
   localURL = 'http://127.0.0.1:8000'

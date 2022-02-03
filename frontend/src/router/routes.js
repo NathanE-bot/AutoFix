@@ -29,7 +29,7 @@ const historyList = () => import("pages/Profile/HistoryList");
 const favoriteList = () => import("pages/Profile/FavoriteList");
 //chat
 const homeMessage = () => import("pages/Chats/HomeMessage");
-const roomMessage = () => import("pages/Chats/RoomMessage");
+// const roomMessage = () => import("pages/Chats/RoomMessage");
 
 // Workshop
 const workshop = () => import("pages/Workshop/WorkshopPage");
