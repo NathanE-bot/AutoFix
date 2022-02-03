@@ -76,7 +76,7 @@
                   <q-menu
                     class="dropdown-g text-white"
                     style="border-radius: 0px 0px 5px 5px"
-                    :offset="[25, 15]"
+                    :offset="[20, 9]"
                   >
                     <q-list style="min-width: 100px">
                       <q-item

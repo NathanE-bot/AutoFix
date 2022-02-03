@@ -153,7 +153,7 @@
               class="bg-grey-1 rounded-borders col-12"
               :style="{height: window.heightAltered + 'px'}"
             >
-              <q-carousel-slide v-for="(images, index) in jsonDataParam.galleryImagesForPreview" :key="'AIYE' + index" :name="index+1" :img-src="images.imageData" />
+              <q-carousel-slide v-for="(images, index) in workshopDetail.workshop_picture" :key="'AIYE' + index" :name="index+1" :img-src="images.workshopPicture" />
             </q-carousel>
           </div>
         </div>
