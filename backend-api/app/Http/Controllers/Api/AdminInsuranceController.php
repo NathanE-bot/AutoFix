@@ -63,7 +63,7 @@ class AdminInsuranceController extends Controller
             ->where('insuranceID','=',$req->insuranceID)
             ->where('insuranceStatus','=','on progress')
             ->update(['insuranceStatus'=>'Approved',
-            'insuranceDescription'=>'Your Insurace Claim Request has been Accpt, Please Download The PDF in The Menu Detail , or Contact Our Admin if you have any question',
+            'insuranceDescription'=>'Your insurance claim request has been accepted, please download the PDF, or contact our admin if you have any question. Thankyou',
             'claimedInsuranceDate'=>$dateTimeNow]); // cek ini mau apa descnya
 
             $dataUserID=DB::table('insurances')

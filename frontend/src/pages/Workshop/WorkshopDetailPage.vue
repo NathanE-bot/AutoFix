@@ -103,7 +103,7 @@
                 <div v-for="item in workshop_details" :key="item.id" class="col-md-6 py-12">
                   <span class="fw-semibold">{{ item.carType }}</span>
                   <div>
-                    <span class="ml-8">Servis Berkala:</span>
+                    <span class="ml-8">Periodic Services:</span>
                     <div class="layout_bullet fs-12" v-for="item2 in item.workshop_services" :key="'services-' + item2.id">
                       <div class="wrapper" v-if="item2.serviceType == 'servis berkala'">
                         <div class="bullet"></div>
@@ -112,7 +112,7 @@
                     </div>
                   </div>
                   <div>
-                    <span class="ml-8">Servis Umum:</span>
+                    <span class="ml-8">General Services:</span>
                     <div class="layout_bullet" v-for="item2 in item.workshop_services" :key="item2.id">
                       <div class="wrapper fs-12" v-if="item2.serviceType == 'servis umum'">
                         <div class="bullet"></div>
@@ -189,14 +189,14 @@
                 <q-icon class="phone-icon" name="chat" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
-                <div class="fs-16 fw-semibold mb-15">Chat Honda Indonesia</div>
+                <div class="fs-16 fw-semibold mb-15">Chat {{ workshopDetail.workshopName }}</div>
                 <div class="text-subtitle2">in apps chat message</div>
               </div>
             </div>
             <div class="d-flex a-center py-30">
               <div class="icon-phone-border d-flex"><q-icon class="phone-icon" name="email" /></div>
               <div class="content-nomor pl-30 flex flex-center">
-                <div class="fs-16 fw-semibold mb-15">Email Honda Indonesia</div>
+                <div class="fs-16 fw-semibold mb-15">Email {{ workshopDetail.workshopName }}</div>
                 <div class="text-subtitle2">Send Mail to <b class="primary_bg_fade p-2 br-5px">{{ !help.isDataEmpty(workshopDetail.workshopEmail) ? workshopDetail.workshopEmail : 'No data'}}</b></div>
               </div>
             </div>
@@ -205,7 +205,7 @@
                 <q-icon class="phone-icon" name="fas fa-map-marker-alt" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
-                <div class="fs-16 fw-semibold mb-15">Find Honda Indonesia</div>
+                <div class="fs-16 fw-semibold mb-15">Find {{ workshopDetail.workshopName }}</div>
                 <div class="text-subtitle2">{{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}</div>
               </div>
               <div>
