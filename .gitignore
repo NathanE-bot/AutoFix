@@ -1,7 +1,6 @@
 .DS_Store
 .thumbs.db
 node_modules
-backend-api
 bootstrap
 storage
 vendor
