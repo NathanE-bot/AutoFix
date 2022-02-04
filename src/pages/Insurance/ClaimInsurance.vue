@@ -55,7 +55,7 @@ export default {
                 console.log(tempArr)
                 tempArr.forEach(el1 => {
                     let tempObj = {
-                        label: el1.insuranceName,
+                        label: 'Alienz',
                         value: el1.id
                     }
                     _this.vendorInsuranceList.push(tempObj)

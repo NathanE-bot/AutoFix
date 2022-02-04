@@ -1,7 +1,7 @@
 <template>
   <q-page class="pt-40 insurance_layout_3">
     <div class="flex flex-dir-col w-80 m-auto">
-      <div class="text-h5 fw-semibold text-white mb-40">Insurance List</div>
+      <div class="text-h5 fw-semibold text-white mb-40">Claim Insurance Status</div>
       <q-markup-table class="fw br-10px insurance-status-table" wrap-cells>
         <thead>
           <tr>
@@ -46,12 +46,10 @@
             <div class="black-1 m-auto fw-semibold text-align-center fs-18">Menu List</div>
           </q-card-section>
           <div class="w-90 j-sp-around flex m-auto">
-            <q-btn
-              rounded color="primary"
-              :disable="openDetail.filePDF === null ? true : false"
-              class="tf-capitalize w-30">
-              Download PDF
-            </q-btn>
+            <div color="primary"
+              class="tf-capitalize w-30 br-20px-i flex flex-center" style="background-color: #21a17b;">
+              <a style="text-decoration: none; color: white;" href="" download="D:\App Binus\File Kuliah\Semester 7\Skripsi App\AutoFix\AutoFix\backend-api\public\storage\avatar\pdf-darrylegbertnangoi2022-02-027.pdf">Download PDF</a>
+            </div>
             <q-btn
               rounded color="primary"
               @click="doChangePage()"

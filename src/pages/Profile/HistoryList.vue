@@ -142,7 +142,7 @@
             <q-card class="my-card card-size-m">
                 <q-card-section class="q-gutter-y-md">
                     <div class="d-flex a-center q-gutter-x-lg">
-                        <img class="responsive_img fit-content" width="90" src="~assets/images/logo/workshop/honda.png" alt="">
+                        <img class="responsive_img fit-content" width="90" src="~assets/images/kenny2022-01-24_14-24-226.png" alt="">
                         <span class="text-h5 fw-semibold">{{ tempHistorySchedule.workshopName }}</span>
                     </div>
                     <div class="d-flex a-baseline j-sp-between">
@@ -244,7 +244,11 @@ export default {
                 Swal.fire({
                     icon: 'success',
                     title: response.data.messageTitle,
-                    text: response.data.messageSubtitle
+                    text: response.data.messageSubtitle,
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
             }) .catch(function (error) {
                 _this.doCloseReviewDialog()

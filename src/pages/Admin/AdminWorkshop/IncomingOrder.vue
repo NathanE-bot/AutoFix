@@ -23,25 +23,34 @@
                         <q-card-section class="flex m-auto">
                             <div class="w-40">
                                 <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Tanggal dan Waktu</span>
+                                    <span class="fw-semibold">Email & Phone Number</span>
+                                    <span>{{ incoming.email }}</span>
+                                    <span>{{ incoming.phoneNumber }}</span>
+                                </div>
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Schedule Date and Time</span>
                                     <span>{{ help.defaultFormat(incoming.scheduleDate, help.data().dmy_8) }}</span>
                                     <span>{{ help.formatTime(incoming.scheduleTime, help.data().time_2) }}</span>
                                 </div>
                                 <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Model dan Tipe Mobil</span>
-                                    <span>{{ incoming.carModel}} {{ incoming.carType}}</span>
+                                    <span class="fw-semibold">Estimation Time</span>
+                                    <span> {{ incoming.timeEstimation > 1 ? incoming.timeEstimation + ' Hour' : incoming.timeEstimation + ' Hours'}} </span>
                                 </div>
                                 <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Estimasi waktu pengerjaan</span>
-                                    <span> {{ incoming.timeEstimation}} Jam</span>
-                                </div>
-                                <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Estimasi Harga</span>
+                                    <span class="fw-semibold">Estimation Price</span>
                                     <span>{{ validationFunction.convertToRupiah(incoming.priceEstimation) }}</span>
+                                </div>
+                                <div v-if="incoming.serviceDescription !== null" class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Additional Description: </span>
+                                    <p class="m-0">{{ incoming.serviceDescription }}</p>
                                 </div>
                             </div>
                             <div class="w-60">
-                                <span class="fw-semibold">Layanan yang dipilih : </span>
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Car Model and Type</span>
+                                    <span>{{ incoming.carModel}} {{ incoming.carType}}</span>
+                                </div>
+                                <span class="fw-semibold ml-5">Selected Services : </span>
                                 <div v-if="Object.keys(incoming.serviceDetail.periodicService).length !== 0" class="flex flex-dir-col mb-10 ml-5">
                                     <span class="fw-semibold">Periodic Service :</span>
                                     <span>{{ incoming.serviceDetail.periodicService.serviceDetail }}</span>
@@ -53,10 +62,6 @@
                                             - {{ service.serviceDetail}}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div v-if="incoming.serviceDescription !== null">
-                                <span class="fw-semibold">Service Request: </span>
-                                <p class="m-0">{{ incoming.serviceDescription }}</p>
                             </div>
                         </q-card-section>
                         <div class="d-flex a-center j-end" style="gap: 20px">

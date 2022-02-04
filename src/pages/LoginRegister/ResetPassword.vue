@@ -124,7 +124,10 @@ export default {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Warning',
-                    text: 'You are not authorized in this page. Press Ok or you will automatically redirected you to landing page in 3 seconds.'
+                    text: 'You are not authorized in this page. Press Ok or you will automatically redirected you to landing page in 3 seconds.',
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 }) .then((result) => {
                     if(result.isConfirmed){
                         this.changePage('/')
@@ -141,7 +144,10 @@ export default {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: response.data.message
+                    text: response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 }) .then((result) => {
                     if(result.isConfirmed){
                         this.changePage('/session/login')
@@ -154,7 +160,10 @@ export default {
                 Swal.fire({
                     icon: error.response.data.id === 4 ? 'warning' : 'error',
                     title: 'Error',
-                    text: error.response.data.message
+                    text: error.response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
             })
         },

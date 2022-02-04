@@ -20,7 +20,7 @@ const createWorkshop = () => import("pages/CreateWorkshop");
 const editPage = () => import("pages/EditPage");
 
 // Testing
-const testing = () => import("pages/Testing");
+// const testing = () => import("pages/Testing");
 
 // Profile
 const yourAccount = () => import("pages/Profile/YourAccount");

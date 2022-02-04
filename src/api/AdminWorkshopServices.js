@@ -83,7 +83,7 @@ export function makeGaleryWorkshopPath(workshopID, workshopPictureID, workshopPi
 
 // export function updateGaleryWorkshop(workshopID, workshopPictureID, workshopPicture, userToken) {
 //   const authorization = { 'headers': { 'Authorization': 'Bearer ' + userToken } }
-//   return axios.post(localURL + '/api/updateGaleryWorkshop?workshopID=' + workshopID + '&workshopPictureID=' + workshopPictureID, workshopPicture, authorization)
+//   return axios.post(URL + '/api/updateGaleryWorkshop?workshopID=' + workshopID + '&workshopPictureID=' + workshopPictureID, workshopPicture, authorization)
 // }
 
 export function getYearWorkshopForFilterHome(){

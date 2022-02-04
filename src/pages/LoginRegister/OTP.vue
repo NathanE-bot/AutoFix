@@ -1,6 +1,6 @@
 <template>
     <q-page class="flex flex-center">
-        <q-card class="w-60 py-60 br-20px position-relative flex flex-center" :style="{height: window.heightAltered + 'px'}">
+        <q-card class="w-60 py-30 br-20px position-relative flex flex-center flex-dir-col" :style="{height: window.heightAltered + 'px'}">
             <div class="position-relative">
                 <img class="responsive_img fit-contentlogo_topLeft" width="150" src="~assets/images/logo.png" alt="">
             </div>
@@ -89,14 +89,20 @@ export default {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: response.data.message
+                    text: response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 _this.resendLoader = false
             }) .catch(function (error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: error.response.data.message
+                    text: error.response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 _this.resendLoader = false
             })
@@ -111,7 +117,10 @@ export default {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: error.response.data.message
+                    text: error.response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 _this.loader = false
             })
@@ -146,7 +155,10 @@ export default {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: response.data.message
+                        text: response.data.message,
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     }) .then((result) => {
                         if(result.isConfirmed){
                             _this.changePage('/session/login')
@@ -161,7 +173,10 @@ export default {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.response.data.message
+                        text: error.response.data.message,
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     }) .then((result) => {
                         if(result.isConfirmed){
                            _this.doStartTimer()

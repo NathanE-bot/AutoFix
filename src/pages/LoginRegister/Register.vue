@@ -125,6 +125,7 @@
                       label="Register"
                       color="primary"/>
                     <q-btn
+                      :loading="loader"
                       @click="changePage('/session/login')"
                       class="tf-capitalize q-ml-sm"
                       padding="6px 32px"
@@ -160,6 +161,7 @@ export default ({
     return {
       // scrollbar styles
       help,
+      loader: false,
       form: {
         fullName: '',
         email: '',
@@ -244,7 +246,10 @@ export default ({
         Swal.fire({
           icon: 'success',
           title: 'Success',
-          text: response.data.message
+          text: response.data.message,
+          customClass: {
+              confirmButton: 'br-25px-i py-5-i px-20-i'
+          }
         }) .then((result) => {
           if(result.isConfirmed){
             _this.changePage('/session/otp/' + response.data.encryptUserId)
@@ -252,9 +257,13 @@ export default ({
           }
         })
       }) .catch(function (error) {
+        _this.loader = false
         if(error.response.data.error === 'Unauthorised') {
           Swal.fire({
-            title: 'Error'
+            title: 'Error',
+            customClass: {
+              confirmButton: 'br-25px-i py-5-i px-20-i'
+            }
           })
         }
       })

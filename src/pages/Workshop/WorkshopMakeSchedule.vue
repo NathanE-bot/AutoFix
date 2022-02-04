@@ -1,7 +1,7 @@
 <template>
     <q-page class="bg-white form-schedule">
         <div class="topInfo">
-          <img class="responsive_img fit-content detail-workshop-bg my-30" width="120" src="~assets/images/logo/workshop/honda.png" alt="">
+          <img class="responsive_img fit-content detail-workshop-bg my-30" width="120" src="~assets/images/kenny2022-01-24_14-24-226.png" alt="">
           <div class="detailInfo">
             <span class="text-h6 fw-semibold">{{ workshopDetail.workshopName }}</span>
             <span class="grey-txt">{{ workshopDetail.district }}, {{ workshopDetail.city }}</span>
@@ -170,7 +170,7 @@
               </q-card>
             </div>
             <q-btn
-              @click="secondPage = true"
+              @click="doScrollBottomAfterContinue()"
               :disable="(help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) || this.jsonDataParam.serviceTypeBerkala[0] === null) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
               outline color="primary"
               label="Continue"
@@ -180,7 +180,7 @@
           </div>
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
-        <q-slide-transition class="w-95 m-auto">
+        <q-slide-transition class="w-95 m-auto" id="slide-tr">
           <div v-show="secondPage">
             <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30">
               <span class="fw-semibold">Choose schedule date & time</span>

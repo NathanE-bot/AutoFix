@@ -10,9 +10,9 @@
             <template v-slot:message>
                 <div class="d-flex a-center j-center py-15">
                     <h5 class="fw-bold m-0">Claim Insurance Form</h5>
-                    <div class="position-relative">
+                    <!-- <div class="position-relative">
                         <img class="responsive_img logo-img-form fit-content" width="120" height="42" :src="help.checkForInsuranceLogo(vendorInsurance.logo)" alt="">
-                    </div>
+                    </div> -->
                 </div>
                 <q-separator color="#605A5A" size="1px" />
             </template>
@@ -349,14 +349,14 @@
                     </div>
                     <div class="v-else"><!-- Sementara pake ini klo gk ada datanya --></div>
                     <div>
-                        <q-btn
+                        <!-- <q-btn
                             @click="doCancelMakeForm()"
                             padding="6px 16px"
                             rounded unelevated
                             label="Cancel"
                             color="negative"
                             class="mr-20 tf-capitalize"
-                        />
+                        /> -->
                         <q-btn
                             v-if="step > 1"
                             @click="$refs.stepper.previous()"
@@ -519,13 +519,13 @@ export default {
         this.doGetVendorInsuranceByID()
     },
     mounted () {
+        window.removeEventListener('beforeunload', this.beforeWindowUnload)
         window.addEventListener('resize', this.handleResize)
-        window.addEventListener('beforeunload', this.beforeWindowUnload)
         this.handleResize()
     },
     unmounted () {
-        window.removeEventListener('resize', this.handleResize)
         window.addEventListener('beforeunload', this.beforeWindowUnload)
+        window.removeEventListener('resize', this.handleResize)
     },
     methods: {
         handleResize () {
@@ -541,7 +541,9 @@ export default {
                 _this.vendorInsurance = response.data.objectReturn
                 _this.vendorWorkshops = []
                 _this.vendorWorkshops = [{value: 0, label: 'Workshop of my own choice'}]
-                // console.log(_this.vendorInsurance)
+                response.data.objectReturn1.map((val, index) => {
+                    _this.vendorWorkshops.push({ value: index+1, label: val.insuranceWorkshopName })
+                })
                 _this.addUploadPhoto(true)
             }) .catch((err) => {
                 _this.loader = false
@@ -746,7 +748,7 @@ export default {
             }
         },
         doCancelMakeForm(){
-            console.log('yeet')
+            // console.log('yeet')
             Swal.fire ({
                 icon: "warning",
                 title: "Cancelling make form",
@@ -793,6 +795,6 @@ export default {
                 next(false)
             }
         })
-    },
+    }
 }
 </script>

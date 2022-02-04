@@ -169,7 +169,7 @@ export default {
                         text: 'Please contact website admin.'
                     })
                 } else {
-                    this.changePage('/member/home-message/room-message/' + userTokenChat + '-' + userWorkshop.adminTokenChat)
+                    this.changePage('/member/home-message?userTokenChat=' + userTokenChat + '-' + userWorkshop.adminTokenChat + '&isFromOutside=' + true)
                 }
             } else {
                 Swal.fire({
@@ -179,6 +179,11 @@ export default {
                     confirmButtonColor: '#21a17b',
                     showCancelButton: true,
                     cancelButtonText: 'Back',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i',
+                        cancelButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 }) .then((result) => {
                     if(result.isConfirmed){
                         this.changePage('/session/login')
