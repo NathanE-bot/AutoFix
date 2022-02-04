@@ -169,7 +169,7 @@ export default {
                         text: 'Please contact website admin.'
                     })
                 } else {
-                    this.changePage('/member/home-message/room-message/' + userTokenChat + '-' + userWorkshop.adminTokenChat)
+                    this.changePage('/member/home-message?userTokenChat=' + userTokenChat + '-' + userWorkshop.adminTokenChat + '&isFromOutside=' + true)
                 }
             } else {
                 Swal.fire({
