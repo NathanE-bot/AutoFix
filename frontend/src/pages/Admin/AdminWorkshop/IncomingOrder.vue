@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="flex flex-dir-col mb-10">
                                     <span class="fw-semibold">Estimation Time</span>
-                                    <span> {{ incoming.timeEstimation > 1 ? accepted.timeEstimation + ' Hour' : incoming.timeEstimation + ' Hours'}} </span>
+                                    <span> {{ incoming.timeEstimation > 1 ? incoming.timeEstimation + ' Hour' : incoming.timeEstimation + ' Hours'}} </span>
                                 </div>
                                 <div class="flex flex-dir-col mb-10">
                                     <span class="fw-semibold">Estimation Price</span>
