@@ -89,14 +89,20 @@ export default {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: response.data.message
+                    text: response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 _this.resendLoader = false
             }) .catch(function (error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: error.response.data.message
+                    text: error.response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 _this.resendLoader = false
             })
@@ -111,7 +117,10 @@ export default {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: error.response.data.message
+                    text: error.response.data.message,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 _this.loader = false
             })
@@ -146,7 +155,10 @@ export default {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: response.data.message
+                        text: response.data.message,
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     }) .then((result) => {
                         if(result.isConfirmed){
                             _this.changePage('/session/login')
@@ -161,7 +173,10 @@ export default {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.response.data.message
+                        text: error.response.data.message,
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     }) .then((result) => {
                         if(result.isConfirmed){
                            _this.doStartTimer()

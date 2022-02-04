@@ -180,7 +180,11 @@ export default {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.response.message
+                        text: error.response.message,
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     })
                 })
             }
@@ -209,7 +213,11 @@ export default {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: response.data.message
+                    text: response.data.message,
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 }) .then((result) => {
                     if(result.isConfirmed){
                         _this.loader = false
@@ -220,7 +228,11 @@ export default {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: error.response.data.email
+                    text: error.response.data.email,
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 _this.loader = false
             })
@@ -246,7 +258,11 @@ export default {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: 'Your account has been updated.'
+                    text: 'Your account has been updated.',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 }) .then(() => {
                     _this.isEditable = !_this.isEditable
                     if(_this.isUploadPhoto){

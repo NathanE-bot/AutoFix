@@ -40,6 +40,10 @@
                                     <span class="fw-semibold">Estimation Price</span>
                                     <span>{{ validationFunction.convertToRupiah(accepted.priceEstimation) }}</span>
                                 </div>
+                                <div v-if="accepted.serviceDescription !== null" class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Additional Description: </span>
+                                    <p class="m-0">{{ accepted.serviceDescription }}</p>
+                                </div>
                             </div>
                             <div class="w-60">
                                 <div class="flex flex-dir-col mb-10">
@@ -58,10 +62,6 @@
                                             - {{ service.serviceDetail}}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div v-if="accepted.serviceDescription !== null">
-                                <span class="fw-semibold">Additional Description: </span>
-                                <p class="m-0">{{ accepted.serviceDescription }}</p>
                             </div>
                         </q-card-section>
                         <div class="d-flex a-center j-end" style="gap: 20px">

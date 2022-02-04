@@ -329,6 +329,11 @@ export default {
           confirmButtonColor: '#21a17b',
           showCancelButton: true,
           cancelButtonText: 'Back',
+          reverseButtons: true,
+            customClass: {
+                confirmButton: 'br-25px-i py-5-i px-20-i',
+                cancelButton: 'br-25px-i py-5-i px-20-i'
+            }
         }) .then((result) => {
           if(result.isConfirmed){
             this.changePage('/session/login')
@@ -371,6 +376,11 @@ export default {
           confirmButtonColor: '#21a17b',
           showCancelButton: true,
           cancelButtonText: 'Back',
+          reverseButtons: true,
+            customClass: {
+                confirmButton: 'br-25px-i py-5-i px-20-i',
+                cancelButton: 'br-25px-i py-5-i px-20-i'
+            }
         }) .then((result) => {
           if(result.isConfirmed){
             this.changePage('/session/login')

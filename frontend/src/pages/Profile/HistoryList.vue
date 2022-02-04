@@ -244,7 +244,11 @@ export default {
                 Swal.fire({
                     icon: 'success',
                     title: response.data.messageTitle,
-                    text: response.data.messageSubtitle
+                    text: response.data.messageSubtitle,
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
             }) .catch(function (error) {
                 _this.doCloseReviewDialog()

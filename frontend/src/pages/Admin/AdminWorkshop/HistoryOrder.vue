@@ -40,6 +40,10 @@
                                     <span class="fw-semibold">Estimation Price</span>
                                     <span>{{ validationFunction.convertToRupiah(history.priceEstimation) }}</span>
                                 </div>
+                                <div v-if="history.serviceDescription !== null" class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Additional Description: </span>
+                                    <p class="m-0">{{ history.serviceDescription }}</p>
+                                </div>
                             </div>
                             <div class="w-60">
                                 <div class="flex flex-dir-col mb-10">
@@ -58,10 +62,6 @@
                                             - {{ service.serviceDetail}}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div v-if="history.serviceDescription !== null">
-                                <span class="fw-semibold">Additional Description: </span>
-                                <p class="m-0">{{ history.serviceDescription }}</p>
                             </div>
                         </q-card-section>
                     </q-card-section>
