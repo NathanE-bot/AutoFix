@@ -541,7 +541,9 @@ export default {
                 _this.vendorInsurance = response.data.objectReturn
                 _this.vendorWorkshops = []
                 _this.vendorWorkshops = [{value: 0, label: 'Workshop of my own choice'}]
-                console.log(_this.vendorInsurance)
+                response.data.objectReturn1.map((val, index) => {
+                    _this.vendorWorkshops.push({ value: index+1, label: val.insuranceWorkshopName })
+                })
                 _this.addUploadPhoto(true)
             }) .catch((err) => {
                 _this.loader = false
