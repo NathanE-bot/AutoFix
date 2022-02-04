@@ -23,25 +23,30 @@
                         <q-card-section class="flex m-auto">
                             <div class="w-40">
                                 <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Tanggal dan Waktu</span>
+                                    <span class="fw-semibold">Email & Phone Number</span>
+                                    <span>{{ accepted.email }}</span>
+                                    <span>{{ accepted.phoneNumber }}</span>
+                                </div>
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Schedule Date and Time</span>
                                     <span>{{ help.defaultFormat(accepted.scheduleDate, help.data().dmy_8) }}</span>
                                     <span>{{ help.formatTime(accepted.scheduleTime, help.data().time_2) }}</span>
                                 </div>
                                 <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Model dan Tipe Mobil</span>
-                                    <span>{{ accepted.carModel}} {{ accepted.carType}}</span>
+                                    <span class="fw-semibold">Estimation Time</span>
+                                    <span> {{ accepted.timeEstimation > 1 ? accepted.timeEstimation + ' Hours' : accepted.timeEstimation + ' Hours'}} </span>
                                 </div>
                                 <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Estimasi waktu pengerjaan</span>
-                                    <span> {{ accepted.timeEstimation}} Jam</span>
-                                </div>
-                                <div class="flex flex-dir-col mb-10">
-                                    <span class="fw-semibold">Estimasi Harga</span>
+                                    <span class="fw-semibold">Estimation Price</span>
                                     <span>{{ validationFunction.convertToRupiah(accepted.priceEstimation) }}</span>
                                 </div>
                             </div>
                             <div class="w-60">
-                                <span class="fw-semibold">Layanan yang dipilih : </span>
+                                <div class="flex flex-dir-col mb-10">
+                                    <span class="fw-semibold">Car Model and Type</span>
+                                    <span>{{ accepted.carModel}} {{ accepted.carType}}</span>
+                                </div>
+                                <span class="fw-semibold ml-5">Selected Services : </span>
                                 <div v-if="Object.keys(accepted.serviceDetail.periodicService).length !== 0" class="flex flex-dir-col mb-10 ml-5">
                                     <span class="fw-semibold">Periodic Service :</span>
                                     <span>{{ accepted.serviceDetail.periodicService.serviceDetail }}</span>
@@ -55,7 +60,7 @@
                                 </div>
                             </div>
                             <div v-if="accepted.serviceDescription !== null">
-                                <span class="fw-semibold">Service Request: </span>
+                                <span class="fw-semibold">Additional Description: </span>
                                 <p class="m-0">{{ accepted.serviceDescription }}</p>
                             </div>
                         </q-card-section>

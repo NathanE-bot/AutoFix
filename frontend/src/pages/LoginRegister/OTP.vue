@@ -1,6 +1,6 @@
 <template>
     <q-page class="flex flex-center">
-        <q-card class="w-60 py-60 br-20px position-relative flex flex-center" :style="{height: window.heightAltered + 'px'}">
+        <q-card class="w-60 py-30 br-20px position-relative flex flex-center flex-dir-col" :style="{height: window.heightAltered + 'px'}">
             <div class="position-relative">
                 <img class="responsive_img fit-contentlogo_topLeft" width="150" src="~assets/images/logo.png" alt="">
             </div>

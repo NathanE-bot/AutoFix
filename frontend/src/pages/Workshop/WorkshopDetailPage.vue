@@ -87,7 +87,8 @@
                   </span>
                   <span>:</span>
                 </div>
-                <span>{{ help.formatTime(item.operationalOpenHour, help.data().time_2) }} - {{ help.formatTime(item.operationalCloseHour, help.data().time_2) }}</span>
+                <span v-if="workshopDetail.status24Hr == '0'">{{ help.formatTime(item.operationalOpenHour, help.data().time_2) }} - {{ help.formatTime(item.operationalCloseHour, help.data().time_2) }}</span>
+                <span v-else>Open</span>
               </div>
             </div>
           </div>
@@ -103,8 +104,8 @@
                   <span class="fw-semibold">{{ item.carType }}</span>
                   <div>
                     <span class="ml-8">Servis Berkala:</span>
-                    <div class="layout_bullet fs-12" v-for="item2 in item.workshop_services" :key="item2.id">
-                      <div class="wrapper" v-if="item2.serviceType == 'Servis Berkala'">
+                    <div class="layout_bullet fs-12" v-for="item2 in item.workshop_services" :key="'services-' + item2.id">
+                      <div class="wrapper" v-if="item2.serviceType == 'servis berkala'">
                         <div class="bullet"></div>
                         <span class="text">{{ item2.serviceDetail }} - {{ ValidationFunction.convertToRupiah(item2.price) }}</span>
                       </div>
@@ -113,7 +114,7 @@
                   <div>
                     <span class="ml-8">Servis Umum:</span>
                     <div class="layout_bullet" v-for="item2 in item.workshop_services" :key="item2.id">
-                      <div class="wrapper fs-12" v-if="item2.serviceType == 'Servis umum'">
+                      <div class="wrapper fs-12" v-if="item2.serviceType == 'servis umum'">
                         <div class="bullet"></div>
                         <span class="text">{{ item2.serviceDetail }} - {{ ValidationFunction.convertToRupiah(item2.price) }}</span>
                       </div>
@@ -458,6 +459,7 @@ export default {
           }
           _this.workshop_details.push(tempObject)
         })
+        console.log(_this.workshop_details)
         _this.loader = false
       }) .catch((err) =>{
         console.log(err)

@@ -125,6 +125,7 @@
                       label="Register"
                       color="primary"/>
                     <q-btn
+                      :loading="loader"
                       @click="changePage('/session/login')"
                       class="tf-capitalize q-ml-sm"
                       padding="6px 32px"
@@ -160,6 +161,7 @@ export default ({
     return {
       // scrollbar styles
       help,
+      loader: false,
       form: {
         fullName: '',
         email: '',
@@ -252,6 +254,7 @@ export default ({
           }
         })
       }) .catch(function (error) {
+        _this.loader = false
         if(error.response.data.error === 'Unauthorised') {
           Swal.fire({
             title: 'Error'
