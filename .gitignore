@@ -2,7 +2,6 @@
 .thumbs.db
 node_modules
 bootstrap
-storage
 vendor
 .env
 # Quasar core related directories
