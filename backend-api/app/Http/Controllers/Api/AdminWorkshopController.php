@@ -668,7 +668,7 @@ class AdminWorkshopController extends Controller
             if(!empty($req->serviceTypeUmum)&&!empty($req->serviceTypeBerkala)){
                 $validator = Validator::make($req->all(), [
                     'serviceTypeUmum.*.serviceDetail' => ['required', 'string', 'max:255'],
-                    'serviceTypeUmum.*.price' => ['required', 'integer', 'max:255'],
+                    'serviceTypeUmum.*.price' => ['required', 'integer', 'max:100000000'],
                     'serviceTypeUmum.*.time' => ['required', 'integer', 'max:10'],
                     'serviceTypeBerkala.*.serviceDetail' => ['required', 'string', 'max:255'],
                     'serviceTypeBerkala.*.price' => ['required', 'integer', 'max:1000000000'],

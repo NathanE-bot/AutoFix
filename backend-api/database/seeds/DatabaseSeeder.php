@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(InsuranceSeeder::class);
         $this->call(InsuranceDetailSeeder::class);
         $this->call(DocumentationInsuranceSeeder::class);
+        $this->call(InsuranceWorkshopSeeder::class);
+
+
     }
 }

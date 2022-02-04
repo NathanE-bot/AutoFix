@@ -13,7 +13,15 @@ class InsuranceVendorSeeder extends Seeder
     {
         InsuranceVendor::create([
             'userID'=>'5',
-            'insuranceName'=>'alianz',
+            'insuranceName'=>'Alienz',
+            'phoneNumber' => '085231624',
+            'email'=>'Alienz@gmail.com',
+            'logo'=>'http://127.0.0.1:8000/storage/avatar/kenny2022-01-24_14-24-226.jpg',
+            'address'=>'Jl Mawar Indah Block M2 no 10'
+        ]);
+        InsuranceVendor::create([
+            'userID'=>'8',
+            'insuranceName'=>'preben',
             'phoneNumber' => '085231624',
             'email'=>'alianz@gmail.com',
             'logo'=>'http://127.0.0.1:8000/storage/avatar/kenny2022-01-24_14-24-226.jpg',
