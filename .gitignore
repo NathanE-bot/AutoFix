@@ -4,3 +4,4 @@ storage
 vendor
 bootstrap
 node_modules
+.quasar
