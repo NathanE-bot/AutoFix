@@ -31,7 +31,7 @@ class AdminWorkshopController extends Controller
         ,'schedules.workshopName','schedules.workshopAddress','schedules.workshopPhoneNumber',
         'schedules.workshopEmail','schedules.scheduleDate','schedules.scheduleTime','schedules.carModel',
         'schedules.carType','schedules.timeEstimation','schedules.priceEstimation','schedules.scheduleStatus'
-        ,'schedules.serviceDescription',DB::raw('(SELECT email FROM users WHERE users.id = schedules.userID LIMIT 1) AS emailUser'),
+        ,'schedules.serviceDescription',DB::raw('(SELECT email,phoneNumber FROM users WHERE users.id = schedules.userID LIMIT 1) AS emailUser'),
         DB::raw('(SELECT phoneNumber FROM users WHERE users.id = schedules.userID LIMIT 1) AS phoneNumberUser'))
         ->where('workshops.userID','=',$req->adminID)
         ->where('scheduleStatus','=','waiting confirmation')
@@ -49,7 +49,7 @@ class AdminWorkshopController extends Controller
 
         $dataCustomer = DB::table('users')
         ->join('schedules','schedules.userID','=','users.id')
-        ->select('users.id as customerID','users.fullName','users.phoneNumber')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber','users.email')
         ->where('users.role','=','1')
         ->get();
 
@@ -146,7 +146,7 @@ class AdminWorkshopController extends Controller
 
         $dataCustomer = DB::table('users')
         ->join('schedules','schedules.userID','=','users.id')
-        ->select('users.id as customerID','users.fullName','users.phoneNumber')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber','users.email')
         ->where('users.role','=','1')
         ->get();
         if(empty($acceptedSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
@@ -187,7 +187,7 @@ class AdminWorkshopController extends Controller
 
         $dataCustomer = DB::table('users')
         ->join('schedules','schedules.userID','=','users.id')
-        ->select('users.id as customerID','users.fullName','users.phoneNumber')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber','users.email')
         ->where('users.role','=','1')
         ->get();
         if(empty($acceptedSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
