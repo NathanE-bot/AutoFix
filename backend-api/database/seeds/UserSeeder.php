@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
                 'address'=> 'jl puri mall no 50',
                 'role' => '3',
                 'profilePicture'=>'',
-                'tokenChat'=>'12f31344gf'
+                'tokenChat'=>'ins#2'
             ]
         );
         User::Create(
@@ -122,7 +122,7 @@ class UserSeeder extends Seeder
                 'address'=> 'jl puri mall no 50',
                 'role' => '3',
                 'profilePicture'=>'',
-                'tokenChat'=>'12f31344gf'
+                'tokenChat'=>'ins#1'
             ]
         );
     }
