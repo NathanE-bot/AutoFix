@@ -1,7 +1,8 @@
 <template>
     <q-page class="bg-white form-schedule">
         <div class="topInfo">
-          <img class="responsive_img fit-content detail-workshop-bg my-30" width="120" src="~assets/images/kenny2022-01-24_14-24-226.png" alt="">
+          <img v-if="!help.isDataEmpty(workshopDetail.workshopLogo)" class="responsive_img fit-content detail-workshop-bg my-30" width="120" :src="workshopDetail.workshopLogo" alt="">
+          <div v-else class="responsive_img fit-content detail-workshop-bg my-30 flex j-center a-center">No Data</div>
           <div class="detailInfo">
             <span class="text-h6 fw-semibold">{{ workshopDetail.workshopName }}</span>
             <span class="grey-txt">{{ workshopDetail.district }}, {{ workshopDetail.city }}</span>

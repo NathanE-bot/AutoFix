@@ -90,7 +90,7 @@
                         </q-badge>
                         <q-badge color="orange-6" v-else>24 Hr</q-badge>
                       </div>
-                      <div class="text-subtitle2 grey-txt">{{ item.distance.toFixed(2) }} Km</div>
+                      <div class="text-subtitle2 grey-txt">{{ item.distance }} Km</div>
                     </div>
                   </q-card-section>
                 </q-card>
@@ -651,6 +651,8 @@ export default {
           this.workshopById.defaultData = {}
         }
         _this.tempWorkshops.data.forEach(item => {
+          console.log(item)
+          item.distance = Number(item.distance).toFixed(2)
           _this.workshops.push(item)
         })
         _this.clickedId = _this.workshops[0].userID

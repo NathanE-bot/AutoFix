@@ -18,7 +18,7 @@
       <div class="m-auto w-80 relative-position">
         <div  class="flex flex-center flex-start" style="position:relative; bottom:70px;">
           <div v-if="!help.isDataEmpty(workshopDetail.workshopLogo)">
-            <img class="responsive_img detail-workshop-bg fit-content" width="120" :src="workshopDetail.workshopLogo" alt="">
+            <img class="responsive_img detail-workshop-bg" width="120" :src="workshopDetail.workshopLogo" alt="">
           </div>
           <div class="detail-workshop-bg d-flex a-center j-center" v-else>
             No Logo
@@ -40,13 +40,13 @@
               <span class="maxw-240">{{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}</span>
             </div>
             <div v-if="!help.isObjectEmpty(tempDistance)">
-              <span class="grey-txt">Distance:</span> <span>{{ tempDistance.distance.toFixed(2) }} Km</span>
+              <span class="grey-txt">Distance:</span> <span>{{ tempDistance.distance }} Km</span>
             </div>
           </div>
         </div> -->
         <div class="rating-workshop d-flex a-center">
           <div class="mr-15" v-if="!help.isObjectEmpty(tempDistance)">
-            <span class="text-subtitle2 grey-txt">{{ tempDistance.distance.toFixed(2) }} Km</span>
+            <span class="text-subtitle2 grey-txt">{{ tempDistance.distance }} Km</span>
           </div>
           <q-badge style="padding:5px 10px" color="primary">
             <span>Rating</span>
@@ -435,8 +435,10 @@ export default {
       let _this = this
       countDistanceFromCurrPos(_this.currPos).then(response => {
         _this.tempDistance = response.data.objectReturn
+
         _this.tempDistance = _this.tempDistance.filter(item => item.workshopId === _this.workshopDetail.id)[0]
         _this.tempDistance.distance = _this.tempDistance.distance / 1000
+        _this.tempDistance.distance = Number(_this.tempDistance.distance).toFixed(2)
       }) .catch((err) =>{
         console.log(err)
         _this.loader = false
@@ -469,7 +471,7 @@ export default {
           }
           _this.workshop_details.push(tempObject)
         })
-        console.log(_this.workshop_details)
+        // console.log(_this.workshop_details)
         _this.loader = false
       }) .catch((err) =>{
         console.log(err)
