@@ -349,14 +349,14 @@
                     </div>
                     <div class="v-else"><!-- Sementara pake ini klo gk ada datanya --></div>
                     <div>
-                        <q-btn
+                        <!-- <q-btn
                             @click="doCancelMakeForm()"
                             padding="6px 16px"
                             rounded unelevated
                             label="Cancel"
                             color="negative"
                             class="mr-20 tf-capitalize"
-                        />
+                        /> -->
                         <q-btn
                             v-if="step > 1"
                             @click="$refs.stepper.previous()"
