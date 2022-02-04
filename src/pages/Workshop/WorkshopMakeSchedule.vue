@@ -427,6 +427,12 @@ export default {
         _this.loader = false
       })
     },
+    doScrollBottomAfterContinue () {
+      this.secondPage = true
+      setTimeout(() => {
+        window.scrollTo(0,document.body.scrollHeight)
+      }, 500);
+    },
     changePage (url) {
       this.$router.push(url)
     },

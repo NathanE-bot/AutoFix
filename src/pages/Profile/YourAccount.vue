@@ -87,9 +87,9 @@
                         <q-input v-model="userDisplay.address" outlined type="textarea" :disable="isEditable" class="fix-txt-field" />
                     </div>
                 </div>
-                <div class="col-md-9 j-end mt-20">
+                <!-- <div class="col-md-9 j-end mt-20">
                     <q-btn color="negative" unelevated rounded class="tf-capitalize d-flex" @click="doDeleteAccount()" :loading="loader" label="Delete Account" />
-                </div>
+                </div> -->
             </div>
         </div>
     </q-page>

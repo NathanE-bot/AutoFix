@@ -350,6 +350,14 @@
                     <div class="v-else"><!-- Sementara pake ini klo gk ada datanya --></div>
                     <div>
                         <q-btn
+                            @click="doCancelMakeForm()"
+                            padding="6px 16px"
+                            rounded unelevated
+                            label="Cancel"
+                            color="negative"
+                            class="mr-20 tf-capitalize"
+                        />
+                        <q-btn
                             v-if="step > 1"
                             @click="$refs.stepper.previous()"
                             padding="6px 16px"
@@ -512,10 +520,12 @@ export default {
     },
     mounted () {
         window.addEventListener('resize', this.handleResize)
+        window.addEventListener('beforeunload', this.beforeWindowUnload)
         this.handleResize()
     },
     unmounted () {
         window.removeEventListener('resize', this.handleResize)
+        window.addEventListener('beforeunload', this.beforeWindowUnload)
     },
     methods: {
         handleResize () {
@@ -531,7 +541,7 @@ export default {
                 _this.vendorInsurance = response.data.objectReturn
                 _this.vendorWorkshops = []
                 _this.vendorWorkshops = [{value: 0, label: 'Workshop of my own choice'}]
-                console.log(_this.vendorInsurance)
+                // console.log(_this.vendorInsurance)
                 _this.addUploadPhoto(true)
             }) .catch((err) => {
                 _this.loader = false
@@ -735,12 +745,54 @@ export default {
                 })
             }
         },
+        doCancelMakeForm(){
+            console.log('yeet')
+            Swal.fire ({
+                icon: "warning",
+                title: "Cancelling make form",
+                text: "Are your sure you want to cancel? All of your progress will be lost",
+                cancelButtonText: 'No',
+                confirmButtonText: 'Cancel',
+                confirmButtonColor: '#d32f2f',
+                showCancelButton: true,
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'br-25px-i py-5-i px-20-i',
+                    cancelButton: 'br-25px-i py-5-i px-20-i'
+                }
+            })
+        },
         changePage(url){
             this.$router.push(url)
         },
         doConsole (a) {
             console.log(a)
         }
-    }
+    },
+    beforeRouteLeave (to, from, next) {
+        // If the form is dirty and the user did not confirm leave,
+        // prevent losing unsaved changes by canceling navigation
+        console.log(to, from)
+        Swal.fire ({
+            icon: "warning",
+            title: "Cancelling make form",
+            text: "Are your sure you want to cancel? All of your progress will be lost",
+            cancelButtonText: 'No',
+            confirmButtonText: 'Cancel',
+            confirmButtonColor: '#d32f2f',
+            showCancelButton: true,
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'br-25px-i py-5-i px-20-i',
+                cancelButton: 'br-25px-i py-5-i px-20-i'
+            }
+        }) .then((result) => {
+            if(result.isConfirmed){
+                next()
+            } else {
+                next(false)
+            }
+        })
+    },
 }
 </script>

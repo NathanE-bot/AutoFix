@@ -72,13 +72,13 @@
                       <div class="no-logo-layout-1" v-else>
                         No Logo
                       </div>
-                      <div class="ml-20">
+                      <div class="ml-20 w-80">
                         <div class="text-h6 fw-semibold">{{ item.workshopName }}</div>
                         <div class="text-subtitle2 grey-txt">{{ item.district }}, {{ item.city }}, {{ item.province }}</div>
                         <div class="d-flex a-baseline">
                           <span class="text-subtitle2 grey-txt">Rating: {{ item.rating }}</span>
                         </div>
-                        <div class="text-subtitle2">
+                        <div class="text-subtitle2 line-clamp-2">
                           {{ item.workshopDescription }}
                         </div>
                       </div>
