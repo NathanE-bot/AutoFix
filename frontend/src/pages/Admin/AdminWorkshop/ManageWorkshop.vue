@@ -517,10 +517,8 @@
                   </div>
                 </q-td>
                 <q-td key="servicedetail" :props="props">
-                  <q-input
-                    :error="help.isDataEmpty(props.row.serviceDetail) && showError" v-model="props.row.serviceDetail" />
-                    dense hide-bottom-space
-                  />
+                  <q-input class="input-bold"
+                    :error="help.isDataEmpty(props.row.serviceDetail) && showError" v-model="props.row.serviceDetail" dense hide-bottom-space />
                 </q-td>
                 <q-td key="price" :props="props">
                   <q-input
@@ -550,19 +548,18 @@
                 </q-td>
                 <q-td key="servicedetail" :props="props">
                   <q-input
-                  :error="help.isDataEmpty(props.row.serviceDetail) && showError" v-model="props.row.serviceDetail" />
-                  dense hide-bottom-space
+                    :error="help.isDataEmpty(props.row.serviceDetail) && showError" v-model="props.row.serviceDetail" dense hide-bottom-space />
                 </q-td>
                 <q-td key="price" :props="props">
                   <q-input
                     v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError"
-                    class="input-bold" dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
+                    dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
                   />
                 </q-td>
                 <q-td key="time" :props="props">
                   <q-input
                     v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError"
-                    class="input-bold" dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
+                    dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
                   />
                 </q-td>
                 <q-td key="action" :props="props">
@@ -630,13 +627,13 @@
                 <q-td key="price" :props="props">
                   <q-input
                     v-model="props.row.price" :error="help.isDataEmpty(props.row.price) && showError"
-                    class="input-bold" dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
+                    dense prefix="Rp." mask="###.###.###" reverse-fill-mask hide-bottom-space
                   />
                 </q-td>
                 <q-td key="time" :props="props">
                   <q-input
                     v-model="props.row.time" :error="help.isDataEmpty(props.row.time) && showError"
-                    class="input-bold" dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
+                    dense placeholder="1 - 10" mask="##" suffix="Hour" hide-bottom-space
                   />
                 </q-td>
                 <q-td key="action" :props="props">
@@ -1369,7 +1366,8 @@ export default {
               edited = true
             }
             if(el2.price !== el1.price){
-              el1.price = el2.price
+              el1.price = Number(el2.price?.replaceAll('.', ''))
+              console.log('price', el1.price)
               edited = true
             }
             if(el2.time !== el1.time){
@@ -1385,7 +1383,8 @@ export default {
               edited = true
             }
             if(el2.price !== el1.price){
-              el1.price = el2.price
+              el1.price = Number(el2.price?.replaceAll('.', ''))
+              console.log('price', el1.price)
               edited = true
             }
             if(el2.time !== el1.time){
@@ -1397,15 +1396,17 @@ export default {
       })
       _this.periodicServicesForms.forEach(el1 => {
         if(!help.isDataEmpty(el1.id) && el1.id == '#1'){
+          el1.price = Number(el1.price?.replaceAll('.', '')) // ? itu async
           tempBackendFormat.serviceTypeBerkala.push(el1)
         }
       })
       _this.generalServicesForms.forEach(el1 => {
         if(!help.isDataEmpty(el1.id) && el1.id == '#1'){
+          el1.price = Number(el1.price?.replaceAll('.', ''))
           tempBackendFormat.serviceTypeUmum.push(el1)
         }
       })
-      console.log(tempBackendFormat)
+      console.log('aaa', tempBackendFormat, 'bbb', _this.workshopDetail)
       // if(help.isObjectEmpty(tempBackendFormat.serviceTypeBerkala)){
       //   delete tempBackendFormat.serviceTypeBerkala
       // }

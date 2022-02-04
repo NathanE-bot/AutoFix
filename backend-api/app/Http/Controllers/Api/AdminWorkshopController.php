@@ -519,6 +519,8 @@ class AdminWorkshopController extends Controller
             'workshop_details.*.carType'=>['required', 'string', 'max:255'],
             'workshop_services.*.serviceType'=> ['required', 'string', 'max:255'],
             'workshop_services.*.serviceDetail'=> ['required', 'string', 'max:255'],
+            'workshop_services.*.price'=> ['required', 'integer'],
+            'workshop_services.*.time'=> ['required', 'integer', 'max:10'],
         ]);
 
         if ($validator->fails()) {
@@ -581,7 +583,9 @@ class AdminWorkshopController extends Controller
             ->where('workshop_details.workshopID','=',$req->id)
             ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
             ->update(['serviceType'=>$req->workshop_services[$key]['serviceType'],
-            'serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
+            'serviceDetail'=>$req->workshop_services[$key]['serviceDetail'],
+            'price'=>$req->workshop_services[$key]['price'],
+            'time'=>$req->workshop_services[$key]['time']]);
         }
 
         return response()->json([
