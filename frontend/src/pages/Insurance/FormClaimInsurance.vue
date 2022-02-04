@@ -747,8 +747,33 @@ export default {
                 })
             }
         },
-        doCancelMakeForm(){
-            // console.log('yeet')
+        checkFirstFormNull () {
+            if(
+                help.isDataEmpty(this.form.insuredName) && 
+                help.isDataEmpty(this.form.phoneNumber) && 
+                help.isDataEmpty(this.form.email) && 
+                help.isDataEmpty(this.form.carTypeAndBrand) && 
+                help.isDataEmpty(this.form.chassisNumber) && 
+                help.isDataEmpty(this.form.addressClaimer) && 
+                help.isDataEmpty(this.form.polisNumber) && 
+                help.isDataEmpty(this.form.licensePlateNumber)
+            ) {
+                return true
+            }
+            return false
+        },
+        changePage(url){
+            this.$router.push(url)
+        },
+        doConsole (a) {
+            console.log(a)
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        // If the form is dirty and the user did not confirm leave,
+        // prevent losing unsaved changes by canceling navigation
+        console.log(to, from)
+        if(!this.checkFirstFormNull()){
             Swal.fire ({
                 icon: "warning",
                 title: "Cancelling make form",
@@ -762,39 +787,16 @@ export default {
                     confirmButton: 'br-25px-i py-5-i px-20-i',
                     cancelButton: 'br-25px-i py-5-i px-20-i'
                 }
+            }) .then((result) => {
+                if(result.isConfirmed){
+                    next()
+                } else {
+                    next(false)
+                }
             })
-        },
-        changePage(url){
-            this.$router.push(url)
-        },
-        doConsole (a) {
-            console.log(a)
+        } else {
+            next()
         }
-    },
-    beforeRouteLeave (to, from, next) {
-        // If the form is dirty and the user did not confirm leave,
-        // prevent losing unsaved changes by canceling navigation
-        console.log(to, from)
-        Swal.fire ({
-            icon: "warning",
-            title: "Cancelling make form",
-            text: "Are your sure you want to cancel? All of your progress will be lost",
-            cancelButtonText: 'No',
-            confirmButtonText: 'Cancel',
-            confirmButtonColor: '#d32f2f',
-            showCancelButton: true,
-            reverseButtons: true,
-            customClass: {
-                confirmButton: 'br-25px-i py-5-i px-20-i',
-                cancelButton: 'br-25px-i py-5-i px-20-i'
-            }
-        }) .then((result) => {
-            if(result.isConfirmed){
-                next()
-            } else {
-                next(false)
-            }
-        })
     }
 }
 </script>
