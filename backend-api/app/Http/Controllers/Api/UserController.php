@@ -94,8 +94,8 @@ class UserController extends Controller
 
         try{
             $data = DB::table('temp_users')
-            ->join('otps','otps.temp_userID','=','otps.id')
-            ->where('otps.temp_userID','=',$decryptUserId[0]->id)
+            // ->join('otps','otps.temp_userID','=','otps.id')
+            ->where('id','=',$decryptUserId[0]->id)
             ->first();
         } catch (Exception $err){
             return response()->json($err, 500);
