@@ -430,12 +430,8 @@ export default {
     doScrollBottomAfterContinue () {
       this.secondPage = true
       setTimeout(() => {
-        // window.scrollTo(0,document.getElementById("slide-tr").scrollHeight)
-        console.log(document.getElementById("slide-tr"))
-        var el = document.getElementById("slide-tr")
-        el.scrollTop = el.scrollHeight - el.clientHeight
-        console.log(el.scrollTop, el.scrollHeight - el.clientHeight)
-      }, 1000);
+        window.scrollTo(0,document.body.scrollHeight)
+      }, 500);
     },
     changePage (url) {
       this.$router.push(url)

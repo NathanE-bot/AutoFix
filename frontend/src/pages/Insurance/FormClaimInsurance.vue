@@ -10,9 +10,9 @@
             <template v-slot:message>
                 <div class="d-flex a-center j-center py-15">
                     <h5 class="fw-bold m-0">Claim Insurance Form</h5>
-                    <div class="position-relative">
+                    <!-- <div class="position-relative">
                         <img class="responsive_img logo-img-form fit-content" width="120" height="42" :src="help.checkForInsuranceLogo(vendorInsurance.logo)" alt="">
-                    </div>
+                    </div> -->
                 </div>
                 <q-separator color="#605A5A" size="1px" />
             </template>
@@ -350,6 +350,14 @@
                     <div class="v-else"><!-- Sementara pake ini klo gk ada datanya --></div>
                     <div>
                         <q-btn
+                            @click="doCancelMakeForm()"
+                            padding="6px 16px"
+                            rounded unelevated
+                            label="Cancel"
+                            color="negative"
+                            class="mr-20 tf-capitalize"
+                        />
+                        <q-btn
                             v-if="step > 1"
                             @click="$refs.stepper.previous()"
                             padding="6px 16px"
@@ -511,10 +519,12 @@ export default {
         this.doGetVendorInsuranceByID()
     },
     mounted () {
+        window.removeEventListener('beforeunload', this.beforeWindowUnload)
         window.addEventListener('resize', this.handleResize)
         this.handleResize()
     },
     unmounted () {
+        window.addEventListener('beforeunload', this.beforeWindowUnload)
         window.removeEventListener('resize', this.handleResize)
     },
     methods: {
@@ -735,12 +745,54 @@ export default {
                 })
             }
         },
+        doCancelMakeForm(){
+            // console.log('yeet')
+            Swal.fire ({
+                icon: "warning",
+                title: "Cancelling make form",
+                text: "Are your sure you want to cancel? All of your progress will be lost",
+                cancelButtonText: 'No',
+                confirmButtonText: 'Cancel',
+                confirmButtonColor: '#d32f2f',
+                showCancelButton: true,
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'br-25px-i py-5-i px-20-i',
+                    cancelButton: 'br-25px-i py-5-i px-20-i'
+                }
+            })
+        },
         changePage(url){
             this.$router.push(url)
         },
         doConsole (a) {
             console.log(a)
         }
+    },
+    beforeRouteLeave (to, from, next) {
+        // If the form is dirty and the user did not confirm leave,
+        // prevent losing unsaved changes by canceling navigation
+        console.log(to, from)
+        Swal.fire ({
+            icon: "warning",
+            title: "Cancelling make form",
+            text: "Are your sure you want to cancel? All of your progress will be lost",
+            cancelButtonText: 'No',
+            confirmButtonText: 'Cancel',
+            confirmButtonColor: '#d32f2f',
+            showCancelButton: true,
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'br-25px-i py-5-i px-20-i',
+                cancelButton: 'br-25px-i py-5-i px-20-i'
+            }
+        }) .then((result) => {
+            if(result.isConfirmed){
+                next()
+            } else {
+                next(false)
+            }
+        })
     }
 }
 </script>
