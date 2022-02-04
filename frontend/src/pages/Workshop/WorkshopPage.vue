@@ -652,7 +652,7 @@ export default {
         }
         _this.tempWorkshops.data.forEach(item => {
           console.log(item)
-          item.distance = item.distance.toFixed(2)
+          item.distance = Number(item.distance).toFixed(2)
           _this.workshops.push(item)
         })
         _this.clickedId = _this.workshops[0].userID

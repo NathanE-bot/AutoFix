@@ -438,7 +438,7 @@ export default {
 
         _this.tempDistance = _this.tempDistance.filter(item => item.workshopId === _this.workshopDetail.id)[0]
         _this.tempDistance.distance = _this.tempDistance.distance / 1000
-        _this.tempDistance.distance = _this.tempDistance.distance.toFixed(2)
+        _this.tempDistance.distance = Number(_this.tempDistance.distance).toFixed(2)
       }) .catch((err) =>{
         console.log(err)
         _this.loader = false
