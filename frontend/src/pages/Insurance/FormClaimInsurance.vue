@@ -378,7 +378,7 @@
                         />
                         <q-btn
                             v-else
-                            @click="doSubmitInsuranceForm()"
+                            @click="doCheckPhotoUploadedMin10Photo()"
                             padding="6px 16px"
                             rounded unelevated :class="['tf-capitalize']"
                             type="submit" :loading="loader" label="Submit"
@@ -703,8 +703,10 @@ export default {
         },
         doCheckPhotoUploadedMin10Photo () {
             let bool = false
+            let _this = this
+            console.log(_this.imageForm)
             _this.imageForm.forEach(el1 => {
-                if(help.isDataEmpty(el1.name)){
+                if(help.isDataEmpty(el1.imageFile)){
                     bool = true
                 }
             })
@@ -748,6 +750,7 @@ export default {
             }
         },
         checkFirstFormNull () {
+            console.log(this.form)
             if(
                 help.isDataEmpty(this.form.insuredName) && 
                 help.isDataEmpty(this.form.phoneNumber) && 
@@ -773,7 +776,7 @@ export default {
         // If the form is dirty and the user did not confirm leave,
         // prevent losing unsaved changes by canceling navigation
         console.log(to, from)
-        if(!this.checkFirstFormNull()){
+        if(!this.checkFirstFormNull() && to.fullPath != from.fullPath){
             Swal.fire ({
                 icon: "warning",
                 title: "Cancelling make form",

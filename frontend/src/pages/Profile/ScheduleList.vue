@@ -280,7 +280,7 @@ export default {
                         text: 'Please contact website admin.'
                     })
                 } else {
-                    this.changePage('/member/home-message?userTokenChat=' + userTokenChat + '-' + userWorkshop.adminToken)
+                    this.changePage('/member/home-message?userTokenChat=' + userTokenChat + '-' + userWorkshop.adminToken + '&isFromOutside=' + true)
                 }
             } else {
                 Swal.fire({
