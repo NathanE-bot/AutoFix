@@ -1,4 +1,4 @@
-<template>
+    <template>
     <q-page>
         <div v-if="!help.isObjectEmpty(historyList) && !loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg q-page-height">
             <q-card v-for="item in historyList" :key="'sl' + item.id" class="my-card w-70">
@@ -142,7 +142,7 @@
             <q-card class="my-card card-size-m">
                 <q-card-section class="q-gutter-y-md">
                     <div class="d-flex a-center q-gutter-x-lg">
-                        <img class="responsive_img fit-content" width="90" src="~assets/images/logo/workshop/honda.png" alt="">
+                        <img v-if="!help.isDataEmpty(tempHistorySchedule.WorkshopLogo)" class="responsive_img fit-content" width="90" :src="tempHistorySchedule.workshopLogo" alt="">
                         <span class="text-h5 fw-semibold">{{ tempHistorySchedule.workshopName }}</span>
                     </div>
                     <div class="d-flex a-baseline j-sp-between">

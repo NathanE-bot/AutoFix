@@ -4,6 +4,7 @@ node_modules
 bootstrap
 vendor
 .env
+Laravel.log
 # Quasar core related directories
 .quasar
 /dist

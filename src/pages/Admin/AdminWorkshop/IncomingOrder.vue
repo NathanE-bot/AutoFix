@@ -217,7 +217,7 @@ export default {
                                 tempObjectCustomer = el2
                             }
                         })
-console.log('tempListDataCustomer',tempListDataCustomer)
+                        console.log('tempListDataCustomer',tempListDataCustomer)
                         tempObject = { ...tempObject, ...el1, ...tempObjectCustomer}
                         this.listIncoming.push(tempObject)
                     })
