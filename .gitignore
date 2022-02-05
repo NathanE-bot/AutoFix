@@ -14,3 +14,4 @@ composer.lock
 frontend
 node_modules
 backend-api
+.quasar
