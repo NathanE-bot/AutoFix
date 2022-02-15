@@ -67,13 +67,7 @@
     bottom: 0;
     right: 0;
     .q-focus-helper{
-        cursor: pointer;
-    }
-    .q-btn__content{
-        cursor: pointer;
-    }
-    .q-icon{
-        cursor: pointer;
+        cursor: pointer !important;
     }
 }
 .edit-logo-btn{
@@ -129,5 +123,12 @@
 .btn-disable-right-icon{
     .q-icon.on-right{
         display: none !important;
+    }
+}
+
+.dob-icon{
+    color: #ffffff;
+    :hover{
+        color: $primary;
     }
 }

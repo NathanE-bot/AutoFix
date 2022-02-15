@@ -1,12 +1,12 @@
 <template>
     <q-page class="p-20">
-        <div class="row">
+        <q-form @submit.prevent="doUpdateUserData" class="row">
             <div class="col-md-9 col-sm-12 d-flex a-baseline m-auto text-white" style="min-height:60px">
                 <div class="text-h6 mr-20">Your Profile</div>
                 <q-btn
                     v-if="isEditable"
                     @click="isEditable = !isEditable"
-                    icon="fas fa-pen" flat round :loading="loader"
+                    icon="fas fa-pen" flat round :loading="loader" :disable="cpLoader"
                     class="edit-pen-btn edit-pen-btn-active"
                     >
                         <q-tooltip
@@ -17,9 +17,8 @@
                 </q-btn>
                 <div v-else>
                     <q-btn
-                        @click="doUpdateUserData()"
-                        :loading="loader"
-                        type="button"
+                        :loading="loader" :disable="cpLoader"
+                        type="submit"
                         color="primary"
                         rounded unelevated
                         label="Save Data"
@@ -28,7 +27,7 @@
                     </q-btn>
                     <q-btn
                         @click="isEditable = !isEditable; doInsertUserDisplay(false)"
-                        color="negative"
+                        color="negative" :disable="cpLoader || loader"
                         rounded unelevated
                         label="Discard"
                         class="tf-capitalize m-0 ml-10-i"
@@ -42,7 +41,7 @@
                         <!-- <q-badge v-if="!help.isDataEmpty(userDisplay.image) && !isEditable" class="discardDP cursor-pointer" rounded color="red" @click="doClearImage()">X</q-badge> -->
                         <img :class="['responsive_img fit-content', {'z-opacity w-0-i' : help.isDataEmpty(userDisplay.image)}]" :src="userDisplay.image" id="myImg">
                         <i v-if="help.isDataEmpty(userDisplay.image)" class="fas fa-user grey-5"></i>
-                        <q-btn icon="fas fa-pen" fab-mini class="edit-img-btn cursor-pointer" text-color="white" color="secondary" v-if="!isEditable" :loading="loader">
+                        <q-btn icon="fas fa-pen" fab-mini class="edit-img-btn" text-color="white" color="secondary" v-if="!isEditable" :disable="cpLoader || loader">
                             <div class="input-hide">
                                 <input class="cursor-pointer" type="file" accept=".png,.jpg,.jpeg" id="uploadDPUser" @change="doUploadProfilePicture($event)">
                             </div>
@@ -53,7 +52,7 @@
                     </div>
                     <q-btn
                         @click="doRequestForgotPasswordEmail()"
-                        :loading="loader"
+                        :loading="cpLoader" :disable="isEditable || loader"
                         unelevated rounded color="primary"
                         label="Change Password"
                         class="tf-capitalize fw"
@@ -70,28 +69,45 @@
                     </div>
                     <div>
                         <span>Date of Birth</span>
-                        <q-input v-model="DoBForDisplay" outlined dense :disable="isEditable" />
+                        <q-input v-model="DoBForDisplay" type="text" class="icon-hover-input-white" readonly outlined dense :disable="isEditable || cpLoader || loader">
+                            <q-tooltip
+                                class="text-body2 txt-white bg-primary"
+                                anchor="center end" self="center start" :offset="[10, 0]">
+                                Change Date
+                            </q-tooltip>
+                            <template v-slot:append>
+                                <q-icon name="event" class="cursor-pointer">
+                                    <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
+                                        <q-date v-model="DoBForProxy">
+                                        <div class="row items-center justify-end">
+                                            <q-btn v-close-popup label="Close" no-caps color="primary" flat />
+                                        </div>
+                                        </q-date>
+                                    </q-popup-proxy>
+                                </q-icon>
+                            </template>
+                        </q-input>
                     </div>
                     <div>
                         <span>Display Name</span>
-                        <q-input v-model="userDisplay.displayName" outlined dense :disable="isEditable" />
+                        <q-input v-model="userDisplay.displayName" outlined dense :disable="isEditable || cpLoader || loader" />
                     </div>
                     <div>
                         <span>Phone Number</span>
-                        <q-input v-model="userDisplay.phoneNumber" outlined dense :disable="isEditable" />
+                        <q-input v-model="userDisplay.phoneNumber" :rules="rules.phoneNumber_r" mask="############" lazy-rules="ondemand" outlined dense :disable="isEditable || cpLoader || loader" />
                     </div>
                 </div>
                 <div class="input-outline-profile mt-30 col-md-9">
                     <div>
                         <span class="primary_color text-h6">Address</span>
-                        <q-input v-model="userDisplay.address" outlined type="textarea" :disable="isEditable" class="fix-txt-field" />
+                        <q-input v-model="userDisplay.address" outlined type="textarea" :disable="isEditable || cpLoader || loader" class="fix-txt-field" />
                     </div>
                 </div>
                 <div class="col-md-9 j-end mt-20">
                     <!-- <q-btn color="negative" unelevated rounded class="tf-capitalize d-flex" @click="doDeleteAccount()" :loading="loader" label="Delete Account" /> -->
                 </div>
             </div>
-        </div>
+        </q-form>
     </q-page>
 </template>
 
@@ -109,6 +125,7 @@ export default {
         return{
             help,
             loader: false,
+            cpLoader: false,
             tes: 0,
             user: {},
             userToken: null,
@@ -122,7 +139,14 @@ export default {
                 image: null,
                 address: null,
             },
+            rules: {
+                phoneNumber_r: [
+                    v => !!v || 'Phone number is required!',
+                    v => /^[0-9]{10,12}$/.test(v) || 'Minimal of 10 digit'
+                ]
+            },
             DoBForDisplay: null,
+            DoBForProxy: null,
             isEditable: true,
             isUploadPhoto: false
         }
@@ -167,7 +191,7 @@ export default {
         },
         doUpdateUserData(){
             this.loader = true
-            if(typeof this.userDisplay.image !== 'object'){
+            if(typeof this.userDisplay.image !== 'object' || help.isDataEmpty(this.userDisplay.image)){
                 this.doUpdateDataUserProfile()
             } else {
                 saveImgTest(this.userDisplay.image, this.user.id, this.userToken).then(response => {
@@ -202,13 +226,14 @@ export default {
             this.userDisplay.image = this.user.profilePicture
             this.userDisplay.displayName = this.user.displayName
             this.userDisplay.phoneNumber = this.user.phoneNumber
-            this.DoBForDisplay = help.defaultFormat(this.user.DoB, help.data().dmy_7)
+            this.DoBForDisplay = help.defaultFormat(this.user.DoB, help.data().dmy_8)
+            this.DoBForProxy = help.defaultFormat(this.user.DoB, help.data().dmy_3)
             this.userDisplay.address = this.user.address
             this.loader = false
         },
         doRequestForgotPasswordEmail () {
             let _this = this
-            _this.loader = true
+            _this.cpLoader = true
             requestForgotPasswordEmail(_this.user).then(response => {
                 Swal.fire({
                     icon: 'success',
@@ -220,7 +245,7 @@ export default {
                     }
                 }) .then((result) => {
                     if(result.isConfirmed){
-                        _this.loader = false
+                        _this.cpLoader = false
                     }
                 })
             }) .catch(function (error) {
@@ -234,12 +259,11 @@ export default {
                         confirmButton: 'br-25px-i py-5-i px-20-i'
                     }
                 })
-                _this.loader = false
+                _this.cpLoader = false
             })
         },
         doUpdateDataUserProfile () {    
             let _this = this
-            // _this.$q.loading.show({})
             if(help.isDataEmpty(_this.userDisplay.image)){
                 _this.userDisplay.image = null
             }
@@ -254,7 +278,6 @@ export default {
                 _this.user = LocalStorage.getItem('autoRepairUser').data.user
                 _this.doInsertUserDisplay(false)
                 _this.loader = false
-                // _this.$q.loading.hide()
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
@@ -327,6 +350,13 @@ export default {
         },
         changePage(url){
             this.$router.push(url)
+        }
+    },
+    watch: {
+        DoBForProxy: {
+            handler(v) {
+                this.DoBForDisplay = help.defaultFormat(v, help.data().dmy_8)
+            }
         }
     }
 }

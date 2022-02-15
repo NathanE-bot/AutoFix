@@ -27,6 +27,18 @@
     }
 }
 .icon-hover-input{
+    &-white{
+        &:hover{
+            .q-icon{
+                @include transition_mixin (color);
+                color: $primary;
+            }       
+        }
+        .q-icon{
+            @include transition_mixin (color);
+            color: #ffffff;
+        }
+    }
     &:hover{
         .q-icon{
             @include transition_mixin (color);
