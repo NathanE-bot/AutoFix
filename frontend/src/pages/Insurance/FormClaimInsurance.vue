@@ -779,10 +779,10 @@ export default {
         if(!this.checkFirstFormNull() && to.fullPath != from.fullPath){
             Swal.fire ({
                 icon: "warning",
-                title: "Cancelling make form",
+                title: "Form Creation Canceled",
                 text: "Are your sure you want to cancel? All of your progress will be lost",
                 cancelButtonText: 'No',
-                confirmButtonText: 'Cancel',
+                confirmButtonText: 'Yes',
                 confirmButtonColor: '#d32f2f',
                 showCancelButton: true,
                 reverseButtons: true,

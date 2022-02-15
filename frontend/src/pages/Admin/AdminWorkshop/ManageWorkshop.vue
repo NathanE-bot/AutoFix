@@ -1027,7 +1027,6 @@ export default {
       // Periodic
       tempArrPeriodic = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis berkala') > -1)
       tempArrPeriodic.forEach(el1 => {
-        console.log(el1)
         let tempObj = {
           serviceID: el1.id,
           serviceType: el1.serviceType,
@@ -1317,7 +1316,6 @@ export default {
         }
         _this.generalServicesForms.push(tempObj)
       })
-      console.log('halo mas', _this.periodicServicesForms)
     },
     doAddNewCarPeriodicService () { // Buat tampilan PERIODIC SERVICES
       let tempObj = {
@@ -1539,7 +1537,6 @@ export default {
         imageData: {}
       }
       this.jsonDataParam.galleryImagesForPreview.push(tempObj)
-      console.log('asd', this.jsonDataParam.galleryImages)
     },
     doUploadForGalleryWorkshop (event, imageObj, index) {
       var inputFile = event.target.files || event.dataTransfer.files
