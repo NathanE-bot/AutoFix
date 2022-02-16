@@ -659,10 +659,10 @@ export default {
             item.distance = Number(item.distance).toFixed(2)
             _this.workshops.push(item)
           })
-        }
-        if(_this.clickedId == null && validator || searching){
-          _this.clickedId = _this.workshops[0].userID
-          _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
+          if(_this.clickedId == null && validator || searching){
+            _this.clickedId = _this.workshops[0].userID
+            _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
+          }
         }
         _this.pageLoader = false
         _this.filterLoader = false
