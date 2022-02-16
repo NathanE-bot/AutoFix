@@ -66,7 +66,7 @@
                                     flat round color="primary"
                                 />
                                 <q-btn
-                                    @click="openGoogleMapsWithCoords(item.lat, item.lon)"
+                                    @click="openGoogleMapsWithCoords(item.latitude, item.longitude)"
                                     icon="fas fa-map-marker-alt"
                                     flat round color="primary"
                                 />
@@ -232,6 +232,7 @@ export default {
                         })
                         tempObject = {...tempObject, ...el1}
                         _this.scheduleList.push(tempObject)
+                        console.log(tempObject)
                         if(!help.isObjectEmpty(_this.favoriteList)){
                             _this.favoriteList.forEach(el3 => {
                                 if(el3.customerID == tempObject.userID && el3.workshopID == tempObject.workshopID){
