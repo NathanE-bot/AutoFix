@@ -1,8 +1,8 @@
 <template>
   <q-page class="chat-page">
     <div class="w-80 m-auto">
-      <div class="row white-bg br-10px" v-if="!help.isObjectEmpty(room) && !loader">
-        <div class="room-section-gap col-md-6">
+      <div class="row white-bg br-10px" v-if="!loader">
+        <div class="room-section-gap col-md-6" v-if="!help.isObjectEmpty(room)">
           <q-scroll-area
             :thumb-style="thumbStyle"
             :bar-style="barStyle"
@@ -26,6 +26,9 @@
             </div>
           </q-scroll-area>
         </div>
+        <div class="room-section-gap col-md-6 d-flex a-center j-center" v-else>
+          No Data
+        </div>
         <div class="chat-room-page col-md-6">
           <q-card class="my-card chat-card">
             <q-card-section class="d-flex a-center receiver-name">
@@ -33,22 +36,27 @@
                 {{ user.role == '2' ? user_1 : user_2 }}
               </div>
             </q-card-section>
-            <q-card-section class="chat-section">
+            <q-card-section class="chat-section" id="chatSection">
               <q-scroll-area
                 :thumb-style="thumbStyle"
                 :bar-style="barStyle"
                 class="list-workshop-scrollbar left-chat-fix"
                 :style="{height: window.heightAltered + 'px'}"
               >
-                <div v-for="item in messages" :key="item">
-                  <div :class="[{'time-layout-not-sent' : item.username != user.fullName},{'time-layout-sent' : item.username == user.fullName}]">
-                    <span v-if="item.username == user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
-                    <q-chat-message class="chat-message-bubble"
-                      :text="[item.message]" :bg-color="item.username != user.fullName ? 'primary' : ''"
-                      :sent="item.username == user.fullName ? true : false"
-                    />
-                    <span v-if="item.username != user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
+                <div v-if="clicked">
+                  <div v-for="item in messages" :key="item">
+                    <div :class="[{'time-layout-not-sent' : item.username != user.fullName},{'time-layout-sent' : item.username == user.fullName}]">
+                      <span v-if="item.username == user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
+                      <q-chat-message class="chat-message-bubble"
+                        :text="[item.message]" :bg-color="item.username != user.fullName ? 'primary' : ''"
+                        :sent="item.username == user.fullName ? true : false"
+                      />
+                      <span v-if="item.username != user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
+                    </div>
                   </div>
+                </div>
+                <div class="flex flex-center" :style="{height: window.heightAltered1 + 'px'}" v-else>
+                  Choose message room to start messaging
                 </div>
               </q-scroll-area>
             </q-card-section>
@@ -100,6 +108,7 @@ export default {
       help,
       loader: false,
       firstLoad: true,
+      clicked: false,
       messageInput: '',
       tempMessageInput: '',
       user: {},
@@ -128,6 +137,7 @@ export default {
         height: 0,
         heightAltCard: 0,
         heightAltered: 0,
+        heightAltered1: 0,
         minHeightChatSection: 0
       }
     }
@@ -204,9 +214,14 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    doScrollBottomChat () {
+      var element = document.getElementById('chatSection').getElementsByClassName("q-scrollarea__container")[0]
+      element.scrollTop = element.scrollHeight
+    },
     changePageForChat (item) {
       console.log(item)
       let _this = this
+      _this.clicked = true
       _this.roomId = item.roomSecureId
       if(!help.isDataEmpty(_this.roomId)){
         const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + _this.roomId);
@@ -236,8 +251,8 @@ export default {
           _this.user_2 = user_2
           _this.messages = messages
           setTimeout(() => {
-            _this.scrollToBottom()
-          }, 0);
+            _this.doScrollBottomChat()
+          }, 0)
         })
       } 
     },
@@ -255,6 +270,11 @@ export default {
             .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .ref("chatRoom/" + this.roomId)
             .push(message)
+          
+          setTimeout(() => {
+            _this.doScrollBottomChat()
+          }, 0)
+
           this.tempMessageInput = ""
         }
       } else if(event.key == "Enter" && !event.shiftKey) {
@@ -263,9 +283,16 @@ export default {
             .database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .ref("chatRoom/" + this.roomId)
             .push(message)
+
+          setTimeout(() => {
+            _this.doScrollBottomChat()
+          }, 0)
           this.tempMessageInput = ""
         }
       }
+      setTimeout(() => {
+        _this.doScrollBottomChat()
+      }, 0)
       this.tempMessageInput = ""
     },
     handleResize () {
@@ -273,13 +300,8 @@ export default {
       this.window.height = window.innerHeight
       this.window.heightRoom = window.innerHeight - (window.innerHeight * (22/100))
       this.window.heightAltered = window.innerHeight - (window.innerHeight * (40/100))
+      this.window.heightAltered1 = window.innerHeight - (window.innerHeight * (45/100))
       this.window.minHeightChatSection = window.innerHeight - (window.innerHeight * (80/100))
-    },
-    scrollToBottom () {
-      let tes = document.getElementsByClassName("chat-card")[0]
-      let tes2 = tes.scrollHeight - tes.clientHeight
-      console.log(tes.scrollTop, tes2)
-      tes.scrollTop = tes2
     },
     doConsole (a) {
       console.log(a)
