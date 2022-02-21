@@ -150,6 +150,7 @@
 }
 
 .gallery-images{
+    position: relative;
     // @include width_preset(500px);
     @include height_preset(250px);
 }

@@ -103,6 +103,10 @@
                         </q-item>
                       </template>
                     </q-select>
+                    <div class="d-flex flex-dir-col" v-if="!help.isObjectEmpty(tempPeriodicService)">
+                      <span>Price: {{ ValidationFunction.convertToRupiah(tempPeriodicService.price) }}</span>
+                      <span>Estimation service time: {{ tempPeriodicService.time == 1 ? "An Hour" : tempPeriodicService.time + ' Hours' }}</span>
+                    </div>
                   </div>
                 </div>
               </q-card-section>
@@ -112,14 +116,19 @@
                     Choose car model and type first
                   </q-tooltip>
                 </q-checkbox>
-                <div v-if="general">
+                <div v-if="general" class="mt-20">
                   <div class="row q-col-gutter-y-xl" style="gap: 5%" v-if="!help.isObjectEmpty(generalServicesOptions)">
                     <div class="col-md-3 w-30-i" v-for="service in generalServicesOptions" :key="service.id">
                       <div class="general-services">
                         <q-checkbox v-model="service.checked" @update:model-value="doCalculateTotalPriceAndHour()" size="xs" />
                         <div class="content">
-                          <span>{{ service.serviceDetail }}</span>
-                          <span>{{ service.price }}</span>
+                          <div class="d-flex flex-dir-col">
+                            <span>{{ service.serviceDetail }}</span>
+                            <span>{{ ValidationFunction.convertToRupiah(service.price) }}</span>
+                          </div>
+                          <div>
+                            <span>Estimation service time: {{ service.time == 1 ? "An Hour" : service.time + ' Hours' }}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -387,16 +396,16 @@ export default {
         }
         // for periodic
         if(!help.isObjectEmpty(this.jsonDataParam.serviceTypeBerkala) && this.jsonDataParam.serviceTypeBerkala[0] !== null){
-          this.jsonDataParam.timeEstimation = this.jsonDataParam.timeEstimation + this.tempPeriodicService.time
-          this.jsonDataParam.priceEstimation = this.jsonDataParam.priceEstimation + this.tempPeriodicService.price
+          this.jsonDataParam.timeEstimation = parseInt(this.jsonDataParam.timeEstimation) + parseInt(this.tempPeriodicService.time)
+          this.jsonDataParam.priceEstimation = parseInt(this.jsonDataParam.priceEstimation) + parseInt(this.tempPeriodicService.price)
         }
 
         // for general
         this.generalServicesOptions.forEach(el1 => {
           if(el1.checked){
             this.jsonDataParam.serviceTypeUmum.push(el1)
-            this.jsonDataParam.timeEstimation = this.jsonDataParam.timeEstimation + el1.time
-            this.jsonDataParam.priceEstimation = this.jsonDataParam.priceEstimation + el1.price
+            this.jsonDataParam.timeEstimation = parseInt(this.jsonDataParam.timeEstimation) + parseInt(el1.time)
+            this.jsonDataParam.priceEstimation = parseInt(this.jsonDataParam.priceEstimation) + parseInt(el1.price)
           }
         })
       }, 0)

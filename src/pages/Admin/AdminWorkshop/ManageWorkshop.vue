@@ -333,7 +333,7 @@
                 <div class="text-subtitle2 fw-semibold">Max: 4 Images</div>
                 <div class="d-flex a-center j-center">
                   <q-btn
-                    v-if="jsonDataParam.galleryImagesForPreview.length < 4"
+                    :disable="jsonDataParam.galleryImagesForPreview.length == 4"
                     @click="addGalleryForm()"
                     icon="fas fa-plus"
                     flat round color="grey-5"
@@ -347,10 +347,18 @@
                 /> -->
               </div>
             </div>
-            <div :class="['row j-start w-94 m-auto']">
+            <div :class="['row j-start w-94 m-auto']" v-if="!help.isObjectEmpty(jsonDataParam.galleryImagesForPreview)">
               <div class="px-12 mb-15" v-for="(image, index) in jsonDataParam.galleryImagesForPreview" :key="'galer-'+index">
                 <div class="gallery-images">
-                  <img class="responsive_img fit-content" width="500" height="250" :src="image.imageData" :id="'imageGallery-' + index" alt="">
+                  <!-- <img class="responsive_img fit-content" width="500" height="250" :src="image.imageData" :id="'imageGallery-' + index" alt=""> -->
+                  <q-img
+                    :class="['responsive_img fit-content br-5px', {'w-0 z-opacity' : help.isDataEmpty(image.imageData)}]"
+                    style="width: 500px; height: 250px"
+                    :id="'imageGallery-' + index"
+                    :src="image.imageData"
+                    spinner-color="primary"
+                  />
+                  <i v-if="help.isDataEmpty(image.imageData)" class="fas fa-cloud-upload-alt fs-40 upload-cloud-icon b-ddd br-5px"></i>
                 </div>
                 <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadGallery-' + index" @change="doUploadForGalleryWorkshop($event, image, index)">
               </div>
@@ -658,7 +666,7 @@
             <q-btn
               class="tf-capitalize icon-resize"
               color="negative" rounded unelevated label="Remove All Periodic Services"
-              @click="doDeleteAllWorkshopServicesByType(periodicServicesForms)"
+              @click="doDeleteAllWorkshopServicesByType(periodicServicesForms, 'p')"
             />
             <q-btn
               class="tf-capitalize icon-resize"
@@ -669,7 +677,7 @@
             <q-btn
               class="tf-capitalize icon-resize"
               color="negative" rounded unelevated label="Remove All General Services"
-              @click="doDeleteAllWorkshopServicesByType(generalServicesForms)"
+              @click="doDeleteAllWorkshopServicesByType(generalServicesForms, 'g')"
             />
           </div>
           <div class="q-gutter-x-sm">
@@ -1027,7 +1035,6 @@ export default {
       // Periodic
       tempArrPeriodic = tempArrServices.filter(v => v.serviceType.toLocaleLowerCase().indexOf('servis berkala') > -1)
       tempArrPeriodic.forEach(el1 => {
-        console.log(el1)
         let tempObj = {
           serviceID: el1.id,
           serviceType: el1.serviceType,
@@ -1317,7 +1324,6 @@ export default {
         }
         _this.generalServicesForms.push(tempObj)
       })
-      console.log('halo mas', _this.periodicServicesForms)
     },
     doAddNewCarPeriodicService () { // Buat tampilan PERIODIC SERVICES
       let tempObj = {
@@ -1507,39 +1513,55 @@ export default {
         })
       })
     },
-    doDeleteAllWorkshopServicesByType (item) {
+    doDeleteAllWorkshopServicesByType (item, initial) {
       let _this = this
       let firstItem = item[0]
-      deleteWorkshopServiceByStatusAndID(firstItem.workshopDetailID, firstItem.serviceType, _this.accessToken).then(response => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: response.data.message
-        }) .then(() => {
-          _this.showError = false
-          _this.editCarServiceLoader = false
-          _this.doGetWorkshopDetailByUserID(false, true)
-        })
-      }) .catch((error) => {
-        console.log(error)
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please contact our admin'
-        }) .then(() => {
-          _this.showError = true
-          _this.editCarServiceLoader = false
-        })
+      Swal.fire({
+        icon: 'warning',
+        title: initial == 'p' ? 'Removing all periodic services, are you sure?' : 'Removing all general services, are you sure?',
+        confirmButtonText: 'Yes',
+        confirmButtonColor: '#21a17b',
+        cancelButtonColor: '#d32f2f',
+        cancelButtonText: 'No',
+        showCancelButton: true,
+        reverseButtons: true,
+        customClass: {
+          confirmButton: 'br-25px-i py-5-i px-20-i',
+          cancelButton: 'br-25px-i py-5-i px-20-i'
+        }
+      }) .then((result) => {
+        if(result.isConfirmed){
+          deleteWorkshopServiceByStatusAndID(firstItem.workshopDetailID, firstItem.serviceType, _this.accessToken).then(response => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: response.data.message
+            }) .then(() => {
+              _this.showError = false
+              _this.editCarServiceLoader = false
+              _this.doGetWorkshopDetailByUserID(false, true)
+            })
+          }) .catch((error) => {
+            console.log(error)
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Please contact our admin'
+            }) .then(() => {
+              _this.showError = true
+              _this.editCarServiceLoader = false
+            })
+          })
+        }
       })
     },
     addGalleryForm () {
       let tempObj = {
         workshopPictureID: 0,
         uploaded: false,
-        imageData: {}
+        imageData: null
       }
       this.jsonDataParam.galleryImagesForPreview.push(tempObj)
-      console.log('asd', this.jsonDataParam.galleryImages)
     },
     doUploadForGalleryWorkshop (event, imageObj, index) {
       var inputFile = event.target.files || event.dataTransfer.files

@@ -1,6 +1,6 @@
 <template>
   <q-page-container class="p-30-i lightGrey-bg">
-    <q-page v-if="!help.isObjectEmpty(workshops) && !pageLoader">
+    <div>
       <q-card class="my-card br-20px">
         <q-card-section class="p-35 pb-20">
           <span class="fw-bold fs-20">Workshop</span>
@@ -50,6 +50,8 @@
           </q-btn>
         </q-card-section>
       </q-card>
+    </div>
+    <q-page v-if="!help.isObjectEmpty(workshops) && !pageLoader">
       <div v-if="!filterLoader">
         <div class="my-20">
           <span class="fw-bold fs-20">Total Workshop : {{ totalWorkshop }}</span>
@@ -349,7 +351,7 @@
       </div>
     </q-page>
     <q-page v-else-if="pageLoader">
-      <q-card class="my-card br-20px bg-transparent">
+      <!-- <q-card class="my-card br-20px bg-transparent">
         <q-card-section class="p-35 pb-20">
           <q-skeleton type="rect" width="100px" />
         </q-card-section>
@@ -359,7 +361,7 @@
           <q-skeleton class="col-md-3 ml-auto br-10px" type="QInput" height="56px" />
           <q-skeleton class="ml-auto br-10px" type="QBtn" width="80px" height="56px" />
         </q-card-section>
-      </q-card>
+      </q-card> -->
       <div class="my-20">
         <q-skeleton type="rect" width="200px" />
       </div>
@@ -644,20 +646,23 @@ export default {
       getWorkshopApi(_this.jsonDataParam).then(response => {
         _this.tempWorkshops = response.data.objectReturn
         _this.totalWorkshop = response.data.objectReturn.total
+        console.log(_this.tempWorkshops)
         if(searching){
           _this.workshops = []
         }
         if(_this.totalWorkshop == 0){
           this.workshopById.defaultData = {}
         }
-        _this.tempWorkshops.data.forEach(item => {
-          console.log(item)
-          item.distance = Number(item.distance).toFixed(2)
-          _this.workshops.push(item)
-        })
-        _this.clickedId = _this.workshops[0].userID
-        if(_this.clickedId != null && validator || searching){
-          _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
+        if(!help.isObjectEmpty(_this.tempWorkshops.data)){
+          _this.tempWorkshops.data.forEach(item => {
+            console.log(item)
+            item.distance = Number(item.distance).toFixed(2)
+            _this.workshops.push(item)
+          })
+          if(_this.clickedId == null && validator || searching){
+            _this.clickedId = _this.workshops[0].userID
+            _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
+          }
         }
         _this.pageLoader = false
         _this.filterLoader = false
