@@ -57,7 +57,6 @@ export default {
             confirmButtonText: 'Login',
             confirmButtonColor: '#21a17b',
             cancelButtonText: 'Back',
-            confirmButtonColor: '#21a17b',
             showCancelButton: true,
             reverseButtons: true,
             customClass: {
