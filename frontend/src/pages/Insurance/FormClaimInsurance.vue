@@ -474,13 +474,16 @@ export default {
                     // v => /^[0-9][A-Z]{17,17}$/.test(v) || 'Wrong chassis number format'
                 ],
                 addressClaimer_r: [
-                    v => !!v || 'Address is required!'
+                    v => !!v || 'Address is required!',
+                    v => v.length >= 10 && v.length <= 255 || 'Must be between 10 and 225 character'
                 ],
                 polisNumber_r: [
-                    v => !!v || 'Polis number is required!'
+                    v => !!v || 'Polis number is required!',
+                    v => v.length >= 8 && v.length <= 15 || 'Must be between 8 and 15 character'
                 ],
                 licensePlateNumber_r: [
-                    v => !!v || 'Registration number is required!'
+                    v => !!v || 'Registration number is required!',
+                    v => v.length >= 5 && v.length <= 12 || 'Must be between 5 and 12 character'
                 ],
                 //STEPPER 2
                 driverName_r: [
