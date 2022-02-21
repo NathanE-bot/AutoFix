@@ -122,8 +122,13 @@
                       <div class="general-services">
                         <q-checkbox v-model="service.checked" @update:model-value="doCalculateTotalPriceAndHour()" size="xs" />
                         <div class="content">
-                          <span>{{ service.serviceDetail }}</span>
-                          <span>{{ ValidationFunction.convertToRupiah(service.price) }}</span>
+                          <div class="d-flex flex-dir-col">
+                            <span>{{ service.serviceDetail }}</span>
+                            <span>{{ ValidationFunction.convertToRupiah(service.price) }}</span>
+                          </div>
+                          <div>
+                            <span>Estimation service time: {{ service.time == 1 ? "An Hour" : service.time + ' Hours' }}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
