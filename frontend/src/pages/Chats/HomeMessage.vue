@@ -212,7 +212,7 @@ export default {
           if(_this.checker) {
             _this.doScrollBottomChat()
           }
-        }, 2000)
+        }, 0)
       })
     } else {
       const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + this.roomIDFromChecker);
@@ -244,7 +244,7 @@ export default {
           if(_this.checker) {
             _this.doScrollBottomChat()
           }
-        }, 2000)
+        }, 0)
       })
     }
   },
@@ -286,7 +286,9 @@ export default {
           _this.user_1 = user_1
           _this.user_2 = user_2
           _this.messages = messages
-          _this.doScrollBottomChat()
+          setTimeout(() => {
+            _this.doScrollBottomChat()
+          }, 0)
         })
       } 
     },
@@ -311,7 +313,9 @@ export default {
               .ref("chatRoom/" + this.roomIDFromChecker)
               .push(message)
           }
-          this.doScrollBottomChat()
+          setTimeout(() => {
+            _this.doScrollBottomChat()
+          }, 0)
           this.tempMessageInput = ""
         }
       } else if(event.key == "Enter" && !event.shiftKey) {
@@ -327,11 +331,15 @@ export default {
               .ref("chatRoom/" + this.roomIDFromChecker)
               .push(message)
           }
-          this.doScrollBottomChat()
+          setTimeout(() => {
+            _this.doScrollBottomChat()
+          }, 0)
           this.tempMessageInput = ""
         }
       }
-      this.doScrollBottomChat()
+      setTimeout(() => {
+        _this.doScrollBottomChat()
+      }, 0)
       this.tempMessageInput = ""
     },
     handleResize () {
