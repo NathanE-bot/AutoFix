@@ -292,9 +292,9 @@
                                 </div>
                                 <div class="d-flex flex-dir-col ml-10">
                                     <span>5. Left and right view of the vehicle</span>
-                                    <span>6. <b>Damaged</b> section from afar</span>
-                                    <span>7. <b>Damaged</b> section up close while <b>pointing</b> at the damaged direction</span>
-                                    <span>8. Chassis number and vehicle kilometer</span>
+                                    <span>6. Chassis number and vehicle kilometer</span>
+                                    <span>7. <b>Damaged</b> section from afar</span>
+                                    <span>8. <b>Damaged</b> section up close while <b>pointing</b> at the damaged direction</span>
                                 </div>
                             </div>
                             <div class="d-flex flex-dir-col">
@@ -313,7 +313,14 @@
                                 >
                                 </q-input>
                                 <div class="form-insurance-images relative-position br-10-bot">
-                                    <img :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]" width="300" height="150" :src="image.imageFile"  :id="'myImg-' + index" alt="">
+                                    <!-- <img :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]" width="300" height="150" :src="image.imageFile"  :id="'myImg-' + index" alt=""> -->
+                                    <q-img
+                                        :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]"
+                                        style="width: 300px; height: 150px"
+                                        :id="'myImg-' + index"
+                                        :src="image.filePath"
+                                        spinner-color="primary"
+                                    />
                                     <i v-if="help.isDataEmpty(image.imageFile)" class="fas fa-cloud-upload-alt fs-40 upload-cloud-icon"></i>
                                 </div>
                                 <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, image, index)">
@@ -608,12 +615,37 @@ export default {
         },
         addUploadPhoto (firstLoader) {
             if(firstLoader){
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 12; i++) {
                     const tempObj = {
                         name: '',
                         imageFile: null,
                         uploaded: false,
                         filePath: 'null'
+                    }
+                    if(i == 0){
+                        tempObj.name = 'Driver License'
+                    } else if (i == 1) {
+                        tempObj.name = 'ID Card'
+                    } else if (i == 2) {
+                        tempObj.name = 'Car Registration (front view)'
+                    } else if (i == 3) {
+                        tempObj.name = 'Car Registration (back view)'
+                    } else if (i == 4) {
+                        tempObj.name = 'Front view vehicle'
+                    } else if (i == 5) {
+                        tempObj.name = 'Rear view vehicle'
+                    } else if (i == 6) {
+                        tempObj.name = 'Left view vehicle'
+                    } else if (i == 7) {
+                        tempObj.name = 'Right view vehicle'
+                    } else if (i == 8) {
+                        tempObj.name = 'Chassis number'
+                    } else if (i == 9) {
+                        tempObj.name = 'Vehicle Kilometer'
+                    } else if (i == 10) {
+                        tempObj.name = 'Damaged section 1 from afar'
+                    } else if (i == 11) {
+                        tempObj.name = 'Damaged section 1 from near'
                     }
                     this.imageForm.push(tempObj)
                 }
