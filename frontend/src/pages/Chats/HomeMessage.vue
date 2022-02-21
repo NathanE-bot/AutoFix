@@ -209,8 +209,10 @@ export default {
         _this.user_2 = user_2
         _this.messages = messages
         setTimeout(() => {
-          _this.doScrollBottomChat()
-        }, 0);
+          if(_this.checker) {
+            _this.doScrollBottomChat()
+          }
+        }, 2000)
       })
     } else {
       const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + this.roomIDFromChecker);
@@ -239,8 +241,10 @@ export default {
         _this.user_2 = user_2
         _this.messages = messages
         setTimeout(() => {
-          _this.doScrollBottomChat()
-        }, 0);
+          if(_this.checker) {
+            _this.doScrollBottomChat()
+          }
+        }, 2000)
       })
     }
   },
@@ -249,13 +253,8 @@ export default {
   },
   methods: {
     doScrollBottomChat () {
-      var chatS = document.getElementById("chatSection").getElementsByClassName("q-scrollarea__content")[0]
-      var scroll = document.getElementById("chatSection").getElementsByClassName("q-scrollarea__container")[0]
-      console.log(chatS.scrollHeight)
-      setTimeout(() => {
-        var a = chatS.offsetTop
-        scroll.scrollTop = a
-      }, 0)
+      var element = document.getElementById('chatSection').getElementsByClassName("q-scrollarea__container")[0]
+      element.scrollTop = element.scrollHeight
     },
     changePageForChat (item) {
       let _this = this
@@ -287,9 +286,7 @@ export default {
           _this.user_1 = user_1
           _this.user_2 = user_2
           _this.messages = messages
-          setTimeout(() => {
-            _this.doScrollBottomChat()
-          }, 0);
+          _this.doScrollBottomChat()
         })
       } 
     },
