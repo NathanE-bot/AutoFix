@@ -195,9 +195,9 @@
                 </div>
                 <q-separator class="br-5px" color="#605A5A" size="4px" />
               </q-card-section>
-              <q-card class="my-card border-card-i br-20px-i m-16">
+              <q-card class="border-card-i br-20px-i m-16">
                 <q-card-section>
-                  <div class="text-h6">{{ !help.isObjectEmpty(workshopById.defaultData.workshop_review) ? 'Reviews' : 'No Review'}}</div>
+                  <div class="text-h6 mh-60-d">{{ !help.isObjectEmpty(workshopById.defaultData.workshop_review) ? 'Reviews' : 'No Review'}}</div>
                   <q-scroll-area
                     v-if="!help.isObjectEmpty(workshopById.defaultData.workshop_review)"
                     :thumb-style="thumbStyle"

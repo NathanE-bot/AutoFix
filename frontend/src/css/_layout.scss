@@ -294,6 +294,12 @@
     @include width_preset(120px);
 }
 
+.mh-60-d{
+    @media (min-width: 500px) {
+        min-height: 60px;
+    }
+}
+
 .layout_txt{
     @include layout_txt(85px);
 }

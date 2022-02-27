@@ -122,3 +122,11 @@
         text-align: center;
     }
 }
+
+.border-no-dashed{
+    .q-field__control{
+        &::before{
+            border-bottom-style: none;
+        }
+    }
+}
