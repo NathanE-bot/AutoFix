@@ -1,6 +1,6 @@
 <template>
     <q-page class="flex flex-center">
-        <q-card class="my-card forgotpass-card w-75" :style="{height: window.heightAltered + 'px'}">
+        <q-card class="my-card forgotpass-card w-75 hide-m" :style="{height: window.heightAltered + 'px'}">
             <q-card-section class="p-35 flex flex-center">
                 <div class="position-relative">
                     <img class="responsive_img fit-content logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
@@ -51,6 +51,53 @@
                         </q-form>
                     </div>
                 </div>
+            </q-card-section>
+        </q-card>
+        <q-card class="w-70 m-w-100 m-minh-inherit show-m">
+            <q-card-section class="show-m m-minh-inherit">
+                <div class="mb-40">
+                    <div class="d-flex a-center j-sp-between">
+                        <img class="responsive_img fit-content" width="120" src="~assets/images/logo.png" alt="">
+                        <q-btn
+                            @click="changePage('/session/login')"
+                            round flat
+                            size="lg"
+                        >
+                            <i class="fas fa-chevron-left fs-35"></i>
+                        </q-btn>
+                    </div>
+                </div>
+                <div class="text-align-center mb-20">
+                    <h5 class="mt-0 mb-20 fw-blackbold w-80 m-auto">Input Your Email For Verification</h5>
+                </div>
+                <q-form
+                    @submit.prevent.stop="doRequestForgotPasswordEmail"
+                    class="fw m-auto"
+                >
+                    <q-input
+                        v-model="form.email"
+                        :rules="rules.email_r" lazy-rules="ondemand"
+                        type="email"
+                        label="Email"
+                        borderless
+                        class="default-input-1 m-auto"
+                    >
+                        <template v-slot:prepend>
+                            <q-icon name="email" />
+                        </template>
+                    </q-input>
+                    <div class="mt-20 d-flex flex-center m-btn-fixed-bottom">
+                        <q-btn
+                            :loading="loader"
+                            class="tf-capitalize br-10px fw-bold fs-20 fw"
+                            padding="12px 32px"
+                            rounded outline
+                            type="submit"
+                            label="Send Email"
+                            color="primary"
+                        />
+                    </div>
+                </q-form>
             </q-card-section>
         </q-card>
     </q-page>

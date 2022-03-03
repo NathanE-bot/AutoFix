@@ -115,4 +115,10 @@
     .m-minh-inherit{
         min-height: inherit;
     }
+    .m-btn-fixed-bottom{
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
 }
