@@ -1,7 +1,13 @@
-    <template>
+<template>
     <q-page>
+        <div class="txt-white show-m pl-16 pt-16" v-if="!help.isObjectEmpty(historyList) && !loader">
+            <h5 class="m-0">History</h5>
+        </div>
+        <div class="show-m pl-16 pt-16" v-else-if="loader">
+            <q-skeleton type="rect" width="50px" />
+        </div>
         <div v-if="!help.isObjectEmpty(historyList) && !loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg q-page-height">
-            <q-card v-for="item in historyList" :key="'sl' + item.id" class="my-card w-70">
+            <q-card v-for="item in historyList" :key="'sl' + item.id" class="my-card w-70 m-w-95">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
                         <div class="text-h5 fw-semibold">{{ item.workshopName }}</div>
@@ -56,11 +62,16 @@
                         </div>
                         <div class="col-md-12 row mt-30 a-center">
                             <div class="col-md-6 text-h6 primary_color">
-                                <b>Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
+                                <b class="hide-m">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
+                                <b class="show-m">Price Estimation: <br> {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
                             </div>
-                            <div class="col-md-6 q-gutter-x-lg j-end">
+                            <div class="col-md-6 q-gutter-x-lg j-end hide-m">
                                 <q-btn v-if="item.scheduleStatus == 'done' && item.isReviewed == 0" class="tf-capitalize" rounded unelevated color="warning" label="Review" @click="doOpenReviewDialog(item)" />
                                 <q-btn v-if="item.isReviewed == 1" class="tf-capitalize" rounded unelevated color="primary" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
+                            </div>
+                            <div class="flex flex-dir-col q-gutter-y-md show-m fw mt-10">
+                                <q-btn class="tf-capitalize fw" rounded unelevated color="warning" padding="12px" label="Review" @click="doOpenReviewDialog(item)" />
+                                <q-btn class="tf-capitalize fw" rounded unelevated color="primary" padding="12px" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
                             </div>
                         </div>
                     </div>
