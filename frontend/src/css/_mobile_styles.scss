@@ -1,4 +1,16 @@
 @media (max-width: 500px){
+    h4{
+        font-size: 1.8rem;
+    }
+    .yt-video{
+        border-radius: 10px;
+        width: 80%;
+        margin: auto;
+        @media (max-width:500px) {
+            width: 100%;
+            margin-top: 2rem !important;
+        }
+    }
     .m-right-side-wrapper{
         position: absolute;
         top: 0.6rem;

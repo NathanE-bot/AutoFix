@@ -13,7 +13,7 @@
             <span class="txt-primary">REPAIR</span>
           </div>
           <div>
-            <p class="fs-20 text-white" style="width: 80%; margin: auto; text-align: center;">
+            <p class="fs-20 m-fs-1rem text-white txt-lp-1">
               A website created to help people find the nearest car workshop and make appointment with the selected car workshop, according to the services required
             </p>
           </div>
@@ -95,11 +95,11 @@
           v-if="!help.isObjectEmpty(workshopRecommendation) && !loader"
         >
           <swiper-slide v-for="item in workshopRecommendation" :key="item.id">
-            <q-card class="my-card rec-card">
+            <q-card class="my-card rec-card" @click="changePage('/workshop/detail/' + item.workshopID)">
               <img class="responsive_img fit-content" src="~assets/images/test_workshop.jpg">
               <q-card-section>
                 <div class="d-flex a-start j-sp-between">
-                  <div class="text-h6 primary_color mb-8 link_txt_transition" @click="changePage('/workshop/detail/' + item.workshopID)">
+                  <div class="text-h6 primary_color mb-8">
                     {{ item.workshopName }}
                   </div>
                   <q-badge v-if="item.status24Hr == '0'" class="tf-capitalize" :color="item.statusHr == 'tutup' ? 'grey-5' : 'primary'">
@@ -175,7 +175,7 @@
           <h4 class="m-0 primary_color">How to Use Our Website</h4>
           <span class="fs-16">Get convenience with our website</span>
         </div>
-        <q-video class="mt-40-i w-80 m-auto br-10px"
+        <q-video class="mt-40-i yt-video"
             :ratio="16/6"
             src="https://www.youtube.com/embed/OlHYirmHhK0&ab_channel=baledemy"
           />
@@ -187,7 +187,7 @@
         </div>
         <div class="row">
           <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
-            <q-card-section horizontal class="d-flex j-center">
+            <q-card-section horizontal class="d-flex j-center hide-m-i">
               <img class="responsive-img dev_pic fit-content about-us-img"
                 src="~assets/images/preset/person_1.jpg"
               />
@@ -208,14 +208,12 @@
                 </div>
               </div>
             </q-card-section>
-          </q-card>
-          <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
-            <q-card-section horizontal class="d-flex j-center">
-              <img class="responsive-img dev_pic fit-content about-us-img"
-                src="~assets/images/preset/person_2.png"
+            <q-card-section class="d-flex flex-dir-col show-m-i">
+              <img class="responsive-img fit-content br-10-top"
+                src="~assets/images/preset/person_1.jpg"
               />
-              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">
-                <span class="fs-20">Nathan Oktavian</span>
+              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b br-10-bot">
+                <span class="fs-20">Kenny Ongko</span>
                 <span class="primary_color mb-14">Founder Auto Repair</span>
                 <span class="fs-12">Social Media</span>
                 <div class="mt-10 d-flex a-center">
@@ -233,11 +231,76 @@
             </q-card-section>
           </q-card>
           <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
-            <q-card-section horizontal class="d-flex j-center">
+            <q-card-section horizontal class="d-flex j-center hide-m-i">
+              <img class="responsive-img dev_pic fit-content about-us-img"
+                src="~assets/images/preset/person_2.png"
+              />
+              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">
+                <span class="fs-20">Nathan Engolodoe</span>
+                <span class="primary_color mb-14">Founder Auto Repair</span>
+                <span class="fs-12">Social Media</span>
+                <div class="mt-10 d-flex a-center">
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <div class="sosmed-box">
+                    <i class="fab fa-twitter"></i>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-section class="d-flex flex-dir-col show-m-i">
+              <img class="responsive-img fit-content br-10-top"
+                src="~assets/images/preset/person_2.png"
+              />
+              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b br-10-bot">
+                <span class="fs-20">Nathan Engolodoe</span>
+                <span class="primary_color mb-14">Founder Auto Repair</span>
+                <span class="fs-12">Social Media</span>
+                <div class="mt-10 d-flex a-center">
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <div class="sosmed-box">
+                    <i class="fab fa-twitter"></i>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+          <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
+            <q-card-section horizontal class="d-flex j-center hide-m-i">
               <img class="responsive-img dev_pic fit-content about-us-img"
                 src="~assets/images/preset/person_3.png"
               />
               <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b">
+                <span class="fs-20">Darryl Egbert</span>
+                <span class="primary_color mb-14">Founder Auto Repair</span>
+                <span class="fs-12">Social Media</span>
+                <div class="mt-10 d-flex a-center">
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div class="sosmed-box mr-16">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <div class="sosmed-box">
+                    <i class="fab fa-twitter"></i>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-section class="d-flex flex-dir-col show-m-i">
+              <img class="responsive-img fit-content br-10-top"
+                src="~assets/images/preset/person_3.png"
+              />
+              <div class="p-24 pr-36-i card_bg_black_2 text-white d-flex flex-dir-col a-start bg_img_cog_b br-10-bot">
                 <span class="fs-20">Darryl Egbert</span>
                 <span class="primary_color mb-14">Founder Auto Repair</span>
                 <span class="fs-12">Social Media</span>
