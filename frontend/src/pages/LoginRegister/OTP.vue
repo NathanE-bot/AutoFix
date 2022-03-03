@@ -1,8 +1,8 @@
 <template>
     <q-page class="flex flex-center">
-        <q-card class="w-60 py-30 br-20px position-relative flex flex-center flex-dir-col" :style="{height: window.heightAltered + 'px'}">
+        <q-card class="w-60 py-30 br-20px position-relative flex flex-center flex-dir-col hide-m" :style="{height: window.heightAltered + 'px'}">
             <div class="position-relative">
-                <img class="responsive_img fit-contentlogo_topLeft" width="150" src="~assets/images/logo.png" alt="">
+                <img class="responsive_img fit-content logo_topLeft" width="150" src="~assets/images/logo.png" alt="">
             </div>
             <q-card-section class="flex flex-center flex-dir-col" v-if="!help.isDataEmpty(email)">
                 <h5 class="my-10">We've sent you a 4 digits verification code for your account at,</h5>
@@ -27,6 +27,37 @@
             </q-card-section>
             <q-card-section v-else class="flex flex-center flex-dir-col">
                 <h5 class="my-10">You are not authorized in this page.</h5>
+            </q-card-section>
+        </q-card>
+        <q-card class="show-m m-w-100 m-minh-inherit">
+            <q-card-section>
+                <div>
+                    <img class="responsive_img fit-content" width="120" src="~assets/images/logo.png" alt="">
+                </div>
+                <div v-if="!help.isDataEmpty(email)">
+                    <h5 class="my-10 text-center m-fs-1rem">We've sent you a 4 digits verification code for your account at,</h5>
+                    <h5 class="my-10 mb-20 fw-blackbold text-center m-fs-1rem" style="overflow-wrap: break-word;">{{ email }}</h5>
+                    <div :class="['d-flex a-center j-center', {'mb-40' : !errorMessage}]">
+                        <q-input @keyup="otpChangeIndex(2, $event, otp1)" class="otp-input otp_1" outlined maxlength="1" v-model="otp1" />
+                        <span class="mx-15">-</span>
+                        <q-input @keyup="otpChangeIndex(3, $event, otp2)" class="otp-input otp_2" outlined maxlength="1" v-model="otp2" />
+                        <span class="mx-15">-</span>
+                        <q-input @keyup="otpChangeIndex(4, $event, otp3)" class="otp-input otp_3" outlined maxlength="1" v-model="otp3" />
+                        <span class="mx-15">-</span>
+                        <q-input class="otp-input otp_4" outlined maxlength="1" v-model="otp4" />
+                    </div>
+                    <div class="m-btn-fixed-bottom">
+                        <q-btn @click="doFinalOtp()" label="Verify Code" padding="12px" outline color="primary" class="br-10px fw-bold tf-capitalize fw"></q-btn>
+                    </div>
+                    <span v-if="errorMessage" class="red-txt text-subtitle2 fw-semibold mt-15 text-center">Kode OTP belum valid</span>
+                    <div class="text-center" v-if="failed">
+                        <span v-if="timerVisible" class="slate_grey">Resend in {{ timerCount }}</span>
+                        <span v-else class="link_txt slate_grey" @click="doResendOtp()">Resend Otp?</span>
+                    </div>
+                </div>
+                <div v-else>
+                    <h5 class="my-10">You are not authorized in this page.</h5>
+                </div>
             </q-card-section>
         </q-card>
     </q-page>

@@ -149,7 +149,7 @@
           <q-card class="bg-dark text-white">
             <q-bar class="mh-70">
               <div class="relative-box">
-                <img class="logo-img fixed-top-left fit-content" src="../assets/images/logo.png" alt="">
+                <img class="responsive_img fit-content" width="100" src="../assets/images/logo.png" alt="">
               </div>
               <q-space />
               <q-btn @click="dialogMobileProfile = false" flat round size="md" icon="close" />

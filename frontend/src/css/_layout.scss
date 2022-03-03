@@ -109,6 +109,16 @@
             padding-right: #{$i}px !important;
         }
     }
+    
+    @media (max-width:500px) {
+        .m-p-#{$i}{
+            padding: #{$i}px;
+    
+            &-i{
+                padding: #{$i}px !important;
+            }
+        }
+    }
 }
 
 @for $i from 0 to 101 {
@@ -211,6 +221,16 @@
 
 // width & height
 @for $i from 0 to 101 {
+    @media (max-width:500px) {
+        .m-w-#{$i}{
+            width: #{$i} + '%';
+    
+            &-i{
+                width: #{$i} + '%' !important;
+            }
+            
+        }
+    }
     .w-#{$i}{
         width: #{$i} + '%';
 

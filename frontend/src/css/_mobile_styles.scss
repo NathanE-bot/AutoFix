@@ -136,5 +136,22 @@
                 padding: #{$i}px !important;
             }
         }
+    .m-minh-inherit{
+        min-height: inherit;
+    }
+    .m-btn-fixed-bottom{
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
+    .chat-page{
+        padding: 0;
+    }
+    .chat-room-page{
+        background: white;
+    }
+    .room-section{
+        padding: 18px 14px 18px 0 !important;
     }
 }
