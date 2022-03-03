@@ -52,7 +52,7 @@
                       />
                     </q-td>
                   </q-tr>
-                  <q-tr>
+                  <!-- <q-tr>
                     <q-td>
                       <q-skeleton type="text"/>
                     </q-td>
@@ -77,7 +77,7 @@
                     <q-td>
                       <q-skeleton type="text"/>
                     </q-td>
-                  </q-tr>
+                  </q-tr> -->
                 </template>
               </q-table>
             </div>
