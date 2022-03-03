@@ -1,5 +1,6 @@
 <template>
   <q-drawer
+    v-if="window.width > 500"
     v-model="leftDrawerOpen"
     :width="350"
     :breakpoint="500"
@@ -148,6 +149,7 @@
           </q-item>
 
           <q-item
+            @click="doLogout()"
             clickable
             v-ripple
             :active="link === 'signOut'"
@@ -232,6 +234,16 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    doLogout () {
+      if(!Auth.doUserLogout()){
+        this.changePage('/session/login')
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: '-',
+        })
+      }
+    },
     handleResize () {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
