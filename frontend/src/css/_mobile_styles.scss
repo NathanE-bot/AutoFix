@@ -1,0 +1,49 @@
+@media (max-width: 500px){
+    .m-right-side-wrapper{
+        position: absolute;
+        top: 0.6rem;
+        right: 1rem;
+        .m-btns-wrapper {
+            position: relative;
+            top: 0.4rem;
+            > button {
+                min-width: 84px;
+            }
+        }
+    }
+    .autorepair-footer{
+        margin: auto;
+        background: rgba(0, 0, 0, 0.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(8px);
+        transform: perspective(500px);
+
+        .q-tabs{
+            width: 100%;
+        }
+
+        .q-toolbar{
+            padding: 0;
+        }
+
+        .insurance-tab{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .q-tab__label{
+            text-transform: capitalize;
+        }
+
+        .m-dropdown-button{
+            width: 35%;
+            > button {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                min-height: 52px;
+            }
+        }
+    }
+}

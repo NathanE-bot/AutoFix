@@ -33,7 +33,9 @@
 }
 
 .lg-rg-btn{
-    min-width: 120px;    
+    @media (min-width:500px) {
+        min-width: 120px;
+    }    
 }
 
 .back-btn{

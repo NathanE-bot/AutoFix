@@ -176,7 +176,12 @@
     > .fixed-top-left {
         position: fixed;
         top: 0px;
-        left: 30px;
+        @media (max-width:500px) {
+            left: 0.5rem;
+        }
+        @media (min-width:500px) {
+            left: 30px;
+        }
     }
     > .fixed-initial-left {
         // position: initial;

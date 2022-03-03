@@ -143,6 +143,24 @@
     }
 }
 
+@media (max-width: 500px) {
+    .hide-m{
+        display: none;
+        &-i{
+            display: none !important;
+        }
+    }
+}
+
+@media (min-width: 500px) {
+    .show-m{
+        display: none;
+        &-i{
+            display: none !important;
+        }
+    }
+}
+
 // width
 .fw{
     width: 100%;

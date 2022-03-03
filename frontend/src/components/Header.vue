@@ -7,7 +7,7 @@
         <q-tabs
           v-model="initialTab"
           dense
-          class="m-auto"
+          class="m-auto hide-m"
           active-color="primary"
           indicator-color="primary"
           align="justify"
@@ -35,7 +35,7 @@
             </q-btn-dropdown>
           </div>
         </q-tabs>
-        <div class="relative-position">
+        <div class="relative-position hide-m">
           <div class="float-button">
             <div class="buttons" v-if="!isLogin">
               <q-btn
@@ -95,6 +95,66 @@
                 </q-btn>
               </div>
             </div>
+          </div>
+        </div>
+        <!-- mobile -->
+        <div class="show-m">
+          <div class="m-right-side-wrapper">
+            <div class="d-flex m-btns-wrapper" v-if="!isLogin">
+              <q-btn
+                @click="changePage('/session/login')"
+                outline
+                rounded
+                color="primary"
+                class="tf-capitalize mr-10"
+              >
+                Login
+              </q-btn>
+              <q-btn
+                @click="changePage('/session/register')"
+                unelevated
+                rounded
+                color="primary"
+                class="tf-capitalize"
+              >
+                Register
+              </q-btn>
+            </div>
+            <q-btn
+              v-else
+              round unelevated
+              color="white"
+              size="md"
+            >
+              <q-avatar size="50px" class="bg-white">
+                <q-img
+                  v-if="!help.isDataEmpty(user.profilePicture)"
+                  :src="user.profilePicture"
+                  :ratio="1"
+                  class="responsive_img"
+                />
+                <i v-else class="fas fa-user grey-5"></i>
+              </q-avatar>
+              <q-menu
+                class="dropdown-g text-white"
+                style="border-radius: 0px 0px 5px 5px"
+                :offset="[20, 9]"
+              >
+                <q-list style="min-width: 100px">
+                  <q-item
+                    @click="changePage('/member/your-account')"
+                    clickable v-close-popup
+                  >
+                    Profile
+                  </q-item>
+                  <q-item
+                    @click="doLogout()"
+                    clickable v-close-popup>
+                    Logout
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
           </div>
         </div>
       </q-toolbar>

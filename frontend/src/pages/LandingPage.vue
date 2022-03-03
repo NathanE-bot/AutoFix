@@ -40,7 +40,7 @@
             <div class="mt-20">
               <img class="responsive-img fit-content" src="~assets/images/car_stock_img.png" alt="">
             </div>
-            <div class="scrolldown-animation m-auto cursor-pointer" @click="doScrollIntoAboutUs()">
+            <div class="scrolldown-animation m-auto cursor-pointer hide-m" @click="doScrollIntoAboutUs()">
               <q-tooltip
                 class="bg-primary text-body2"
                 transition-show="scale"

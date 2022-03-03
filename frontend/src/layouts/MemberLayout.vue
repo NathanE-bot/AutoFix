@@ -7,6 +7,10 @@
         <div class="autorepair-sidebar" v-if="isOnDetailSchedule">
             <app-sidebar />
         </div>
+
+        <!-- Footer -->
+        <app-footer />
+
         <q-page-container>
             <router-view />
         </q-page-container>
@@ -18,6 +22,7 @@
 import Auth from '../js/AuthValidation'
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
+import Footer from 'components/Footer'
 import Swal from 'sweetalert2'
 
 export default {
@@ -31,6 +36,7 @@ export default {
     components: {
         appHeader: Header,
         appSidebar: Sidebar,
+        appFooter: Footer
     },
     methods: {
         changePage (url) {
