@@ -35,8 +35,8 @@
                     <img class="responsive_img fit-content" width="120" src="~assets/images/logo.png" alt="">
                 </div>
                 <div v-if="!help.isDataEmpty(email)">
-                    <h5 class="my-10 text-center">We've sent you a 4 digits verification code for your account at,</h5>
-                    <h5 class="my-10 mb-20 fw-blackbold text-center" style="overflow-wrap: break-word;">{{ email }}</h5>
+                    <h5 class="my-10 text-center m-fs-1rem">We've sent you a 4 digits verification code for your account at,</h5>
+                    <h5 class="my-10 mb-20 fw-blackbold text-center m-fs-1rem" style="overflow-wrap: break-word;">{{ email }}</h5>
                     <div :class="['d-flex a-center j-center', {'mb-40' : !errorMessage}]">
                         <q-input @keyup="otpChangeIndex(2, $event, otp1)" class="otp-input otp_1" outlined maxlength="1" v-model="otp1" />
                         <span class="mx-15">-</span>
