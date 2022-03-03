@@ -5,10 +5,10 @@
             <div class="row fw">
               <div class="row col-12 br-10px-i">
                 <div class="row col-12">
-                  <div class="col-6 j-start txt-white flex a-end fs-20">
+                  <div class="col-7 j-start txt-white flex a-end fs-20">
                     <span>Daily Total Approved and Rejected Insurance Claim Requests</span>
                   </div>
-                  <div class="col-6 j-end" style="gap: 1rem;">
+                  <div class="col-5 j-end" style="gap: 1rem;">
                     <q-select
                       v-model="dataHitAPI.month"
                       :options="listMonth"

@@ -52,6 +52,32 @@
                       />
                     </q-td>
                   </q-tr>
+                  <q-tr>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                    <q-td>
+                      <q-skeleton type="text"/>
+                    </q-td>
+                  </q-tr>
                 </template>
               </q-table>
             </div>
@@ -91,6 +117,7 @@ export default {
       ],
       data: [],
       dataIncomingClaim: [],
+      lastArrayInt,
     }
   },
   created() {
