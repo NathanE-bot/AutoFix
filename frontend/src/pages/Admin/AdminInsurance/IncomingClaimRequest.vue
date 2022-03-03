@@ -117,7 +117,7 @@ export default {
       ],
       data: [],
       dataIncomingClaim: [],
-      lastArrayInt,
+      // lastArrayInt,
     }
   },
   created() {
