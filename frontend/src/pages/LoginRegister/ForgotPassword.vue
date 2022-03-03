@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="text-align-center mb-20">
-                    <h5 class="mt-0 mb-20 fw-blackbold w-80 m-auto">Input Your Email For Verification</h5>
+                    <h5 class="mt-0 mb-20 fw-blackbold m-auto">Input Your Email For Verification</h5>
                 </div>
                 <q-form
                     @submit.prevent.stop="doRequestForgotPasswordEmail"
