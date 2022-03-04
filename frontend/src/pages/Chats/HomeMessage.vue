@@ -90,7 +90,7 @@
       </div>
     </div>
     <div class="fw show-m m-minh-inherit">
-      <div class="m-minh-inherit" v-if="help.isObjectEmpty(room) && !loader || checker">
+      <div class="m-minh-inherit" v-if="!help.isObjectEmpty(room) && !loader || checker">
         <div class="room-section-gap m-minh-inherit pt-20" v-if="!help.isObjectEmpty(room)">
           <div class="room-section cursor-pointer col-md-12" v-for="item in room" :key="item.roomSecureId" @click="changePageForChat(item); dialogChatMobile = true">
             <div class="content-section relative-position">
