@@ -1,98 +1,180 @@
 <template>
   <q-page class="flex flex-center">
-      <div class="w-70">
-        <q-card class="my-card login-card fw position-relative m-auto">
-          <q-card-section class="p-35 flex flex-center">
-            <div class="row d-flex a-center">
-              <div class="col-md-7 pr-12 l_side">
-                <img class="logo-logReg pos-logReg-left responsive_img fit-content" width="150" src="~assets/images/logo.png" alt="">
-                <img class="car-img responsive_img fit-content" style="margin-top: 56px;" src="~assets/images/background_img/car_bg_1.jpg" alt="">
-              </div>
-              <div class="col-md-5 pl-12 r_side">
-                <div class="d-flex a-center j-sp-between">
-                  <h3 class="m-0 fw-blackbold fs-45" style="margin-bottom: 7%">Welcome Back!</h3>
-                  <div class="d-flex flex-dir-col a-center pos-back-btn-right">
-                    <q-btn
-                      @click="backToLandingPage()"
-                      round flat
-                      size="lg"
-                    >
-                      <i class="fas fa-chevron-left fs-30"></i>
-                    </q-btn>
-                    <!-- <span>Back</span> -->
-                  </div>
+    <div class="w-70 m-w-100 m-minh-inherit flex flex-center">
+      <q-card class="my-card login-card fw position-relative m-auto m-minh-inherit">
+        <q-card-section class="p-35 flex flex-center hide-m">
+          <div class="row d-flex a-center">
+            <div class="col-md-7 pr-12 l_side">
+              <img class="logo-logReg pos-logReg-left responsive_img fit-content" width="150" src="~assets/images/logo.png" alt="">
+              <img class="car-img responsive_img fit-content" style="margin-top: 56px;" src="~assets/images/background_img/car_bg_1.jpg" alt="">
+            </div>
+            <div class="col-md-5 pl-12 r_side">
+              <div class="d-flex a-center j-sp-between">
+                <h3 class="m-0 fw-blackbold fs-45" style="margin-bottom: 7%">Welcome Back!</h3>
+                <div class="d-flex flex-dir-col a-center pos-back-btn-right">
+                  <q-btn
+                    @click="backToLandingPage()"
+                    round flat
+                    size="lg"
+                  >
+                    <i class="fas fa-chevron-left fs-30"></i>
+                  </q-btn>
+                  <!-- <span>Back</span> -->
                 </div>
-                <q-form
-                  @submit.prevent.stop="doLogin"
-                  @reset="clearForm"
-                  class="q-gutter-md mt-10"
-                >
-                  <div class="q-gutter-sm">
+              </div>
+              <q-form
+                @submit.prevent.stop="doLogin"
+                @reset="clearForm"
+                class="q-gutter-md mt-10"
+              >
+                <div class="q-gutter-sm">
+                  <q-input
+                    v-model="form.email"
+                    :rules="rules.email_r" lazy-rules="ondemand"
+                    type="email"
+                    label="Email"
+                    borderless
+                    class="default-input-1"
+                  >
+                    <template v-slot:prepend>
+                      <q-icon name="email" />
+                    </template>
+                  </q-input>
+                  <div class="relative-position">
                     <q-input
-                      v-model="form.email"
-                      :rules="rules.email_r" lazy-rules="ondemand"
-                      type="email"
-                      label="Email"
+                      v-model="form.password"
+                      :rules="rules.password_r" lazy-rules="ondemand"
+                      :type="isPwd ? 'password' : 'text'"
+                      label="Password"
                       borderless
                       class="default-input-1"
                     >
                       <template v-slot:prepend>
-                        <q-icon name="email" />
+                        <q-icon name="lock" />
+                      </template>
+                      <template v-slot:append>
+                        <q-icon
+                          :name="isPwd ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="isPwd = !isPwd"
+                        />
                       </template>
                     </q-input>
-                    <div class="relative-position">
-                      <q-input
-                        v-model="form.password"
-                        :rules="rules.password_r" lazy-rules="ondemand"
-                        :type="isPwd ? 'password' : 'text'"
-                        label="Password"
-                        borderless
-                        class="default-input-1"
-                      >
-                        <template v-slot:prepend>
-                          <q-icon name="lock" />
-                        </template>
-                        <template v-slot:append>
-                          <q-icon
-                            :name="isPwd ? 'visibility_off' : 'visibility'"
-                            class="cursor-pointer"
-                            @click="isPwd = !isPwd"
-                          />
-                        </template>
-                      </q-input>
-                      <div class="forgot_pass_pos" @click="changePage('/session/forgotpassword')">
-                        <span class="link_txt slate_grey">Forgot password?</span>
-                      </div>
+                    <div class="forgot_pass_pos" @click="changePage('/session/forgotpassword')">
+                      <span class="link_txt slate_grey">Forgot password?</span>
                     </div>
                   </div>
-                  <div class="q-gutter-sm">
-                    <q-btn
-                      class="tf-capitalize"
-                      padding="6px 32px"
-                      rounded unelevated
-                      type="submit"
-                      label="Login"
-                      color="primary"
+                </div>
+                <div class="q-gutter-sm">
+                  <q-btn
+                    class="tf-capitalize"
+                    padding="6px 32px"
+                    rounded unelevated
+                    type="submit"
+                    label="Login"
+                    color="primary"
+                  />
+                  <q-btn
+                    @click="changePage('/session/register')"
+                    class="tf-capitalize q-ml-sm"
+                    padding="6px 32px"
+                    rounded outline
+                    label="Create Account"
+                    color="primary"
+                  />
+                </div>
+                <!-- <div class="d-flex a-center q-ml-lg q-mt-lg">
+                  <span>Don't have an account?&nbsp;</span>
+                  <span @click="changePage('/session/register')" class="link_txt primary_color">Create account</span>
+                </div> -->
+              </q-form>
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-section class="flex flex-dir-col j-sp-between show-m m-minh-inherit">
+          <div>
+            <div class="d-flex a-center j-sp-between">
+              <img class="responsive_img fit-content" width="120" src="~assets/images/logo.png" alt="">
+              <q-btn
+                @click="backToLandingPage()"
+                round flat
+                size="lg"
+              >
+                <i class="fas fa-chevron-left fs-30"></i>
+              </q-btn>
+            </div>
+            <h5 class="my-10 fw-blackbold text-align-center">Welcome Back!</h5>
+            <img class="car-img responsive_img fit-content" src="~assets/images/background_img/car_bg_1.jpg" alt="">
+          </div>
+          <q-form
+            @submit.prevent.stop="doLogin"
+            @reset="clearForm"
+            class="q-gutter-md mt-10"
+          >
+            <div class="q-gutter-sm">
+              <q-input
+                v-model="form.email"
+                :rules="rules.email_r" lazy-rules="ondemand"
+                type="email"
+                label="Email"
+                borderless
+                class="default-input-1"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="email" />
+                </template>
+              </q-input>
+              <div class="relative-position">
+                <q-input
+                  v-model="form.password"
+                  :rules="rules.password_r" lazy-rules="ondemand"
+                  :type="isPwd ? 'password' : 'text'"
+                  label="Password"
+                  borderless
+                  class="default-input-1"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="lock" />
+                  </template>
+                  <template v-slot:append>
+                    <q-icon
+                      :name="isPwd ? 'visibility_off' : 'visibility'"
+                      class="cursor-pointer"
+                      @click="isPwd = !isPwd"
                     />
-                    <q-btn
-                      @click="changePage('/session/register')"
-                      class="tf-capitalize q-ml-sm"
-                      padding="6px 32px"
-                      rounded outline
-                      label="Create Account"
-                      color="primary"
-                    />
-                  </div>
-                  <!-- <div class="d-flex a-center q-ml-lg q-mt-lg">
-                    <span>Don't have an account?&nbsp;</span>
-                    <span @click="changePage('/session/register')" class="link_txt primary_color">Create account</span>
-                  </div> -->
-                </q-form>
+                  </template>
+                </q-input>
+                <div class="forgot_pass_pos" @click="changePage('/session/forgotpassword')">
+                  <span class="link_txt slate_grey">Forgot password?</span>
+                </div>
               </div>
             </div>
-          </q-card-section>
-        </q-card>
-      </div>
+            <div class="q-gutter-sm">
+              <q-btn
+                class="tf-capitalize fw"
+                padding="12px 12px"
+                rounded unelevated
+                type="submit"
+                label="Login"
+                color="primary"
+              />
+              <q-btn
+                @click="changePage('/session/register')"
+                class="tf-capitalize q-ml-sm fw"
+                padding="12px 12px"
+                rounded outline
+                label="Create Account"
+                color="primary"
+              />
+            </div>
+            <!-- <div class="d-flex a-center q-ml-lg q-mt-lg">
+              <span>Don't have an account?&nbsp;</span>
+              <span @click="changePage('/session/register')" class="link_txt primary_color">Create account</span>
+            </div> -->
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </div>
   </q-page>
 </template>
 

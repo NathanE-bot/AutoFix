@@ -3,6 +3,9 @@
     <!-- Header -->
     <app-header />
 
+    <!-- Footer -->
+    <app-footer />
+
     <q-page-container class="p-bg">
       <router-view />
     </q-page-container>
@@ -14,10 +17,12 @@
 import Auth from '../js/AuthValidation'
 import Swal from 'sweetalert2'
 import Header from 'components/Header'
+import Footer from 'components/Footer'
 
 export default {
   components: {
-    appHeader: Header
+    appHeader: Header,
+    appFooter: Footer
   },
   data () {
     return {

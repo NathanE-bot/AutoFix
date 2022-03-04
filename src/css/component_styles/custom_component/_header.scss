@@ -20,6 +20,12 @@
 .dropdown-tab{
     border-radius: 0 0 4px 4px;
     background-color: transparent;
+    &-inverted{
+        border-radius: 4px 4px 0 0;
+        @media (max-width:500px) {
+            background: inherit;
+        }
+    }
 }
 
 .autorepair-header{
@@ -77,19 +83,17 @@
         }
 
         .float-button{
-            // position: absolute;
-            // display: flex;
-            // align-items: center;
-            // right: 0px;
-            // top: -20px;
-            // width: 250px;
             .buttons {
                 position: absolute;
                 display: flex;
                 align-items: center;
-                right: 0px;
+                
                 top: -20px;
-                width: 250px;
+                
+                @media (min-width:500px) {
+                    width: 250px;
+                    right: 0px;
+                }
             }
             .login-avatar{
                 position: absolute;
@@ -98,7 +102,10 @@
                 align-items: flex-end;
                 right: 30px;
                 top: -24px;
-                width: 250px;
+                
+                @media (min-width:500px) {
+                    width: 250px;
+                }
             }
         }
     }

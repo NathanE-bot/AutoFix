@@ -23,6 +23,9 @@
             max-width: 100%;
             border-radius: 150px;
         }
+        @media (max-width:500px) {
+            border-radius: 0;
+        }
     }
     // register
     .register-card{

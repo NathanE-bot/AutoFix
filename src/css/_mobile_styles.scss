@@ -1,0 +1,158 @@
+@media (max-width: 500px){
+    h4{
+        font-size: 1.8rem;
+    }
+    .yt-video{
+        border-radius: 10px;
+        width: 80%;
+        margin: auto;
+        @media (max-width:500px) {
+            width: 100%;
+            margin-top: 2rem !important;
+        }
+    }
+    .m-right-side-wrapper{
+        position: absolute;
+        top: 0.6rem;
+        right: 1rem;
+        .m-btns-wrapper {
+            position: relative;
+            top: 0.4rem;
+            > button {
+                min-width: 84px;
+            }
+        }
+    }
+    .autorepair-footer{
+        margin: auto;
+        background: rgba(0, 0, 0, 0.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(8px);
+        transform: perspective(500px);
+
+        .q-tabs{
+            width: 100%;
+        }
+
+        .q-toolbar{
+            padding: 0;
+        }
+
+        .insurance-tab{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .q-tab__label{
+            text-transform: capitalize;
+        }
+
+        .m-dropdown-button{
+            width: 32%;
+            > button {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                min-height: 52px;
+            }
+        }
+    }
+    .m-dialog-mobile-profile{
+        .q-list{
+            .q-item__label--header{
+                color: white;
+                .user-img-sidebar{
+                    background-color: #fff;
+                    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.59));
+                }
+            }
+            > .q-item__section{
+
+                > .q-item__label{
+                    padding-bottom: 1rem;
+                }
+                
+                .q-item{
+                    border-radius: 25px;
+                }
+
+                > .q-hoverable{
+                    // background: linear-gradient(to left, $primary 50%, #ffffff 50%) right;
+                    // background-size: 200%;
+                    transition: .3s ease-out;
+                    svg{
+                        path{
+                            fill: #ffffff;
+                            transition: .3s ease-out;
+                        }
+                    }
+                    &:hover{
+                        color: $primary;
+                        background-position: left;
+                        svg{
+                            path{
+                                transition: .3s ease-out;
+                                fill: $primary;
+                            }
+                        }
+                    }
+                }
+                > .q-item--active{
+                    transition: none;
+                    // background: #ffffff;
+                    color: $primary;
+                    svg{
+                        path{
+                            transition: .3s ease-out;
+                            fill: $primary;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @for $i from 0 to 101{
+        .m-mb-#{$i}{
+            margin-bottom: #{$i}px;
+        }
+    }
+
+    .q-scrollarea__thumb, .q-scrollarea__bar{
+        display: none;
+    }
+
+    .q-scrollarea__content{
+        padding: 0 !important;
+    }
+
+    // Padding (px)
+    @for $i from 0 to 101 {
+        .m-p-#{$i}{
+            padding: #{$i}px;
+
+            &-i{
+                padding: #{$i}px !important;
+            }
+        }
+    }
+    .m-minh-inherit{
+        min-height: inherit;
+    }
+    .m-btn-fixed-bottom{
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
+    .chat-page{
+        padding: 0;
+    }
+    .chat-room-page{
+        background: white;
+    }
+    .room-section{
+        padding: 18px 14px 18px 0 !important;
+    }
+}

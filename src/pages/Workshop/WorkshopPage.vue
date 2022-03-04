@@ -1,19 +1,19 @@
 <template>
-  <q-page-container class="p-30-i lightGrey-bg">
+  <q-page-container class="p-30-i m-p-15-i lightGrey-bg">
     <div>
-      <q-card class="my-card br-20px">
-        <q-card-section class="p-35 pb-20">
-          <span class="fw-bold fs-20">Workshop</span>
+      <q-card class="my-card br-10px">
+        <q-card-section class="p-15 pb-20">
+          <span class="fw-bold fs-15">Workshop</span>
         </q-card-section>
-        <q-card-section class="p-35 pt-0 d-flex row">
+        <q-card-section class="p-15 pt-0 d-flex row">
           <q-select
             v-model="jsonDataParam.workshopName"
             :options="workshopNameOptions"
             @filter="filterWName"
             @input-value="setModelWName"
-            use-input input-debounce="0" fill-input hide-selected outlined
+            use-input input-debounce="0" fill-input hide-selected outlined dense
             placeholder="Find Workshop..."
-            class="col-md-3 mr-auto br-10px default-select-2"
+            class="col-md-3 col-xs-12 mr-auto br-10px default-select-2 m-mb-5"
           >
             <template v-slot:prepend>
               <q-icon name="search" />
@@ -24,9 +24,9 @@
             :options="locationOptions"
             @filter="filterLocation"
             @input-value="setModelLocation"
-            use-input input-debounce="0" fill-input hide-selected outlined
+            use-input input-debounce="0" fill-input hide-selected outlined dense
             placeholder="Jakarta, Tangerang..."
-            class="col-md-3 mx-auto br-10px default-select-2"
+            class="col-md-3 col-xs-12 mx-auto br-10px default-select-2 m-mb-5"
           >
             <template v-slot:prepend>
               <q-icon name="search" />
@@ -35,8 +35,8 @@
           <q-select
             v-model="jsonDataParam.status"
             :options="statusOptions"
-            outlined
-            class="col-md-3 ml-auto br-10px default-select-2"
+            outlined dense
+            class="col-md-3 col-xs-12 ml-auto br-10px default-select-2 m-mb-5"
           >
           </q-select>
           <q-btn
@@ -44,8 +44,7 @@
             color="primary"
             size="md" unelevated
             label="Search"
-            padding="16px 24px"
-            class="fw-semibold ml-auto br-10px"
+            class="fw-semibold ml-auto col-md-1 col-xs-12 br-8px"
           >
           </q-btn>
         </q-card-section>
@@ -54,10 +53,10 @@
     <q-page v-if="!help.isObjectEmpty(workshops) && !pageLoader">
       <div v-if="!filterLoader">
         <div class="my-20">
-          <span class="fw-bold fs-20">Total Workshop : {{ totalWorkshop }}</span>
+          <span class="fw-bold fs-15">Total Workshop : {{ totalWorkshop }}</span>
         </div>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 col-xs-12">
             <q-scroll-area
               :thumb-style="thumbStyle"
               :bar-style="barStyle"
@@ -65,7 +64,7 @@
               :style="{height: window.heightAltered + 'px'}"
             >
               <div>
-                <q-card v-for="item in workshops" :key="item.id" class="my-card mb-20 br-20px w-list ml-5 cursor-pointer" @click="doGetWorkshopById(true, clickedId, item.userID)">
+                <q-card v-for="item in workshops" :key="item.id" class="my-card mb-15 br-20px w-list ml-5 cursor-pointer" @click="window.width > 500 ? doGetWorkshopById(true, clickedId, item.userID) : changePage('/workshop/detail/' + workshopById.defaultData.id)">
                   <q-card-section class="d-flex j-sp-between">
                     <div class="d-flex a-center">
                       <div v-if="!help.isDataEmpty(item.workshopLogo)">
@@ -104,7 +103,7 @@
               </div>
             </q-scroll-area>
           </div>
-          <div class="col-md-6 pl-16">
+          <div class="col-md-6 hide-m pl-16">
             <q-card class="my-card p-20 br-20px" v-if="!help.isObjectEmpty(workshopById.defaultData) && !detailWorkshopLoader">
               <q-card-section>
                 <div>
@@ -659,10 +658,10 @@ export default {
             item.distance = Number(item.distance).toFixed(2)
             _this.workshops.push(item)
           })
-          if(_this.clickedId == null && validator || searching){
-            _this.clickedId = _this.workshops[0].userID
-            _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
-          }
+        }
+        if(_this.clickedId == null && validator || searching){
+          _this.clickedId = _this.workshops[0].userID
+          _this.doGetWorkshopById(false, _this.clickedId, _this.workshops[0].userID)
         }
         _this.pageLoader = false
         _this.filterLoader = false

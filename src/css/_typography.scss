@@ -4,6 +4,26 @@
         font-size: #{$i}px;
     }
 }
+
+@for $i from 0 to 101 {
+    @media (max-width:500px) {
+        .m-fs-#{$i}rem{
+            font-size: #{$i}rem;
+            &-i{
+                font-size: #{$i}rem !important;
+            }
+        }
+    }
+    @media (min-width:500px) {
+        .fs-#{$i}rem{
+            font-size: #{$i}rem;
+            &-i{
+                font-size: #{$i}rem !important;
+            }
+        }
+    }
+}
+
 // font weight
 .fw-normal{
     font-weight: 500;

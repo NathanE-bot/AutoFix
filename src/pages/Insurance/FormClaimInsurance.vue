@@ -140,10 +140,11 @@
                         <q-input
                             v-model="form.incidentDate"
                             :rules="rules.incidentDate_r"
+                            readonly
                             lazy-rules="ondemand"
                             hint="Ex. 2021/08/20"
                             mask="####/##/##"
-                            class="col-md-5 mr-auto icon-hover-input" filled bottom-slots
+                            class="col-md-5 mr-auto icon-hover-input border-no-dashed" filled bottom-slots
                             label="Incident Date"
                         >
                             <template v-slot:append>
@@ -161,10 +162,11 @@
                         <q-input
                             v-model="form.incidentTime"
                             :rules="rules.incidentTime_r"
+                            readonly
                             lazy-rules="ondemand"
                             hint="Ex. 14:40"
                             mask="##:##"
-                            class="col-md-5 ml-auto icon-hover-input" filled bottom-slots
+                            class="col-md-5 ml-auto icon-hover-input border-no-dashed" filled bottom-slots
                             label="Incident Time"
                         >
                             <template v-slot:append>
@@ -236,7 +238,7 @@
                             <div class="col-12">
                                 <div>
                                     <div class="text-h6">Choose the type of workshop you want</div>
-                                    <div class="text-subtitle2 red-txt mb-10">*If there is a workshop of your choice, please <b>include it in the chronology</b> and pick "Workshop of my own choice".</div>
+                                    <div class="text-subtitle2 red-txt mb-10">*If there is a workshop of your choice, please <b>include it in the chronology</b> and pick "Workshop of my own choice". If not it will be <b>rejected</b></div>
                                 </div>
                                 <q-select
                                     v-model="form.workshopTypeObj"
@@ -319,8 +321,15 @@
                                         style="width: 300px; height: 150px"
                                         :id="'myImg-' + index"
                                         :src="image.filePath"
+                                        loading="lazy"
                                         spinner-color="primary"
-                                    />
+                                    >
+                                        <template v-slot:error>
+                                            <div class="absolute-full flex flex-center text-white" style="background-color: gainsboro">
+                                                <i class="fas fa-cloud-upload-alt fs-40 upload-cloud-icon"></i>
+                                            </div>
+                                        </template>
+                                    </q-img>
                                     <i v-if="help.isDataEmpty(image.imageFile)" class="fas fa-cloud-upload-alt fs-40 upload-cloud-icon"></i>
                                 </div>
                                 <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, image, index)">
@@ -515,7 +524,8 @@ export default {
                     v => !!v || 'Incident status description is required!'
                 ],
                 chronology_r: [
-                    v => !!v || 'Chronology is required!'
+                    v => !!v || 'Chronology is required!',
+                    v => v.length >= 10 && v.length <= 500 || 'Must be between 10 and 500 character'
                 ],
                 emptyRule: []
             }
@@ -756,7 +766,7 @@ export default {
             }
         },
         doCheckFormPerStepper(refs){
-            // refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
+            refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
             if(this.step == 1 && this.$refs.formStepper1) {
                 this.$refs.formStepper1.validate().then(success => {
                     if (success) {
@@ -790,11 +800,21 @@ export default {
                 help.isDataEmpty(this.form.insuredName) && 
                 help.isDataEmpty(this.form.phoneNumber) && 
                 help.isDataEmpty(this.form.email) && 
+                help.isDataEmpty(this.form.addressClaimer) && 
                 help.isDataEmpty(this.form.carTypeAndBrand) && 
                 help.isDataEmpty(this.form.chassisNumber) && 
-                help.isDataEmpty(this.form.addressClaimer) && 
                 help.isDataEmpty(this.form.polisNumber) && 
-                help.isDataEmpty(this.form.licensePlateNumber)
+                help.isDataEmpty(this.form.licensePlateNumber) &&
+                help.isDataEmpty(this.form.driverName) &&
+                help.isDataEmpty(this.form.driverSpeed) &&
+                help.isDataEmpty(this.form.driverLicense) &&
+                help.isDataEmpty(this.form.driverRelation) &&
+                help.isDataEmpty(this.form.incidentLocation) &&
+                help.isDataEmpty(this.form.taxiOnlineStatus) &&
+                help.isDataEmpty(this.form.incidentStatus) &&
+                help.isDataEmpty(this.form.incidentStatusDescription) &&
+                help.isDataEmpty(this.form.workshopType) &&
+                help.isDataEmpty(this.form.chronology)
             ) {
                 return true
             }

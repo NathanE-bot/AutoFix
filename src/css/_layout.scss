@@ -109,6 +109,16 @@
             padding-right: #{$i}px !important;
         }
     }
+    
+    @media (max-width:500px) {
+        .m-p-#{$i}{
+            padding: #{$i}px;
+    
+            &-i{
+                padding: #{$i}px !important;
+            }
+        }
+    }
 }
 
 @for $i from 0 to 101 {
@@ -176,7 +186,12 @@
     > .fixed-top-left {
         position: fixed;
         top: 0px;
-        left: 30px;
+        @media (max-width:500px) {
+            left: 0.5rem;
+        }
+        @media (min-width:500px) {
+            left: 30px;
+        }
     }
     > .fixed-initial-left {
         // position: initial;
@@ -206,6 +221,16 @@
 
 // width & height
 @for $i from 0 to 101 {
+    @media (max-width:500px) {
+        .m-w-#{$i}{
+            width: #{$i} + '%';
+    
+            &-i{
+                width: #{$i} + '%' !important;
+            }
+            
+        }
+    }
     .w-#{$i}{
         width: #{$i} + '%';
 
@@ -272,11 +297,17 @@
 }
 
 // misc
+.mh-70{
+    min-height: 70px;
+}
 .w-mc{
     width: max-content;
 }
 .br-10-bot{
     border-radius: 0 0 10px 10px;
+}
+.br-10-top{
+    border-radius: 10px 10px 0 0;
 }
 .minh-inherit{
     min-height: inherit;
@@ -292,6 +323,12 @@
 }
 .w3-120px{
     @include width_preset(120px);
+}
+
+.mh-60-d{
+    @media (min-width: 500px) {
+        min-height: 60px;
+    }
 }
 
 .layout_txt{

@@ -1,4 +1,10 @@
 .landing-page{
+    .txt-lp-1{
+        width: 80%; 
+        margin: auto; 
+        text-align: center;
+    }
+
     background: $dark-theme-bg;
     .initial-bg{
         background: $dark-theme-bg;
@@ -10,6 +16,9 @@
         min-height: 600px;
     }
     .lp-title{
+        @media (max-width:500px) {
+            padding-top: 2rem;
+        }
         padding-top: 40px;
         font-size: 40px;
     }

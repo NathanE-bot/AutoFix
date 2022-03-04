@@ -1,6 +1,6 @@
 <template>
   <q-page class="chat-page pb-0">
-    <div class="w-100 m-auto">
+    <div class="w-100 m-auto hide-m" v-if="window.width > 500">
       <div class="row white-bg br-10px" v-if="!help.isObjectEmpty(room) && !loader || checker">
         <div class="room-section-gap col-md-6" v-if="!help.isObjectEmpty(room)">
           <q-scroll-area
@@ -89,6 +89,91 @@
         <span class="fs-30 txt-white fw-semibold mt-10">Please begin your chat to see your chat list</span>
       </div>
     </div>
+    <div class="fw show-m m-minh-inherit">
+      <div class="m-minh-inherit" v-if="help.isObjectEmpty(room) && !loader || checker">
+        <div class="room-section-gap m-minh-inherit pt-20" v-if="!help.isObjectEmpty(room)">
+          <div class="room-section cursor-pointer col-md-12" v-for="item in room" :key="item.roomSecureId" @click="changePageForChat(item); dialogChatMobile = true">
+            <div class="content-section relative-position">
+              <span class="time-pos tf-capitalize" v-if="!help.isDataEmpty(item.lastMessage.time)">{{ help.defaultFormat(item.lastMessage.time, help.data().time_4) }}</span>
+              <q-separator class="indicator mr-24" color="primary" vertical size="8px" />
+              <div class="d-flex flex-dir-col a-start ml-10">
+                <div class="fs-18 m-fs-1rem fw-bold black_3">{{ user.role == '2' ? item.user_1 : item.user_2 }}</div>
+                <div class="text-subtitle2 ml-4 mb-0 grey_1 fw-lightbold line-clamp-3" style="white-space: pre-line">
+                  {{ item.lastMessage.message }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else-if="loader">
+        <div class="q-gutter-y-lg">
+          <q-skeleton class="black-bg-loader br-20px" height="95px" width="100%" />
+          <q-skeleton class="black-bg-loader br-20px" height="95px" width="100%" />
+          <q-skeleton class="black-bg-loader br-20px" type="QToolbar" width="80%" />
+          <q-skeleton class="black-bg-loader br-20px" type="rect" width="30%" />
+          <q-skeleton class="black-bg-loader br-20px" type="text" width="20%" />
+        </div>
+      </div>
+      <div class="room-section-gap flex flex-center m-minh-inherit" v-else>
+        <img class="responsive_img fit-content" width="200" src="~assets/images/preset/no_chat_image.png" alt="">
+        <span class="txt-white m-fs-1rem">Please begin your chat to see your chat list</span>
+      </div>
+    </div>
+    <q-dialog
+      v-model="dialogChatMobile"
+      persistent maximized
+      transition-show="slide-up"
+      transition-hide="slide-down"
+    >
+      <q-card class="bg-primary text-white chat-card">
+        <q-bar class="mh-70">
+          <div class="text-h6 fw-semibold txt-white ml-15">
+            {{ user.role == '2' ? user_1 : user_2 }}
+          </div>
+          <q-space />
+          <q-btn @click="dialogChatMobile = false" flat round size="md" icon="close" />
+        </q-bar>
+        <div class="chat-room-page">
+          <q-card-section class="chat-section" id="chatSection">
+            <q-scroll-area
+              :thumb-style="thumbStyle"
+              :bar-style="barStyle"
+              class="list-workshop-scrollbar left-chat-fix"
+              :style="{height: window.heightMobile + 'px'}"
+            >
+              <div v-if="clicked">
+                <div v-for="item in messages" :key="item">
+                  <div :class="[{'time-layout-not-sent' : item.username != user.fullName},{'time-layout-sent' : item.username == user.fullName}]">
+                    <span v-if="item.username == user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
+                    <q-chat-message class="chat-message-bubble"
+                      :text="[item.message]" :bg-color="item.username != user.fullName ? 'primary' : ''"
+                      :sent="item.username == user.fullName ? true : false"
+                    />
+                    <span v-if="item.username != user.fullName">{{ help.defaultFormat(item.time, help.data().time_4) }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-center" :style="{height: window.heightAltered1 + 'px'}" v-else>
+                Choose message room to start messaging
+              </div>
+            </q-scroll-area>
+          </q-card-section>
+          <q-card-section class="d-flex a-center input-message">
+            <q-input
+              @keyup.enter="sendMessage($event)"
+              v-model="messageInput"
+              placeholder="Write a reply..."
+              borderless dense autogrow maxlength="1000"
+              class="bg-white br-10px textarea-chat mr-20 fw"
+            />
+            <q-btn @click="sendMessage()" round flat>
+              <is-send-message />
+            </q-btn>
+          </q-card-section>
+        </div>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -108,6 +193,7 @@ export default {
     return {
       help,
       ValidationFunction,
+      dialogChatMobile: false,
       loader: false,
       firstLoad: true,
       checker: false,
@@ -142,7 +228,8 @@ export default {
         heightAltCard: 0,
         heightAltered: 0,
         heightAltered1: 0,
-        minHeightChatSection: 0
+        minHeightChatSection: 0,
+        heightMobile: 0,
       }
     }
   },
@@ -255,6 +342,7 @@ export default {
     doScrollBottomChat () {
       var element = document.getElementById('chatSection').getElementsByClassName("q-scrollarea__container")[0]
       element.scrollTop = element.scrollHeight
+      console.log()
     },
     changePageForChat (item) {
       let _this = this
@@ -314,7 +402,7 @@ export default {
               .push(message)
           }
           setTimeout(() => {
-            _this.doScrollBottomChat()
+            this.doScrollBottomChat()
           }, 0)
           this.tempMessageInput = ""
         }
@@ -349,6 +437,7 @@ export default {
       this.window.heightAltered = window.innerHeight - (window.innerHeight * (40/100))
       this.window.heightAltered1 = window.innerHeight - (window.innerHeight * (45/100))
       this.window.minHeightChatSection = window.innerHeight - (window.innerHeight * (80/100))
+      this.window.heightMobile = window.innerHeight - (window.innerHeight * (22.8/100))
     },
     doConsole (a) {
       console.log(a)
