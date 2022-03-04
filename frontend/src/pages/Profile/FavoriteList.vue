@@ -173,8 +173,8 @@ export default {
                 }
             } else {
                 Swal.fire({
-                    title: 'Error',
-                    text: 'Please login first.',
+                    icon: 'warning',
+                    title: 'Please login first',
                     confirmButtonText: 'Login',
                     confirmButtonColor: '#21a17b',
                     showCancelButton: true,

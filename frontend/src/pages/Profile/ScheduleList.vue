@@ -1,7 +1,13 @@
 <template>
     <q-page>
+        <div class="txt-white show-m pl-16 pt-16" v-if="!help.isObjectEmpty(scheduleList) && !loader">
+            <h5 class="m-0">Schedules</h5>
+        </div>
+        <div class="show-m pl-16 pt-16" v-else-if="loader">
+            <q-skeleton type="rect" width="50px" />
+        </div>
         <div v-if="!help.isObjectEmpty(scheduleList) && !loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg q-page-height">
-            <q-card v-for="item in scheduleList" :key="'sl' + item.id" class="my-card w-70">
+            <q-card v-for="item in scheduleList" :key="'sl' + item.id" class="my-card w-70 m-w-95">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
                         <div class="text-h5 fw-semibold">{{ item.workshopName }}</div>
@@ -51,8 +57,9 @@
                             <span>{{ item.serviceDescription }}</span>
                         </div>
                         <div class="col-md-12 row mt-30 a-center">
-                            <div class="col-md-6 primary_color">
-                                <span class="fw-bold text-h6">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</span>
+                            <div class="col-md-6 text-h6 primary_color">
+                                <b class="hide-m">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
+                                <b class="show-m">Price Estimation: <br> {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
                             </div>
                             <div class="col-md-5 q-gutter-x-lg j-end">
                                 <q-btn
@@ -285,8 +292,8 @@ export default {
                 }
             } else {
                 Swal.fire({
-                    title: 'Error',
-                    text: 'Please login first.',
+                    icon: 'warning',
+                    title: 'Please login first',
                     confirmButtonText: 'Login',
                     confirmButtonColor: '#21a17b',
                     showCancelButton: true,
