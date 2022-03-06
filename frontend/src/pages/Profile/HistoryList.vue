@@ -22,18 +22,18 @@
                     </div>
                     <q-separator class="br-5px" color="#605A5A" size="4px" />
                     <div class="mt-10 q-gutter-y-md row">
-                        <div class="col-md-12 flex-dir-col mt-0">
+                        <div class="col-md-12 col-xs-12 flex-dir-col mt-0">
                             <span class="fw-semibold">Address</span>
                             <span>{{ item.workshopAddress }}</span>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5 col-xs-12">
                             <span class="fw-semibold">Date and Time</span>
                             <div class="d-flex flex-dir-col">
                                 <span>{{ help.defaultFormat(item.scheduleDate, help.data().dmy_7) }}</span>
                                 <span>{{ help.formatTime(item.scheduleTime, help.data().time_2) + ' WIB' }}</span>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5 col-xs-12">
                             <span class="fw-semibold">Services</span>
                             <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.generalServices)">
                                 <span class="w3-120px">General Services:&nbsp;</span>
@@ -48,19 +48,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 flex-dir-col">
+                        <div class="col-md-12 col-xs-12 flex-dir-col">
                             <span class="fw-semibold">Car Model and Type</span>
                             <span>{{ item.carModel + ' ' + item.carType}}</span>
                         </div>
-                        <div class="col-md-5 flex-dir-col">
+                        <div class="col-md-5 col-xs-12 flex-dir-col">
                             <span class="fw-semibold">Estimation Service Time</span>
                             <span>{{ item.timeEstimation + ' Hour' }}</span>
                         </div>
-                        <div class="col-md-5 flex-dir-col">
+                        <div class="col-md-5 col-xs-12 flex-dir-col">
                             <span class="fw-semibold">Description</span>
                             <span>{{ item.serviceDescription }}</span>
                         </div>
-                        <div class="col-md-12 row mt-30 a-center">
+                        <div class="col-md-12 col-xs-12 row mt-30 a-center">
                             <div class="col-md-6 text-h6 primary_color">
                                 <b class="hide-m">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
                                 <b class="show-m">Price Estimation: <br> {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
@@ -70,8 +70,8 @@
                                 <q-btn v-if="item.isReviewed == 1" class="tf-capitalize" rounded unelevated color="primary" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
                             </div>
                             <div class="flex flex-dir-col q-gutter-y-md show-m fw mt-10">
-                                <q-btn class="tf-capitalize fw" rounded unelevated color="warning" padding="12px" label="Review" @click="doOpenReviewDialog(item)" />
-                                <q-btn class="tf-capitalize fw" rounded unelevated color="primary" padding="12px" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
+                                <q-btn v-if="item.scheduleStatus == 'done' && item.isReviewed == 0" class="tf-capitalize fw" rounded unelevated color="warning" padding="12px" label="Review" @click="doOpenReviewDialog(item)" />
+                                <q-btn v-if="item.isReviewed == 1" class="tf-capitalize fw" rounded unelevated color="primary" padding="12px" label="Make Schedule" @click="changePage('/member/workshop/make-schedule/' + item.workshopID)" />
                             </div>
                         </div>
                     </div>
@@ -151,14 +151,15 @@
         </div>
         <q-dialog v-model="reviewScheduleDialog">
             <q-card class="my-card card-size-m">
-                <q-card-section class="q-gutter-y-md">
-                    <div class="d-flex a-center q-gutter-x-lg">
+                <q-card-section class="row q-gutter-y-md">
+                    <div class="col-md-12 col-xs-12 a-center q-gutter-x-lg">
                         <img v-if="!help.isDataEmpty(tempHistorySchedule.WorkshopLogo)" class="responsive_img fit-content" width="90" :src="tempHistorySchedule.workshopLogo" alt="">
                         <span class="text-h5 fw-semibold">{{ tempHistorySchedule.workshopName }}</span>
                     </div>
-                    <div class="d-flex a-baseline j-sp-between">
-                        <span>Tell us what you think about this place</span>
+                    <div class="col-md-12 col-xs-12 row a-start j-sp-between">
+                        <span class="col-md-6 col-xs-12">Tell us what you think about this place</span>
                         <q-rating
+                          class="col-md-6 col-xs-12 flex j-end"
                           v-model="review.rating"
                           no-reset
                           color="yellow-14"
@@ -170,7 +171,7 @@
                         v-model="review.description"
                         outlined counter maxlength="500"
                         type="textarea"
-                        class="fix-txt-field default-textarea-1"
+                        class="fix-txt-field default-textarea-1 col-md-12 col-xs-12"
                     />
                 </q-card-section>
                 <q-card-section>

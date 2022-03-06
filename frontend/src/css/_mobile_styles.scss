@@ -129,6 +129,11 @@
         padding-bottom: 0 !important;
         padding-right: 10px !important;
     }
+    .chat-room-page{
+        .q-scrollarea__content{
+            padding-top: 10px !important;
+        }   
+    }
 
     // Padding (px)
     @for $i from 0 to 101 {
