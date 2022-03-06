@@ -1,8 +1,8 @@
 <template>
     <q-page class="p-20">
         <q-form @submit.prevent="doUpdateUserData" class="row">
-            <div class="col-md-9 col-sm-12 d-flex a-baseline m-auto text-white" style="min-height:60px">
-                <div class="text-h6 mr-20">Your Profile</div>
+            <div class="col-md-9 col-sm-12 col-xs-12 d-flex a-baseline m-auto text-white d-min-h-60">
+                <div class="text-h6 mr-20 m-fw">Your Profile</div>
                 <q-btn
                     v-if="isEditable"
                     @click="isEditable = !isEditable"
@@ -15,7 +15,7 @@
                             Edit Profile
                         </q-tooltip>
                 </q-btn>
-                <div v-else>
+                <div v-else class="hide-m">
                     <q-btn
                         :loading="loader" :disable="cpLoader"
                         type="submit"
@@ -35,8 +35,27 @@
                     </q-btn>
                 </div>
             </div>
-            <div class="row col-md-12 col-sm-12 flex flex-center">
-                <div class="d-flex flex-dir-col a-start mr-30">
+            <div class="show-m row col-xs-12 mt-10" v-if="!isEditable">
+                <q-btn
+                    :loading="loader" :disable="cpLoader"
+                    type="submit"
+                    color="primary"
+                    rounded unelevated
+                    label="Save Data"
+                    class="tf-capitalize mb-10 col-xs-12"
+                >
+                </q-btn>
+                <q-btn
+                    @click="isEditable = !isEditable; doInsertUserDisplay(false)"
+                    color="negative" :disable="cpLoader || loader"
+                    rounded unelevated
+                    label="Discard"
+                    class="tf-capitalize mb-10 col-xs-12"
+                >
+                </q-btn>
+            </div>
+            <div class="row col-md-12 col-sm-12 col-xs-12 flex flex-center">
+                <div class="d-flex flex-dir-col a-start d-mr-30 m-mb-30" :class="{'col-xs-12' : window.width < 500}">
                     <q-avatar class="bg-white relative-position m-auto" size="180px">
                         <!-- <q-badge v-if="!help.isDataEmpty(userDisplay.image) && !isEditable" class="discardDP cursor-pointer" rounded color="red" @click="doClearImage()">X</q-badge> -->
                         <img :class="['responsive_img fit-content', {'z-opacity w-0-i' : help.isDataEmpty(userDisplay.image)}]" :src="userDisplay.image" id="myImg">
@@ -47,7 +66,7 @@
                             </div>
                         </q-btn>
                     </q-avatar>
-                    <div class="text-white my-20" style="max-width: 240px">
+                    <div class="text-white my-20 m-text-center d-max-w-240">
                         File size: Maximum file size 10 Megabytes. Allowed file extensions: .JPG .PNG .JPEG
                     </div>
                     <q-btn
@@ -58,7 +77,7 @@
                         class="tf-capitalize fw"
                     />
                 </div>
-                <div class="input-outline-profile q-gutter-y-lg col-md-6 col-sm-12">
+                <div class="input-outline-profile q-gutter-y-lg col-md-6 col-xs-12">
                     <div>
                         <span>Email</span>
                         <q-input v-model="userDisplay.email" outlined disable dense />
@@ -71,7 +90,7 @@
                         <span>Date of Birth</span>
                         <q-input v-model="DoBForDisplay" type="text" class="icon-hover-input-white" readonly outlined dense :disable="isEditable || cpLoader || loader">
                             <q-tooltip
-                                class="text-body2 txt-white bg-primary"
+                                class="text-body2 txt-white bg-primary hide-m"
                                 anchor="center end" self="center start" :offset="[10, 0]">
                                 Change Date
                             </q-tooltip>
@@ -97,7 +116,7 @@
                         <q-input v-model="userDisplay.phoneNumber" :rules="rules.phoneNumber_r" mask="############" lazy-rules="ondemand" outlined dense :disable="isEditable || cpLoader || loader" />
                     </div>
                 </div>
-                <div class="input-outline-profile mt-30 col-md-9">
+                <div class="input-outline-profile mt-30 col-md-9 col-xs-12">
                     <div>
                         <span class="primary_color text-h6">Address</span>
                         <q-input v-model="userDisplay.address" outlined type="textarea" :disable="isEditable || cpLoader || loader" class="fix-txt-field" />
@@ -148,7 +167,11 @@ export default {
             DoBForDisplay: null,
             DoBForProxy: null,
             isEditable: true,
-            isUploadPhoto: false
+            isUploadPhoto: false,
+            window: {
+                width: 0,
+                height: 0
+            }
         }
     },
     created () {
@@ -156,7 +179,18 @@ export default {
         this.userToken =  Auth.getAccessToken()
         this.doInsertUserDisplay(true)
     },
+    mounted() {
+        window.addEventListener('resize', this.handleResize)
+        this.handleResize()
+    },
+    unmounted () {
+        window.removeEventListener('resize', this.handleResize)
+    },
     methods: {
+        handleResize () {
+            this.window.width = window.innerWidth
+            this.window.height = window.innerHeight
+        },
         doClearImage () {
             this.userDisplay.image = null
             document.getElementById('uploadDPUser').value = ''

@@ -163,4 +163,25 @@
     .room-section{
         padding: 18px 14px 18px 0 !important;
     }
+    .m-mb-30{
+        margin-bottom: 30px;
+    }
+    .m-fw{
+        width: 100%;
+    }
+    .m-text-center{
+        text-align: center;
+    }
+}
+
+@media (min-width:500px){
+    .d-mr-30{
+        margin-right: 30px;
+    }
+    .d-min-h-60{
+        min-height: 60px;
+    }
+    .d-max-w-240{
+        max-width: 240px;
+    }
 }
