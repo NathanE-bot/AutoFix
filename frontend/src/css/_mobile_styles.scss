@@ -116,6 +116,16 @@
     @for $i from 0 to 101{
         .m-mb-#{$i}{
             margin-bottom: #{$i}px;
+            &-i{
+              margin-bottom: #{$i}px !important;    
+            }
+        }
+
+        .m-mt-#{$i}{
+            margin-top: #{$i}px;
+            &-i{
+              margin-top: #{$i}px !important;    
+            }
         }
     }
 
@@ -204,12 +214,19 @@
     .m-mb-10{
         margin-bottom: 10px;
     }
+    .m-fs-1_2rem{
+        font-size: 1.2rem;
+    }
+
+    .m-m-auto{
+        margin: auto;
+    }
 
     .back-btn{
         &-float_left{
             position: absolute;
             top: 20px;
-            left: 30px;
+            left: 20px;
             z-index: 1;
             .q-btn__content{
                 i{
@@ -234,6 +251,34 @@
 
     .q-carousel{
         height: 250px !important;
+    }
+
+    .m-overflow-40{
+        max-height: 400px !important;
+        overflow-y: auto;
+    }
+
+    .m-overflow-40::-webkit-scrollbar{
+        display: none;
+    }
+
+    .estimation-section{
+        %template-card{
+            min-height: 230px;
+            max-height: 230px;
+            border: 1px solid #AEAEAE;
+            .text-section{
+                position: relative;
+                top: -20px;
+            }
+        }
+        .l-card{
+            border-radius: 10px !important;
+        }
+        .r-card{
+            border-radius: 10px !important;
+            background-color: #E7E3E3;
+        }
     }
 }
 

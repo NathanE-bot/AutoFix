@@ -78,7 +78,7 @@
                                     flat round color="primary"
                                 />
                             </div>
-                            <div class="col-xs-12 q-gutter-x-lg show-m">
+                            <div class="col-xs-12 q-gutter-x-lg show-m flex j-sp-between">
                                 <q-btn
                                     @click="!item.favoriteToggle ? doAddFavoriteToUser(item) : doRemoveFavoriteFromUser(item)"
                                     :icon="item.favoriteToggle ? 'fas fa-heart' : 'far fa-heart'"
