@@ -5,6 +5,15 @@
 // class="d-flex j-sp-between"
 // class="d-flex a-baseline" and so on...
 
+// Mobile Grid css
+
+@media (max-width:500px) {
+    .m-j-end,
+    .d-flex.m-j-end{
+        @include flex_grid(justify-content, flex-end);
+    }
+}
+
 
 // Grid css
 
