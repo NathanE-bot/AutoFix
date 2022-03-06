@@ -8,7 +8,7 @@
             class="w-95 m-auto insurance_form_layout"
         >
             <template v-slot:message>
-                <div class="d-flex a-center j-center py-15">
+                <div class="d-flex a-center" :class="[{'j-sp-between p-15' : window.width < 500}, {'j-center py-15' : window.width > 500}]">
                     <h5 class="fw-bold m-0">Claim Insurance Form</h5>
                     <!-- <div class="position-relative">
                         <img class="responsive_img logo-img-form fit-content" width="120" height="42" :src="help.checkForInsuranceLogo(vendorInsurance.logo)" alt="">
@@ -27,48 +27,48 @@
                     ref="formStepper1"
                     class="row d-flex a-start j-sp-between"
                 >
-                    <div class="col-md-5 row q-gutter-y-md">
+                    <div class="col-md-5 col-xs-12 row q-gutter-y-md">
                         <q-input
                             v-model="form.insuredName"
                             :rules="rules.insuredName_r"
                             lazy-rules="ondemand"
-                            class="col-md-12 q-field--with-bottom" filled
+                            class="col-md-12 col-xs-12 q-field--with-bottom" filled
                             label="Insured Name" />
                         <q-input
                             v-model="form.phoneNumber"
                             :rules="rules.phoneNumber_r"
                             lazy-rules="ondemand"
                             mask="############"
-                            class="col-md-12" filled
+                            class="col-md-12 col-xs-12" filled
                             label="Phone Number" />
                         <q-input
                             v-model="form.email"
                             :rules="rules.email_r"
                             lazy-rules="ondemand"
-                            class="col-md-12" filled
+                            class="col-md-12 col-xs-12" filled
                             label="Email" />
                         <q-input
                             v-model="form.carTypeAndBrand"
                             :rules="rules.carTypeAndBrand_r"
                             lazy-rules="ondemand"
                             hint="Ex. Nissan Grand Livina"
-                            class="col-md-12" filled
+                            class="col-md-12 col-xs-12" filled
                             label="Vehicle Brand and Type" />
                         <q-input
                             v-model="form.chassisNumber"
                             :rules="rules.chassisNumber_r"
                             lazy-rules="ondemand"
                             hint="Ex. 1HGBH41JXMN109186"
-                            class="col-md-12" filled
+                            class="col-md-12 col-xs-12" filled
                             label="Chassis Number / VIN" />
                     </div>
-                    <div class="col-md-5 row q-gutter-y-md">
+                    <div class="col-md-5 col-xs-12 row q-gutter-y-md m-mt-0">
                         <q-input
                             v-model="form.addressClaimer"
                             :rules="rules.addressClaimer_r"
                             lazy-rules="ondemand"
                             type="textarea"
-                            class="col-md-12 fix-txt-field mb-20" filled
+                            class="col-md-12 col-xs-12 fix-txt-field d-mb-20" filled
                             label="Address"
                         />
                         <div class="col-md-12 row j-sp-between">
@@ -76,13 +76,13 @@
                                 v-model="form.polisNumber"
                                 :rules="rules.polisNumber_r"
                                 lazy-rules="ondemand"
-                                class="col-md-5" filled
+                                class="col-md-5 col-xs-12" filled
                                 label="No. Polis" />
                             <q-input
                                 v-model="form.licensePlateNumber"
                                 :rules="rules.licensePlateNumber_r"
                                 lazy-rules="ondemand"
-                                class="col-md-5" filled
+                                class="col-md-5 col-xs-12 m-mb-30" filled
                                 label="License Plate Number"
                                 hint="Ex. B 1234 CDE"
                             />
@@ -102,30 +102,30 @@
                     ref="formStepper2"
                     class="row d-flex a-start j-sp-between"
                 >
-                    <div class="col-md-5 row q-gutter-y-md">
+                    <div class="col-md-5 col-xs-12 row q-gutter-y-md">
                         <q-input
                             v-model="form.driverName"
                             :rules="rules.driverName_r"
                             lazy-rules="ondemand"
-                            class="col-md-12" filled bottom-slots
+                            class="col-md-12 col-xs-12" filled bottom-slots
                             label="Name of the driver at the incident" />
                         <q-input
                             v-model="form.driverLicense"
                             :rules="rules.driverLicense_r"
                             lazy-rules="ondemand"
-                            class="col-md-12" filled bottom-slots
+                            class="col-md-12 col-xs-12" filled bottom-slots
                             label="Driver license number" />
                         <q-input
                             v-model="form.driverRelation"
                             :rules="rules.driverRelation_r"
                             lazy-rules="ondemand" hint="Ex. Mother/Son/Cousin/etc. Note: If it's yourself type myself / saya"
-                            class="col-md-12" filled bottom-slots
+                            class="col-md-12 col-xs-12" filled bottom-slots
                             label="Relation with the insured" />
                         <q-input
                             v-model="form.incidentLocation"
                             :rules="rules.incidentLocation_r"
                             lazy-rules="ondemand"
-                            class="col-md-12" filled bottom-slots
+                            class="col-md-12 col-xs-12" filled bottom-slots
                             label="Incident Location" />
                     </div>
                     <div class="col-md-5 row q-gutter-y-md">
@@ -133,7 +133,7 @@
                             v-model="form.driverSpeed"
                             :rules="rules.driverSpeed_r"
                             lazy-rules="ondemand"
-                            class="col-md-12" filled bottom-slots
+                            class="col-md-12 col-xs-12" filled bottom-slots
                             label="Speed during incident"
                             suffix="km/h" mask="###"
                         />
@@ -144,7 +144,7 @@
                             lazy-rules="ondemand"
                             hint="Ex. 2021/08/20"
                             mask="####/##/##"
-                            class="col-md-5 mr-auto icon-hover-input border-no-dashed" filled bottom-slots
+                            class="col-md-5 col-xs-12 mr-auto icon-hover-input border-no-dashed" filled bottom-slots
                             label="Incident Date"
                         >
                             <template v-slot:append>
@@ -166,7 +166,7 @@
                             lazy-rules="ondemand"
                             hint="Ex. 14:40"
                             mask="##:##"
-                            class="col-md-5 ml-auto icon-hover-input border-no-dashed" filled bottom-slots
+                            class="col-md-5 col-xs-12 ml-auto icon-hover-input border-no-dashed" filled bottom-slots
                             label="Incident Time"
                         >
                             <template v-slot:append>
@@ -187,7 +187,7 @@
                             lazy-rules="ondemand"
                             hint="Ex. vehicles used to transport goods"
                             type="textarea"
-                            class="col-md-12 fix-txt-field" filled bottom-slots
+                            class="col-md-12 col-xs-12 fix-txt-field m-mb-30" filled bottom-slots
                             label="The use of the vehicle on incident"
                         />
                     </div>
@@ -244,7 +244,7 @@
                                     v-model="form.workshopTypeObj"
                                     :options="vendorWorkshops"
                                     :error="help.isObjectEmpty(form.workshopTypeObj) && errorMessage"
-                                    outlined class="default-select-2 w-80"
+                                    outlined class="default-select-2 d-w-80"
                                 >
                                     <template v-slot:selected>
                                         <template v-if="!help.isObjectEmpty(form.workshopTypeObj)">
@@ -264,7 +264,7 @@
                                     lazy-rules="ondemand"
                                     outlined counter maxlength="500"
                                     type="textarea" placeholder="Explain the chronology.."
-                                    class="fix-txt-field default-textarea-1"
+                                    class="fix-txt-field default-textarea-1 m-mb-30"
                                 >
                                 </q-input>
                             </div>
@@ -281,8 +281,9 @@
                 }"
             >
                 <div class="pb-20">
-                    <div class="text-h6 mb-8">Claim insurance procedure online</div>
-                    <div class="mb-20 class p-10 negative_bg_fade-1 br-5px w-mc">
+                    <div class="text-h6">Claim insurance procedure online</div>
+                    <div class="text-h6 mb-8 fw-semibold">Press top right button for more info</div>
+                    <div class="mb-20 class p-10 negative_bg_fade-1 br-5px w-mc hide-m">
                         <div>
                             <span><b class="red-txt">IMPORTANT NOTE!</b> Required photo document for claim insurance online include:</span>
                             <div class="d-flex a-start">
@@ -307,7 +308,7 @@
                     </div>
                     <q-form ref="formStepper4">
                         <div :class="['row j-start w-100 m-auto']">
-                            <div class="px-12 mb-15" v-for="(image, index) in imageForm" :key="'UPE' + index">
+                            <div class="px-12 mb-15" :class="{'fw' : window.width < 500}" v-for="(image, index) in imageForm" :key="'UPE' + index">
                                 <q-input
                                     v-model="image.name"
                                     dense filled placeholder="Input your photo's name"
@@ -317,8 +318,7 @@
                                 <div class="form-insurance-images relative-position br-10-bot">
                                     <!-- <img :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]" width="300" height="150" :src="image.imageFile"  :id="'myImg-' + index" alt=""> -->
                                     <q-img
-                                        :class="['responsive_img fit-content br-10-bot', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]"
-                                        style="width: 300px; height: 150px"
+                                        :class="['responsive_img fit-content br-10-bot q-img-insurance', {'w-0 z-opacity' : help.isDataEmpty(image.imageFile)}]"
                                         :id="'myImg-' + index"
                                         :src="image.filePath"
                                         loading="lazy"
@@ -334,7 +334,7 @@
                                 </div>
                                 <input style="color: transparent; width: 92px" class="cursor-pointer mt-10" type="file" accept=".png,.jpg,.jpeg" :id="'uploadDPUser-' + index" @change="doUploadProfilePicture($event, image, index)">
                             </div>
-                            <div class="d-flex a-center j-center">
+                            <div class="d-flex a-center j-center" :class="{'m-auto' : window.width < 500}">
                                 <q-btn
                                     v-if="imageForm.length < 20"
                                     @click="addUploadPhoto(false)"
@@ -351,20 +351,20 @@
             </q-step>
             <template v-slot:navigation>
                 <q-separator color="#605A5A" size="1px" />
-                <q-stepper-navigation class="d-flex a-center j-sp-between">
-                    <div class="d-flex a-center j-end q-gutter-x-md" v-if="!help.isDataEmpty(vendorInsurance.phoneNumber && vendorInsurance.email)">
+                <q-stepper-navigation class="row a-center j-sp-between">
+                    <div class="d-flex a-center q-gutter-x-md hide-m-i" v-if="!help.isDataEmpty(vendorInsurance.phoneNumber && vendorInsurance.email)">
                         <span>Contact Us: </span>
-                        <div v-if="!help.isDataEmpty(vendorInsurance.phoneNumber)">
+                        <a class="tel-mailto" :href="'tel:' + vendorInsurance.phoneNumber" v-if="!help.isDataEmpty(vendorInsurance.phoneNumber)">
                             <i class="fas fa-phone mr-8"></i>
                             <span>{{ vendorInsurance.phoneNumber }}</span>
-                        </div>
-                        <div v-if="!help.isDataEmpty(vendorInsurance.email)">
+                        </a>
+                        <a class="tel-mailto" :href="'mailto:' + vendorInsurance.email" v-if="!help.isDataEmpty(vendorInsurance.email)">
                             <i class="far fa-envelope mr-8"></i>
                             <span>{{ vendorInsurance.email }}</span>
-                        </div>
+                        </a>
                     </div>
                     <div class="v-else"><!-- Sementara pake ini klo gk ada datanya --></div>
-                    <div>
+                    <div :class="{'row col-xs-12' : window.width < 500}">
                         <!-- <q-btn
                             @click="doCancelMakeForm()"
                             padding="6px 16px"
@@ -381,14 +381,16 @@
                             label="Back"
                             icon="fas fa-chevron-left"
                             color="primary"
-                            class="mr-20 tf-capitalize"
+                            class="d-mr-20 tf-capitalize"
+                            :class="{'col-xs-6 m-max-w-48 icon-mobile mr-auto' : window.width < 500}"
                         />
+                        <div v-else class="show-m col-xs-6 opacity-0">-</div>
                         <!-- $refs.stepper.next(); doConsole($refs) -->
                         <q-btn
                             v-if="step !== 4"
                             @click="doCheckFormPerStepper($refs)"
                             padding="6px 16px"
-                            rounded unelevated :class="['tf-capitalize']"
+                            rounded unelevated :class="['tf-capitalize', {'col-xs-6 m-max-w-48 icon-mobile ml-auto' : window.width < 500}]"
                             label="Next" icon-right="fas fa-chevron-right"
                             color="primary"
                         />
@@ -396,14 +398,96 @@
                             v-else
                             @click="doCheckPhotoUploadedMin10Photo()"
                             padding="6px 16px"
-                            rounded unelevated :class="['tf-capitalize']"
+                            rounded unelevated :class="['tf-capitalize', {'col-xs-6 m-max-w-48 ml-auto' : window.width < 500}]"
                             type="submit" :loading="loader" label="Submit"
                             color="primary"
                         />
                     </div>
+                    <q-btn
+                        @click="dialogContactUs = true"
+                        class="show-m fw mt-10"
+                        label="Contact Us" no-caps
+                        flat rounded color="primary"
+                    />
+                    <q-page-sticky position="top-right" :offset="[18, 18]" v-if="step > 3">
+                        <q-btn @click="dialogWarningUploadPhoto = true" fab icon="fas fa-exclamation-circle" no-caps color="primary" />
+                    </q-page-sticky>
                 </q-stepper-navigation>
             </template>
         </q-stepper>
+
+        <q-dialog v-model="dialogContactUs">
+            <q-card style="min-width: 320px">
+                <q-card-section class="pb-0">
+                    <span class="text-h6">Contact Us:</span>
+                </q-card-section>
+                <q-card-section class="row flex-dir-col items-center">
+                    <a class="tel-mailto-btn" :href="'tel:' + vendorInsurance.phoneNumber">
+                        <q-btn
+                            class="show-m fw mt-10 icon-mobile"
+                            icon="fas fa-phone"
+                            :label="vendorInsurance.phoneNumber" no-caps
+                            outline rounded color="primary"
+                        />
+                    </a>
+                    <a class="tel-mailto-btn" :href="'tel:' + vendorInsurance.email">
+                        <q-btn
+                            class="show-m fw mt-10 icon-mobile"
+                            icon="far fa-envelope"
+                            :label="vendorInsurance.email" no-caps
+                            outline rounded color="primary"
+                        />
+                    </a>
+                </q-card-section>
+                <q-card-actions align="right">
+                    <q-btn
+                        v-close-popup
+                        label="Close" no-caps
+                        flat rounded color="primary"
+                    />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="dialogWarningUploadPhoto">
+            <q-card style="min-width: 320px">
+                <q-card-section class="pb-0">
+                    <span class="text-h6">Claim Insurance Procedure Online</span>
+                </q-card-section>
+                <q-card-section>
+                    <div class="mb-20 class p-10 negative_bg_fade-1 br-5px">
+                        <div>
+                            <span><b class="red-txt">IMPORTANT NOTE!</b> Required photo document for claim insurance online include:</span>
+                            <div class="d-flex flex-dir-col a-start">
+                                <div class="d-flex flex-dir-col">
+                                    <span>1. Driver's license</span>
+                                    <span>2. Driver's ID Card</span>
+                                    <span>3. Driver's Car Registration <b>(both sides)</b></span>
+                                    <span>4. Front and rear view of the vehicle <b>(license plate number included in both photo)</b></span>
+                                </div>
+                                <div class="d-flex flex-dir-col">
+                                    <span>5. Left and right view of the vehicle</span>
+                                    <span>6. Chassis number and vehicle kilometer</span>
+                                    <span>7. <b>Damaged</b> section from afar</span>
+                                    <span>8. <b>Damaged</b> section up close while <b>pointing</b> at the damaged direction</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-dir-col">
+                                <span class="mt-8"><b>SIDE NOTE: </b> Please input <b>photo's name</b> first before uploading the photo.</span>
+                                <span class="mt-8">Best photo format is landscape and minimal resolution of 300 x 150</span>
+                            </div>
+                        </div>
+                    </div>
+                </q-card-section>
+                <q-card-actions align="right">
+                    <q-btn
+                        v-close-popup
+                        label="Close" no-caps
+                        flat rounded color="primary"
+                    />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
     </q-page>
 </template>
 
@@ -419,6 +503,8 @@ export default {
         return{
             help,
             loader: false,
+            dialogContactUs: false,
+            dialogWarningUploadPhoto: false,
             step: 1,
             window: {
                 width: 0,

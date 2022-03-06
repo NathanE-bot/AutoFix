@@ -20,6 +20,16 @@
     }
 }
 
+.tel-mailto{
+    color: $primary;
+    text-decoration: none;
+    @extend .link_txt;
+}
+.tel-mailto-btn{
+    color: $primary;
+    text-decoration: none;
+}
+
 .cursor-pointer{
     cursor: pointer;
 }

@@ -155,9 +155,11 @@
     @include height_preset(250px);
 }
 .form-insurance-images{
-    @include width_preset(300px);
     @include height_preset(150px);
     background-color: rgba(0,0,0,.1);
+    @media (min-width:500px) {
+        @include width_preset(300px);
+    }
 }
 .upload-cloud-icon{
     position: absolute;
