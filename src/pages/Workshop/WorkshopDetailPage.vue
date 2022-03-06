@@ -3,7 +3,7 @@
     <q-btn
       @click="goBack()"
       unelevated round outline
-      size="lg"
+      :size="window.width < 500 ? 'md' : 'lg' "
       class="back-btn-float_left"
       style="color: white !important"
     >
@@ -28,6 +28,18 @@
           <div class="text-h4 fw-semibold">
             {{ workshopDetail.workshopName }}
           </div>
+        <div class="flex a-center show-m">
+          <div class="mr-15" v-if="!help.isObjectEmpty(tempDistance)">
+            <span class="text-subtitle2 grey-txt">{{ tempDistance.distance }} Km</span>
+          </div>
+          <q-badge style="padding:5px 10px" color="primary">
+            <span>Rating</span>
+            <div class="ml-8">
+              <i class="fas fa-star fs-10 mr-5"></i>
+              <span>{{ workshopDetail.rating }}</span>
+            </div>
+          </q-badge>
+        </div>
           <div class="text-subtitle2">
             {{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}
           </div>
@@ -44,7 +56,7 @@
             </div>
           </div>
         </div> -->
-        <div class="rating-workshop d-flex a-center">
+        <div class="rating-workshop flex a-center hide-m">
           <div class="mr-15" v-if="!help.isObjectEmpty(tempDistance)">
             <span class="text-subtitle2 grey-txt">{{ tempDistance.distance }} Km</span>
           </div>
@@ -61,7 +73,7 @@
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
         <div class="my-12 row">
-          <div class="col-md-6 w-49-i px-20">
+          <div class="col-md-6 col-xs-12 d-w-49-i px-20">
             <div class="d-flex a-center">
               <div class="text-h6 fw-bold mb-6">Operational Hours</div>
               <q-badge v-if="workshopDetail.status24Hr == '0'" class="tf-capitalize ml-20" :color="workshopDetail.statusHr == 'tutup' ? 'grey-5' : 'primary'">
@@ -92,13 +104,14 @@
               </div>
             </div>
           </div>
-          <q-separator vertical class="br-5px" color="#605A5A" size="4px" />
+          <q-separator vertical class="br-5px hide-m" color="#605A5A" size="4px" />
+          <q-separator class="br-5px show-m cekseparator col-xs-12 my-10" color="#605A5A" size="4px" />
           <q-scroll-area
             :thumb-style="thumbStyle"
             :bar-style="barStyle"
-            class="col-md-6 w-49-i px-20 min-max-h-241"
+            class="col-md-6 col-xs-12 d-w-49-i px-20 min-max-h-241"
           >
-            <div class="text-h6 fw-bold mb-6">Services</div>
+            <div class="text-h6 fw-bold mb-6 sticky-top">Services</div>
               <div class="row" v-if="!help.isObjectEmpty(workshop_details)">
                 <div v-for="item in workshop_details" :key="item.id" class="col-md-6 py-12">
                   <span class="fw-semibold">{{ item.carType }}</span>
@@ -126,12 +139,41 @@
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
         <div class="py-20">
+          <div class="text-h6">{{ !help.isObjectEmpty(workshopDetail.workshop_review) ? 'Reviews' : 'No Review'}}</div>
+            <q-scroll-area
+              v-if="!help.isObjectEmpty(workshopDetail.workshop_review)"
+              :thumb-style="thumbStyle"
+              :bar-style="barStyle"
+              class="review-workshop-scrollbar"
+              :style="{height: window.heightAlteredReview + 'px'}"
+            >
+              <q-card class="my-card review-card br-20px mb-20" v-for="review in workshopDetail.workshop_review" :key="review.id">
+                <q-card-section class="relative-position">
+                  <span class="review-date grey-5">{{ help.defaultFormat(review.reviewDate, help.data().dmy_6) }}</span>
+                  <div class="review-content">
+                    <div class="text-h6">{{ review.userName }}</div>
+                    <div class="line-clamp-3 text-subtitle2 fs-12">{{ review.description }}</div>
+                  </div>
+                  <q-rating
+                    class="review-rating"
+                    v-model="review.rating"
+                    readonly size="xs"
+                    color="yellow-14"
+                    icon="star_border"
+                    icon-selected="star"
+                  />
+                </q-card-section>
+              </q-card>
+            </q-scroll-area>
+        </div>
+        <q-separator class="br-5px" color="#605A5A" size="4px" />
+        <div class="py-20">
           <div class="text-h6 fw-bold mb-10">Gallery</div>
           <div>
             <q-carousel
               v-if="help.isObjectEmpty(workshopDetail.workshop_picture)"
               v-model="gallerySlide"
-              arrows swipeable thumbnails
+              :arrows="window.width < 500 ? false : true" swipeable :thumbnails="window.width < 500 ? false : true"
               animated infinite :autoplay="10000"
               transition-prev="slide-right"
               transition-next="slide-left"
@@ -145,7 +187,7 @@
             <q-carousel
               v-else
               v-model="gallerySlide"
-              arrows swipeable thumbnails
+              :arrows="window.width < 500 ? false : true" swipeable :thumbnails="window.width < 500 ? false : true"
               animated infinite :autoplay="10000"
               transition-prev="slide-right"
               transition-next="slide-left"
@@ -163,9 +205,14 @@
           <div class="text-h6 fw-bold">Contact</div>
           <div class="contact-section">
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex cursor-pointer" @click="copyPhoneNum()">
+              <div class="icon-phone-border d-flex cursor-pointer hide-m" @click="copyPhoneNum()">
                 <q-icon class="phone-icon" name="phone" />
               </div>
+              <a class=" tel-mailto-btn show-m" :href="'tel:' + workshopDetail.workshopPhoneNumber">
+                <div class="icon-phone-border d-flex cursor-pointer">
+                  <q-icon class="phone-icon" name="phone" />
+                </div>
+              </a>
               <div class="content-nomor pl-30 flex flex-center">
                 <div class="fs-16 fw-semibold mb-15">Call {{ workshopDetail.workshopName }}</div>
                 <div>
@@ -178,8 +225,9 @@
                   unelevated
                   color="primary"
                   label="Copy"
-                  padding="4px 20px"
-                  class="tf-capitalize fw-bold fs-20 br-5px"
+                  padding="2px 20px"
+                  class="tf-capitalize fw-bold fs-20 br-5px hide-m"
+                  style="min-width: 165px"
                 >
                 </q-btn>
               </div>
@@ -189,15 +237,17 @@
                 <q-icon class="phone-icon" name="chat" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
-                <div class="fs-16 fw-semibold mb-15">Chat {{ workshopDetail.workshopName }}</div>
+                <div class="fs-16 fw-semibold mb-15 m-mb-10">Chat {{ workshopDetail.workshopName }}</div>
                 <div class="text-subtitle2">in apps chat message</div>
               </div>
             </div>
             <div class="d-flex a-center py-30">
-              <div class="icon-phone-border d-flex"><q-icon class="phone-icon" name="email" /></div>
+              <a class=" tel-mailto-btn" :href="'mailto:' + workshopDetail.workshopEmail">
+                <div class="icon-phone-border d-flex"><q-icon class="phone-icon" name="email" /></div>
+              </a>
               <div class="content-nomor pl-30 flex flex-center">
-                <div class="fs-16 fw-semibold mb-15">Email {{ workshopDetail.workshopName }}</div>
-                <div class="text-subtitle2">Send Mail to <b class="primary_bg_fade p-2 br-5px">{{ !help.isDataEmpty(workshopDetail.workshopEmail) ? workshopDetail.workshopEmail : 'No data'}}</b></div>
+                <div class="fs-16 fw-semibold mb-15 m-mb-10">Email {{ workshopDetail.workshopName }}</div>
+                <div class="text-subtitle2">Send Mail to <b class="primary_bg_fade p-2 br-5px" style="word-break: break-word;">{{ !help.isDataEmpty(workshopDetail.workshopEmail) ? workshopDetail.workshopEmail : 'No data'}}</b></div>
               </div>
             </div>
             <div class="d-flex a-center py-30">
@@ -205,8 +255,8 @@
                 <q-icon class="phone-icon" name="fas fa-map-marker-alt" />
               </div>
               <div class="content-nomor pl-30 flex flex-center">
-                <div class="fs-16 fw-semibold mb-15">Find {{ workshopDetail.workshopName }}</div>
-                <div class="text-subtitle2">{{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}</div>
+                <div class="fs-16 fw-semibold mb-15 m-mb-10">Find {{ workshopDetail.workshopName }}</div>
+                <div class="text-subtitle2" style="word-break: break-word;">{{ workshopDetail.workshopAddress }}, {{ workshopDetail.district }}, {{ workshopDetail.city }}, {{ workshopDetail.province }}</div>
               </div>
               <div>
                 <q-btn
@@ -215,7 +265,7 @@
                   color="primary"
                   label="See on maps"
                   padding="4px 20px"
-                  class="tf-capitalize fw-bold fs-20 br-5px"
+                  class="tf-capitalize fw-bold fs-20 br-5px hide-m"
                 >
                 </q-btn>
               </div>
@@ -226,7 +276,7 @@
           @click="doCheckLogin()"
           outline color="primary"
           label="Make Your Schedule"
-          class="tf-capitalize fw-bold fw my-30 fs-30 br-5px default-btn-1"
+          class="tf-capitalize fw-bold fw my-30 fs-30 m-fs-20-i br-5px default-btn-1"
         >
         </q-btn>
       </div>
@@ -267,7 +317,8 @@ export default {
       window: {
         width: 0,
         height: 0,
-        heightAltered: 0
+        heightAltered: 0,
+        heightAlteredReview: 0
       },
       loader: false,
       userTokenChat: null,
@@ -295,6 +346,7 @@ export default {
     if(!help.isDataEmpty(this.workshopId)){
       this.doGetWorkshopById()
     }
+    console.log(help.checkforBackgroundDetailWorkshopImage(this.workshop_gallery))
   },
   mounted () {
     window.addEventListener('resize', this.handleResize)
@@ -319,6 +371,7 @@ export default {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
       this.window.heightAltered = window.innerHeight - (window.innerHeight * (40/100))
+      this.window.heightAlteredReview = window.innerHeight - (window.innerHeight * (84/100))
     },
     doCheckLogin () {
       if(!Auth.isUserLogin()){

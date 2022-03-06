@@ -430,7 +430,7 @@
                             outline rounded color="primary"
                         />
                     </a>
-                    <a class="tel-mailto-btn" :href="'tel:' + vendorInsurance.email">
+                    <a class="tel-mailto-btn" :href="'mailto:' + vendorInsurance.email">
                         <q-btn
                             class="show-m fw mt-10 icon-mobile"
                             icon="far fa-envelope"

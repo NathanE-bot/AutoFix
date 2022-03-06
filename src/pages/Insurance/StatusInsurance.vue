@@ -23,7 +23,7 @@
                 flat round
                 :color="item.insuranceStatus === 'on progress' ? 'grey' : 'primary'"
                 :disable="item.insuranceStatus === 'on progress'"
-                @click="doOpenMenuList(index+1, item.insuranceStatus, item.id)"
+                @click="doOpenMenuList(index, item.insuranceStatus, item.id)"
               />
             </td>
           </tr>
@@ -41,19 +41,33 @@
         />
       </div> -->
       <q-dialog v-model="promptDetail">
-        <q-card style="min-width: 480px" class="py-20 m-auto text-align-center">
+        <q-card class="py-20 m-auto text-align-center asdasd">
           <q-card-section>
             <div class="black-1 m-auto fw-semibold text-align-center fs-18">Menu List</div>
           </q-card-section>
-          <div class="w-90 j-sp-around flex m-auto">
+          <div class="w-90 j-sp-around flex m-auto hide-m">
             <div color="primary"
               class="tf-capitalize w-30 br-20px-i flex flex-center" style="background-color: #21a17b;">
-              <a style="text-decoration: none; color: white;" href="" download="D:\App Binus\File Kuliah\Semester 7\Skripsi App\AutoFix\AutoFix\backend-api\public\storage\avatar\pdf-darrylegbertnangoi2022-02-027.pdf">Download PDF</a>
+              <a style="text-decoration: none; color: white;" :href="openDetail.filePDF" target="_blank">Download PDF</a>
             </div>
             <q-btn
-              rounded color="primary"
+              rounded color="primary" unelevated
               @click="doChangePage()"
               class="tf-capitalize w-30">
+              View Detail
+            </q-btn>
+          </div>
+          <div class="show-m row">
+            <q-btn
+              :href="openDetail.filePDF" target="_blank"
+              rounded color="primary" unelevated
+              class="tf-capitalize col-xs-10 mb-10-i m-auto">
+              Download
+            </q-btn>
+            <q-btn
+              rounded color="primary" unelevated
+              @click="doChangePage()"
+              class="tf-capitalize col-xs-10 m-auto">
               View Detail
             </q-btn>
           </div>

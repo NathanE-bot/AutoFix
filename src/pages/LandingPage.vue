@@ -187,7 +187,7 @@
         </div>
         <div class="row">
           <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
-            <q-card-section horizontal class="d-flex j-center hide-m-i">
+            <q-card-section horizontal class="d-flex j-center hide-m-i d-br-5px">
               <img class="responsive-img dev_pic fit-content about-us-img"
                 src="~assets/images/preset/person_1.jpg"
               />
@@ -208,7 +208,7 @@
                 </div>
               </div>
             </q-card-section>
-            <q-card-section class="d-flex flex-dir-col show-m-i">
+            <q-card-section class="d-flex flex-dir-col show-m-i ">
               <img class="responsive-img fit-content br-10-top"
                 src="~assets/images/preset/person_1.jpg"
               />
@@ -231,7 +231,7 @@
             </q-card-section>
           </q-card>
           <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
-            <q-card-section horizontal class="d-flex j-center hide-m-i">
+            <q-card-section horizontal class="d-flex j-center hide-m-i d-br-5px">
               <img class="responsive-img dev_pic fit-content about-us-img"
                 src="~assets/images/preset/person_2.png"
               />
@@ -275,7 +275,7 @@
             </q-card-section>
           </q-card>
           <q-card class="my-card br-10px no-shadow col-md-4 col-xs-12 mt-40">
-            <q-card-section horizontal class="d-flex j-center hide-m-i">
+            <q-card-section horizontal class="d-flex j-center hide-m-i d-br-5px">
               <img class="responsive-img dev_pic fit-content about-us-img"
                 src="~assets/images/preset/person_3.png"
               />
