@@ -40,7 +40,7 @@
             <div class="mt-20">
               <img class="responsive-img fit-content" src="~assets/images/car_stock_img.png" alt="">
             </div>
-            <div class="scrolldown-animation m-auto cursor-pointer hide-m" @click="doScrollIntoAboutUs()">
+            <div class="scrolldown-animation m-auto cursor-pointer" @click="doScrollIntoAboutUs()">
               <q-tooltip
                 class="bg-primary text-body2"
                 transition-show="scale"
@@ -53,7 +53,6 @@
                 <div class="chevrondown"></div>
               </div>
             </div>
-            <!-- <h4 class="m-auto txt-white cursor-pointer" @click="doScrollIntoAboutUs()">About Us</h4> -->
             <!-- <div class="d-flex a-center j-center">
               <div class="d-flex a-center mr-30">
                 <q-btn class="relative-position mr-16" unelevated round color="secondary">
@@ -176,9 +175,10 @@
           <span class="fs-16">Get convenience with our website</span>
         </div>
         <q-video class="mt-40-i yt-video"
-            :ratio="16/6"
-            src="https://www.youtube.com/embed/OlHYirmHhK0&ab_channel=baledemy"
-          />
+          :ratio="16/6"
+          src="https://www.youtube.com/embed/OlHYirmHhK0&ab_channel=baledemy"
+        />
+        <div id="scroll-about-us-mobile"></div>
       </div>
       <div class="mt-80" id="about-us">
         <div class="text-center">
@@ -417,7 +417,11 @@ export default ({
   },
   methods: {
     doScrollIntoAboutUs () {
-      document.getElementById('about-us').scrollIntoView()
+      if(this.window.width < 500){
+        document.getElementById('scroll-about-us-mobile').scrollIntoView()
+      } else {
+        document.getElementById('about-us').scrollIntoView()
+      }
     },
     doSearchWorkshop () {
       this.changePage('/workshop?search=' + this.search)

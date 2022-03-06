@@ -74,8 +74,8 @@ export default {
                 else {
                     this.forLoad = false
                     Swal.fire({
-                        title: 'Error',
-                        text: 'Please login first.',
+                        icon: 'warning',
+                        title: 'Please login first',
                         confirmButtonText: 'Login',
                         confirmButtonColor: '#21a17b',
                         cancelButtonText: 'Back',

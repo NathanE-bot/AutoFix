@@ -124,7 +124,15 @@
     }
 
     .q-scrollarea__content{
-        padding: 0 !important;
+        padding-left: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        padding-right: 10px !important;
+    }
+    .chat-room-page{
+        .q-scrollarea__content{
+            padding-top: 10px !important;
+        }   
     }
 
     // Padding (px)
@@ -155,4 +163,65 @@
     .room-section{
         padding: 18px 14px 18px 0 !important;
     }
+    .m-mb-30{
+        margin-bottom: 30px;
+    }
+    .m-fw{
+        width: 100%;
+    }
+    .m-text-center{
+        text-align: center;
+    }
+    .m-d-flex{
+        display: flex;
+    }
+    .m-fs-24px{
+        font-size: 24px;   
+    }
+    .m-mt-0{
+        margin-top: 0;
+    }
+    .icon-mobile{
+        .q-icon{
+            font-size: 18px;
+        }
+    }
+    .m-max-w-48{
+        max-width: 48% !important;
+    }
+    .text-h6{
+        font-size: 1rem;
+    }
+    .q-stepper__step-inner{
+        padding: 24px 18px !important;
+    }
+}
+
+@media (min-width:500px){
+    .d-mr-30{
+        margin-right: 30px;
+    }
+    .d-min-h-60{
+        min-height: 60px;
+    }
+    .d-max-w-240{
+        max-width: 240px;
+    }
+    .d-mb-20{
+        margin-bottom: 20px;
+    }
+    .d-mr-20{
+        margin-right: 20px;
+    }
+    .d-w-80{
+        width: 80%;
+    }
+    .q-img-insurance{
+        width: 300px; 
+        height: 150px;
+    }
+}
+
+.opacity-0{
+    opacity: 0;
 }

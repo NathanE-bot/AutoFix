@@ -90,8 +90,8 @@
       </div>
     </div>
     <div class="fw show-m m-minh-inherit">
-      <div class="m-minh-inherit" v-if="help.isObjectEmpty(room) && !loader || checker">
-        <div class="room-section-gap m-minh-inherit pt-20" v-if="!help.isObjectEmpty(room)">
+      <div class="m-minh-inherit" v-if="!help.isObjectEmpty(room) && !loader || checker">
+        <div class="room-section-gap m-minh-inherit pt-20 px-10" v-if="!help.isObjectEmpty(room)">
           <div class="room-section cursor-pointer col-md-12" v-for="item in room" :key="item.roomSecureId" @click="changePageForChat(item); dialogChatMobile = true">
             <div class="content-section relative-position">
               <span class="time-pos tf-capitalize" v-if="!help.isDataEmpty(item.lastMessage.time)">{{ help.defaultFormat(item.lastMessage.time, help.data().time_4) }}</span>
@@ -329,6 +329,10 @@ export default {
         _this.messages = messages
         setTimeout(() => {
           if(_this.checker) {
+            if(_this.window.width < 500){
+              _this.dialogChatMobile = true
+            }
+            _this.changePageForChat()
             _this.doScrollBottomChat()
           }
         }, 0)
@@ -342,12 +346,16 @@ export default {
     doScrollBottomChat () {
       var element = document.getElementById('chatSection').getElementsByClassName("q-scrollarea__container")[0]
       element.scrollTop = element.scrollHeight
-      console.log()
     },
     changePageForChat (item) {
       let _this = this
       _this.clicked = true
-      _this.roomId = item.roomSecureId
+      if(!help.isObjectEmpty(item)){
+        _this.roomId = item.roomSecureId
+      }
+      if(_this.checker && !help.isDataEmpty(_this.roomIDFromChecker)){
+        _this.roomId = _this.roomIDFromChecker
+      }
       if(!help.isDataEmpty(_this.roomId)){
         const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + _this.roomId);
         itemsRef.on("value", snapshot => {

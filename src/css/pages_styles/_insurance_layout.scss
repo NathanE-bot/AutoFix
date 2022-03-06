@@ -16,6 +16,15 @@
     &_1{
         @extend %default_bg_preset;
         background-image: url($background_img_url+'insurance_bg.png');
+        .il_1_img{
+            max-width: 360px;
+        }
+        @media (max-width:500px) {
+            background-size: cover !important;
+            .il_1_img{
+                max-width: 150px;
+            }
+        }
     }
 
     &_2{

@@ -1,10 +1,10 @@
 <template>
-  <q-page class="insurance_layout_1 flex flex-center position-relative">
-    <div>
-      <img class="responsive-img fit-content" src="~assets/images/preset/image1.png" alt="">
+  <q-page class="insurance_layout_1 flex flex-center position-relative" :class="{'row' : window.width < 500}">
+    <div :class="{'col-xs-12' : window.width < 500}">
+      <img class="responsive-img fit-content il_1_img m-auto m-d-flex" src="~assets/images/preset/image1.png" alt="">
     </div>
-    <div class="m-auto text-center">
-      <h4 class="fw-bold">Choose Your Insurance</h4>
+    <div class="m-auto text-center" :class="{'col-xs-10' : window.width < 500}">
+      <h4 class="fw-bold m-fs-24px">Choose Your Insurance</h4>
         <q-select
           v-model="vendorInsurance"
           :options="vendorInsuranceList"
@@ -20,8 +20,8 @@
           class="br-10px mt-20 q-px-lg q-py-xs"
         />
     </div>
-    <div>
-        <img class="responsive-img fit-content" src="~assets/images/preset/image2.png" alt="">
+    <div :class="{'col-xs-12' : window.width < 500}">
+      <img class="responsive-img fit-content il_1_img m-auto m-d-flex" src="~assets/images/preset/image2.png" alt="">
     </div>
   </q-page>
 </template>
@@ -39,13 +39,28 @@ export default {
       help,
       forLoad: true,
       vendorInsurance: null,
-      vendorInsuranceList: []
+      vendorInsuranceList: [],
+      window: {
+        width: 0,
+        height: 0
+      }
     }
   },
   created () {
     this.doGetVendorInsuranceList()
   },
+  mounted() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  unmounted () {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
+    handleResize () {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+    },
     doGetVendorInsuranceList () {
       let _this = this
       let token = LocalStorage.getItem('autoRepairUser').data.access_token
