@@ -58,7 +58,7 @@
                         </div>
                         <div class="col-md-5 col-xs-12 flex-dir-col">
                             <span class="fw-semibold">Description</span>
-                            <span>{{ item.serviceDescription }}</span>
+                            <span>{{ !help.isDataEmpty(item.serviceDescription) ? item.serviceDescription : '-' }}</span>
                         </div>
                         <div class="col-md-12 col-xs-12 row mt-30 a-center">
                             <div class="col-md-6 text-h6 primary_color">

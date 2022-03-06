@@ -18,18 +18,18 @@
                     </div>
                     <q-separator class="br-5px" color="#605A5A" size="4px" />
                     <div class="mt-10 q-gutter-y-md row">
-                        <div class="col-md-12 flex-dir-col mt-0">
+                        <div class="col-md-12 col-xs-12 flex-dir-col mt-0">
                             <span class="fw-semibold">Address</span>
                             <span>{{ item.workshopAddress }}</span>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5 col-xs-12">
                             <span class="fw-semibold">Date and Time</span>
                             <div class="d-flex flex-dir-col">
                                 <span>{{ help.defaultFormat(item.scheduleDate, help.data().dmy_7) }}</span>
                                 <span>{{ help.formatTime(item.scheduleTime, help.data().time_2) + ' WIB' }}</span>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5 col-xs-12">
                             <span class="fw-semibold">Services</span>
                             <div class="d-flex a-start" v-if="!help.isObjectEmpty(item.serviceDetail.generalServices)">
                                 <span class="w3-120px">General Services:&nbsp;</span>
@@ -44,24 +44,41 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 flex-dir-col">
+                        <div class="col-md-12 col-xs-12 flex-dir-col">
                             <span class="fw-semibold">Car Model and Type</span>
                             <span>{{ item.carModel + ' ' + item.carType}}</span>
                         </div>
-                        <div class="col-md-5 flex-dir-col">
+                        <div class="col-md-5 col-xs-12 flex-dir-col">
                             <span class="fw-semibold">Estimation Service Time</span>
                             <span>{{ item.timeEstimation + ' Hour' }}</span>
                         </div>
-                        <div class="col-md-5 flex-dir-col">
+                        <div class="col-md-5 col-xs-12 flex-dir-col">
                             <span class="fw-semibold">Description</span>
-                            <span>{{ item.serviceDescription }}</span>
+                            <span>{{ !help.isDataEmpty(item.serviceDescription) ? item.serviceDescription : '-' }}</span>
                         </div>
-                        <div class="col-md-12 row mt-30 a-center">
-                            <div class="col-md-6 text-h6 primary_color">
+                        <div class="col-md-12 col-xs-12 row mt-30 a-center">
+                            <div class="col-md-6 col-xs-12 text-h6 primary_color">
                                 <b class="hide-m">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
                                 <b class="show-m">Price Estimation: <br> {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
                             </div>
-                            <div class="col-md-5 q-gutter-x-lg j-end">
+                            <div class="col-md-5 q-gutter-x-lg j-end hide-m">
+                                <q-btn
+                                    @click="!item.favoriteToggle ? doAddFavoriteToUser(item) : doRemoveFavoriteFromUser(item)"
+                                    :icon="item.favoriteToggle ? 'fas fa-heart' : 'far fa-heart'"
+                                    flat round color="negative"
+                                />
+                                <q-btn
+                                    @click="doCheckForMakeChatRoom(item)"
+                                    icon="fas fa-comment-dots"
+                                    flat round color="primary"
+                                />
+                                <q-btn
+                                    @click="openGoogleMapsWithCoords(item.latitude, item.longitude)"
+                                    icon="fas fa-map-marker-alt"
+                                    flat round color="primary"
+                                />
+                            </div>
+                            <div class="col-xs-12 q-gutter-x-lg show-m">
                                 <q-btn
                                     @click="!item.favoriteToggle ? doAddFavoriteToUser(item) : doRemoveFavoriteFromUser(item)"
                                     :icon="item.favoriteToggle ? 'fas fa-heart' : 'far fa-heart'"
