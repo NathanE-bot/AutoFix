@@ -852,7 +852,7 @@ export default {
             }
         },
         doCheckFormPerStepper(refs){
-            refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
+            // refs.stepper.next() // kalau mau ngilangin validasi ctrl + / di line ini vice versa
             if(this.step == 1 && this.$refs.formStepper1) {
                 this.$refs.formStepper1.validate().then(success => {
                     if (success) {
