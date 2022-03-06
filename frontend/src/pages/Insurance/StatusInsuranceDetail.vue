@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center insurance_layout_3">
-    <div class="flex flex-dir-col w-80 m-auto">
-      <div class="d-flex a-center mb-20">
+    <div class="flex flex-dir-col w-80 m-w-90-i m-mt-10 m-auto">
+      <div class="d-flex a-center mb-20 m-mb-10">
         <q-btn
           @click="goBack()"
           round flat
@@ -11,12 +11,12 @@
         </q-btn>
         <div class="text-h6 fw-semibold txt-white ml-10">Back</div>
       </div>
-      <q-card class="br-20px">
+      <q-card class="br-10px">
         <q-card-section>
-          <div class="row j-sp-between p-20">
-            <span class="fw-semibold fs-28 tf-capitalize">{{ data.insuranceName }}</span>
+          <div class="row j-sp-between p-20 m-p-10">
+            <span class="fw-semibold fs-28 m-fs-20-i tf-capitalize">{{ data.insuranceName }}</span>
             <q-badge
-              class="tf-capitalize mr-10 p-10 fs-18  br-20px"
+              class="tf-capitalize mr-10 p-10 fs-18 m-fs-14-i br-20px"
               :color="
                 data.insuranceStatus === 'Approved'
                   ? 'primary' : data.insuranceStatus === 'Rejected'
@@ -25,14 +25,17 @@
               :label="data.insuranceStatus"
             />
           </div>
-          <div class="col-12 fs-18 px-20">
+          <div class="col-12 fs-18 px-20 m-px-10 m-fs-14-i">
             <div class="row py-10">Driver's Name : {{ data.insuredName }}</div>
             <div class="row py-10">Claimed Date : {{ data.claimedInsuranceDate }}</div>
             <div class="row py-10">Polis Number : {{ data.polisNumber }}</div>
           </div>
           <br/>
           <div class="row">
-            <div class="col-8 m-auto border-card br-20px flex flex-center fs-20" style="height: 10rem;">
+            <div class="col-8 m-auto border-card br-20px flex flex-center fs-20 hide-m" style="height: 10rem;">
+              <span class="w-80">{{ data.insuranceDescription }}</span>
+            </div>
+            <div class="col-11 m-auto border-card br-10px show-m p-10">
               <span class="w-80">{{ data.insuranceDescription }}</span>
             </div>
           </div>

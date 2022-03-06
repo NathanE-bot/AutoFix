@@ -3,6 +3,14 @@
     .fs-#{$i}{
         font-size: #{$i}px;
     }
+    @media (max-width:500px){
+        .m-fs-#{$i}{
+            font-size: #{$i}px;
+            &-i{
+                font-size: #{$i}px !important; 
+            }
+        }
+    }
 }
 
 @for $i from 0 to 101 {

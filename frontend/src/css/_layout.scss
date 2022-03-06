@@ -89,6 +89,24 @@
             padding: #{$i}px !important;
         }
     }
+    @media (max-width:500px) {
+        .m-p-#{$i}{
+            padding: #{$i}px;
+    
+            &-i{
+                padding: #{$i}px !important;
+            }
+        }
+        .m-px-#{$i}{
+            padding-left: #{$i}px;
+            padding-right: #{$i}px;
+    
+            &-i{
+                padding-left: #{$i}px !important;
+                padding-right: #{$i}px !important;
+            }
+        }
+    }
 
     .py-#{$i}{
         padding-top: #{$i}px;
