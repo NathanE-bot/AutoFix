@@ -249,6 +249,16 @@
             
         }
     }
+    @media (min-width:500px){
+        .d-w-#{$i}{
+            width: #{$i} + '%';
+    
+            &-i{
+                width: #{$i} + '%' !important;
+            }
+            
+        }
+    }
     .w-#{$i}{
         width: #{$i} + '%';
 
