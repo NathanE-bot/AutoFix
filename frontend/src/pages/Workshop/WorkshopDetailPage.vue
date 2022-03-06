@@ -126,6 +126,35 @@
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
         <div class="py-20">
+          <div class="text-h6">{{ !help.isObjectEmpty(workshopDetail.workshop_review) ? 'Reviews' : 'No Review'}}</div>
+            <q-scroll-area
+              v-if="!help.isObjectEmpty(workshopDetail.workshop_review)"
+              :thumb-style="thumbStyle"
+              :bar-style="barStyle"
+              class="review-workshop-scrollbar"
+              :style="{height: window.heightAlteredReview + 'px'}"
+            >
+              <q-card class="my-card review-card br-20px mb-20" v-for="review in workshopDetail.workshop_review" :key="review.id">
+                <q-card-section class="relative-position">
+                  <span class="review-date grey-5">{{ help.defaultFormat(review.reviewDate, help.data().dmy_6) }}</span>
+                  <div class="review-content">
+                    <div class="text-h6">{{ review.userName }}</div>
+                    <div class="line-clamp-3 text-subtitle2 fs-12">{{ review.description }}</div>
+                  </div>
+                  <q-rating
+                    class="review-rating"
+                    v-model="review.rating"
+                    readonly size="xs"
+                    color="yellow-14"
+                    icon="star_border"
+                    icon-selected="star"
+                  />
+                </q-card-section>
+              </q-card>
+            </q-scroll-area>
+        </div>
+        <q-separator class="br-5px" color="#605A5A" size="4px" />
+        <div class="py-20">
           <div class="text-h6 fw-bold mb-10">Gallery</div>
           <div>
             <q-carousel
@@ -267,7 +296,8 @@ export default {
       window: {
         width: 0,
         height: 0,
-        heightAltered: 0
+        heightAltered: 0,
+        heightAlteredReview: 0
       },
       loader: false,
       userTokenChat: null,
@@ -319,6 +349,7 @@ export default {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
       this.window.heightAltered = window.innerHeight - (window.innerHeight * (40/100))
+      this.window.heightAlteredReview = window.innerHeight - (window.innerHeight * (84/100))
     },
     doCheckLogin () {
       if(!Auth.isUserLogin()){

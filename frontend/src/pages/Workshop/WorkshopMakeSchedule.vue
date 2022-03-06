@@ -199,7 +199,7 @@
             <div class="d-flex a-baseline mb-30">
               <div class="d-flex flex-dir-col mr-30 w-60">
                 <span class="grey-txt text-h6 fw-semibold mb-10">Choose Date</span>
-                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="(date) => date >= help.formatToday(help.data().dmy_3)" />
+                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="(date) => date >= help.formatToday(help.data().dmy_3) && date <= help.formatTwoWeeks(help.data().dmy_3)" />
               </div>
               <div class="d-flex flex-dir-col">
                 <span class="grey-txt text-h6 fw-semibold mb-10">Choose Time</span>

@@ -76,6 +76,9 @@ export default {
     formatTommorow (format) {
         return moment().clone().add(1,'days').format(format)
     },
+    formatTwoWeeks(format){
+        return moment().clone().add(14,'days').format(format)
+    },
     defaultFormat (dateTime, format) {
         return moment(dateTime).format(format)
     },
