@@ -35,6 +35,26 @@
     &_3{
         @extend %default_bg_preset1;
         background-image: url($background_img_url+'insurance3_bg.png');
+        .insurance-status-table{
+            max-height: 480px;
+            thead{
+                tr{
+                    position: sticky;
+                    top: 0;
+                    background: white;
+                    z-index: 1;
+                    th{
+                        padding: 26px 16px;
+                    }
+                }
+            }
+        }
+        @media (max-width:500px) {
+            .insurance-status-table{
+                max-height: 400px;
+            }
+            background-size: cover !important;
+        }
     }
 }
 

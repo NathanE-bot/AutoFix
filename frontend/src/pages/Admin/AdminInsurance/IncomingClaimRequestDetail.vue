@@ -284,7 +284,7 @@
 
               <q-card-actions align="center" class="text-primary">
                   <q-btn padding="4px 24px" rounded unelevated label="Cancel" v-close-popup class="tf-capitalize"/>
-                  <q-btn padding="4px 20px" rounded unelevated color="primary" label="Approve" class="tf-capitalize" type="submit" v-close-popup/>
+                  <q-btn padding="4px 20px" rounded unelevated color="primary" label="Approve" class="tf-capitalize" type="submit" />
               </q-card-actions>
             </form>
         </q-card>
@@ -304,8 +304,8 @@
               </q-input>
             </div>
             <q-card-actions align="center" class="text-primary">
-                <q-btn padding="4px 24px" rounded unelevated label="Cancel" v-close-popup class="tf-capitalize"  @click="promptDetail = true"/>
-                <q-btn padding="4px 20px" rounded unelevated color="negative" label="Reject" class="tf-capitalize" v-close-popup @click="doRejectClaim()"/>
+                <q-btn padding="4px 24px" rounded unelevated label="Cancel" v-close-popup class="tf-capitalize" />
+                <q-btn padding="4px 20px" rounded unelevated color="negative" label="Reject" class="tf-capitalize" @click="doRejectClaim()"/>
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -364,7 +364,8 @@ export default {
       },
       doRejectClaim(){
         this.loader = true
-        rejectInsuranceClaim(this.$route.params.insuranceID, this.rejectDescription)
+        if(!help.isDataEmpty(this.rejectDescription)){
+          rejectInsuranceClaim(this.$route.params.insuranceID, this.rejectDescription)
         .then(response => {
           console.log(response)
           Swal.fire ({
@@ -384,6 +385,15 @@ export default {
         })
           this.promptReject = false
           this.loader = false
+        } else {
+          this.promptReject = false
+          Swal.fire ({
+            icon: "warning",
+            title: "Reason of rejecting field is required",
+          }) .then(() => {
+            this.loader = false
+          })
+        }
       },
       doAcceptClaim(){
         this.loader = true
@@ -408,23 +418,34 @@ export default {
       },
       submit() {
         this.loader = true
-        let fd = new FormData();
-        fd.append('filePDF', this.filePDF)
+        if(!help.isDataEmpty(this.filePDF)){
+          let fd = new FormData();
+          fd.append('filePDF', this.filePDF)
 
-        uploadPDFInsurance(this.$route.params.insuranceID, fd)
-        .then(response => {
-          this.doAcceptClaim(this.$route.params.insuranceID)
-        }).finally(() => {
-          this.doGetAdminInsuranceDetails(this.$route.params.insuranceID)
-          this.loader = false
-        })
-        .catch(err => {
-          Swal.fire ({
-              icon: "error",
-              title: "Input Error",
-              text: "Please contact our admin" //revisi
+          uploadPDFInsurance(this.$route.params.insuranceID, fd)
+          .then(response => {
+            this.doAcceptClaim(this.$route.params.insuranceID)
+          }).finally(() => {
+            this.doGetAdminInsuranceDetails(this.$route.params.insuranceID)
+            this.loader = false
+            this.promptApprove = false
           })
-        })
+          .catch(err => {
+            Swal.fire ({
+                icon: "error",
+                title: "Input Error",
+                text: "Please contact our admin" //revisi
+            })
+          })
+        } else {
+          this.promptApprove = false
+          Swal.fire ({
+            icon: "error",
+            title: "Please Input Necessary File",
+          }) .then(() => {
+            this.loader = false
+          })
+        }
       }
     }
 }
