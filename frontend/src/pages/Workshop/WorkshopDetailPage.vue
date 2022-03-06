@@ -325,6 +325,7 @@ export default {
     if(!help.isDataEmpty(this.workshopId)){
       this.doGetWorkshopById()
     }
+    console.log(help.checkforBackgroundDetailWorkshopImage(this.workshop_gallery))
   },
   mounted () {
     window.addEventListener('resize', this.handleResize)

@@ -105,11 +105,11 @@ export default {
     },
     // images
     checkForInsuranceLogo (url) {
-        return !this.isDataEmpty(url) ? url : localURL + 'img/logo.png'
+        return !this.isDataEmpty(url) ? url : this.checkForProduction() + 'img/logo.png'
     },
     checkforBackgroundDetailWorkshopImage (a) {
         if(this.isObjectEmpty(a)){
-            return localURL + 'storage/presetLogo/background_img_preset_detailWorkshop.jpeg'
+            return this.checkForProduction() + '/storage/presetLogo/background_img_preset_detailWorkshop.jpg'
         }
         return a[0].filePath
     },
