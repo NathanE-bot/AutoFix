@@ -202,7 +202,8 @@ export default {
           v => /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Wrong email format'
         ],
         password_r: [
-          v => !!v || 'Password is required'
+          v => !!v || 'Password is required',
+          v => v.length >= 8 || 'Password min 8 characters'
         ]
       },
       window: {
