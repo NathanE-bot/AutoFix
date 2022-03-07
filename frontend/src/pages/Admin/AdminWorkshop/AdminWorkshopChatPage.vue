@@ -32,7 +32,7 @@
         <div class="chat-room-page col-md-6">
           <q-card class="my-card chat-card">
             <q-card-section class="d-flex a-center receiver-name">
-              <div class="text-h6 fw-semibold txt-white ml-15">
+              <div class="text-h6 fw-semibold txt-white ml-15" v-if="clicked">
                 {{ user.role == '2' ? user_1 : user_2 }}
               </div>
             </q-card-section>
@@ -60,15 +60,15 @@
                 </div>
               </q-scroll-area>
             </q-card-section>
-            <q-card-section class="d-flex a-center input-message">
+            <q-card-section class="d-flex a-center input-message" style="min-height: 74px">
               <q-input
                 @keyup.enter="sendMessage($event)"
-                v-model="messageInput"
+                v-model="messageInput" v-if="clicked"
                 placeholder="Write a reply..."
                 borderless dense autogrow maxlength="1000"
                 class="bg-white br-10px textarea-chat mr-20 fw"
               />
-              <q-btn @click="sendMessage()" round flat>
+              <q-btn @click="sendMessage()" round flat v-if="clicked">
                 <is-send-message />
               </q-btn>
             </q-card-section>
@@ -157,9 +157,7 @@ export default {
       Object.keys(tempRoomObj).forEach(key => {
         let tempLastMessage = tempRoomObj[key]
         let last = Object.keys(tempLastMessage)[Object.keys(tempLastMessage).length-3]
-        console.log(_this.user.tokenChat)
         if(key.includes(_this.user.tokenChat)){
-          console.log(tempLastMessage[last])
           if(!help.isDataEmpty(tempLastMessage[last])){
             tempRoom.push({
               roomSecureId: key,
@@ -184,7 +182,6 @@ export default {
         let messages = []
         let user_1 = null
         let user_2 = null
-        console.log(data)
         Object.keys(data).forEach(key => {
           if([key] != 'user-1' && [key] != 'user-2'){
             messages.push({
@@ -208,7 +205,8 @@ export default {
           _this.scrollToBottom()
         }, 0);
       })
-    } 
+    }
+    console.log('roomId',this.roomId)
   },
   unmounted () {
     window.removeEventListener('resize', this.handleResize)
@@ -219,7 +217,7 @@ export default {
       element.scrollTop = element.scrollHeight
     },
     changePageForChat (item) {
-      console.log(item)
+      console.log('item', item)
       let _this = this
       _this.clicked = true
       _this.roomId = item.roomSecureId
@@ -230,7 +228,6 @@ export default {
           let messages = []
           let user_1 = null
           let user_2 = null
-          console.log(data)
           Object.keys(data).forEach(key => {
             if([key] != 'user-1' && [key] != 'user-2'){
               messages.push({
@@ -302,9 +299,6 @@ export default {
       this.window.heightAltered = window.innerHeight - (window.innerHeight * (40/100))
       this.window.heightAltered1 = window.innerHeight - (window.innerHeight * (45/100))
       this.window.minHeightChatSection = window.innerHeight - (window.innerHeight * (80/100))
-    },
-    doConsole (a) {
-      console.log(a)
     },
     changePage (url) {
       this.$router.push(url)

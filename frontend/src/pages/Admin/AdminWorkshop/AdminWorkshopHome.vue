@@ -131,6 +131,7 @@ export default {
       help,
       loader: false,
       user: {},
+      dummySpark1: [],
       totalEstimasi: null,
       listYear: [],
       listMonth: [
@@ -273,7 +274,7 @@ export default {
         },
         colors: ['#21a17b'],
         title: {
-          text: ValidationFunction.convertToRupiah(3300000),
+          text: ValidationFunction.convertToRupiah(0),
           offsetX: 30,
           style: {
             fontSize: '24px',
@@ -294,6 +295,7 @@ export default {
   created() {
     this.user = LocalStorage.getItem('autoRepairUser').data.user
     // this.doGetFirstLoadData()
+    // this.apexchart.render()
   },
   mounted(){
     this.doGetFirstLoadData()
@@ -336,10 +338,21 @@ export default {
       this.spark1.title.text = ''
       getSumAllPriceEstimationWorkshop(this.user.id, this.dataHitAPI.month3.value, this.dataHitAPI.year3.label)
       .then(response => {
+        this.dummySpark1 = ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
         response.data.ReturnDaily.map(val => {
-          this.spark1.series[0].data[val.day-1] = val.Total_Estimasi
+          this.dummySpark1[val.day-1] = val.Total_Estimasi
         })
-          this.totalEstimasi = response.data.ReturnTotal.Total_Estimasi // revisi, belum bisa masuk ke title, text biar jadi dynamis
+          this.totalEstimasi = response.data.ReturnTotal.Total_Estimasi
+          this.spark1 = {
+            series: [
+              {
+                data: this.dummySpark1
+              }
+            ],
+            title: {
+              text: ValidationFunction.convertToRupiah(this.totalEstimasi)
+            }
+          }
       })
 
       this.loader=false
