@@ -142,6 +142,7 @@ export default {
             let _this = this
             _this.loader = true
             getTempUserID(_this.encryptUserId).then(response => {
+                console.log(response.data)
                 _this.email = response.data.email
                 _this.loader = false
             }) .catch(function (error) {

@@ -296,7 +296,7 @@ export default {
         priceEstimation: 0,
         scheduleDate: null,
         scheduleTime: null,
-        scheduleDateTemp: help.formatTommorow(help.data().dmy_3)
+        scheduleDateTemp: help.formatToday(help.data().dmy_3)
       },
       periodic: false,
       general: false
