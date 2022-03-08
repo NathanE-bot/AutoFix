@@ -32,7 +32,7 @@
         <div class="chat-room-page col-md-6">
           <q-card class="my-card chat-card">
             <q-card-section class="d-flex a-center receiver-name">
-              <div class="text-h6 fw-semibold txt-white ml-15">
+              <div class="text-h6 fw-semibold txt-white ml-15" v-if="clicked">
                 {{ user.role == '2' ? user_1 : user_2 }}
               </div>
             </q-card-section>
@@ -60,15 +60,15 @@
                 </div>
               </q-scroll-area>
             </q-card-section>
-            <q-card-section class="d-flex a-center input-message">
+            <q-card-section class="d-flex a-center input-message" style="min-height: 76px">
               <q-input
                 @keyup.enter="sendMessage($event)"
-                v-model="messageInput"
+                v-model="messageInput" v-if="clicked"
                 placeholder="Write a reply..."
                 borderless dense autogrow maxlength="1000"
                 class="bg-white br-10px textarea-chat mr-20 fw"
               />
-              <q-btn @click="sendMessage()" round flat>
+              <q-btn @click="sendMessage()" round flat v-if="clicked">
                 <is-send-message />
               </q-btn>
             </q-card-section>
@@ -355,6 +355,8 @@ export default {
       }
       if(_this.checker && !help.isDataEmpty(_this.roomIDFromChecker)){
         _this.roomId = _this.roomIDFromChecker
+        history.pushState(null, 'Auto Repair', '/member/home-message')
+        _this.checker = false
       }
       if(!help.isDataEmpty(_this.roomId)){
         const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + _this.roomId);

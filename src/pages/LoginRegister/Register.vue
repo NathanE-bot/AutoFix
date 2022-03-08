@@ -98,7 +98,7 @@
                       </q-input>
                       <q-input
                         v-model="form.phoneNumber"
-                        :rules="rules.phoneNumber_r" lazy-rules="ondemand"
+                        :rules="rules.phoneNumber_r" lazy-rules="ondemand" mask="############"
                         label="Phone Number"
                         borderless
                         class="col-md-6 pl-6 default-input-1">
@@ -337,10 +337,12 @@ export default ({
           v => !!v || 'Date of Birth is required'
         ],
         phoneNumber_r: [
-          v => !!v || 'Phone number is required'
+          v => !!v || 'Phone number is required',
+          v => /^[0-9]{10,12}$/.test(v) || 'Minimal of 10 digit'
         ],
         address_r: [
-          v => !!v || 'Address is required'
+          v => !!v || 'Address is required',
+          v => v.length >= 10 || 'Min 10 character'
         ],
       },
       window: {
@@ -385,10 +387,8 @@ export default ({
     doRegister () {
       let _this = this
       _this.loader = true
-      console.log(_this.form.DoB)
       _this.form.DoB = help.defaultFormat(_this.form.DoB, help.data().dmy_5)
       registerToWebsite(this.form).then(response => {
-        // console.log(response)
         Swal.fire({
           icon: 'success',
           title: 'Success',
@@ -406,7 +406,17 @@ export default ({
         _this.loader = false
         if(error.response.data.error === 'Unauthorised') {
           Swal.fire({
+            icon: 'error',
             title: 'Error',
+            title: 'Please contact our admin',
+            customClass: {
+              confirmButton: 'br-25px-i py-5-i px-20-i'
+            }
+          })
+        } else if(Object.keys(error.response.data.error[0] == 'email')) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'This email has already been registered',
             customClass: {
               confirmButton: 'br-25px-i py-5-i px-20-i'
             }

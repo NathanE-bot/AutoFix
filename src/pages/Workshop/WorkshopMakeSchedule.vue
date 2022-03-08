@@ -1,6 +1,15 @@
 <template>
     <q-page class="bg-white form-schedule">
-        <div class="topInfo">
+      <q-btn
+        @click="goBack()"
+        unelevated round outline
+        :size="window.width < 500 ? 'md' : 'lg' "
+        class="back-btn-float_left"
+        style="color: black !important"
+      >
+        <i class="fas fa-arrow-left fs-20"></i>
+      </q-btn>
+        <div class="topInfo pt-100">
           <img v-if="!help.isDataEmpty(workshopDetail.workshopLogo)" class="responsive_img fit-content detail-workshop-bg my-30" width="120" :src="workshopDetail.workshopLogo" alt="">
           <div v-else class="responsive_img fit-content detail-workshop-bg my-30 flex j-center a-center">No Data</div>
           <div class="detailInfo">
@@ -12,7 +21,7 @@
         </div>
         <q-separator class="br-5px" color="#605A5A" size="4px" />
         <div class="modelServisFragment">
-          <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30">
+          <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30 m-fs-1_2rem">
             <span class="fw-semibold">Model & type of service</span>
             <span class="accent_color">1 / 2</span>
           </div>
@@ -22,7 +31,7 @@
               v-model="jsonDataParam.carModel"
               :options="carModelOptions"
               outlined
-              class="br-10px default-select-2 mb-15 w-25"
+              class="br-10px default-select-2 mb-15 w-25 m-w-90 m-m-auto m-mb-15-i"
             >
               <template v-slot:selected>
                 <template v-if="jsonDataParam.carModel">
@@ -38,7 +47,7 @@
               v-model="jsonDataParam.carType"
               :options="carTypeOptions"
               outlined
-              class="br-10px default-select-2 mt-15 w-25"
+              class="br-10px default-select-2 mt-15 w-25 m-w-90 m-m-auto m-mb-15-i"
             >
               <template v-slot:selected>
                 <template v-if="jsonDataParam.carType">
@@ -58,7 +67,7 @@
             </q-select>
           </div>
           <div class="my-20">
-            <span class="text-h5">Select the services required for your car</span>
+            <span class="text-h5 m-fs-1_2rem">Select the services required for your car</span>
           </div>
           <div class="w-90 mx-auto">
             <q-card class="br-10px mb-30 grey-1bg card-shadow-1">
@@ -77,7 +86,7 @@
                       option-value="price"
                       option-label="serviceDetail"
                       outlined input-debounce="0"
-                      class="br-10px default-select-2 mt-15 w-25"
+                      class="br-10px default-select-2 mt-15 w-25 m-w-100-i"
                     >
                       <template v-slot:append>
                         <q-icon
@@ -111,14 +120,16 @@
                 </div>
               </q-card-section>
               <q-card-section>
-                <q-checkbox v-model="general" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="General Services" :class="['fw-lightbold fs-20']">
-                  <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
-                    Choose car model and type first
-                  </q-tooltip>
-                </q-checkbox>
+                <div class="bg-white sticky-top fw" style="z-index: 1;">
+                  <q-checkbox v-model="general" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="General Services" :class="['fw-lightbold fs-20']">
+                    <q-tooltip transition-show="scale" transition-hide="scale" v-if="help.isDataEmpty(jsonDataParam.carType)">
+                      Choose car model and type first
+                    </q-tooltip>
+                  </q-checkbox>
+                </div>
                 <div v-if="general" class="mt-20">
-                  <div class="row q-col-gutter-y-xl" style="gap: 5%" v-if="!help.isObjectEmpty(generalServicesOptions)">
-                    <div class="col-md-3 w-30-i" v-for="service in generalServicesOptions" :key="service.id">
+                  <div class="row q-col-gutter-y-xl m-overflow-40" style="gap: 5%" v-if="!help.isObjectEmpty(generalServicesOptions)">
+                    <div class="col-md-3 d-w-30-i col-xs-12" v-for="service in generalServicesOptions" :key="service.id">
                       <div class="general-services">
                         <q-checkbox v-model="service.checked" @update:model-value="doCalculateTotalPriceAndHour()" size="xs" />
                         <div class="content">
@@ -139,14 +150,14 @@
                 </div>
               </q-card-section>
             </q-card>
-            <q-card class="br-10px w-70 grey-1bg card-shadow-1">
+            <q-card class="br-10px w-70 m-w-100 grey-1bg card-shadow-1">
               <q-card-section class="pl-30 pr-30">
                 <div class="my-20">
                   <span>Car Damage / Service Request. (Optional)</span>
                 </div>
                 <q-input
                   v-model="jsonDataParam.description"
-                  outlined counter maxlength="500"
+                  outlined counter maxlength="250"
                   type="textarea"
                   class="fix-txt-field default-textarea-1"
                 >
@@ -154,7 +165,7 @@
               </q-card-section>
             </q-card>
             <div class="row my-40 estimation-section">
-              <q-card class="my-card l-card col-md-4">
+              <q-card class="my-card l-card col-md-4 col-xs-12 m-mb-15">
                 <q-card-section>
                   <div class="text-align-right">
                     <is-estimation-price class="svg-grey1" />
@@ -166,7 +177,7 @@
                   </div>
                 </q-card-section>
               </q-card>
-              <q-card class="my-card r-card col-md-4">
+              <q-card class="my-card r-card col-md-4 col-xs-12">
                 <q-card-section>
                   <div class="text-align-right">
                     <is-estimation-hour class="svg-grey1" />
@@ -184,7 +195,7 @@
               :disable="(help.isObjectEmpty(jsonDataParam.serviceTypeBerkala) || this.jsonDataParam.serviceTypeBerkala[0] === null) && help.isObjectEmpty(jsonDataParam.serviceTypeUmum)"
               outline color="primary"
               label="Continue"
-              class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1"
+              class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1 m-w-100"
             >
             </q-btn>
           </div>
@@ -192,11 +203,11 @@
         <q-separator class="br-5px" color="#605A5A" size="4px" />
         <q-slide-transition class="w-95 m-auto" id="slide-tr">
           <div v-show="secondPage">
-            <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30">
+            <div class="d-flex a-center j-sp-between text-h4 fw-lightbold my-30 m-fs-1_2rem">
               <span class="fw-semibold">Choose schedule date & time</span>
               <span class="accent_color">2 / 2</span>
             </div>
-            <div class="d-flex a-baseline mb-30">
+            <div class="d-flex a-baseline mb-30" v-if="window.width > 500">
               <div class="d-flex flex-dir-col mr-30 w-60">
                 <span class="grey-txt text-h6 fw-semibold mb-10">Choose Date</span>
                 <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="(date) => date >= help.formatToday(help.data().dmy_3) && date <= help.formatTwoWeeks(help.data().dmy_3)" />
@@ -210,12 +221,25 @@
                 />
               </div>
             </div>
+            <div class="row a-baseline mb-30" v-else>
+              <div class="d-flex flex-dir-col col-xs-12">
+                <span class="grey-txt text-h6 fw-semibold mb-10 m-fs-1_2rem">Choose Date</span>
+                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="(date) => date >= help.formatToday(help.data().dmy_3) && date <= help.formatTwoWeeks(help.data().dmy_3)" />
+              </div>
+              <div class="d-flex flex-dir-col col-xs-12">
+                <span class="grey-txt text-h6 fw-semibold mb-10 m-fs-1_2rem m-mt-10">Choose Time</span>
+                <q-time
+                  v-model="jsonDataParam.scheduleTime"
+                  class="schedule-time fw" color="accent"
+                />
+              </div>
+            </div>
             <q-btn
               @click="doMakeSchedule()"
               :disable="help.isObjectEmpty(jsonDataParam.scheduleTime) || help.isObjectEmpty(jsonDataParam.scheduleDateTemp)"
               outline color="primary"
               label="Make Schedule"
-              class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1"
+              class="tf-capitalize fw-bold w-30 fs-30 br-10px mb-20 default-btn-1 m-w-100"
             >
             </q-btn>
           </div>
@@ -245,6 +269,10 @@ export default {
   data () {
     return {
       help,
+      window: {
+        width: 0,
+        height: 0
+      },
       ValidationFunction,
       secondPage: false,
       workshopId: null,
@@ -280,7 +308,18 @@ export default {
       this.doGetWorkshopById()
     }
   },
+  mounted () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  unmounted () {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
+    handleResize () {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+    },
     doGetWorkshopById () {
       let _this = this
       getWorkshopById(_this.workshopId).then(response => {
@@ -448,6 +487,9 @@ export default {
     },
     doConsole(a){
       console.log(a)
+    },
+    goBack(){
+      this.$router.go(-1)
     }
   }
 }
