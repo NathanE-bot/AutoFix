@@ -115,5 +115,8 @@ export default {
             return vcpURLBackend
         }
         return localURL
-    }
+    },
+    formatTwoWeeks (format){
+        return moment().clone().add(2,'weeks').format(format)
+    },
 }
