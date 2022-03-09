@@ -64,7 +64,7 @@
               :style="{height: window.heightAltered + 'px'}"
             >
               <div>
-                <q-card v-for="item in workshops" :key="item.id" class="my-card mb-15 br-20px w-list ml-5 cursor-pointer" @click="window.width > 500 ? doGetWorkshopById(true, clickedId, item.userID) : changePage('/workshop/detail/' + workshopById.defaultData.id)">
+                <q-card v-for="item in workshops" :key="'w-mobile-'+item.id" class="my-card mb-15 br-20px w-list ml-5 cursor-pointer" @click="window.width > 500 ? doGetWorkshopById(true, clickedId, item.userID) : changePage('/workshop/detail/' + item.id)">
                   <q-card-section class="d-flex j-sp-between">
                     <div class="d-flex a-center">
                       <div v-if="!help.isDataEmpty(item.workshopLogo)">
