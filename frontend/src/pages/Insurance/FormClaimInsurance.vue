@@ -409,7 +409,7 @@
                         label="Contact Us" no-caps
                         flat rounded color="primary"
                     />
-                    <q-page-sticky position="top-right" :offset="[18, 18]" v-if="step > 3">
+                    <q-page-sticky class="show-m" position="top-right" :offset="[18, 18]" v-if="step > 3">
                         <q-btn @click="dialogWarningUploadPhoto = true" fab icon="fas fa-exclamation-circle" no-caps color="primary" />
                     </q-page-sticky>
                 </q-stepper-navigation>

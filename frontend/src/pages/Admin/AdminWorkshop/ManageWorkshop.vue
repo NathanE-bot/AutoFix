@@ -128,6 +128,7 @@
                 color="primary" label="24 Hour Status"
               >
                 <q-tooltip
+                  v-if="isEditableWorkshop == true"
                   class="text-body2 txt-white bg-info"
                   anchor="bottom end" self="bottom left" :offset="[0, 20]">
                   <q-icon name="fas fa-info-circle" />
@@ -278,18 +279,20 @@
             <div class="col-md-8 p-20">
               <div class="col-12 j-sp-between a-center mb-20">
                 <div class="text-subtitle2">Car Services</div>
-                <q-btn
-                  @click="!help.isDataEmpty(jsonDataParam.carType) ? doFilterCarServices(true) : doNothing()"
-                  icon="fas fa-pen" flat round
-                  :class="['edit-pen-btn', {'edit-pen-btn-active' : !help.isDataEmpty(jsonDataParam.carType)}]"
-                >
+                <div>
+                  <q-btn
+                    @click="!help.isDataEmpty(jsonDataParam.carType) ? doFilterCarServices(true) : doNothing()"
+                    icon="fas fa-pen" flat round :disabled="help.isDataEmpty(jsonDataParam.carModel) && help.isDataEmpty(jsonDataParam.carType)"
+                    :class="['edit-pen-btn', {'edit-pen-btn-active' : !help.isDataEmpty(jsonDataParam.carType)}]"
+                  >
+                  </q-btn>
                   <q-tooltip
                     :class="['text-body2 txt-white', {'bg-info' : help.isDataEmpty(jsonDataParam.carType)}, {'bg-primary' : !help.isDataEmpty(jsonDataParam.carType)}]"
                     anchor="center left" self="center end" :offset="[10, 0]">
                     <q-icon v-if="help.isDataEmpty(jsonDataParam.carType)" name="fas fa-info-circle" />
                     {{ help.isDataEmpty(jsonDataParam.carType) ? 'Choose car model and type first' : 'Edit Periodic & General Services' }}
                   </q-tooltip>
-                </q-btn>
+                </div>
               </div>
               <div class="row">
                 <q-checkbox v-model="periodic" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">

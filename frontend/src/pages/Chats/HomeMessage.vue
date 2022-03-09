@@ -435,13 +435,13 @@ export default {
               .push(message)
           }
           setTimeout(() => {
-            _this.doScrollBottomChat()
+            this.doScrollBottomChat()
           }, 0)
           this.tempMessageInput = ""
         }
       }
       setTimeout(() => {
-        _this.doScrollBottomChat()
+        this.doScrollBottomChat()
       }, 0)
       this.tempMessageInput = ""
     },

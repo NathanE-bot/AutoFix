@@ -313,6 +313,20 @@
     }
 }
 
+.reason-negative-schedule-wrapper{
+    display: flex;
+    padding: 10px;
+    box-shadow: 0px 0px 5px $negative;
+    border-radius: 5px;
+    .label{
+        color: $negative;
+        min-width: 125px;
+    }
+    .content{
+        word-break: break-word;
+    }
+}
+
 .opacity-0{
     opacity: 0;
 }
