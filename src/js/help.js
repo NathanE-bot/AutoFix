@@ -76,6 +76,9 @@ export default {
     formatTommorow (format) {
         return moment().clone().add(1,'days').format(format)
     },
+    formatTwoWeeks (format){
+        return moment().clone().add(2,'weeks').format(format)
+    },
     defaultFormat (dateTime, format) {
         return moment(dateTime).format(format)
     },
@@ -102,11 +105,11 @@ export default {
     },
     // images
     checkForInsuranceLogo (url) {
-        return !this.isDataEmpty(url) ? url : localURL + 'img/logo.png'
+        return !this.isDataEmpty(url) ? url : this.checkForProduction() + 'img/logo.png'
     },
     checkforBackgroundDetailWorkshopImage (a) {
         if(this.isObjectEmpty(a)){
-            return localURL + 'storage/presetLogo/background_img_preset_detailWorkshop.jpeg'
+            return this.checkForProduction() + '/storage/presetLogo/background_img_preset_detailWorkshop.jpg'
         }
         return a[0].filePath
     },
@@ -115,8 +118,5 @@ export default {
             return vcpURLBackend
         }
         return localURL
-    },
-    formatTwoWeeks (format){
-        return moment().clone().add(2,'weeks').format(format)
-    },
+    }
 }

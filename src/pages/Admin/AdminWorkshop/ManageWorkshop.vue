@@ -877,7 +877,7 @@ export default {
         })
         if(!help.isDataEmpty(_this.jsonDataParam.carModel)){
           _this.carTypeOptions = []
-          _this.doFilterCarType(_this.jsonDataParam.carModel)
+          _this.doGetCarServices(_this.jsonDataParam.carType)
         }
         _this.carModelOptions = ValidationFunction.arrayFilterWithSet(_this.carModelOptions)
         _this.loader = false
@@ -1251,7 +1251,6 @@ export default {
     doDeleteCarModelAndTypeFromExisting (item) {
       let _this = this
       _this.editCarLoader = true
-
       Swal.fire({
         icon: 'warning',
         title: `Delete Car Model ${item.carModel} ?`,
