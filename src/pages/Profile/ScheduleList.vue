@@ -101,7 +101,7 @@
             </q-card>
         </div>
         <div v-else-if="loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg q-page-height">
-            <q-card class="my-card w-70">
+            <q-card class="my-card w-70" v-for="n in 3" :key="'loaderCard' + n">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
                         <q-skeleton type="rect" width="80px" />

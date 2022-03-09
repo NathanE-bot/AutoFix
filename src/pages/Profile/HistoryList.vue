@@ -60,7 +60,13 @@
                             <span class="fw-semibold">Description</span>
                             <span>{{ !help.isDataEmpty(item.serviceDescription) ? item.serviceDescription : '-' }}</span>
                         </div>
-                        <div class="col-md-12 col-xs-12 row mt-30 a-center">
+                        <div class="col-md-10 col-xs-12" v-if="(item.scheduleStatus == 'cancelled' || item.scheduleStatus == 'rejected') && !help.isDataEmpty(item.description)">
+                            <div class="reason-negative-schedule-wrapper">
+                                <span class="fw-semibold label">{{item.scheduleStatus == 'cancelled' ? 'Reason for cancel:' : item.scheduleStatus == 'rejected' ? 'Reason for reject:' : 'RISON'}}&nbsp;</span>
+                                <span class="content">{{ item.description }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12 mt-20 row a-center">
                             <div class="col-md-6 text-h6 primary_color">
                                 <b class="hide-m">Price Estimation: {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
                                 <b class="show-m">Price Estimation: <br> {{ ValidationFunction.convertToRupiah(item.priceEstimation) }}</b>
@@ -79,7 +85,7 @@
             </q-card>
         </div>
         <div v-else-if="loader" class="d-flex flex-dir-col a-center py-20 q-gutter-y-lg q-page-height">
-            <q-card class="my-card w-70">
+            <q-card class="my-card w-70" v-for="n in 3" :key="'loaderCard' + n">
                 <q-card-section>
                     <div class="d-flex a-center j-sp-between mb-10">
                         <q-skeleton type="rect" width="80px" />

@@ -128,6 +128,7 @@
                 color="primary" label="24 Hour Status"
               >
                 <q-tooltip
+                  v-if="isEditableWorkshop == true"
                   class="text-body2 txt-white bg-info"
                   anchor="bottom end" self="bottom left" :offset="[0, 20]">
                   <q-icon name="fas fa-info-circle" />
@@ -278,18 +279,20 @@
             <div class="col-md-8 p-20">
               <div class="col-12 j-sp-between a-center mb-20">
                 <div class="text-subtitle2">Car Services</div>
-                <q-btn
-                  @click="!help.isDataEmpty(jsonDataParam.carType) ? doFilterCarServices(true) : doNothing()"
-                  icon="fas fa-pen" flat round
-                  :class="['edit-pen-btn', {'edit-pen-btn-active' : !help.isDataEmpty(jsonDataParam.carType)}]"
-                >
+                <div>
+                  <q-btn
+                    @click="!help.isDataEmpty(jsonDataParam.carType) ? doFilterCarServices(true) : doNothing()"
+                    icon="fas fa-pen" flat round :disabled="help.isDataEmpty(jsonDataParam.carModel) && help.isDataEmpty(jsonDataParam.carType)"
+                    :class="['edit-pen-btn', {'edit-pen-btn-active' : !help.isDataEmpty(jsonDataParam.carType)}]"
+                  >
+                  </q-btn>
                   <q-tooltip
                     :class="['text-body2 txt-white', {'bg-info' : help.isDataEmpty(jsonDataParam.carType)}, {'bg-primary' : !help.isDataEmpty(jsonDataParam.carType)}]"
                     anchor="center left" self="center end" :offset="[10, 0]">
                     <q-icon v-if="help.isDataEmpty(jsonDataParam.carType)" name="fas fa-info-circle" />
                     {{ help.isDataEmpty(jsonDataParam.carType) ? 'Choose car model and type first' : 'Edit Periodic & General Services' }}
                   </q-tooltip>
-                </q-btn>
+                </div>
               </div>
               <div class="row">
                 <q-checkbox v-model="periodic" :disable="help.isDataEmpty(jsonDataParam.carType)" color="secondary" label="Periodic Services" :class="['fw-lightbold fs-20']">
@@ -872,6 +875,10 @@ export default {
           }
           _this.workshop_details.push(tempObject)
         })
+        if(!help.isDataEmpty(_this.jsonDataParam.carModel)){
+          _this.carTypeOptions = []
+          _this.doFilterCarType(_this.jsonDataParam.carModel)
+        }
         _this.carModelOptions = ValidationFunction.arrayFilterWithSet(_this.carModelOptions)
         _this.loader = false
       }) .finally(() => {
@@ -1244,24 +1251,46 @@ export default {
     doDeleteCarModelAndTypeFromExisting (item) {
       let _this = this
       _this.editCarLoader = true
-      deleteCarModel(_this.workshopDetail.id, item.carModel, _this.accessToken).then(response => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: response.data.message
-        }) .then(() => {
-          _this.doGetWorkshopDetailByUserID(true, false)
-          _this.editCarLoader = false
-        })
-      }) .catch((error) => {
-        console.log(error)
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please contact our admin'
-        }) .then(() => {
-          _this.editCarLoader = false
-        })
+
+      Swal.fire({
+        icon: 'warning',
+        title: `Delete Car Model ${item.carModel} ?`,
+        text: "This will remove all car type for this model",
+        confirmButtonText: 'Remove',
+        confirmButtonColor: '#d32f2f',
+        cancelButtonText: 'Back',
+        showCancelButton: true,
+        reverseButtons: true,
+        customClass: {
+          confirmButton: 'br-25px-i py-5-i px-20-i',
+          cancelButton: 'br-25px-i py-5-i px-20-i'
+        }
+      }).then((result) => {
+        if(result.isConfirmed){
+          if(item.carModel == _this.jsonDataParam.carModel){
+            _this.jsonDataParam.carModel = ''
+            _this.jsonDataParam.carType = ''
+          }
+          deleteCarModel(_this.workshopDetail.id, item.carModel, _this.accessToken).then(response => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: response.data.message
+            }) .then(() => {
+              _this.doGetWorkshopDetailByUserID(true, false)
+              _this.editCarLoader = false
+            })
+          }) .catch((error) => {
+            console.log(error)
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Please contact our admin'
+            }) .then(() => {
+              _this.editCarLoader = false
+            })
+          })
+        }
       })
     },
     doDeleteCarTypeFromExisting (index, index1) {
