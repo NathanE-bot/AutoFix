@@ -302,7 +302,7 @@
                     <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
                   </div>
                 </div>
-                <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="periodic && help.isObjectEmpty(periodicServicesOptions)">
+                <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="periodic && !help.isObjectEmpty(periodicServicesOptions)">
                   No periodic service listed
                 </div>
               </div>
