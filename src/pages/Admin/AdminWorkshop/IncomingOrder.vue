@@ -187,7 +187,7 @@ export default {
                 tempListIncoming = response.data.listSchedule
                 tempListServiceDetails = response.data.listDetails
                 tempListDataCustomer = response.data.listDataCustomer
-                if(!help.isObjectEmpty(tempListIncoming)){
+                if(response.data.Message !== "No data"){
                     tempListIncoming.forEach(el1 => {
                         let tempObject = {
                             serviceDetail: {

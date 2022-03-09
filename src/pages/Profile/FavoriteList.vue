@@ -167,9 +167,11 @@
 </template>
 
 <style scoped>
-    .q-col-gutter-y-md > *, .q-col-gutter-md > * {
-        padding-left: 0;
-        padding-right: 0;
+    @media (max-width:600px){
+        .q-col-gutter-y-md > *, .q-col-gutter-md > * {
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
 </style>
 
