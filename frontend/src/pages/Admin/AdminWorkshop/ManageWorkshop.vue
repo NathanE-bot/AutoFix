@@ -1247,24 +1247,42 @@ export default {
     doDeleteCarModelAndTypeFromExisting (item) {
       let _this = this
       _this.editCarLoader = true
-      deleteCarModel(_this.workshopDetail.id, item.carModel, _this.accessToken).then(response => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: response.data.message
-        }) .then(() => {
-          _this.doGetWorkshopDetailByUserID(true, false)
-          _this.editCarLoader = false
-        })
-      }) .catch((error) => {
-        console.log(error)
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please contact our admin'
-        }) .then(() => {
-          _this.editCarLoader = false
-        })
+
+      Swal.fire({
+        icon: 'warning',
+        title: `Delete Car Model ${item.carModel} ?`,
+        text: "This will remove all car type for this model",
+        confirmButtonText: 'Remove',
+        confirmButtonColor: '#d32f2f',
+        cancelButtonText: 'Back',
+        showCancelButton: true,
+        reverseButtons: true,
+        customClass: {
+          confirmButton: 'br-25px-i py-5-i px-20-i',
+          cancelButton: 'br-25px-i py-5-i px-20-i'
+        }
+      }).then((result) => {
+        if(result.isConfirmed){
+          deleteCarModel(_this.workshopDetail.id, item.carModel, _this.accessToken).then(response => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: response.data.message
+            }) .then(() => {
+              _this.doGetWorkshopDetailByUserID(true, false)
+              _this.editCarLoader = false
+            })
+          }) .catch((error) => {
+            console.log(error)
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Please contact our admin'
+            }) .then(() => {
+              _this.editCarLoader = false
+            })
+          })
+        }
       })
     },
     doDeleteCarTypeFromExisting (index, index1) {
