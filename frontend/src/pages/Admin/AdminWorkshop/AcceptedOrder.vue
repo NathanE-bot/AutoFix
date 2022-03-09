@@ -190,40 +190,41 @@ export default {
                 tempListSchedule = response.data.listSchedule
                 tempListDetails = response.data.listDetails
                 tempListCustomer = response.data.listDataCustomer
-
-                tempListSchedule.forEach(el1 => {
-                    let tempObject = {
-                        serviceDetail: {
-                            periodicService: {},
-                            generalServices: []
-                        }
-                    }
-
-                    let tempObjectCustomer = {
-                        customerID: null,
-                        fullName: '',
-                        phoneNumber: ''
-                    }
-
-                    tempListDetails.forEach(el2 => {
-                        if(el2.scheduleID === el1.scheduleID){
-                            if(el2.serviceType === 'servis umum'){
-                                tempObject.serviceDetail.generalServices.push(el2)
-                            }else{
-                                tempObject.serviceDetail.periodicService = el2
+                if(response.data.Message !== "No data"){
+                    tempListSchedule.forEach(el1 => {
+                        let tempObject = {
+                            serviceDetail: {
+                                periodicService: {},
+                                generalServices: []
                             }
                         }
-                    })
-
-                    tempListCustomer.forEach(el2 => {
-                        if(el1.customerID === el2.customerID){
-                            tempObjectCustomer = el2
+    
+                        let tempObjectCustomer = {
+                            customerID: null,
+                            fullName: '',
+                            phoneNumber: ''
                         }
+    
+                        tempListDetails.forEach(el2 => {
+                            if(el2.scheduleID === el1.scheduleID){
+                                if(el2.serviceType === 'servis umum'){
+                                    tempObject.serviceDetail.generalServices.push(el2)
+                                }else{
+                                    tempObject.serviceDetail.periodicService = el2
+                                }
+                            }
+                        })
+    
+                        tempListCustomer.forEach(el2 => {
+                            if(el1.customerID === el2.customerID){
+                                tempObjectCustomer = el2
+                            }
+                        })
+    
+                        tempObject = { ...tempObject, ...el1, ...tempObjectCustomer}
+                        this.listAccepted.push(tempObject)
                     })
-
-                    tempObject = { ...tempObject, ...el1, ...tempObjectCustomer}
-                    this.listAccepted.push(tempObject)
-                })
+                }
                 console.log(this.listAccepted)
             })
 
