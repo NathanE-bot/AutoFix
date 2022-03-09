@@ -1251,7 +1251,6 @@ export default {
     doDeleteCarModelAndTypeFromExisting (item) {
       let _this = this
       _this.editCarLoader = true
-
       Swal.fire({
         icon: 'warning',
         title: `Delete Car Model ${item.carModel} ?`,
