@@ -4,8 +4,8 @@ import { createNamespacedHelpers } from 'vuex'
 import router from '../router'
 
 const localURL = 'http://127.0.0.1:8000'
-const vcpURL = 'https://34.126.189.122'
-const vcpURLBackend = 'https://34.126.189.122:8080'
+const vcpURL = 'autofix-1a7af'
+const vcpURLBackend = 'https://my-auto-repair.my.id'
 
 export default {
     data () {
