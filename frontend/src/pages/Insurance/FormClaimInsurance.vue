@@ -505,6 +505,7 @@ export default {
             loader: false,
             dialogContactUs: false,
             dialogWarningUploadPhoto: false,
+            thisISGOOD: false,
             step: 1,
             window: {
                 width: 0,
@@ -665,7 +666,11 @@ export default {
                 Swal.fire ({
                     icon: "error",
                     title: "Input Error",
-                    text: "File type is not .png, .jpg, or .jpeg"
+                    text: "File type is not .png, .jpg, or .jpeg",
+                    confirmButtonColor: '#21a17b',
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
                 document.getElementById('uploadDPUser-' + index).value = ''
             } else {
@@ -692,7 +697,11 @@ export default {
                     Swal.fire ({
                         icon: "warning",
                         title: "Warning!",
-                        text: "Please input photo name first"
+                        text: "Please input photo name first",
+                        confirmButtonColor: '#21a17b',
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     }) .then(() => {
                         item.imageFile = null
                         document.getElementById('uploadDPUser-' + index).value = ''
@@ -708,7 +717,11 @@ export default {
                 console.log(error.response)
                 Swal.fire ({
                     icon: "error",
-                    title: "Upload image error"
+                    title: "Upload image error",
+                    confirmButtonColor: '#21a17b',
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
             })
         },
@@ -770,8 +783,13 @@ export default {
                     Swal.fire ({
                         icon: "success",
                         title: "Form Submitted",
-                        text: "Your request is being processed"
+                        text: "Your request is being processed",
+                        confirmButtonColor: '#21a17b',
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     }) .then (() => {
+                        _this.thisISGOOD = true
                         _this.changePage('/insurance/status-insurance')
                         _this.loader = false
                     })
@@ -779,7 +797,11 @@ export default {
                     _this.loader = false
                     Swal.fire ({
                         icon: "error",
-                        title: "Upload image error"
+                        title: "Upload image error",
+                        confirmButtonColor: '#21a17b',
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     })
                 }
                 
@@ -788,7 +810,11 @@ export default {
                 _this.loader = false
                 Swal.fire ({
                     icon: "error",
-                    title: "Please contact our admin"
+                    title: "Please contact our admin",
+                    confirmButtonColor: '#21a17b',
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
             })
         },
@@ -818,7 +844,11 @@ export default {
                     _this.loader = false
                     Swal.fire ({
                         icon: "error",
-                        title: "Form Error"
+                        title: "Form Error",
+                        confirmButtonColor: '#21a17b',
+                        customClass: {
+                            confirmButton: 'br-25px-i py-5-i px-20-i'
+                        }
                     })
                 }
                 
@@ -828,14 +858,17 @@ export default {
                 _this.errorMessage = true
                 Swal.fire ({
                     icon: "error",
-                    title: "Form Error"
+                    title: "Form Error",
+                    confirmButtonColor: '#21a17b',
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
             })
         },
         doCheckPhotoUploadedMin10Photo () {
             let bool = false
             let _this = this
-            console.log(_this.imageForm)
             _this.imageForm.forEach(el1 => {
                 if(help.isDataEmpty(el1.imageFile)){
                     bool = true
@@ -845,7 +878,11 @@ export default {
                 Swal.fire ({
                     icon: "warning",
                     title: "Warning Submit",
-                    text: "Please fill all existing upload slot!"
+                    text: "Please fill all existing upload slot!",
+                    confirmButtonColor: '#21a17b',
+                    customClass: {
+                        confirmButton: 'br-25px-i py-5-i px-20-i'
+                    }
                 })
             } else {
                 _this.doSubmitInsuranceForm()
@@ -869,7 +906,6 @@ export default {
             }
             else if (this.step == 3 && this.$refs.formStepper3) {
                 this.$refs.formStepper3.validate().then(success => {
-                    console.log(this.form.workshopTypeObj)
                     if(!this.form.isOnlineTaxi && !this.form.isNotOnlineTaxi){
                         this.errorMessage = true
                     } else if (!this.form.wasNotHit && !this.form.wasHit) {
@@ -879,32 +915,6 @@ export default {
                     }
                 })
             }
-        },
-        checkFirstFormNull () {
-            console.log(this.form)
-            if(
-                help.isDataEmpty(this.form.insuredName) && 
-                help.isDataEmpty(this.form.phoneNumber) && 
-                help.isDataEmpty(this.form.email) && 
-                help.isDataEmpty(this.form.addressClaimer) && 
-                help.isDataEmpty(this.form.carTypeAndBrand) && 
-                help.isDataEmpty(this.form.chassisNumber) && 
-                help.isDataEmpty(this.form.polisNumber) && 
-                help.isDataEmpty(this.form.licensePlateNumber) &&
-                help.isDataEmpty(this.form.driverName) &&
-                help.isDataEmpty(this.form.driverSpeed) &&
-                help.isDataEmpty(this.form.driverLicense) &&
-                help.isDataEmpty(this.form.driverRelation) &&
-                help.isDataEmpty(this.form.incidentLocation) &&
-                help.isDataEmpty(this.form.taxiOnlineStatus) &&
-                help.isDataEmpty(this.form.incidentStatus) &&
-                help.isDataEmpty(this.form.incidentStatusDescription) &&
-                help.isDataEmpty(this.form.workshopType) &&
-                help.isDataEmpty(this.form.chronology)
-            ) {
-                return true
-            }
-            return false
         },
         changePage(url){
             this.$router.push(url)
@@ -916,8 +926,8 @@ export default {
     beforeRouteLeave (to, from, next) {
         // If the form is dirty and the user did not confirm leave,
         // prevent losing unsaved changes by canceling navigation
-        console.log(to, from)
-        if(!this.checkFirstFormNull() && to.fullPath != from.fullPath){
+        console.log(to, from, this.thisISGOOD)
+        if(!this.thisISGOOD && to.fullPath != from.fullPath){
             Swal.fire ({
                 icon: "warning",
                 title: "Form Creation Canceled",
