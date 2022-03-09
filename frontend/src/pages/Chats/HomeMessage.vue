@@ -247,21 +247,23 @@ export default {
     roomRef.on("value", roomTemp => {
       let tempRoomObj = roomTemp.val()
       let tempRoom = []
-      Object.keys(tempRoomObj).forEach(key => {
-        let tempLastMessage = tempRoomObj[key]
-        let last = Object.keys(tempLastMessage)[Object.keys(tempLastMessage).length-3]
-        if(key.includes(_this.user.tokenChat)){
-          // console.log(tempLastMessage[last])
-          if(!help.isDataEmpty(tempLastMessage[last])){
-            tempRoom.push({
-              roomSecureId: key,
-              user_1: tempLastMessage['user-1'],
-              user_2: tempLastMessage['user-2'],
-              lastMessage: tempLastMessage[last]
-            })
+      if(!help.isObjectEmpty(tempRoomObj)){
+        Object.keys(tempRoomObj).forEach(key => {
+          let tempLastMessage = tempRoomObj[key]
+          let last = Object.keys(tempLastMessage)[Object.keys(tempLastMessage).length-3]
+          if(key.includes(_this.user.tokenChat)){
+            // console.log(tempLastMessage[last])
+            if(!help.isDataEmpty(tempLastMessage[last])){
+              tempRoom.push({
+                roomSecureId: key,
+                user_1: tempLastMessage['user-1'],
+                user_2: tempLastMessage['user-2'],
+                lastMessage: tempLastMessage[last]
+              })
+            }
           }
-        }
-      })
+        })
+      }
       _this.room = tempRoom
       _this.loader = false
       if(_this.firstLoad && !this.checker && !help.isDataEmpty(_this.room[0])){
@@ -308,34 +310,36 @@ export default {
           let messages = []
           let user_1 = null
           let user_2 = null
-          Object.keys(data).forEach(key => {
-            if([key] != 'user-1' && [key] != 'user-2'){
-              messages.push({
-                id: key,
-                username: data[key].username,
-                message: data[key].message,
-                time: data[key].time
-              })
-            } else {
-            if([key] == 'user-1'){
-              user_1 = data[key]
-            } else {
-              user_2 = data[key]
+          if(!help.isObjectEmpty(data)){
+            Object.keys(data).forEach(key => {
+              if([key] != 'user-1' && [key] != 'user-2'){
+                messages.push({
+                  id: key,
+                  username: data[key].username,
+                  message: data[key].message,
+                  time: data[key].time
+                })
+              } else {
+              if([key] == 'user-1'){
+                user_1 = data[key]
+              } else {
+                user_2 = data[key]
+              }
             }
-          }
-        })
-        _this.user_1 = user_1
-        _this.user_2 = user_2
-        _this.messages = messages
-        setTimeout(() => {
-          if(_this.checker) {
-            if(_this.window.width < 500){
-              _this.dialogChatMobile = true
+            })
+          _this.user_1 = user_1
+          _this.user_2 = user_2
+          _this.messages = messages
+          setTimeout(() => {
+            if(_this.checker) {
+              if(_this.window.width < 500){
+                _this.dialogChatMobile = true
+              }
+              _this.changePageForChat()
+              _this.doScrollBottomChat()
             }
-            _this.changePageForChat()
-            _this.doScrollBottomChat()
-          }
-        }, 0)
+          }, 0)
+        }
       })
     }
   },
@@ -358,10 +362,8 @@ export default {
         if(_this.room.length !== 0){
           history.pushState(null, 'Auto Repair', '/member/home-message')
             _this.checker = false
+          console.log('a')
         }
-      }
-      if(_this.checker && help.isDataEmpty(_this.roomIDFromChecker)){
-
       }
       if(!help.isDataEmpty(_this.roomId)){
         const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + _this.roomId);
