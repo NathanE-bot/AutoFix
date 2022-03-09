@@ -820,7 +820,6 @@ export default {
     doGetWorkshopDetailByUserID (deleteCarSpec, deleteCarServ) {
       let _this = this
       _this.loader = true
-      console.log(_this.carModelAndType);
       getWorkshopDetailByUserID(_this.user.id).then(response => {
         _this.workshopDetail = response.data.objectReturn
         // loopingan data servis
