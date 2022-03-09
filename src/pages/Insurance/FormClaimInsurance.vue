@@ -204,7 +204,7 @@
                 <q-form ref="formStepper3">
                     <div class="row a-start j-sp-between">
                         <div class="col-md-5 row">
-                            <div class="d-flex flex-dir-col mb-20">
+                            <div class="d-flex flex-dir-col mb-20 col-md-12">
                                 <div class="text-h6">Is the vehicle registered as an online taxi?</div>
                                 <div>
                                     <q-checkbox v-model="form.isOnlineTaxi" @click="form.isNotOnlineTaxi = false" size="lg" label="Yes" />
@@ -212,7 +212,7 @@
                                 </div>
                                 <span v-if="errorMessage && !form.isOnlineTaxi && !form.isNotOnlineTaxi" class="red-txt">*please check either one</span>
                             </div>
-                            <div class="d-flex flex-dir-col">
+                            <div class="d-flex flex-dir-col col-md-12">
                                 <div class="text-h6">Was the vehicle hit by another vehicle?</div>
                                 <div class="d-flex a-center">
                                     <q-checkbox v-model="form.wasHit" @click="form.wasNotHit = false" size="lg" label="Yes" />
