@@ -236,7 +236,7 @@ export default {
         tooltip: {
           y: {
             formatter: function (val) {
-              return val + " insurance claim request"
+              return val + " order"
             }
           }
         }

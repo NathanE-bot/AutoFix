@@ -355,8 +355,13 @@ export default {
       }
       if(_this.checker && !help.isDataEmpty(_this.roomIDFromChecker)){
         _this.roomId = _this.roomIDFromChecker
-        history.pushState(null, 'Auto Repair', '/member/home-message')
-        _this.checker = false
+        if(_this.room.length !== 0){
+          history.pushState(null, 'Auto Repair', '/member/home-message')
+            _this.checker = false
+        }
+      }
+      if(_this.checker && help.isDataEmpty(_this.roomIDFromChecker)){
+
       }
       if(!help.isDataEmpty(_this.roomId)){
         const itemsRef = main.database("https://autofix-1a7af-default-rtdb.asia-southeast1.firebasedatabase.app/").ref("chatRoom/" + _this.roomId);
