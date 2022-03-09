@@ -210,7 +210,7 @@
             <div class="d-flex a-baseline mb-30" v-if="window.width > 500">
               <div class="d-flex flex-dir-col mr-30 w-60">
                 <span class="grey-txt text-h6 fw-semibold mb-10">Choose Date</span>
-                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="(date) => date >= help.formatToday(help.data().dmy_3) && date <= help.formatTwoWeeks(help.data().dmy_3)" />
+                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="optionDate" />
               </div>
               <div class="d-flex flex-dir-col">
                 <span class="grey-txt text-h6 fw-semibold mb-10">Choose Time</span>
@@ -224,7 +224,7 @@
             <div class="row a-baseline mb-30" v-else>
               <div class="d-flex flex-dir-col col-xs-12">
                 <span class="grey-txt text-h6 fw-semibold mb-10 m-fs-1_2rem">Choose Date</span>
-                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="(date) => date >= help.formatToday(help.data().dmy_3) && date <= help.formatTwoWeeks(help.data().dmy_3)" />
+                <q-date class="schedule-date fw" color="accent" v-model="jsonDataParam.scheduleDateTemp" :options="optionDate" />
               </div>
               <div class="d-flex flex-dir-col col-xs-12">
                 <span class="grey-txt text-h6 fw-semibold mb-10 m-fs-1_2rem m-mt-10">Choose Time</span>
@@ -261,6 +261,13 @@ import { LocalStorage } from 'quasar'
 import Swal from 'sweetalert2'
 
 export default {
+  setup () {
+    return {
+      optionDate(date) {
+        return date >= help.formatToday(help.data().dmy_3) && date <= help.formatTwoWeeks(help.data().dmy_3)
+      }
+    }
+  },
   components: {
     isEstimationHour: isvgEstHour,
     isEstimationPrice: isvgEstPrice,
@@ -296,7 +303,7 @@ export default {
         priceEstimation: 0,
         scheduleDate: null,
         scheduleTime: null,
-        scheduleDateTemp: help.formatTommorow(help.data().dmy_3)
+        scheduleDateTemp: help.formatToday(help.data().dmy_3)
       },
       periodic: false,
       general: false
