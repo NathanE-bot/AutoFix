@@ -297,12 +297,12 @@
                     Choose car model and type first
                   </q-tooltip>
                 </q-checkbox>
-                <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic && periodicServicesOptions">
+                <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic && !help.isObjectEmpty(periodicServicesOptions)">
                   <div class="auto-3" v-for="(service, index) in periodicServicesOptions" :key="'periodic-' + index">
                     <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
                   </div>
                 </div>
-                <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="periodic && !help.isObjectEmpty(periodicServicesOptions)">
+                <div class="row col-12 ml-40 mt-10 gap-1" v-else-if="periodic && help.isObjectEmpty(periodicServicesOptions)">
                   No periodic service listed
                 </div>
               </div>
