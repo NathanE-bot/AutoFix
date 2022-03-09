@@ -300,7 +300,7 @@
                     Choose car model and type first
                   </q-tooltip>
                 </q-checkbox>
-                <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic && periodicServicesOptions">
+                <div class="row col-12 ml-40 mt-10 gap-1" v-if="periodic && !help.isObjectEmpty(periodicServicesOptions)">
                   <div class="auto-3" v-for="(service, index) in periodicServicesOptions" :key="'periodic-' + index">
                     <span>{{ service.serviceDetail }} - Rp {{ ValidationFunction.convertToRupiah(service.price) }}</span>
                   </div>
@@ -875,6 +875,10 @@ export default {
           }
           _this.workshop_details.push(tempObject)
         })
+        if(!help.isDataEmpty(_this.jsonDataParam.carModel)){
+          _this.carTypeOptions = []
+          _this.doFilterCarType(_this.jsonDataParam.carModel)
+        }
         _this.carModelOptions = ValidationFunction.arrayFilterWithSet(_this.carModelOptions)
         _this.loader = false
       }) .finally(() => {
@@ -1263,6 +1267,10 @@ export default {
         }
       }).then((result) => {
         if(result.isConfirmed){
+          if(item.carModel == _this.jsonDataParam.carModel){
+            _this.jsonDataParam.carModel = ''
+            _this.jsonDataParam.carType = ''
+          }
           deleteCarModel(_this.workshopDetail.id, item.carModel, _this.accessToken).then(response => {
             Swal.fire({
               icon: 'success',
