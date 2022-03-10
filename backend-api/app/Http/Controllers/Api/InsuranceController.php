@@ -130,7 +130,8 @@ class InsuranceController extends Controller
         }
 
         return response()->json([
-            'message' => 'Success'
+            'message' => 'Success',
+            'objectReturn' => $dataInsurance->id
         ], 200);
     }
 
