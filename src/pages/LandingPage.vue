@@ -93,8 +93,8 @@
           class="mySwiper lp-swiper"
           v-if="!help.isObjectEmpty(workshopRecommendation) && !loader"
         >
-          <swiper-slide v-for="item in workshopRecommendation" :key="item.id">
-            <q-card class="my-card rec-card" @click="changePage('/workshop/detail/' + item.workshopID)">
+          <swiper-slide v-for="item in workshopRecommendation" :key="'wr-' + item.id">
+            <q-card class="my-card rec-card" @click="changePage('/workshop/detail/' + item.id)">
               <img class="responsive_img fit-content" src="~assets/images/test_workshop.jpg">
               <q-card-section>
                 <div class="d-flex a-start j-sp-between">
