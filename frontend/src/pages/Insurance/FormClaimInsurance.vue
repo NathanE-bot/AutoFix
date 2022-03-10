@@ -772,10 +772,10 @@ export default {
                 this.imageForm.push(tempObj)
             }
         },
-        doUploadPhotoDocumentInsurance () {
+        doUploadPhotoDocumentInsurance (id) {
             let _this = this
             let tempObj = {
-                insuranceID: _this.vendorInsurance.id,
+                insuranceID: id,
                 insuranceDocument: _this.imageForm
             }
             updateInsurace(tempObj, _this.accessToken).then(response => {
@@ -838,8 +838,9 @@ export default {
             }
             console.log(_this.form)
             makeInsuranceClaimApi(_this.user.id, _this.vendorInsuranceID, _this.form, _this.accessToken).then(response => {
+                let tempID = response.data.objectReturn
                 if(response.data.message == 'Success'){
-                    _this.doUploadPhotoDocumentInsurance()
+                    _this.doUploadPhotoDocumentInsurance(tempID)
                 } else {
                     _this.loader = false
                     Swal.fire ({
