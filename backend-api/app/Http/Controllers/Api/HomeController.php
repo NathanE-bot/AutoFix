@@ -25,7 +25,8 @@ class HomeController extends Controller
             $distanceKmLu = 50;
             $data = DB::table('workshops')
                 ->join('operational_workshops','operational_workshops.workshopID','=','workshops.id')
-                ->selectRaw('operational_workshops.operationalDate,operational_workshops.operationalOpenHour,operational_workshops.operationalCloseHour,workshops.id,workshops.userID,workshops.workshopName,workshops.workshopAddress,workshops.workshopPhoneNumber,workshops.workshopEmail,
+                ->join('workshop_pictures','workshop_pictures.workshopID','=','workshops.id')
+                ->selectRaw('(workshop_pictures.workshopPicture LIMIT 1 ) as workshop_picture,operational_workshops.operationalDate,operational_workshops.operationalOpenHour,operational_workshops.operationalCloseHour,workshops.id,workshops.userID,workshops.workshopName,workshops.workshopAddress,workshops.workshopPhoneNumber,workshops.workshopEmail,
                 workshops.workshopDescription,workshops.rating,workshops.workshopLogo,workshops.city,workshops.district,workshops.province,workshops.statusHr,workshops.status24Hr,
                 ( ? * acos( cos( radians(?) ) * cos( radians( workshops.latitude ) ) * cos( radians( workshops.longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(workshops.latitude)) ) ) AS distance', [$byKM, $currentLat, $currentLng, $currentLat])
                 ->havingRaw('distance < ?', [$distanceKmLu])
