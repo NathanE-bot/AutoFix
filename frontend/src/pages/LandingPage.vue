@@ -110,7 +110,7 @@
               </q-img>
               <q-img
                 v-else
-                :class="['responsive_img fit-content', {'w-0 z-opacity' : help.isDataEmpty(item.workshop_picture)}]"
+                :class="['responsive_img fit-content']"
                 src="~assets/images/test_workshop.jpg"
                 loading="lazy"
                 spinner-color="primary"
