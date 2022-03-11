@@ -18,7 +18,7 @@
       <div class="m-auto w-80 relative-position">
         <div  class="flex flex-center flex-start" style="position:relative; bottom:70px;">
           <div v-if="!help.isDataEmpty(workshopDetail.workshopLogo)">
-            <img class="responsive_img detail-workshop-bg" width="120" :src="workshopDetail.workshopLogo" alt="">
+            <img class="responsive_img detail-workshop-bg object-contain-img" width="120" :src="workshopDetail.workshopLogo" alt="">
           </div>
           <div class="detail-workshop-bg d-flex a-center j-center" v-else>
             No Logo

@@ -94,8 +94,34 @@
           v-if="!help.isObjectEmpty(workshopRecommendation) && !loader"
         >
           <swiper-slide v-for="item in workshopRecommendation" :key="'wr-' + item.id">
-            <q-card class="my-card rec-card" @click="changePage('/workshop/detail/' + item.id)">
-              <img class="responsive_img fit-content" src="~assets/images/test_workshop.jpg">
+            <q-card class="my-card rec-card cursor-pointer" @click="changePage('/workshop/detail/' + item.id)">
+              <q-img
+                v-if="help.isDataEmpty(item.workshop_picture)"
+                :class="['responsive_img fit-content', {'w-0 z-opacity' : help.isDataEmpty(item.workshop_picture)}]"
+                :src="item.workshop_picture"
+                loading="lazy"
+                spinner-color="primary"
+              >
+                <template v-slot:error>
+                  <div class="absolute-full flex flex-center text-white" style="background-color: gainsboro">
+                    No Image
+                  </div>
+                </template>
+              </q-img>
+              <q-img
+                v-else
+                :class="['responsive_img fit-content', {'w-0 z-opacity' : help.isDataEmpty(item.workshop_picture)}]"
+                src="~assets/images/test_workshop.jpg"
+                loading="lazy"
+                spinner-color="primary"
+              >
+                <template v-slot:error>
+                  <div class="absolute-full flex flex-center text-white" style="background-color: gainsboro">
+                    No Image
+                  </div>
+                </template>
+              </q-img>
+              <!-- <img v-else class="responsive_img fit-content" src=""> -->
               <q-card-section>
                 <div class="d-flex a-start j-sp-between">
                   <div class="text-h6 primary_color mb-8">
@@ -174,9 +200,9 @@
           <h4 class="m-0 primary_color">How to Use Our Website</h4>
           <span class="fs-16">Get convenience with our website</span>
         </div>
-        <q-video class="mt-40-i yt-video"
+        <q-video class="mt-40-i yt-video br-5px"
           :ratio="16/6"
-          src="https://www.youtube.com/embed/OlHYirmHhK0&ab_channel=baledemy"
+          src="https://www.youtube.com/embed/boAKGc34QGo"
         />
         <div id="scroll-about-us-mobile"></div>
       </div>

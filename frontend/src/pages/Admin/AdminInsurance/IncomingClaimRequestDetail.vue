@@ -247,7 +247,7 @@
       <!-- PAGE 2 FOR PICTURE -->
       <div class="mt-100 fs-18 fw-bold">LAMPIRAN</div>
       <div class="row mt-20">
-        <div class="col-6 d-flex flex-dir-col print-img a-center" @click="doZoomPhoto(photo)" v-for="photo in this.listPhoto" :key="photo.id">
+        <div class="col-6 d-flex flex-dir-col print-img a-center cursor-pointer" @click="doZoomPhoto(photo)" v-for="photo in this.listPhoto" :key="photo.id">
           <q-img
             :src="photo.documentationPicture"
             class="responsive_img"
@@ -259,7 +259,7 @@
       </div>
     </div>
     <q-dialog v-model="promptZoomPhoto">
-      <q-card style="width: 500px;">
+      <q-card style="min-width: 500px; max-width: 700px;">
         <q-img :src="zoomPhoto.documentationPicture">
           <div class="absolute-bottom text-subtitle2 text-center">
             {{ zoomPhoto.documentationInsuranceName }}

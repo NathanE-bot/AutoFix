@@ -182,3 +182,18 @@
     @include width_preset(60px);
     @include height_preset(60px);
 }
+
+.print-img{
+    img{
+        object-fit: contain
+    }
+}
+
+.object-contain{
+    object-fit: contain;
+    &-img{
+        img{
+            object-fit: contain;
+        }
+    }
+}
