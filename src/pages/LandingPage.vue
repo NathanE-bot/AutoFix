@@ -174,9 +174,9 @@
           <h4 class="m-0 primary_color">How to Use Our Website</h4>
           <span class="fs-16">Get convenience with our website</span>
         </div>
-        <q-video class="mt-40-i yt-video"
+        <q-video class="mt-40-i yt-video br-5px"
           :ratio="16/6"
-          src="https://www.youtube.com/embed/OlHYirmHhK0&ab_channel=baledemy"
+          src="https://www.youtube.com/embed/boAKGc34QGo"
         />
         <div id="scroll-about-us-mobile"></div>
       </div>
