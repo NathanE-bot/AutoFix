@@ -322,50 +322,66 @@ class AdminWorkshopController extends Controller
                     'message'=>$validator->errors()
                 ], 401);
             }
+            $datacount = DB::table('workshop_pictures')->select(DB::raw('COUNT(id) as banyak_gambar'))->where('workshop_pictures.workshopID','=',$req->workshopID)->get();
 
-            if ($req->has('image'))
-            {
-                $dateTimeNow= carbon::now()->format("Y-m-d_H-i-s");
-                $dataWorkshop = DB::table('workshops')->where('id','=',$req->workshopID)->first();
-                $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
-                $ext = $req->image->getClientOriginalExtension();
-                $path = $req->image->storeAs('avatar', strtolower('galery-'.$fullNameTemp.$req->workshopID.$dateTimeNow.'.'.$ext), 'public');
-                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
-                // dd($imagePath);
-                if (!is_null($imagePath))
+            if($datacount[0]->banyak_gambar < 4 || $req->workshopPictureID != 0){
+                if ($req->has('image'))
                 {
-                    // dd(!is_null($imagePath));
-                    if (WorkshopPicture::where('id','=',$req->workshopPictureID)->exists()) {
-
-                        $dataImageWorkshops = DB::table('workshop_pictures')
-                        ->select(DB::raw('SUBSTRING(workshopPicture,30,100) AS path'))
-                        ->where('workshopID','=',$req->workshopID)
-                        ->where('id','=',$req->workshopPictureID)->first();
-                        Storage::delete('/public/'.$dataImageWorkshops->path);
-
+                    $dateTimeNow= carbon::now()->format("Y-m-d_H-i-s");
+                    $dataWorkshop = DB::table('workshops')->where('id','=',$req->workshopID)->first();
+                    $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
+                    $ext = $req->image->getClientOriginalExtension();
+                    $path = $req->image->storeAs('avatar', strtolower('galery-'.$fullNameTemp.$req->workshopID.$dateTimeNow.'.'.$ext), 'public');
+                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                    // dd($imagePath);
+                    if (!is_null($imagePath))
+                    {
+                        // dd(!is_null($imagePath));
+                        // dd(WorkshopPicture::where('id','=',$req->workshopPictureID)->exists());
+                        if (WorkshopPicture::where('id','=',$req->workshopPictureID)->exists()) {
+    
+                            $dataImageWorkshops = DB::table('workshop_pictures')
+                            ->select(DB::raw('SUBSTRING(workshopPicture,30,100) AS path'))
+                            ->where('workshopID','=',$req->workshopID)
+                            ->where('id','=',$req->workshopPictureID)->first();
+                            Storage::delete('/public/'.$dataImageWorkshops->path);
+    
+                            $dataUser = DB::table('workshop_pictures')
+                            ->where('workshopID','=',$req->workshopID)
+                            ->where('id','=',$req->workshopPictureID)
+                            ->update(['workshopPicture' => $imagePath]);
+                            return response()->json([
+                                'message' => 'Image Updated',
+                            ], 200);
+                        }
+                        else {
+                            $workshopPicture = new WorkshopPicture;
+                            $workshopPicture->workshopID = $req->workshopID;
+                            $workshopPicture->workshopPicture = $imagePath;
+                            $workshopPicture->save();
+                            return response()->json([
+                                'message' => 'Image Upload Success',
+                            ], 200);
+                        }
+                    }
+                    else{
                         $dataUser = DB::table('workshop_pictures')
                         ->where('workshopID','=',$req->workshopID)
                         ->where('id','=',$req->workshopPictureID)
-                        ->update(['workshopPicture' => $imagePath]);
-                    }
-                    else {
-                        $workshopPicture = new WorkshopPicture;
-                        $workshopPicture->workshopID = $req->workshopID;
-                        $workshopPicture->workshopPicture = $imagePath;
-                        $workshopPicture->save();
+                        ->update(['workshopPicture' =>null]);
                     }
                 }
-                else{
-                    $dataUser = DB::table('workshop_pictures')
-                    ->where('workshopID','=',$req->workshopID)
-                    ->where('id','=',$req->workshopPictureID)
-                    ->update(['workshopPicture' =>null]);
+                else
+                {
+                    return response()->json('image not found', 400);
                 }
             }
-            else
-            {
-                return response()->json('image not found', 400);
+            else{
+                return response()->json([
+                    'message' => 'Limit 4 Picture',
+                ], 400);
             }
+            
         } catch (Exception $err){
             return response()->json($err, 500);
         }
