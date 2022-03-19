@@ -628,6 +628,7 @@ export default {
       }
       if(!help.isDataEmpty(_this.searchFromLP)){
         _this.jsonDataParam.workshopName = _this.searchFromLP
+        history.pushState(null, 'Auto Repair', '/workshop')
       }
       if(_this.jsonDataParam.status == 'Semua'){
         _this.jsonDataParam.statusHr = ''
