@@ -166,6 +166,7 @@ class ScheduleController extends Controller
                 ->select('schedules.userID as customer','schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
                 ->where('schedules.userID','=',$req->userID)
                 ->where('scheduleStatus','=','waiting confirmation')
+                ->orWhere('scheduleStatus','=','accepted')
                 ->get()
                 ->toArray();
             // }
