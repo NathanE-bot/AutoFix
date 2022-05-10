@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
                 'address'=> 'jl puri mall no 50',
                 'role' => '3',
                 'profilePicture'=>'',
-                'tokenChat'=>'ins#2'
+                'tokenChat'=>'12f31344gf'
             ]
         );
         User::Create(
@@ -109,20 +109,6 @@ class UserSeeder extends Seeder
                 'role' => '1',
                 'profilePicture'=>'',
                 'tokenChat'=>'499023ufie2'
-            ]
-        );
-        User::Create(
-            [
-                'fullName' => "Prubential",
-                'displayName'=>'Prubential',
-                'email' => 'Prubential@gmail.com',
-                'password' => bcrypt('PrubentialAsuransi'),
-                'DoB' => Carbon::parse('2000-10-11'),
-                'phoneNumber' => '085231624',
-                'address'=> 'jl puri mall no 50',
-                'role' => '3',
-                'profilePicture'=>'',
-                'tokenChat'=>'ins#1'
             ]
         );
     }

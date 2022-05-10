@@ -21,9 +21,8 @@ class HistoryController extends Controller
             $dataHistory = DB::table('schedules')
             // ->join('schedule_details','schedule_details.scheduleID','=','schedules.id')
             ->where('userID','=',$req->userID)
-            ->where('scheduleStatus','=','done')
-            ->orWhere('scheduleStatus','=','rejected')
-            ->orWhere('scheduleStatus','=','cancelled')
+            ->where('scheduleStatus','!=','Waiting Confirmation')
+            ->where('scheduleStatus','!=','Accepted')
             ->get()->toArray();
 
             // foreach ($dataHistory as $key => $value) {
@@ -31,9 +30,8 @@ class HistoryController extends Controller
                 ->join('schedules','schedules.id','=','schedule_details.scheduleID')
                 ->select('schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
                 ->where('schedules.userID','=',$req->userID)
-                ->where('scheduleStatus','=','done')
-                ->orWhere('scheduleStatus','=','rejected')
-                ->orWhere('scheduleStatus','=','cancelled')
+                ->where('scheduleStatus','!=','Waiting Confirmation')
+                ->where('scheduleStatus','!=','Accepted')
                 ->get()
                 ->toArray();
             // }

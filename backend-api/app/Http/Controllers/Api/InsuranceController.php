@@ -156,7 +156,7 @@ class InsuranceController extends Controller
                 $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName);
                 $ext = $req->image->getClientOriginalExtension();
                 $path = $req->image->storeAs('avatar', strtolower($fullNameTemp.$dateTimeNow.'.'.$ext), 'public');
-                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
             }
             else
             {
@@ -166,7 +166,7 @@ class InsuranceController extends Controller
         else {
             if ($req->has('image'))
             {
-                $dataImagePath =mb_substr($req->imagePath,30,100);
+                $dataImagePath =mb_substr($req->imagePath,37,100);
                 // dd($dataImagePath);
                 Storage::delete('/public/'.$dataImagePath);
 
@@ -175,7 +175,7 @@ class InsuranceController extends Controller
                 $fullNameTemp = str_replace(' ', '', $req->documentationInsuranceName);
                 $ext = $req->image->getClientOriginalExtension();
                 $path = $req->image->storeAs('avatar', strtolower($fullNameTemp.$dateTimeNow.'.'.$ext), 'public');
-                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
             }
             else
             {

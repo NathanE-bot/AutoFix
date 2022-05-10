@@ -18,3 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('workshop', 'Api\WorkshopController@allWorkshop');
+
+Route::get('/foo', function () {
+Artisan::call('storage:link');
+});

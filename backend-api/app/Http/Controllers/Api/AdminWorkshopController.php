@@ -48,12 +48,12 @@ class AdminWorkshopController extends Controller
 
         $dataCustomer = DB::table('users')
         ->join('schedules','schedules.userID','=','users.id')
-        ->select('users.id as customerID','users.fullName','users.phoneNumber','users.email')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber')
         ->where('users.role','=','1')
         ->get();
 
 
-        if(empty($IncomingSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
+        if(empty($IncomingSchedule)&&empty($dataDetailsSchedule)&&empty($dataCustomer)){
             return response()->json(['Message'=>'No data'], 200);
         }
         return response()->json([
@@ -145,7 +145,7 @@ class AdminWorkshopController extends Controller
 
         $dataCustomer = DB::table('users')
         ->join('schedules','schedules.userID','=','users.id')
-        ->select('users.id as customerID','users.fullName','users.phoneNumber','users.email')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber')
         ->where('users.role','=','1')
         ->get();
         if(empty($acceptedSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
@@ -186,7 +186,7 @@ class AdminWorkshopController extends Controller
 
         $dataCustomer = DB::table('users')
         ->join('schedules','schedules.userID','=','users.id')
-        ->select('users.id as customerID','users.fullName','users.phoneNumber','users.email')
+        ->select('users.id as customerID','users.fullName','users.phoneNumber')
         ->where('users.role','=','1')
         ->get();
         if(empty($acceptedSchedule)||empty($dataDetailsSchedule)||empty($dataCustomer)){
@@ -249,7 +249,7 @@ class AdminWorkshopController extends Controller
         if (!is_null($req->image))
         {
             $dataImageWorkshops = DB::table('workshops')
-            ->select(DB::raw('SUBSTRING(workshopLogo,30,100) AS path'))
+            ->select(DB::raw('SUBSTRING(workshopLogo,37,100) AS path'))
             ->where('id','=',$req->workshopID)->first();
             Storage::delete('/public/'.$dataImageWorkshops->path);
 
@@ -257,7 +257,7 @@ class AdminWorkshopController extends Controller
             $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->workshopName);
             $ext = $req->image->getClientOriginalExtension();
             $path = $req->file('image')->storeAs('avatar', strtolower('LOGO-'.$fullNameTemp.$dataUpdatedUser->id.$dateTimeNow.'.'.$ext), 'public');
-            $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+            $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
 
             $dataUser = DB::table('workshops')->where('id','=',$req->workshopID)
             ->update(['workshopLogo' => $imagePath]);
@@ -308,7 +308,7 @@ class AdminWorkshopController extends Controller
     //     ], 200);
     // }
 
-    public function makeGaleryWorkshopPath(Request $req){
+   public function makeGaleryWorkshopPath(Request $req){
         try{
             $validator = Validator::make($req->all(), [
                 'workshopPictureID'=>'required',
@@ -332,7 +332,7 @@ class AdminWorkshopController extends Controller
                     $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
                     $ext = $req->image->getClientOriginalExtension();
                     $path = $req->image->storeAs('avatar', strtolower('galery-'.$fullNameTemp.$req->workshopID.$dateTimeNow.'.'.$ext), 'public');
-                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                    $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
                     // dd($imagePath);
                     if (!is_null($imagePath))
                     {
@@ -535,8 +535,6 @@ class AdminWorkshopController extends Controller
             'workshop_details.*.carType'=>['required', 'string', 'max:255'],
             'workshop_services.*.serviceType'=> ['required', 'string', 'max:255'],
             'workshop_services.*.serviceDetail'=> ['required', 'string', 'max:255'],
-            'workshop_services.*.price'=> ['required', 'integer'],
-            'workshop_services.*.time'=> ['required', 'integer', 'max:10'],
         ]);
 
         if ($validator->fails()) {
@@ -599,9 +597,7 @@ class AdminWorkshopController extends Controller
             ->where('workshop_details.workshopID','=',$req->id)
             ->where('serviceType','=',$req->workshop_services[$key]['serviceType'])
             ->update(['serviceType'=>$req->workshop_services[$key]['serviceType'],
-            'serviceDetail'=>$req->workshop_services[$key]['serviceDetail'],
-            'price'=>$req->workshop_services[$key]['price'],
-            'time'=>$req->workshop_services[$key]['time']]);
+            'serviceDetail'=>$req->workshop_services[$key]['serviceDetail']]);
         }
 
         return response()->json([
@@ -934,14 +930,24 @@ class AdminWorkshopController extends Controller
         ->where('schedules.scheduleStatus','=','done')
         ->groupBY('days.d')
         ->get();
+
+        if(!isset($scheduleTotalEstimasiBy[0])){
+            return response()->json([
+                'ReturnTotal'=>["month"=>$req->month, "Total_Estimasi"=>0],
+                'ReturnDaily'=>[["day"=>"1", "Total_Estimasi"=> "0"]]
+            ], 200);
+        }else{
+            return response()->json([
+                'ReturnTotal'=>$scheduleTotalEstimasiBy[0],
+                'ReturnDaily'=>$scheduleSumEstimationPerDay
+            ], 200);
+        }
+        
+        
         } catch (Exception $err){
             return response()->json($err, 500);
         }
-
-        return response()->json([
-            'ReturnTotal'=>$scheduleTotalEstimasiBy[0],
-            'ReturnDaily'=>$scheduleSumEstimationPerDay
-        ], 200);
+        
     }
 
 

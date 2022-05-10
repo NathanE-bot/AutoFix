@@ -55,7 +55,7 @@ class ScheduleController extends Controller
                 });
 
             }
-            return response()->json($workshops, 200, [], JSON_NUMERIC_CHECK);
+            return response()->json($workshops, 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
@@ -140,7 +140,7 @@ class ScheduleController extends Controller
             // ];
             return response()->json([
                 'message' => 'Successful'
-            ], 200, [], JSON_NUMERIC_CHECK);
+            ], 200);
         } catch (Exception $err){
             return response()->json($err, 500);
         }
@@ -166,7 +166,6 @@ class ScheduleController extends Controller
                 ->select('schedules.userID as customer','schedule_details.id','schedule_details.scheduleID','schedule_details.serviceType','schedule_details.serviceDetail')
                 ->where('schedules.userID','=',$req->userID)
                 ->where('scheduleStatus','=','waiting confirmation')
-                ->orWhere('scheduleStatus','=','accepted')
                 ->get()
                 ->toArray();
             // }

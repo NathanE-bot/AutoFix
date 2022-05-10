@@ -68,7 +68,7 @@ class ProfileController extends Controller
         {
             if (!isset($dataUpdatedUser->documentationPicture)) {
                 $dataImageProfile= DB::table('users')
-                ->select(DB::raw('SUBSTRING(profilePicture,30,100) AS path'))
+                ->select(DB::raw('SUBSTRING(profilePicture,37,100) AS path'))
                 ->where('id','=',$req->id)->first();
                 Storage::delete('/public/'.$dataImageProfile->path);
 
@@ -76,7 +76,7 @@ class ProfileController extends Controller
                 $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->fullName);
                 $ext = $req->image->getClientOriginalExtension();
                 $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$dateNow.$dataUpdatedUser->id.'.'.$ext), 'public');
-                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
 
                 $dataUser = DB::table('users')->where('id','=',$req->id)
                 ->update(['profilePicture' => $imagePath]);
@@ -88,7 +88,7 @@ class ProfileController extends Controller
                 $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->fullName);
                 $ext = $req->image->getClientOriginalExtension();
                 $path = $req->file('image')->storeAs('avatar', strtolower($fullNameTemp.$dateNow.$dataUpdatedUser->id.'.'.$ext), 'public');
-                $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+                $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
 
                 $dataUser = DB::table('users')->where('id','=',$req->id)
                 ->update(['profilePicture' => $imagePath]);

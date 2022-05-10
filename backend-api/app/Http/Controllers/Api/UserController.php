@@ -94,13 +94,13 @@ class UserController extends Controller
 
         try{
             $data = DB::table('temp_users')
-            // ->join('otps','otps.temp_userID','=','otps.id')
+            // ->join('otps','otps.temp_userID','=','temp_users.id')
             ->where('id','=',$decryptUserId[0]->id)
             ->first();
         } catch (Exception $err){
             return response()->json($err, 500);
         }
-
+        
         return response()->json([
             'email' => $data->email
         ], 200);
