@@ -291,7 +291,7 @@ class AdminWorkshopController extends Controller
     //             $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
     //             $ext = $file->getClientOriginalExtension();
     //             $path = $file->storeAs('avatar', strtolower($fullNameTemp.$req->workshopID.$key.'.'.$ext), 'public');
-    //             $imagePath = 'http://127.0.0.1:8000/storage//'. $path;
+    //             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
     //             $workshopPicture = new WorkshopPicture;
     //             $workshopPicture->workshopID = $req->workshopID;

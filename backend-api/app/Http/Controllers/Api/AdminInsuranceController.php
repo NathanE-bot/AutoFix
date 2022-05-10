@@ -190,7 +190,7 @@ class AdminInsuranceController extends Controller
             'insurance_vendors.insuranceName','insurance_vendors.phoneNumber','insurance_vendors.address','insurance_details.claimedInsuranceDate','insurance_details.insuranceStatus','insurance_details.insuranceDescription')
             ->where('insurances.id','=',$req->insuranceID)
             ->get();
-            // dd($insuranceDetails);
+            
             $documentInsurance = DB::table('documentation_insurances')
             ->where('insuranceID','=',$insuranceDetails[0]->id)
             ->get();
