@@ -249,7 +249,7 @@ class AdminWorkshopController extends Controller
         if (!is_null($req->image))
         {
             $dataImageWorkshops = DB::table('workshops')
-            ->select(DB::raw('SUBSTRING(workshopLogo,37,100) AS path'))
+            ->select(DB::raw('SUBSTRING(workshopLogo,30,100) AS path'))
             ->where('id','=',$req->workshopID)->first();
             Storage::delete('/public/'.$dataImageWorkshops->path);
 
@@ -257,7 +257,7 @@ class AdminWorkshopController extends Controller
             $fullNameTemp = str_replace(' ', '', $dataUpdatedUser->workshopName);
             $ext = $req->image->getClientOriginalExtension();
             $path = $req->file('image')->storeAs('avatar', strtolower('LOGO-'.$fullNameTemp.$dataUpdatedUser->id.$dateTimeNow.'.'.$ext), 'public');
-            $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
+            $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
             $dataUser = DB::table('workshops')->where('id','=',$req->workshopID)
             ->update(['workshopLogo' => $imagePath]);
@@ -291,7 +291,7 @@ class AdminWorkshopController extends Controller
     //             $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
     //             $ext = $file->getClientOriginalExtension();
     //             $path = $file->storeAs('avatar', strtolower($fullNameTemp.$req->workshopID.$key.'.'.$ext), 'public');
-    //             $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
+    //             $imagePath = 'http://127.0.0.1:8000/storage//'. $path;
 
     //             $workshopPicture = new WorkshopPicture;
     //             $workshopPicture->workshopID = $req->workshopID;
@@ -332,7 +332,7 @@ class AdminWorkshopController extends Controller
                     $fullNameTemp = str_replace(' ', '', $dataWorkshop->workshopName);
                     $ext = $req->image->getClientOriginalExtension();
                     $path = $req->image->storeAs('avatar', strtolower('galery-'.$fullNameTemp.$req->workshopID.$dateTimeNow.'.'.$ext), 'public');
-                    $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
+                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
                     // dd($imagePath);
                     if (!is_null($imagePath))
                     {

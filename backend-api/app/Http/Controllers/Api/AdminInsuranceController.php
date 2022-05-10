@@ -99,7 +99,7 @@ class AdminInsuranceController extends Controller
             {
                 if (!isset($dataInsuranceDetails->filePDF)) {
                     $dataPDF= DB::table('insurance_details')
-                    ->select(DB::raw('SUBSTRING(filePDF,37,100) AS path'))
+                    ->select(DB::raw('SUBSTRING(filePDF,30,100) AS path'))
                     ->where('insuranceID','=',$req->insuranceID)
                     ->first();
                     Storage::delete('/public/'.$dataPDF->path);
@@ -108,7 +108,7 @@ class AdminInsuranceController extends Controller
                     $insuredName = str_replace(' ', '', $dataInsuranceDetails->insuredName);
                     $ext = $req->filePDF->getClientOriginalExtension();
                     $path = $req->file('filePDF')->storeAs('avatar', strtolower('PDF-'.$insuredName.$dataInsuranceDetails->submitDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
-                    $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
+                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
                     $dataInsuranceDetails = DB::table('insurance_details')
                     ->where('insuranceID','=',$req->insuranceID)
@@ -121,7 +121,7 @@ class AdminInsuranceController extends Controller
                     $insuredName = str_replace(' ', '', $dataInsuranceDetails->insuredName);
                     $ext = $req->filePDF->getClientOriginalExtension();
                     $path = $req->file('filePDF')->storeAs('avatar', strtolower($insuredName.$dataInsuranceDetails->submitDate.$dataInsuranceDetails->id.'.'.$ext), 'public');
-                    $imagePath = 'https://my-auto-repair.my.id/storage/'. $path;
+                    $imagePath = 'http://127.0.0.1:8000/storage/'. $path;
 
                     $dataInsuranceDetails = DB::table('insurance_details')
                     ->where('insuranceID','=',$req->insuranceID)

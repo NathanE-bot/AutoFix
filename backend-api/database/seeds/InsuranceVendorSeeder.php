@@ -16,7 +16,7 @@ class InsuranceVendorSeeder extends Seeder
             'insuranceName'=>'alianz',
             'phoneNumber' => '085231624',
             'email'=>'alianz@gmail.com',
-            'logo'=>'http://127.0.0.1:8000/storage/avatar/kenny2022-01-24_14-24-226.jpg',
+            'logo'=>'http://127.0.0.1:8000/storage//avatar/kenny2022-01-24_14-24-226.jpg',
             'address'=>'Jl Mawar Indah Block M2 no 10'
         ]);
     }
